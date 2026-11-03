@@ -1,0 +1,22 @@
+# Sistema
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Editores
+.vscode/
+.idea/
+*.swp
+
+# Logs e temporários
+*.log
+*.tmp
+
+# Dependências (caso o projeto cresça)
+node_modules/
+
+# Binário do túnel (52 MB) — baixe novamente se precisar
+ferramentas/cloudflared.exe
+
+# Pasta gerada para publicação
+dist/

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Aluga Fácil">
+  <defs>
+    <linearGradient id="fundo" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0f766e"/>
+      <stop offset=".55" stop-color="#0d9488"/>
+      <stop offset="1" stop-color="#34d399"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#fundo)"/>
+  <circle cx="418" cy="86" r="130" fill="#ffffff" opacity=".09"/>
+  <circle cx="92" cy="452" r="160" fill="#000000" opacity=".07"/>
+  <g fill="none" stroke="#ffffff" stroke-width="30" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="256" cy="256" r="118"/>
+    <circle cx="256" cy="256" r="44"/>
+    <path d="M256 138V84M256 374v54M138 256H84M374 256h54M173 173l-38-38M339 339l38 38M339 173l38-38M173 339l-38 38"/>
+  </g>
+</svg>

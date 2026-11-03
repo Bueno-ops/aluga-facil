@@ -1,0 +1,1738 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-tema="claro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Aluga Fácil — Aluguel de máquinas e equipamentos</title>
+<meta name="description" content="Alugue betoneiras, marteletes, furadeiras, andaimes e outras máquinas para sua obra. Filtre por tipo, diária e energia, veja o custo estimado e reserve pelo app.">
+<meta name="theme-color" content="#0f766e">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/svg+xml" href="icon.svg">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Aluga Fácil">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="format-detection" content="telephone=no">
+<style>
+/* ================= Base ================= */
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+:root{
+  --bg:#f4f6f8;
+  --bg-alto:#eef1f5;
+  --superficie:#ffffff;
+  --superficie-2:#f8fafc;
+  --texto:#0f172a;
+  --texto-2:#5d6b80;
+  --borda:#e2e8f0;
+  --borda-forte:#cbd5e1;
+  --primaria:#0f766e;
+  --primaria-forte:#0b5d56;
+  --primaria-suave:#e7f5f2;
+  --destaque:#d97706;
+  --destaque-suave:#fef3c7;
+  --perigo:#dc2626;
+  --sombra-1:0 1px 2px rgba(15,23,42,.06);
+  --sombra-2:0 2px 4px rgba(15,23,42,.04),0 12px 28px -16px rgba(15,23,42,.28);
+  --raio:18px;
+  --nav-h:68px;
+  color-scheme:light;
+}
+[data-tema="escuro"]{
+  --bg:#070d18;
+  --bg-alto:#0b1424;
+  --superficie:#101a2c;
+  --superficie-2:#0c1526;
+  --texto:#e9eff8;
+  --texto-2:#93a3ba;
+  --borda:#20304a;
+  --borda-forte:#2c405e;
+  --primaria:#2dd4bf;
+  --primaria-forte:#5eead4;
+  --primaria-suave:#0d2f2c;
+  --destaque:#fbbf24;
+  --destaque-suave:#3a2a08;
+  --perigo:#f87171;
+  --sombra-1:0 1px 2px rgba(0,0,0,.4);
+  --sombra-2:0 2px 6px rgba(0,0,0,.35),0 16px 36px -18px rgba(0,0,0,.8);
+  color-scheme:dark;
+}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  min-height:100vh;
+  background:var(--bg);
+  color:var(--texto);
+  font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  font-size:15px;
+  line-height:1.5;
+  padding-bottom:calc(var(--nav-h) + 20px + env(safe-area-inset-bottom,0px));
+  transition:background .25s ease,color .25s ease;
+}
+body.travado{overflow:hidden}
+img,svg{display:block;max-width:100%}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;background:none;border:0;padding:0}
+a{color:inherit;text-decoration:none}
+h1,h2,h3,h4,p{margin:0}
+ul{margin:0;padding:0;list-style:none}
+:focus-visible{outline:2px solid var(--primaria);outline-offset:2px;border-radius:6px}
+.container{width:100%;max-width:1140px;margin:0 auto;padding:0 16px}
+.ico{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+/* ================= Topo ================= */
+.topo{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--bg) 84%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--borda)}
+.topo-inner{display:flex;align-items:center;gap:10px;height:60px}
+.marca{display:flex;align-items:center;gap:9px;font-weight:800;font-size:1.05rem;letter-spacing:-.02em}
+.marca-logo{width:34px;height:34px;border-radius:10px;background:linear-gradient(140deg,var(--primaria),#34d399);display:grid;place-items:center;color:#fff;box-shadow:var(--sombra-1)}
+.marca-logo .ico{width:19px;height:19px;stroke-width:2}
+.marca small{display:block;font-size:.6rem;font-weight:700;color:var(--texto-2);letter-spacing:.1em;text-transform:uppercase;line-height:1.2}
+.acoes-topo{margin-left:auto;display:flex;align-items:center;gap:4px}
+.btn-icone{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;color:var(--texto-2);border:1px solid transparent;transition:.15s}
+.btn-icone:hover{background:var(--superficie);color:var(--texto);border-color:var(--borda)}
+.btn-instalar{display:none;align-items:center;gap:6px;height:36px;padding:0 12px;border-radius:10px;background:var(--primaria-suave);color:var(--primaria);font-size:.78rem;font-weight:750}
+.btn-instalar.mostrar{display:inline-flex}
+.btn-instalar .ico{width:16px;height:16px}
+
+/* ================= Hero / busca ================= */
+.hero{padding:18px 0 0}
+.hero-card{background:radial-gradient(120% 130% at 100% 0%,rgba(45,212,191,.2),transparent 55%),linear-gradient(140deg,var(--superficie),var(--superficie-2));border:1px solid var(--borda);border-radius:22px;padding:22px 18px 18px;box-shadow:var(--sombra-1)}
+.hero h1{font-size:1.55rem;line-height:1.18;letter-spacing:-.035em;font-weight:850}
+.hero h1 em{font-style:normal;color:var(--primaria)}
+.hero > .hero-card > p, .hero-card p{color:var(--texto-2);font-size:.88rem;margin-top:6px;max-width:54ch}
+.busca{margin-top:16px;display:flex;gap:8px}
+.campo-busca{position:relative;flex:1;display:flex;align-items:center;min-width:0}
+.campo-busca .ico{position:absolute;left:12px;color:var(--texto-2);width:18px;height:18px;pointer-events:none}
+.campo-busca input{width:100%;height:46px;border-radius:13px;border:1px solid var(--borda);background:var(--superficie);padding:0 12px 0 40px;font-size:.92rem;box-shadow:var(--sombra-1)}
+.campo-busca input::placeholder{color:var(--texto-2)}
+.campo-busca input:focus{border-color:var(--primaria);outline:none;box-shadow:0 0 0 3px var(--primaria-suave)}
+.btn-filtros{height:46px;padding:0 14px;border-radius:13px;border:1px solid var(--borda);background:var(--superficie);display:flex;align-items:center;gap:7px;font-weight:700;font-size:.85rem;white-space:nowrap;box-shadow:var(--sombra-1);transition:.15s}
+.btn-filtros:hover{border-color:var(--primaria);color:var(--primaria)}
+.btn-filtros .ico{width:18px;height:18px}
+.btn-filtros .contador{display:none;min-width:18px;height:18px;padding:0 4px;border-radius:9px;background:var(--primaria);color:#fff;font-size:.66rem;align-items:center;justify-content:center}
+.btn-filtros .contador.mostrar{display:inline-flex}
+[data-tema="escuro"] .btn-filtros .contador{color:#04211f}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:14px 0 4px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;height:34px;padding:0 14px;border-radius:999px;border:1px solid var(--borda);background:var(--superficie);color:var(--texto-2);font-size:.82rem;font-weight:650;transition:.15s}
+.chip:hover{border-color:var(--primaria);color:var(--primaria)}
+.chip.ativo{background:var(--primaria);border-color:var(--primaria);color:#fff}
+[data-tema="escuro"] .chip.ativo{color:#04211f}
+
+/* ================= Painel de filtros ================= */
+.painel{overflow:hidden;border:1px solid var(--borda);background:var(--superficie);border-radius:var(--raio);margin-top:8px;box-shadow:var(--sombra-1)}
+.painel-conteudo{padding:16px;display:grid;gap:16px}
+.grupo-filtro>label,.grupo-filtro>.rotulo{display:block;font-size:.71rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--texto-2);margin-bottom:8px}
+select.campo,input.campo,textarea.campo{width:100%;height:44px;border-radius:11px;border:1px solid var(--borda);background:var(--superficie-2);padding:0 12px;font-size:.9rem}
+textarea.campo{height:auto;min-height:96px;padding:10px 12px;resize:vertical;line-height:1.5}
+select.campo:focus,input.campo:focus,textarea.campo:focus{outline:none;border-color:var(--primaria);box-shadow:0 0 0 3px var(--primaria-suave)}
+input[type=range]{width:100%;accent-color:var(--primaria);height:28px}
+.faixa{display:flex;align-items:center;gap:12px}
+.valor-faixa{font-weight:750;font-size:.84rem;color:var(--primaria);min-width:104px;text-align:right}
+.segmentado{display:flex;gap:6px;flex-wrap:wrap}
+.segmentado button{height:36px;padding:0 12px;border-radius:9px;border:1px solid var(--borda);background:var(--superficie-2);font-size:.82rem;font-weight:650;transition:.15s}
+.segmentado button.ativo{background:var(--primaria-suave);border-color:var(--primaria);color:var(--primaria)}
+.check{display:flex;align-items:center;gap:10px;font-size:.88rem;padding:7px 0;cursor:pointer}
+.check input{width:18px;height:18px;accent-color:var(--primaria)}
+.painel-rodape{display:flex;gap:10px;justify-content:space-between;align-items:center;padding:12px 16px;border-top:1px solid var(--borda);background:var(--superficie-2)}
+
+/* ================= Botões ================= */
+.btn-primario{min-height:44px;padding:0 18px;border-radius:11px;background:var(--primaria);color:#fff;font-weight:750;font-size:.9rem;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:.15s}
+.btn-primario:hover{background:var(--primaria-forte)}
+.btn-primario:disabled{opacity:.55;cursor:not-allowed}
+[data-tema="escuro"] .btn-primario{color:#04211f}
+.btn-secundario{min-height:44px;padding:0 16px;border-radius:11px;border:1px solid var(--borda);color:var(--texto-2);font-weight:700;font-size:.88rem;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:.15s}
+.btn-secundario:hover{border-color:var(--borda-forte);color:var(--texto)}
+.btn-favorito-ativo{border-color:var(--primaria);color:var(--primaria);background:var(--primaria-suave)}
+.btn-perigo{color:var(--perigo);border-color:color-mix(in srgb,var(--perigo) 35%,transparent)}
+.btn-perigo:hover{border-color:var(--perigo);color:var(--perigo)}
+.btn-bloco{width:100%}
+
+/* ================= Resultados e cartões ================= */
+.barra-resultados{display:flex;align-items:center;gap:12px;padding:18px 0 12px;flex-wrap:wrap}
+.contagem{font-size:.84rem;color:var(--texto-2)}
+.contagem b{color:var(--texto)}
+.ordenar{margin-left:auto;display:flex;align-items:center;gap:8px}
+.ordenar label{font-size:.76rem;color:var(--texto-2)}
+.ordenar select{height:36px;border-radius:9px;border:1px solid var(--borda);background:var(--superficie);padding:0 8px;font-size:.8rem}
+.grade{display:grid;grid-template-columns:1fr;gap:14px;padding-bottom:24px}
+@media(min-width:640px){.grade{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1000px){.grade{grid-template-columns:repeat(3,1fr)}}
+.cartao{position:relative;background:var(--superficie);border:1px solid var(--borda);border-radius:var(--raio);overflow:hidden;box-shadow:var(--sombra-1);transition:transform .18s ease,box-shadow .18s ease,border-color .18s}
+.cartao:hover{transform:translateY(-2px);box-shadow:var(--sombra-2);border-color:var(--borda-forte)}
+.cartao-link{display:block}
+.foto{position:relative;aspect-ratio:16/10;display:grid;place-items:center;overflow:hidden}
+.foto .arte{position:absolute;inset:0;width:100%;height:100%;padding:9%}
+.selo{position:absolute;top:10px;left:10px;font-size:.64rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:5px 8px;border-radius:7px;background:rgba(8,15,26,.55);color:#fff;backdrop-filter:blur(4px)}
+.selo-destaque{top:auto;bottom:10px;left:10px;background:var(--destaque);color:#1f1300}
+.btn-fav{position:absolute;top:8px;right:8px;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:rgba(8,15,26,.5);color:#fff;backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,.16);transition:.15s;z-index:2}
+.btn-fav .ico{width:18px;height:18px}
+.btn-fav:hover{background:rgba(8,15,26,.75)}
+.btn-fav.ativo{color:#fb7185}
+.btn-fav.ativo .ico{fill:#fb7185;stroke:#fb7185}
+.cartao-corpo{padding:13px 14px 15px}
+.cartao-preco{font-size:1.22rem;font-weight:850;letter-spacing:-.03em;line-height:1.1}
+.cartao-preco span{font-size:.72rem;font-weight:600;color:var(--texto-2);letter-spacing:0}
+.cartao h2{font-size:.95rem;font-weight:700;margin-top:4px;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.local{display:flex;align-items:center;gap:4px;color:var(--texto-2);font-size:.78rem;margin-top:4px}
+.local .ico{width:14px;height:14px}
+.specs{display:flex;flex-wrap:wrap;gap:6px 12px;margin-top:10px;padding-top:10px;border-top:1px dashed var(--borda);color:var(--texto-2);font-size:.76rem}
+.specs li{display:flex;align-items:center;gap:4px}
+.specs .ico{width:15px;height:15px}
+
+/* ================= Estado vazio / seções ================= */
+.vazio{text-align:center;padding:46px 20px;border:1px dashed var(--borda-forte);border-radius:var(--raio);color:var(--texto-2);background:var(--superficie)}
+.vazio-icone{width:56px;height:56px;border-radius:16px;background:var(--primaria-suave);color:var(--primaria);display:grid;place-items:center;margin:0 auto 12px}
+.vazio-icone .ico{width:26px;height:26px}
+.vazio h2{color:var(--texto);font-size:1rem;margin-bottom:4px}
+.vazio p{font-size:.86rem;max-width:38ch;margin:0 auto 14px}
+.secao-topo{display:flex;align-items:flex-end;gap:12px;padding:22px 0 14px}
+.secao-topo h2{font-size:1.24rem;letter-spacing:-.02em}
+.secao-topo p{font-size:.82rem;color:var(--texto-2);margin-top:2px}
+
+/* ================= Navegação inferior ================= */
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:40;background:color-mix(in srgb,var(--superficie) 93%,transparent);backdrop-filter:blur(16px);border-top:1px solid var(--borda);padding-bottom:env(safe-area-inset-bottom,0px)}
+.nav-inner{display:grid;grid-template-columns:repeat(4,1fr);max-width:560px;margin:0 auto;height:var(--nav-h)}
+.nav-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:var(--texto-2);font-size:.65rem;font-weight:750;letter-spacing:.01em;position:relative;transition:color .15s}
+.nav-btn .ico{width:22px;height:22px}
+.nav-btn.ativo{color:var(--primaria)}
+.nav-btn.ativo::before{content:"";position:absolute;top:0;width:26px;height:3px;border-radius:0 0 3px 3px;background:var(--primaria)}
+.nav-btn .ponto{position:absolute;top:9px;right:calc(50% - 17px);min-width:16px;height:16px;border-radius:8px;background:var(--destaque);color:#1f1300;font-size:.58rem;font-weight:800;display:grid;place-items:center;padding:0 4px}
+
+/* ================= Modal ================= */
+.modal{position:fixed;inset:0;z-index:60;display:flex;align-items:flex-end;justify-content:center}
+@media(min-width:720px){.modal{align-items:center;padding:24px}}
+.modal-fundo{position:absolute;inset:0;background:rgba(3,8,18,.55);backdrop-filter:blur(3px)}
+.modal-caixa{position:relative;width:100%;max-width:720px;max-height:92vh;background:var(--superficie);border-radius:22px 22px 0 0;overflow-y:auto;overscroll-behavior:contain;box-shadow:0 -8px 40px rgba(0,0,0,.35);animation:subir .22s ease}
+@media(min-width:720px){.modal-caixa{border-radius:22px;max-height:88vh;animation:aparecer .18s ease}}
+@keyframes subir{from{transform:translateY(30px);opacity:.6}to{transform:none;opacity:1}}
+@keyframes aparecer{from{opacity:0;transform:scale(.98)}to{opacity:1;transform:none}}
+.modal-fechar{position:absolute;top:12px;right:12px;z-index:3;width:36px;height:36px;border-radius:50%;background:rgba(8,15,26,.55);color:#fff;display:grid;place-items:center;backdrop-filter:blur(4px)}
+.modal-fechar:hover{background:rgba(8,15,26,.8)}
+
+/* ================= Detalhe da máquina ================= */
+.detalhe-foto{position:relative;aspect-ratio:16/9;display:grid;place-items:center;overflow:hidden}
+.detalhe-foto .arte{position:absolute;inset:0;width:100%;height:100%;padding:6%}
+.detalhe-corpo{padding:18px}
+.detalhe-preco{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap}
+.detalhe-preco strong{font-size:1.7rem;letter-spacing:-.04em;line-height:1}
+.detalhe-preco span{color:var(--texto-2);font-size:.82rem}
+.detalhe-corpo h2{font-size:1.24rem;margin-top:8px;line-height:1.28;letter-spacing:-.02em}
+.detalhe-specs{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:16px}
+@media(min-width:520px){.detalhe-specs{grid-template-columns:repeat(4,1fr)}}
+.spec-caixa{border:1px solid var(--borda);background:var(--superficie-2);border-radius:11px;padding:9px 10px;display:flex;align-items:center;gap:8px;font-size:.79rem;font-weight:650}
+.spec-caixa .ico{width:17px;height:17px;color:var(--primaria)}
+.bloco{margin-top:20px}
+.bloco h3{font-size:.76rem;text-transform:uppercase;letter-spacing:.08em;color:var(--texto-2);margin-bottom:8px}
+.bloco p{font-size:.9rem;opacity:.92}
+.tags{display:flex;flex-wrap:wrap;gap:7px}
+.tag{font-size:.75rem;font-weight:650;padding:6px 10px;border-radius:8px;background:var(--primaria-suave);color:var(--primaria)}
+.tabela-custo{border:1px solid var(--borda);border-radius:12px;overflow:hidden}
+.tabela-custo div{display:flex;justify-content:space-between;gap:12px;padding:9px 12px;font-size:.86rem;border-bottom:1px solid var(--borda)}
+.tabela-custo div:last-child{border-bottom:0;background:var(--superficie-2);font-weight:800}
+.tabela-custo span:first-child{color:var(--texto-2)}
+.aviso{font-size:.75rem;color:var(--texto-2);margin-top:8px}
+.anunciante{display:flex;align-items:center;gap:12px;border:1px solid var(--borda);border-radius:12px;padding:12px}
+.avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(140deg,var(--primaria),#34d399);color:#fff;display:grid;place-items:center;font-weight:800;font-size:1rem;flex:none}
+[data-tema="escuro"] .avatar{color:#04211f}
+.anunciante b{display:block;font-size:.9rem}
+.anunciante small{color:var(--texto-2);font-size:.78rem}
+.acoes-detalhe{display:grid;grid-template-columns:1fr;gap:8px;margin-top:16px}
+@media(min-width:520px){.acoes-detalhe{grid-template-columns:repeat(3,1fr)}}
+.btn-whats{background:#1faa59;color:#fff}
+.btn-whats:hover{background:#178f4a}
+.form-visita{display:grid;gap:10px;margin-top:12px}
+.form-visita .linha{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.form-visita label{font-size:.75rem;font-weight:700;color:var(--texto-2);display:block;margin-bottom:4px}
+
+/* ================= Formulários ================= */
+.formulario{display:grid;gap:14px;background:var(--superficie);border:1px solid var(--borda);border-radius:var(--raio);padding:16px;box-shadow:var(--sombra-1)}
+.formulario .dupla{display:grid;gap:12px}
+@media(min-width:560px){.formulario .dupla{grid-template-columns:1fr 1fr}}
+.formulario .tripla{display:grid;gap:12px}
+@media(min-width:560px){.formulario .tripla{grid-template-columns:repeat(3,1fr)}}
+.campo-grupo>label{display:block;font-size:.78rem;font-weight:700;margin-bottom:5px}
+.campo-grupo .dica{font-size:.72rem;color:var(--texto-2);margin-top:4px}
+.campo-grupo.erro input,.campo-grupo.erro select,.campo-grupo.erro textarea{border-color:var(--perigo)}
+.campo-grupo .msg-erro{display:none;color:var(--perigo);font-size:.72rem;margin-top:4px}
+.campo-grupo.erro .msg-erro{display:block}
+.chk-linha{display:flex;gap:18px;flex-wrap:wrap}
+.chk-linha .check{padding:2px 0}
+
+/* ================= Reservas ================= */
+.lista-visitas{display:grid;gap:10px;padding-bottom:24px}
+.visita{display:flex;gap:12px;align-items:flex-start;background:var(--superficie);border:1px solid var(--borda);border-radius:14px;padding:14px;box-shadow:var(--sombra-1)}
+.visita-data{flex:none;width:54px;border-radius:11px;background:var(--primaria-suave);color:var(--primaria);text-align:center;padding:7px 0}
+.visita-data b{display:block;font-size:1.2rem;line-height:1}
+.visita-data small{font-size:.6rem;text-transform:uppercase;font-weight:800;letter-spacing:.05em}
+.visita-data .ico{width:24px;height:24px;margin:4px auto 0}
+.visita-info{flex:1;min-width:0}
+.visita-info b{display:block;font-size:.92rem;line-height:1.3}
+.visita-info p{color:var(--texto-2);font-size:.78rem;margin-top:3px}
+.visita-acoes{display:flex;gap:6px;margin-top:9px;flex-wrap:wrap}
+.visita-acoes .btn-secundario{min-height:32px;padding:0 10px;font-size:.74rem;border-radius:8px}
+
+/* ================= Avisos flutuantes ================= */
+.toasts{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(var(--nav-h) + 16px + env(safe-area-inset-bottom,0px));z-index:90;display:grid;gap:8px;width:min(92vw,420px);pointer-events:none}
+.toast{background:var(--texto);color:var(--bg);padding:11px 14px;border-radius:11px;font-size:.84rem;font-weight:650;box-shadow:var(--sombra-2);display:flex;align-items:center;gap:9px;animation:toastIn .2s ease}
+.toast .ico{width:17px;height:17px;flex:none}
+.toast.acao{pointer-events:auto;padding-right:8px}
+.toast.acao span{flex:1;min-width:0}
+.toast.acao button{border:0;border-radius:8px;padding:6px 11px;background:var(--primaria);color:#fff;font-size:.76rem;font-weight:800;cursor:pointer;flex:none}
+.toast.acao button.fechar{background:transparent;color:inherit;opacity:.65;padding:6px 4px}
+.toast.acao button.fechar .ico{width:15px;height:15px}
+@keyframes toastIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* ================= Rodapé ================= */
+.rodape{color:var(--texto-2);font-size:.74rem;text-align:center;padding:18px 0 28px;border-top:1px solid var(--borda);margin-top:14px}
+.rodape b{color:var(--texto)}
+.rodape a{color:var(--primaria);font-weight:800;text-decoration:none}
+.rodape a:hover{text-decoration:underline}
+.rodape .versao{display:inline-block;margin-left:4px;padding:1px 7px;border-radius:999px;background:var(--primaria-suave);color:var(--primaria);font-weight:800;font-size:.68rem;letter-spacing:.03em}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;transition-duration:.001ms!important}
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="i-ferramenta" viewBox="0 0 24 24"><path d="M15 3a5 5 0 0 0-4.6 7L3 17.4V21h3.6l7.4-7.4A5 5 0 1 0 15 3z"/><circle cx="16.5" cy="7.5" r="1.4"/></symbol>
+    <symbol id="i-betoneira" viewBox="0 0 24 24"><g transform="rotate(-12 12 9)"><rect x="6" y="4" width="12" height="10" rx="5"/><path d="M6 8h12"/></g><path d="M8 15v3M16 15v3"/><circle cx="7.5" cy="20" r="1.6"/><circle cx="16.5" cy="20" r="1.6"/><path d="M17 8l2.5-2"/></symbol>
+    <symbol id="i-martelete" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="8" rx="2"/><path d="M12 11v3"/><path d="M10 14h4l-1 7h-2z"/><path d="M9 6H6M15 6h3"/></symbol>
+    <symbol id="i-furadeira" viewBox="0 0 24 24"><rect x="3" y="8" width="9" height="6" rx="2"/><path d="M12 9h3l1.5 2-1.5 2h-3"/><path d="M16.5 10.5H21v3h-4.5"/><path d="M6 14v5h3"/></symbol>
+    <symbol id="i-andaine" viewBox="0 0 24 24"><path d="M5 3v18M19 3v18"/><path d="M5 7h14M5 13h14M5 19h14"/><path d="M5 13l14-6"/></symbol>
+    <symbol id="i-compactador" viewBox="0 0 24 24"><path d="M3 17h18v3H3z"/><path d="M8 17V9h8v8"/><path d="M12 9V6"/><path d="M9 6h6"/><path d="M8 13h8"/></symbol>
+    <symbol id="i-gerador" viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="10" rx="2"/><path d="M7 8V5h4v3"/><circle cx="7" cy="20" r="1.5"/><circle cx="17" cy="20" r="1.5"/><path d="M13 11l-2 4h3l-1 3"/></symbol>
+    <symbol id="i-lavadora" viewBox="0 0 24 24"><rect x="3" y="11" width="10" height="9" rx="2"/><circle cx="6" cy="21" r="1.4"/><circle cx="10" cy="21" r="1.4"/><path d="M13 13h3l3-6"/><path d="M19 7l2-2"/><path d="M6 11V8h3"/></symbol>
+    <symbol id="i-serra" viewBox="0 0 24 24"><circle cx="10" cy="13" r="6"/><path d="M10 7v6l4 3"/><path d="M14 9l5-3 3 5-5 3z"/><path d="M3 20h9"/></symbol>
+    <symbol id="i-escada" viewBox="0 0 24 24"><path d="M7 2 5 22M17 2l2 20"/><path d="M6.5 7h11M6 12h12M5.5 17h13"/></symbol>
+    <symbol id="i-energia" viewBox="0 0 24 24"><path d="M13 2 5 14h6l-1 8 8-12h-6z"/></symbol>
+    <symbol id="i-peso" viewBox="0 0 24 24"><circle cx="12" cy="6" r="2.5"/><path d="M8 9h8l2 11H6z"/></symbol>
+    <symbol id="i-potencia" viewBox="0 0 24 24"><path d="M4 18a8 8 0 1 1 16 0"/><path d="M12 18l4-5"/><circle cx="12" cy="18" r="1.2"/></symbol>
+    <symbol id="i-entrega" viewBox="0 0 24 24"><path d="M2 6h11v10H2z"/><path d="M13 9h4l4 4v3h-8z"/><circle cx="6" cy="18" r="1.8"/><circle cx="17" cy="18" r="1.8"/></symbol>
+    <symbol id="i-caixa" viewBox="0 0 24 24"><path d="M3 8h18v12H3z"/><path d="M3 8l3-4h12l3 4"/><path d="M12 8v12"/></symbol>
+    <symbol id="i-escudo" viewBox="0 0 24 24"><path d="M12 3 5 6v6c0 4.5 3 7.6 7 9 4-1.4 7-4.5 7-9V6z"/><path d="m9 12 2 2 4-4"/></symbol>
+    <symbol id="i-busca" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></symbol>
+    <symbol id="i-coracao" viewBox="0 0 24 24"><path d="M20.8 5.6a5.4 5.4 0 0 0-7.6 0L12 6.8l-1.2-1.2a5.4 5.4 0 0 0-7.6 7.6L12 21l8.8-7.8a5.4 5.4 0 0 0 0-7.6Z"/></symbol>
+    <symbol id="i-calendario" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="16" rx="2.5"/><path d="M8 3v4M16 3v4M3.5 10h17"/><path d="M8 14h2M14 14h2M8 17.5h2M14 17.5h2"/></symbol>
+    <symbol id="i-mais" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-sol" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+    <symbol id="i-lua" viewBox="0 0 24 24"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11Z"/></symbol>
+    <symbol id="i-pino" viewBox="0 0 24 24"><path d="M20 10c0 5.2-8 11-8 11s-8-5.8-8-11a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.8"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+    <symbol id="i-compartilhar" viewBox="0 0 24 24"><circle cx="18" cy="5.5" r="2.8"/><circle cx="6" cy="12" r="2.8"/><circle cx="18" cy="18.5" r="2.8"/><path d="m8.5 10.7 7-3.9M8.5 13.3l7 3.9"/></symbol>
+    <symbol id="i-zap" viewBox="0 0 24 24"><path d="M20 11.8a8 8 0 0 1-11.9 7L4 20l1.3-4A8 8 0 1 1 20 11.8Z"/><path d="M9 8.5c.3 2.8 2 4.6 4.8 5.3l1-1.2 1.7.8"/></symbol>
+    <symbol id="i-filtro" viewBox="0 0 24 24"><path d="M4 6h16M7 12h10M10 18h4"/></symbol>
+    <symbol id="i-baixar" viewBox="0 0 24 24"><path d="M12 3v11"/><path d="m8 10 4 4 4-4"/><path d="M5 20h14"/></symbol>
+    <symbol id="i-cheque" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7"/></symbol>
+    <symbol id="i-alerta" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5M12 16.2v.3"/></symbol>
+  </defs>
+</svg>
+
+<header class="topo">
+  <div class="container topo-inner">
+    <a class="marca" href="#buscar" data-aba="buscar">
+      <span class="marca-logo"><svg class="ico"><use href="#i-ferramenta"/></svg></span>
+      <span>Aluga Fácil<small>máquinas para obra</small></span>
+    </a>
+    <div class="acoes-topo">
+      <button class="btn-instalar" id="btn-instalar" hidden><svg class="ico"><use href="#i-baixar"/></svg>Instalar</button>
+      <button class="btn-icone" id="btn-tema" aria-label="Alternar tema" title="Alternar tema"><svg class="ico"><use href="#i-lua"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<main class="container" id="conteudo">
+
+  <!-- ================= BUSCAR ================= -->
+  <section id="tela-buscar" aria-labelledby="titulo-buscar">
+    <div class="hero">
+      <div class="hero-card">
+        <h1 id="titulo-buscar">A máquina certa para a <em>sua obra</em>.</h1>
+        <p>Betoneiras, marteletes, andaimes e mais — diária clara, entrega combinada e reserva pelo app.</p>
+        <div class="busca">
+          <div class="campo-busca">
+            <svg class="ico"><use href="#i-busca"/></svg>
+            <input id="busca" type="search" placeholder="Betoneira, furadeira, cidade ou bairro" aria-label="Buscar máquinas" autocomplete="off" enterkeyhint="search">
+          </div>
+          <button class="btn-filtros" id="btn-filtros" aria-expanded="false" aria-controls="painel-filtros">
+            <svg class="ico"><use href="#i-filtro"/></svg>Filtros
+            <span class="contador" id="filtros-contador">0</span>
+          </button>
+        </div>
+        <div class="chips" id="chips" role="group" aria-label="Filtrar por tipo de máquina"></div>
+      </div>
+    </div>
+
+    <div class="painel" id="painel-filtros" hidden>
+      <div class="painel-conteudo">
+        <div class="grupo-filtro">
+          <label for="filtro-cidade">Cidade</label>
+          <select class="campo" id="filtro-cidade">
+            <option value="todas">Todas as cidades</option>
+          </select>
+        </div>
+        <div class="grupo-filtro">
+          <span class="rotulo">Diária até</span>
+          <div class="faixa">
+            <input type="range" id="filtro-preco" min="30" max="300" step="5" value="300" aria-label="Valor máximo da diária">
+            <span class="valor-faixa" id="valor-preco">Qualquer valor</span>
+          </div>
+        </div>
+        <div class="grupo-filtro">
+          <span class="rotulo">Energia</span>
+          <div class="segmentado" id="filtro-energia" role="group" aria-label="Energia">
+            <button type="button" class="ativo" data-energia="todas">Todas</button>
+            <button type="button" data-energia="110v">110V</button>
+            <button type="button" data-energia="220v">220V</button>
+            <button type="button" data-energia="gasolina">Gasolina</button>
+            <button type="button" data-energia="manual">Manual</button>
+          </div>
+        </div>
+        <div class="grupo-filtro">
+          <span class="rotulo">Extras</span>
+          <label class="check"><input type="checkbox" id="filtro-entrega"> Entrega incluída</label>
+          <label class="check"><input type="checkbox" id="filtro-acessorios"> Com acessórios inclusos</label>
+        </div>
+      </div>
+      <div class="painel-rodape">
+        <button class="btn-secundario" data-acao="limpar-filtros">Limpar filtros</button>
+        <button class="btn-primario" data-acao="aplicar-filtros">Ver resultados</button>
+      </div>
+    </div>
+
+    <div class="barra-resultados">
+      <span class="contagem" id="contagem"></span>
+      <div class="ordenar">
+        <label for="ordenacao">Ordenar por</label>
+        <select id="ordenacao">
+          <option value="relevancia">Relevância</option>
+          <option value="menor-preco">Menor diária</option>
+          <option value="maior-preco">Maior diária</option>
+          <option value="mais-leve">Mais leve</option>
+          <option value="recentes">Mais recentes</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="grade" id="grade-buscar"></div>
+
+    <div class="vazio" id="vazio-buscar" hidden>
+      <div class="vazio-icone"><svg class="ico"><use href="#i-busca"/></svg></div>
+      <h2>Nenhuma máquina encontrada</h2>
+      <p>Tente outro termo, aumente o valor da diária ou remova alguns filtros.</p>
+      <button class="btn-primario" data-acao="limpar-filtros">Limpar filtros</button>
+    </div>
+  </section>
+
+  <!-- ================= FAVORITOS ================= -->
+  <section id="tela-favoritos" aria-labelledby="titulo-favoritos" hidden>
+    <div class="secao-topo">
+      <div>
+        <h2 id="titulo-favoritos">Suas máquinas favoritas</h2>
+        <p id="resumo-favoritos">As máquinas que você salvou ficam aqui.</p>
+      </div>
+    </div>
+    <div class="grade" id="grade-favoritos"></div>
+    <div class="vazio" id="vazio-favoritos" hidden>
+      <div class="vazio-icone"><svg class="ico"><use href="#i-coracao"/></svg></div>
+      <h2>Nenhuma favorita ainda</h2>
+      <p>Toque no coração de uma máquina para salvar e comparar depois.</p>
+      <button class="btn-primario" data-acao="ir-buscar">Explorar máquinas</button>
+    </div>
+  </section>
+
+  <!-- ================= RESERVAS ================= -->
+  <section id="tela-reservas" aria-labelledby="titulo-reservas" hidden>
+    <div class="secao-topo">
+      <div>
+        <h2 id="titulo-reservas">Reservas agendadas</h2>
+        <p id="resumo-reservas">Acompanhe suas retiradas e entregas.</p>
+      </div>
+    </div>
+    <div class="lista-visitas" id="lista-reservas"></div>
+    <div class="vazio" id="vazio-reservas" hidden>
+      <div class="vazio-icone"><svg class="ico"><use href="#i-calendario"/></svg></div>
+      <h2>Nenhuma reserva agendada</h2>
+      <p>Abra uma máquina, escolha data e horário e confirme em segundos.</p>
+      <button class="btn-primario" data-acao="ir-buscar">Ver máquinas</button>
+    </div>
+  </section>
+
+  <!-- ================= ANUNCIAR ================= -->
+  <section id="tela-anunciar" aria-labelledby="titulo-anunciar" hidden>
+    <div class="secao-topo">
+      <div>
+        <h2 id="titulo-anunciar">Anuncie sua máquina</h2>
+        <p>Preencha os dados e o anúncio aparece na busca na hora. Fica salvo neste dispositivo.</p>
+      </div>
+    </div>
+
+    <form class="formulario" id="form-anuncio" novalidate>
+      <div class="dupla">
+        <div class="campo-grupo" data-campo="titulo">
+          <label for="a-titulo">Título do anúncio *</label>
+          <input class="campo" id="a-titulo" name="titulo" maxlength="90" placeholder="Ex.: Betoneira 400 L com motor 1,5 cv" required>
+          <span class="msg-erro">Informe um título com pelo menos 6 caracteres.</span>
+        </div>
+        <div class="campo-grupo" data-campo="tipo">
+          <label for="a-tipo">Tipo *</label>
+          <select class="campo" id="a-tipo" name="tipo" required>
+            <option value="betoneira">Betoneira</option>
+            <option value="martelete">Martelete / rompedor</option>
+            <option value="furadeira">Furadeira</option>
+            <option value="andaime">Andaime</option>
+            <option value="compactador">Compactador</option>
+            <option value="gerador">Gerador</option>
+            <option value="lavadora">Lavadora</option>
+            <option value="serra">Serra</option>
+            <option value="escada">Escada</option>
+          </select>
+          <span class="msg-erro">Escolha o tipo.</span>
+        </div>
+      </div>
+
+      <div class="tripla">
+        <div class="campo-grupo" data-campo="cidade">
+          <label for="a-cidade">Cidade *</label>
+          <input class="campo" id="a-cidade" name="cidade" maxlength="50" placeholder="Ex.: São Paulo" required>
+          <span class="msg-erro">Informe a cidade.</span>
+        </div>
+        <div class="campo-grupo" data-campo="uf">
+          <label for="a-uf">UF *</label>
+          <input class="campo" id="a-uf" name="uf" maxlength="2" placeholder="SP" style="text-transform:uppercase" required>
+          <span class="msg-erro">UF com 2 letras.</span>
+        </div>
+        <div class="campo-grupo" data-campo="bairro">
+          <label for="a-bairro">Bairro *</label>
+          <input class="campo" id="a-bairro" name="bairro" maxlength="50" placeholder="Ex.: Vila Mariana" required>
+          <span class="msg-erro">Informe o bairro.</span>
+        </div>
+      </div>
+
+      <div class="tripla">
+        <div class="campo-grupo" data-campo="diaria">
+          <label for="a-diaria">Diária (R$) *</label>
+          <input class="campo" id="a-diaria" name="diaria" type="number" min="1" step="5" inputmode="numeric" placeholder="90" required>
+          <span class="msg-erro">Informe o valor da diária.</span>
+        </div>
+        <div class="campo-grupo">
+          <label for="a-frete">Entrega (R$)</label>
+          <input class="campo" id="a-frete" name="frete" type="number" min="0" step="5" inputmode="numeric" placeholder="0">
+          <div class="dica">0 = entrega grátis ou retirada no local.</div>
+        </div>
+        <div class="campo-grupo">
+          <label for="a-caucao">Caução (R$)</label>
+          <input class="campo" id="a-caucao" name="caucao" type="number" min="0" step="10" inputmode="numeric" placeholder="300">
+          <div class="dica">Devolvida na entrega da máquina.</div>
+        </div>
+      </div>
+
+      <div class="tripla">
+        <div class="campo-grupo">
+          <label for="a-potencia">Potência</label>
+          <input class="campo" id="a-potencia" name="potencia" maxlength="20" placeholder="Ex.: 1,5 cv">
+        </div>
+        <div class="campo-grupo">
+          <label for="a-peso">Peso (kg)</label>
+          <input class="campo" id="a-peso" name="peso" type="number" min="0" step="1" inputmode="numeric" placeholder="120">
+        </div>
+        <div class="campo-grupo">
+          <label for="a-energia">Energia</label>
+          <select class="campo" id="a-energia" name="energia">
+            <option value="110v">110V</option>
+            <option value="220v" selected>220V</option>
+            <option value="gasolina">Gasolina</option>
+            <option value="manual">Manual</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="campo-grupo">
+        <label class="check"><input type="checkbox" id="a-entrega" name="entrega" checked> Faço entrega no local</label>
+      </div>
+
+      <div class="campo-grupo">
+        <label for="a-descricao">Descrição</label>
+        <textarea class="campo" id="a-descricao" name="descricao" maxlength="600" placeholder="Conte o estado da máquina, o que está incluso e as condições de retirada..."></textarea>
+        <div class="dica">Opcional, mas ajuda quem procura.</div>
+      </div>
+
+      <div class="campo-grupo">
+        <span class="rotulo" style="display:block;font-size:.78rem;font-weight:700;margin-bottom:6px">Acessórios inclusos</span>
+        <div class="tags" id="acessorios-anuncio"></div>
+      </div>
+
+      <div class="dupla">
+        <div class="campo-grupo" data-campo="anunciante">
+          <label for="a-anunciante">Seu nome *</label>
+          <input class="campo" id="a-anunciante" name="anunciante" maxlength="60" placeholder="Ex.: Locadora Central" required>
+          <span class="msg-erro">Informe seu nome.</span>
+        </div>
+        <div class="campo-grupo" data-campo="telefone">
+          <label for="a-telefone">WhatsApp *</label>
+          <input class="campo" id="a-telefone" name="telefone" maxlength="16" inputmode="tel" placeholder="(11) 91234-5678" required>
+          <span class="msg-erro">Informe um telefone com DDD.</span>
+        </div>
+      </div>
+
+      <button class="btn-primario btn-bloco" type="submit">
+        <svg class="ico"><use href="#i-mais"/></svg>Publicar anúncio
+      </button>
+      <p class="aviso" style="margin-top:0">Ao publicar, o anúncio fica visível apenas neste navegador. Nada é enviado para a internet.</p>
+    </form>
+
+    <div class="secao-topo" id="topo-meus" hidden>
+      <div>
+        <h2>Meus anúncios</h2>
+        <p>Anúncios criados por você neste dispositivo.</p>
+      </div>
+    </div>
+    <div class="lista-visitas" id="lista-meus"></div>
+  </section>
+
+  <footer class="rodape">
+    <b>Aluga Fácil</b> — PWA de aluguel de máquinas e equipamentos · dados salvos no seu dispositivo
+    <span class="versao" id="versao-app">v8</span>
+    <br><a href="instalar.html">Instalar no celular (QR code)</a>
+  </footer>
+</main>
+
+<nav class="nav" aria-label="Navegação principal">
+  <div class="nav-inner">
+    <button class="nav-btn ativo" data-aba="buscar" aria-current="page"><svg class="ico"><use href="#i-busca"/></svg>Buscar</button>
+    <button class="nav-btn" data-aba="favoritos"><svg class="ico"><use href="#i-coracao"/></svg>Favoritos<span class="ponto" id="ponto-favoritos" hidden>0</span></button>
+    <button class="nav-btn" data-aba="reservas"><svg class="ico"><use href="#i-calendario"/></svg>Reservas<span class="ponto" id="ponto-reservas" hidden>0</span></button>
+    <button class="nav-btn" data-aba="anunciar"><svg class="ico"><use href="#i-mais"/></svg>Anunciar</button>
+  </div>
+</nav>
+
+<div class="modal" id="modal" hidden>
+  <div class="modal-fundo" data-acao="fechar-modal"></div>
+  <div class="modal-caixa" role="dialog" aria-modal="true" aria-label="Detalhes da máquina">
+    <button class="modal-fechar" data-acao="fechar-modal" aria-label="Fechar"><svg class="ico"><use href="#i-x"/></svg></button>
+    <div id="modal-conteudo"></div>
+  </div>
+</div>
+
+<div class="toasts" id="toasts" aria-live="polite" aria-atomic="false"></div>
+
+
+<script>
+'use strict';
+
+/* ============================================================
+   Aluga Fácil — app local-first de aluguel de máquinas
+   Dados de exemplo + anúncios/favoritos/reservas no localStorage
+   ============================================================ */
+
+const CHAVES = {
+  favoritos: 'aluga:favoritos',
+  reservas: 'aluga:reservas',
+  anuncios: 'aluga:anuncios',
+  tema: 'aluga:tema'
+};
+
+// Versão exibida no rodapé — mantenha igual à versão do sw.js.
+const VERSAO_APP = 'v8';
+
+const TIPOS = [
+  { id: 'todos', nome: 'Todos' },
+  { id: 'betoneira', nome: 'Betoneira' },
+  { id: 'martelete', nome: 'Martelete' },
+  { id: 'furadeira', nome: 'Furadeira' },
+  { id: 'andaime', nome: 'Andaime' },
+  { id: 'compactador', nome: 'Compactador' },
+  { id: 'gerador', nome: 'Gerador' },
+  { id: 'lavadora', nome: 'Lavadora' },
+  { id: 'serra', nome: 'Serra' },
+  { id: 'escada', nome: 'Escada' }
+];
+
+const ENERGIAS = [
+  { id: 'todas', nome: 'Todas' },
+  { id: '110v', nome: '110V' },
+  { id: '220v', nome: '220V' },
+  { id: 'gasolina', nome: 'Gasolina' },
+  { id: 'manual', nome: 'Manual' }
+];
+
+const ACESSORIOS = [
+  'Jogo de brocas', 'Ponteiro e cinzel', 'Extensão elétrica', 'Pá e enxada',
+  'Plataforma', 'Rodízios', 'Protetor auricular', 'Mangueira 10 m',
+  'Bico pulverizador', 'Disco de corte', 'Maleta de transporte', 'Manual de uso'
+];
+
+const CORES = {
+  betoneira: ['#7c2d12', '#f97316'],
+  martelete: ['#1e3a8a', '#3b82f6'],
+  furadeira: ['#0f766e', '#2dd4bf'],
+  andaime: ['#334155', '#94a3b8'],
+  compactador: ['#78350f', '#eab308'],
+  gerador: ['#4c1d95', '#a855f7'],
+  lavadora: ['#0c4a6e', '#38bdf8'],
+  serra: ['#7f1d1d', '#ef4444'],
+  escada: ['#14532d', '#22c55e']
+};
+
+const EQUIPAMENTOS_BASE = [
+  {
+    id: 's1', titulo: 'Betoneira 400 L com motor 1,5 cv', tipo: 'betoneira',
+    cidade: 'São Paulo', uf: 'SP', bairro: 'Vila Mariana',
+    diaria: 90, frete: 60, caucao: 300, energia: '220v', potencia: '1,5 cv', peso: 120,
+    entrega: true, destaque: true,
+    descricao: 'Betoneira de 400 litros revisada, com motor de 1,5 cv e estrutura reforçada. Ideal para concretos e argamassas em obras de médio porte. Entrega em até 24h na região.',
+    acessorios: ['Pá e enxada', 'Extensão elétrica', 'Manual de uso'],
+    criadoEm: '2026-10-18', anunciante: { nome: 'Obra Fácil Locações', telefone: '(11) 98888-1010' }
+  },
+  {
+    id: 's2', titulo: 'Betoneira 200 L compacta', tipo: 'betoneira',
+    cidade: 'Campinas', uf: 'SP', bairro: 'Cambuí',
+    diaria: 65, frete: 50, caucao: 200, energia: '110v', potencia: '0,75 cv', peso: 65,
+    entrega: true, destaque: false,
+    descricao: 'Modelo leve e fácil de transportar, perfeito para reformas e pequenas obras. Funciona em tomada comum de 110V e cabe na caçamba de uma picape.',
+    acessorios: ['Pá e enxada', 'Manual de uso'],
+    criadoEm: '2026-10-21', anunciante: { nome: 'Cambuí Máquinas', telefone: '(19) 98888-1020' }
+  },
+  {
+    id: 's3', titulo: 'Martelete rompedor 1500 W', tipo: 'martelete',
+    cidade: 'São Paulo', uf: 'SP', bairro: 'Moema',
+    diaria: 110, frete: 40, caucao: 400, energia: '220v', potencia: '1500 W', peso: 12,
+    entrega: true, destaque: true,
+    descricao: 'Martelete rompedor com 1500 W de potência, indicado para quebrar concreto, azulejos e pisos. Acompanha ponteiro, cinzel e maleta de transporte.',
+    acessorios: ['Ponteiro e cinzel', 'Maleta de transporte', 'Protetor auricular'],
+    criadoEm: '2026-10-15', anunciante: { nome: 'Ferramentas SP', telefone: '(11) 98888-1030' }
+  },
+  {
+    id: 's4', titulo: 'Furadeira de impacto 750 W', tipo: 'furadeira',
+    cidade: 'Curitiba', uf: 'PR', bairro: 'Batel',
+    diaria: 35, frete: 25, caucao: 100, energia: '110v', potencia: '750 W', peso: 3,
+    entrega: true, destaque: false,
+    descricao: 'Furadeira de impacto com mandril de 1/2", velocidade variável e função reversa. Vai com jogo de brocas para concreto, metal e madeira.',
+    acessorios: ['Jogo de brocas', 'Maleta de transporte'],
+    criadoEm: '2026-10-12', anunciante: { nome: 'Batel Ferramentas', telefone: '(41) 98888-1040' }
+  },
+  {
+    id: 's5', titulo: 'Andaime tubulado 6 m com plataforma', tipo: 'andaime',
+    cidade: 'Belo Horizonte', uf: 'MG', bairro: 'Savassi',
+    diaria: 80, frete: 90, caucao: 350, energia: 'manual', potencia: '—', peso: 45,
+    entrega: true, destaque: true,
+    descricao: 'Andaime tubulado de 6 metros, com plataforma, rodízios e travas de segurança. Montagem simples e estrutura estável para fachadas e pintura.',
+    acessorios: ['Plataforma', 'Rodízios', 'Manual de uso'],
+    criadoEm: '2026-10-22', anunciante: { nome: 'Savassi Andaimes', telefone: '(31) 98888-1050' }
+  },
+  {
+    id: 's6', titulo: 'Compactador de solo 5,5 cv', tipo: 'compactador',
+    cidade: 'Rio de Janeiro', uf: 'RJ', bairro: 'Recreio dos Bandeirantes',
+    diaria: 150, frete: 100, caucao: 500, energia: 'gasolina', potencia: '5,5 cv', peso: 90,
+    entrega: true, destaque: false,
+    descricao: 'Placa vibratória a gasolina para compactação de solo, areia e brita. Excelente para calçadas, pisos e preparação de terreno.',
+    acessorios: ['Protetor auricular', 'Manual de uso'],
+    criadoEm: '2026-10-02', anunciante: { nome: 'Recreio Equipamentos', telefone: '(21) 98888-1060' }
+  },
+  {
+    id: 's7', titulo: 'Compactador tipo sapo 4 cv', tipo: 'compactador',
+    cidade: 'Campinas', uf: 'SP', bairro: 'Barão Geraldo',
+    diaria: 120, frete: 80, caucao: 400, energia: 'gasolina', potencia: '4 cv', peso: 60,
+    entrega: true, destaque: false,
+    descricao: 'Compactador tipo sapo com motor a gasolina, indicado para valas, tubulações e locais de difícil acesso. Fácil de operar e transportar.',
+    acessorios: ['Protetor auricular', 'Manual de uso'],
+    criadoEm: '2026-10-23', anunciante: { nome: 'Barão Locações', telefone: '(19) 98888-1070' }
+  },
+  {
+    id: 's8', titulo: 'Gerador 5 kVA a gasolina', tipo: 'gerador',
+    cidade: 'São Paulo', uf: 'SP', bairro: 'Vila Olímpia',
+    diaria: 180, frete: 120, caucao: 600, energia: 'gasolina', potencia: '5 kVA', peso: 80,
+    entrega: true, destaque: true,
+    descricao: 'Gerador portátil de 5 kVA com partida manual e proteção contra sobrecarga. Mantém ferramentas e iluminação funcionando em obras sem energia.',
+    acessorios: ['Extensão elétrica', 'Manual de uso'],
+    criadoEm: '2026-10-08', anunciante: { nome: 'Energia na Obra', telefone: '(11) 98888-1080' }
+  },
+  {
+    id: 's9', titulo: 'Gerador silencioso 3 kVA', tipo: 'gerador',
+    cidade: 'Salvador', uf: 'BA', bairro: 'Rio Vermelho',
+    diaria: 140, frete: 90, caucao: 450, energia: 'gasolina', potencia: '3 kVA', peso: 45,
+    entrega: true, destaque: false,
+    descricao: 'Gerador silencioso de 3 kVA, ideal para eventos, feiras e obras em áreas residenciais. Baixo nível de ruído e consumo econômico.',
+    acessorios: ['Extensão elétrica', 'Manual de uso'],
+    criadoEm: '2026-09-30', anunciante: { nome: 'Bahia Geradores', telefone: '(71) 98888-1090' }
+  },
+  {
+    id: 's10', titulo: 'Lavadora de alta pressão 1700 PSI', tipo: 'lavadora',
+    cidade: 'Recife', uf: 'PE', bairro: 'Boa Viagem',
+    diaria: 70, frete: 35, caucao: 250, energia: '220v', potencia: '1700 PSI', peso: 18,
+    entrega: true, destaque: false,
+    descricao: 'Lavadora de alta pressão para limpeza pesada de fachadas, calçadas, carros e equipamentos. Acompanha mangueira de 10 metros e bico pulverizador.',
+    acessorios: ['Mangueira 10 m', 'Bico pulverizador'],
+    criadoEm: '2026-09-28', anunciante: { nome: 'Recife Limpa', telefone: '(81) 98888-1100' }
+  },
+  {
+    id: 's11', titulo: 'Serra circular 1800 W com disco', tipo: 'serra',
+    cidade: 'Curitiba', uf: 'PR', bairro: 'Centro',
+    diaria: 60, frete: 30, caucao: 200, energia: '220v', potencia: '1800 W', peso: 7,
+    entrega: false, destaque: false,
+    descricao: 'Serra circular de 1800 W com guia de corte e disco de 7 1/4". Para cortes em madeira, compensado e placas. Retirada no balcão do Centro.',
+    acessorios: ['Disco de corte', 'Manual de uso'],
+    criadoEm: '2026-10-19', anunciante: { nome: 'Centro Ferramentas', telefone: '(41) 98888-1110' }
+  },
+  {
+    id: 's12', titulo: 'Escada extensível de alumínio 6 m', tipo: 'escada',
+    cidade: 'Barueri', uf: 'SP', bairro: 'Alphaville',
+    diaria: 40, frete: 30, caucao: 120, energia: 'manual', potencia: '—', peso: 14,
+    entrega: true, destaque: false,
+    descricao: 'Escada extensível de alumínio com 6 metros de alcance, travas de segurança e sapatas antiderrapantes. Ideal para pintura, telhado e manutenção.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-10-20', anunciante: { nome: 'Alphaville Locações', telefone: '(11) 98888-1120' }
+  }
+];
+
+
+/* ================= Helpers ================= */
+const $ = (sel, raiz = document) => raiz.querySelector(sel);
+const $$ = (sel, raiz = document) => Array.from(raiz.querySelectorAll(sel));
+
+function ler(chave, padrao) {
+  try {
+    const bruto = localStorage.getItem(chave);
+    return bruto ? JSON.parse(bruto) : padrao;
+  } catch (e) {
+    return padrao;
+  }
+}
+
+function salvar(chave, valor) {
+  try {
+    localStorage.setItem(chave, JSON.stringify(valor));
+  } catch (e) {
+    /* armazenamento indisponível (modo privado) */
+  }
+}
+
+const fmtMoeda = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 });
+const fmtNumero = new Intl.NumberFormat('pt-BR');
+const fmtDataCurta = new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: 'short' });
+
+function normalizar(texto) {
+  return String(texto || '')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .trim();
+}
+
+function esc(valor) {
+  return String(valor == null ? '' : valor).replace(/[&<>"']/g, (c) => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[c]));
+}
+
+function icone(nome) {
+  return '<svg class="ico" aria-hidden="true"><use href="#i-' + nome + '"/></svg>';
+}
+
+function rotuloTipo(tipo) {
+  const t = TIPOS.find((item) => item.id === tipo);
+  return t ? t.nome : tipo;
+}
+
+function rotuloEnergia(energia) {
+  const e = ENERGIAS.find((item) => item.id === energia);
+  return e && e.id !== 'todas' ? e.nome : '—';
+}
+
+function gradiente(eq) {
+  const cores = CORES[eq.tipo] || CORES.betoneira;
+  return 'linear-gradient(135deg,' + cores[0] + ',' + cores[1] + ')';
+}
+
+function totalEstimado(eq) {
+  return Number(eq.diaria || 0) + (eq.entrega ? Number(eq.frete || 0) : 0);
+}
+
+function dataBR(iso) {
+  const d = new Date(String(iso).slice(0, 10) + 'T12:00:00');
+  return isNaN(d) ? '' : fmtDataCurta.format(d);
+}
+
+function arteSVG(tipo) {
+  const inicio = '<svg class="arte" viewBox="0 0 200 130" fill="none" stroke="rgba(255,255,255,.86)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+    + '<circle cx="171" cy="26" r="30" fill="rgba(255,255,255,.08)" stroke="none"/>'
+    + '<circle cx="20" cy="118" r="34" fill="rgba(0,0,0,.08)" stroke="none"/>';
+  const fim = '</svg>';
+  if (tipo === 'betoneira') {
+    return inicio
+      + '<g transform="rotate(-14 100 70)"><rect x="62" y="40" width="76" height="62" rx="30"/>'
+      + '<path d="M62 66h76"/><path d="M78 40l-6-10h56l-4 10"/></g>'
+      + '<path d="M66 98v14M134 98v14"/>'
+      + '<circle cx="64" cy="116" r="9"/><circle cx="136" cy="116" r="9"/>'
+      + '<path d="M132 60l20-14"/>'
+      + fim;
+  }
+  if (tipo === 'martelete') {
+    return inicio
+      + '<rect x="76" y="28" width="48" height="34" rx="9"/>'
+      + '<path d="M86 28v-9h28v9"/>'
+      + '<path d="M100 62v20"/>'
+      + '<path d="M88 82h24l-5 28h-14z"/>'
+      + '<path d="M76 42H60M124 42h16"/>'
+      + '<path d="M60 34v16M140 34v16"/>'
+      + fim;
+  }
+  if (tipo === 'furadeira') {
+    return inicio
+      + '<rect x="38" y="46" width="72" height="36" rx="11"/>'
+      + '<path d="M110 54h18l7 10-7 10h-18z"/>'
+      + '<path d="M135 59h26v10h-26z"/>'
+      + '<path d="M64 82v20h20"/>'
+      + '<path d="M48 46l12-12"/>'
+      + '<path d="M52 64h44"/>'
+      + fim;
+  }
+  if (tipo === 'andaime') {
+    return inicio
+      + '<path d="M54 18v94M146 18v94"/>'
+      + '<path d="M54 36h92M54 66h92M54 96h92"/>'
+      + '<path d="M54 66l92-30M54 96l92-30"/>'
+      + '<path d="M64 66h72" stroke-width="6"/>'
+      + fim;
+  }
+  if (tipo === 'compactador') {
+    return inicio
+      + '<path d="M38 92h124v14H38z"/>'
+      + '<path d="M74 92V54h52v38"/>'
+      + '<path d="M100 54V34"/>'
+      + '<path d="M82 34h36"/>'
+      + '<path d="M84 66h32M84 80h32"/>'
+      + '<path d="M52 106v8M148 106v8"/>'
+      + fim;
+  }
+  if (tipo === 'gerador') {
+    return inicio
+      + '<rect x="40" y="48" width="120" height="56" rx="9"/>'
+      + '<path d="M62 48V34h22v14"/>'
+      + '<circle cx="68" cy="110" r="10"/><circle cx="132" cy="110" r="10"/>'
+      + '<path d="M104 60l-11 18h15l-9 16"/>'
+      + '<rect x="136" y="62" width="12" height="10" rx="2"/>'
+      + fim;
+  }
+  if (tipo === 'lavadora') {
+    return inicio
+      + '<rect x="34" y="62" width="76" height="48" rx="11"/>'
+      + '<circle cx="52" cy="118" r="10"/><circle cx="92" cy="118" r="10"/>'
+      + '<path d="M110 74h20l26-36"/>'
+      + '<path d="M152 32l10-8"/>'
+      + '<path d="M56 62V44h20"/>'
+      + '<path d="M44 84h56"/>'
+      + fim;
+  }
+  if (tipo === 'serra') {
+    return inicio
+      + '<circle cx="86" cy="76" r="34"/>'
+      + '<path d="M86 42v34l24 14"/>'
+      + '<path d="M112 56l28-18 22 30-30 18z"/>'
+      + '<path d="M36 112h76"/>'
+      + fim;
+  }
+  if (tipo === 'escada') {
+    return inicio
+      + '<path d="M64 14 46 118M136 14l18 104"/>'
+      + '<path d="M60 36h80M56 62h88M52 88h96"/>'
+      + fim;
+  }
+  return inicio
+    + '<rect x="52" y="34" width="42" height="82" rx="3"/>'
+    + '<rect x="104" y="18" width="46" height="98" rx="3"/>'
+    + fim;
+}
+
+/* ================= Estado ================= */
+let favoritos = new Set(Array.isArray(ler(CHAVES.favoritos, [])) ? ler(CHAVES.favoritos, []) : []);
+let reservas = Array.isArray(ler(CHAVES.reservas, [])) ? ler(CHAVES.reservas, []) : [];
+let meusAnuncios = Array.isArray(ler(CHAVES.anuncios, [])) ? ler(CHAVES.anuncios, []) : [];
+let filtros = { texto: '', tipo: 'todos', cidade: 'todas', diariaMax: 0, energia: 'todas', entrega: false, acessorios: false };
+let ordenacao = 'relevancia';
+let abaAtual = 'buscar';
+let acessoriosAnuncio = new Set();
+
+function todosEquipamentos() {
+  return [...meusAnuncios.map((item) => Object.assign({}, item, { meu: true })), ...EQUIPAMENTOS_BASE];
+}
+
+function equipamentosFiltrados() {
+  const termo = normalizar(filtros.texto);
+  const lista = todosEquipamentos().filter((eq) => {
+    if (filtros.tipo !== 'todos' && eq.tipo !== filtros.tipo) return false;
+    if (filtros.cidade !== 'todas' && eq.cidade !== filtros.cidade) return false;
+    if (filtros.diariaMax && eq.diaria > filtros.diariaMax) return false;
+    if (filtros.energia !== 'todas' && eq.energia !== filtros.energia) return false;
+    if (filtros.entrega && !eq.entrega) return false;
+    if (filtros.acessorios && !(eq.acessorios || []).length) return false;
+    if (termo) {
+      const alvo = normalizar([
+        eq.titulo, eq.bairro, eq.cidade, eq.uf, rotuloTipo(eq.tipo), rotuloEnergia(eq.energia),
+        eq.descricao, (eq.acessorios || []).join(' '), eq.anunciante ? eq.anunciante.nome : ''
+      ].join(' '));
+      if (!alvo.includes(termo)) return false;
+    }
+    return true;
+  });
+  const ordenadores = {
+    relevancia: (a, b) => (b.destaque ? 1 : 0) - (a.destaque ? 1 : 0) || new Date(b.criadoEm) - new Date(a.criadoEm),
+    'menor-preco': (a, b) => a.diaria - b.diaria,
+    'maior-preco': (a, b) => b.diaria - a.diaria,
+    'mais-leve': (a, b) => (a.peso || 0) - (b.peso || 0),
+    recentes: (a, b) => new Date(b.criadoEm) - new Date(a.criadoEm)
+  };
+  return lista.sort(ordenadores[ordenacao] || ordenadores.relevancia);
+}
+
+/* ================= Cartão ================= */
+function cartaoEquipamento(eq) {
+  const fav = favoritos.has(eq.id);
+  const total = totalEstimado(eq);
+  const specs = [];
+  if (eq.potencia && eq.potencia !== '—') specs.push('<li>' + icone('potencia') + esc(eq.potencia) + '</li>');
+  if (eq.peso) specs.push('<li>' + icone('peso') + fmtNumero.format(eq.peso) + ' kg</li>');
+  if (eq.energia) specs.push('<li>' + icone('energia') + esc(rotuloEnergia(eq.energia)) + '</li>');
+  if (eq.entrega) specs.push('<li>' + icone('entrega') + 'Entrega</li>');
+
+  return '<article class="cartao">'
+    + '<a class="cartao-link" href="#maquina=' + encodeURIComponent(eq.id) + '" data-acao="abrir" data-id="' + esc(eq.id) + '">'
+    +   '<div class="foto" style="background:' + gradiente(eq) + '">' + arteSVG(eq.tipo)
+    +     '<span class="selo">' + rotuloTipo(eq.tipo) + '</span>'
+    +     (eq.destaque ? '<span class="selo selo-destaque">Destaque</span>' : '')
+    +   '</div>'
+    +   '<div class="cartao-corpo">'
+    +     '<div class="cartao-preco">' + fmtMoeda.format(eq.diaria) + '<span>/dia</span></div>'
+    +     '<h2>' + esc(eq.titulo) + '</h2>'
+    +     '<p class="local">' + icone('pino') + esc(eq.bairro) + ', ' + esc(eq.cidade) + ' — ' + esc(eq.uf) + '</p>'
+    +     '<ul class="specs">' + specs.join('') + '</ul>'
+    +     (total > eq.diaria ? '<p class="aviso" style="margin-top:8px">1º dia com entrega: <b style="color:var(--texto)">' + fmtMoeda.format(total) + '</b></p>' : '')
+    +   '</div>'
+    + '</a>'
+    + '<button class="btn-fav' + (fav ? ' ativo' : '') + '" data-acao="favoritar" data-id="' + esc(eq.id) + '" aria-pressed="' + fav + '" aria-label="' + (fav ? 'Remover dos favoritos' : 'Adicionar aos favoritos') + '">' + icone('coracao') + '</button>'
+    + '</article>';
+}
+
+/* ================= Render: busca ================= */
+function renderBusca() {
+  const lista = equipamentosFiltrados();
+  $('#grade-buscar').innerHTML = lista.map(cartaoEquipamento).join('');
+  $('#vazio-buscar').hidden = lista.length > 0;
+  const total = todosEquipamentos().length;
+  $('#contagem').innerHTML = lista.length === total
+    ? '<b>' + total + '</b> ' + (total === 1 ? 'máquina disponível' : 'máquinas disponíveis')
+    : '<b>' + lista.length + '</b> de ' + total + ' máquinas';
+  atualizarContadorFiltros();
+}
+
+function renderChips() {
+  $('#chips').innerHTML = TIPOS.map((t) =>
+    '<button class="chip' + (filtros.tipo === t.id ? ' ativo' : '') + '" data-tipo="' + t.id + '" aria-pressed="' + (filtros.tipo === t.id) + '">' + t.nome + '</button>'
+  ).join('');
+}
+
+function renderCidades() {
+  const sel = $('#filtro-cidade');
+  const cidades = [...new Set(todosEquipamentos().map((eq) => eq.cidade))].sort((a, b) => a.localeCompare(b, 'pt-BR'));
+  sel.innerHTML = '<option value="todas">Todas as cidades</option>'
+    + cidades.map((c) => '<option value="' + esc(c) + '">' + esc(c) + '</option>').join('');
+  sel.value = cidades.includes(filtros.cidade) ? filtros.cidade : 'todas';
+  if (!cidades.includes(filtros.cidade)) filtros.cidade = 'todas';
+}
+
+function contarFiltrosAtivos() {
+  let n = 0;
+  if (filtros.tipo !== 'todos') n++;
+  if (filtros.cidade !== 'todas') n++;
+  if (filtros.diariaMax) n++;
+  if (filtros.energia !== 'todas') n++;
+  if (filtros.entrega) n++;
+  if (filtros.acessorios) n++;
+  return n;
+}
+
+function atualizarContadorFiltros() {
+  const n = contarFiltrosAtivos();
+  const el = $('#filtros-contador');
+  el.textContent = n;
+  el.classList.toggle('mostrar', n > 0);
+  $('#btn-filtros').setAttribute('aria-expanded', String(!$('#painel-filtros').hidden));
+}
+
+
+/* ================= Tema, abas e avisos ================= */
+function aplicarTema(tema) {
+  document.documentElement.dataset.tema = tema;
+  $('#btn-tema').innerHTML = icone(tema === 'escuro' ? 'sol' : 'lua');
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.setAttribute('content', tema === 'escuro' ? '#070d18' : '#0f766e');
+  salvar(CHAVES.tema, tema);
+}
+
+function alternarTema() {
+  aplicarTema(document.documentElement.dataset.tema === 'escuro' ? 'claro' : 'escuro');
+}
+
+function irPara(aba, opcoes) {
+  opcoes = opcoes || {};
+  abaAtual = aba;
+  $$('#conteudo > section').forEach((sec) => { sec.hidden = sec.id !== 'tela-' + aba; });
+  $$('.nav-btn').forEach((btn) => {
+    const ativo = btn.dataset.aba === aba;
+    btn.classList.toggle('ativo', ativo);
+    if (ativo) btn.setAttribute('aria-current', 'page');
+    else btn.removeAttribute('aria-current');
+  });
+  if (aba === 'favoritos') renderFavoritos();
+  if (aba === 'reservas') renderReservas();
+  if (aba === 'anunciar') renderMeusAnuncios();
+  if (!opcoes.manterScroll) window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function avisar(mensagem, tipo) {
+  const el = document.createElement('div');
+  el.className = 'toast';
+  el.innerHTML = icone(tipo === 'erro' ? 'alerta' : 'cheque') + '<span>' + esc(mensagem) + '</span>';
+  el.style.transition = 'opacity .2s ease, transform .2s ease';
+  $('#toasts').appendChild(el);
+  setTimeout(() => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(8px)';
+    setTimeout(() => el.remove(), 220);
+  }, 3200);
+}
+
+/* ================= Atualização do app (PWA) ================= */
+let registroSW = null;
+let atualizandoApp = false;
+
+function avisarAtualizacao(worker) {
+  if ($('#toast-atualizar')) return;
+  const el = document.createElement('div');
+  el.className = 'toast acao';
+  el.id = 'toast-atualizar';
+  el.innerHTML = icone('baixar')
+    + '<span>Nova versão disponível</span>'
+    + '<button type="button" data-atualizar>Atualizar</button>'
+    + '<button type="button" class="fechar" data-dispensar aria-label="Agora não">' + icone('x') + '</button>';
+  el.querySelector('[data-atualizar]').addEventListener('click', () => {
+    atualizandoApp = true;
+    if (worker) {
+      try { worker.postMessage({ tipo: 'PULAR_ESPERA' }); } catch (e) {}
+    }
+    setTimeout(() => location.reload(), 1200);
+  });
+  el.querySelector('[data-dispensar]').addEventListener('click', () => el.remove());
+  $('#toasts').appendChild(el);
+}
+
+function registrarSW() {
+  if (!('serviceWorker' in navigator) || location.protocol.indexOf('http') !== 0) return;
+
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (!atualizandoApp) return;
+    location.reload();
+  });
+
+  navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then((reg) => {
+    registroSW = reg;
+
+    // Já existe uma versão nova instalada esperando para entrar?
+    if (reg.waiting && navigator.serviceWorker.controller) avisarAtualizacao(reg.waiting);
+
+    reg.addEventListener('updatefound', () => {
+      const novo = reg.installing;
+      if (!novo) return;
+      novo.addEventListener('statechange', () => {
+        if (novo.state === 'installed' && navigator.serviceWorker.controller) avisarAtualizacao(novo);
+      });
+    });
+
+    // Procura atualizações ao voltar para o app e de tempos em tempos.
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden) reg.update().catch(() => {});
+    });
+    setInterval(() => reg.update().catch(() => {}), 15 * 60 * 1000);
+  }).catch(() => {});
+}
+
+/* ================= Detalhe da máquina ================= */
+let equipamentoAberto = null;
+
+function iniciais(nome) {
+  const partes = String(nome || '?').trim().split(/\s+/).filter(Boolean);
+  return ((partes[0] || '?')[0] || '?').toUpperCase() + ((partes[1] || '')[0] || '').toUpperCase();
+}
+
+function formatarData(iso) {
+  const d = new Date(String(iso).slice(0, 10) + 'T12:00:00');
+  if (isNaN(d)) return String(iso || '');
+  return d.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' });
+}
+
+function opcoesHora() {
+  const horas = [];
+  for (let h = 8; h <= 19; h++) {
+    horas.push(String(h).padStart(2, '0') + ':00');
+    if (h < 19) horas.push(String(h).padStart(2, '0') + ':30');
+  }
+  return horas.map((h) => '<option value="' + h + '"' + (h === '10:00' ? ' selected' : '') + '>' + h + '</option>').join('');
+}
+
+function reservaMaisRecente() {
+  return [...reservas].sort((a, b) => new Date(b.criadoEm || 0) - new Date(a.criadoEm || 0))[0];
+}
+
+function abrirDetalhe(id, opcoes) {
+  opcoes = opcoes || {};
+  const eq = todosEquipamentos().find((item) => item.id === id);
+  if (!eq) return;
+  equipamentoAberto = eq;
+
+  const total = totalEstimado(eq);
+  const fav = favoritos.has(eq.id);
+  const hoje = new Date().toISOString().slice(0, 10);
+  const recente = reservaMaisRecente() || {};
+
+  const specs = [];
+  if (eq.potencia && eq.potencia !== '—') specs.push(['potencia', eq.potencia]);
+  if (eq.peso) specs.push(['peso', fmtNumero.format(eq.peso) + ' kg']);
+  if (eq.energia) specs.push(['energia', rotuloEnergia(eq.energia)]);
+  specs.push(['entrega', eq.entrega ? 'Com entrega' : 'Retirada no local']);
+
+  const tags = [];
+  if (eq.entrega) tags.push('Entrega incluída');
+  (eq.acessorios || []).forEach((c) => { if (!tags.includes(c)) tags.push(c); });
+
+  $('#modal-conteudo').innerHTML =
+    '<div class="detalhe-foto" style="background:' + gradiente(eq) + '">'
+    + arteSVG(eq.tipo)
+    + '<span class="selo">' + rotuloTipo(eq.tipo) + '</span>'
+    + (eq.destaque ? '<span class="selo selo-destaque">Destaque</span>' : '')
+    + '</div>'
+    + '<div class="detalhe-corpo">'
+    +   '<div class="detalhe-preco"><strong>' + fmtMoeda.format(eq.diaria) + '</strong><span>/dia</span></div>'
+    +   '<h2>' + esc(eq.titulo) + '</h2>'
+    +   '<p class="local" style="font-size:.84rem">' + icone('pino') + esc(eq.bairro) + ', ' + esc(eq.cidade) + ' — ' + esc(eq.uf) + '</p>'
+    +   '<div class="detalhe-specs">'
+    +     specs.map((s) => '<div class="spec-caixa">' + icone(s[0]) + '<span>' + esc(s[1]) + '</span></div>').join('')
+    +   '</div>'
+    +   '<div class="bloco"><h3>Sobre a máquina</h3><p>' + esc(eq.descricao || 'Sem descrição informada.') + '</p></div>'
+    +   '<div class="bloco"><h3>Acessórios inclusos</h3><div class="tags">'
+    +     (tags.length ? tags.map((t) => '<span class="tag">' + esc(t) + '</span>').join('') : '<span class="aviso">Não informados.</span>')
+    +   '</div></div>'
+    +   '<div class="bloco"><h3>Custo estimado</h3>'
+    +     '<div class="tabela-custo">'
+    +       '<div><span>Diária</span><span>' + fmtMoeda.format(eq.diaria) + '</span></div>'
+    +       '<div><span>Entrega</span><span>' + (eq.entrega ? (eq.frete ? fmtMoeda.format(eq.frete) : 'Grátis') : 'Retirada no local') + '</span></div>'
+    +       '<div><span>Caução (devolvida)</span><span>' + fmtMoeda.format(eq.caucao || 0) + '</span></div>'
+    +       '<div><span>Total do 1º dia</span><span>' + fmtMoeda.format(total) + '</span></div>'
+    +     '</div>'
+    +     '<p class="aviso">A caução é devolvida na entrega da máquina em bom estado. Valores informados pelo anunciante.</p>'
+    +   '</div>'
+    +   '<div class="bloco"><h3>Anunciante</h3><div class="anunciante">'
+    +     '<span class="avatar">' + esc(iniciais(eq.anunciante && eq.anunciante.nome)) + '</span>'
+    +     '<div><b>' + esc((eq.anunciante && eq.anunciante.nome) || 'Anunciante') + '</b>'
+    +     '<small>' + esc((eq.anunciante && eq.anunciante.telefone) || 'Telefone não informado') + '</small></div>'
+    +   '</div></div>'
+    +   '<div class="acoes-detalhe">'
+    +     '<button class="btn-primario btn-whats" data-acao="whatsapp" data-id="' + esc(eq.id) + '">' + icone('zap') + 'WhatsApp</button>'
+    +     '<button class="btn-secundario" data-acao="compartilhar" data-id="' + esc(eq.id) + '">' + icone('compartilhar') + 'Compartilhar</button>'
+    +     '<button class="btn-secundario' + (fav ? ' btn-favorito-ativo' : '') + '" data-acao="favoritar" data-id="' + esc(eq.id) + '">' + icone('coracao') + (fav ? 'Salvo' : 'Favoritar') + '</button>'
+    +   '</div>'
+    +   '<div class="bloco"><h3>Agendar retirada</h3>'
+    +     '<form class="form-visita" id="form-reserva" data-id="' + esc(eq.id) + '" novalidate>'
+    +       '<div class="linha">'
+    +         '<div><label for="r-data">Data</label><input class="campo" id="r-data" type="date" min="' + hoje + '" value="' + hoje + '" required></div>'
+    +         '<div><label for="r-hora">Horário</label><select class="campo" id="r-hora">' + opcoesHora() + '</select></div>'
+    +       '</div>'
+    +       '<div class="linha">'
+    +         '<div><label for="r-nome">Seu nome</label><input class="campo" id="r-nome" maxlength="60" placeholder="Nome completo" required value="' + esc(recente.nome || '') + '"></div>'
+    +         '<div><label for="r-tel">WhatsApp</label><input class="campo" id="r-tel" maxlength="16" inputmode="tel" placeholder="(11) 91234-5678" required value="' + esc(recente.telefone || '') + '"></div>'
+    +       '</div>'
+    +       '<button class="btn-primario" type="submit">' + icone('calendario') + 'Confirmar reserva</button>'
+    +     '</form>'
+    +   '</div>'
+    + '</div>';
+
+  $('#modal').hidden = false;
+  document.body.classList.add('travado');
+  const caixa = $('#modal .modal-caixa');
+  caixa.scrollTop = 0;
+  const fechar = $('#modal .modal-fechar');
+  if (fechar) fechar.focus({ preventScroll: true });
+  if (!opcoes.semHash) {
+    try { history.replaceState(null, '', '#maquina=' + encodeURIComponent(eq.id)); } catch (e) {}
+  }
+}
+
+function fecharModal() {
+  $('#modal').hidden = true;
+  $('#modal-conteudo').innerHTML = '';
+  document.body.classList.remove('travado');
+  equipamentoAberto = null;
+  if (location.hash.indexOf('#maquina=') === 0) {
+    try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
+  }
+}
+
+/* ================= Favoritos ================= */
+function atualizarPontos() {
+  const pf = $('#ponto-favoritos');
+  const f = favoritos.size;
+  pf.hidden = f === 0;
+  pf.textContent = f > 9 ? '9+' : f;
+
+  const pr = $('#ponto-reservas');
+  const r = reservas.length;
+  pr.hidden = r === 0;
+  pr.textContent = r > 9 ? '9+' : r;
+}
+
+function alternarFavorito(id) {
+  const eq = todosEquipamentos().find((item) => item.id === id);
+  if (!eq) return;
+  if (favoritos.has(id)) {
+    favoritos.delete(id);
+    avisar('Removido dos favoritos');
+  } else {
+    favoritos.add(id);
+    avisar('Salvo nos favoritos');
+  }
+  salvar(CHAVES.favoritos, [...favoritos]);
+  renderBusca();
+  renderFavoritos();
+  atualizarPontos();
+
+  const btn = $('#modal [data-acao="favoritar"]');
+  if (btn && btn.dataset.id === id) {
+    const fav = favoritos.has(id);
+    btn.innerHTML = icone('coracao') + (fav ? 'Salvo' : 'Favoritar');
+    btn.classList.toggle('btn-favorito-ativo', fav);
+  }
+}
+
+function renderFavoritos() {
+  const lista = todosEquipamentos().filter((eq) => favoritos.has(eq.id));
+  $('#grade-favoritos').innerHTML = lista.map(cartaoEquipamento).join('');
+  $('#vazio-favoritos').hidden = lista.length > 0;
+  $('#resumo-favoritos').textContent = lista.length
+    ? lista.length + (lista.length === 1 ? ' máquina salva' : ' máquinas salvas') + ' — toque no coração para remover.'
+    : 'As máquinas que você salvou ficam aqui.';
+  atualizarPontos();
+}
+
+/* ================= Reservas ================= */
+function renderReservas() {
+  const ordenadas = [...reservas].sort((a, b) => String(a.data + a.hora).localeCompare(String(b.data + b.hora)));
+  $('#lista-reservas').innerHTML = ordenadas.map(cartaoReserva).join('');
+  $('#vazio-reservas').hidden = ordenadas.length > 0;
+  $('#resumo-reservas').textContent = ordenadas.length
+    ? ordenadas.length + (ordenadas.length === 1 ? ' reserva agendada' : ' reservas agendadas') + '.'
+    : 'Acompanhe suas retiradas e entregas.';
+  atualizarPontos();
+}
+
+function cartaoReserva(v) {
+  const d = new Date(String(v.data) + 'T12:00:00');
+  const dia = isNaN(d) ? '--' : String(d.getDate()).padStart(2, '0');
+  const mes = isNaN(d) ? '' : d.toLocaleDateString('pt-BR', { month: 'short' }).replace('.', '');
+  return '<article class="visita">'
+    + '<div class="visita-data"><b>' + dia + '</b><small>' + esc(mes) + '</small></div>'
+    + '<div class="visita-info">'
+    +   '<b>' + esc(v.titulo) + '</b>'
+    +   '<p>Retirada em ' + esc(formatarData(v.data)) + ' às ' + esc(v.hora) + ' · ' + esc(v.nome) + '</p>'
+    +   '<div class="visita-acoes">'
+    +     '<button class="btn-secundario" data-acao="abrir" data-id="' + esc(v.equipamentoId) + '">' + icone('ferramenta') + 'Ver máquina</button>'
+    +     '<button class="btn-secundario" data-acao="zap-reserva" data-id="' + esc(v.id) + '">' + icone('zap') + 'WhatsApp</button>'
+    +     '<button class="btn-secundario btn-perigo" data-acao="cancelar-reserva" data-id="' + esc(v.id) + '">Cancelar</button>'
+    +   '</div>'
+    + '</div>'
+    + '</article>';
+}
+
+function agendarReserva(form) {
+  const id = form.dataset.id;
+  const eq = todosEquipamentos().find((item) => item.id === id);
+  if (!eq) return;
+  const data = $('#r-data').value;
+  const hora = $('#r-hora').value;
+  const nome = $('#r-nome').value.trim();
+  const telefone = $('#r-tel').value.trim();
+  const hoje = new Date().toISOString().slice(0, 10);
+
+  if (!data || data < hoje) { avisar('Escolha uma data a partir de hoje.', 'erro'); return; }
+  if (nome.length < 3) { avisar('Informe seu nome completo.', 'erro'); $('#r-nome').focus(); return; }
+  if (telefone.replace(/\D/g, '').length < 10) { avisar('Informe um WhatsApp com DDD.', 'erro'); $('#r-tel').focus(); return; }
+  if (reservas.some((v) => v.equipamentoId === id && v.data === data && v.hora === hora)) {
+    avisar('Você já tem uma reserva dessa máquina nesse horário.', 'erro');
+    return;
+  }
+
+  reservas.push({
+    id: 'r' + Date.now(),
+    equipamentoId: id,
+    titulo: eq.titulo,
+    data: data,
+    hora: hora,
+    nome: nome,
+    telefone: telefone,
+    criadoEm: new Date().toISOString()
+  });
+  salvar(CHAVES.reservas, reservas);
+  renderReservas();
+  fecharModal();
+  avisar('Reserva confirmada para ' + formatarData(data) + ' às ' + hora);
+  irPara('reservas');
+}
+
+function cancelarReserva(id) {
+  const v = reservas.find((item) => item.id === id);
+  if (!v) return;
+  if (!window.confirm('Cancelar a reserva de ' + formatarData(v.data) + ' às ' + v.hora + '?')) return;
+  reservas = reservas.filter((item) => item.id !== id);
+  salvar(CHAVES.reservas, reservas);
+  renderReservas();
+  avisar('Reserva cancelada');
+}
+
+/* ================= WhatsApp e compartilhar ================= */
+function linkWhatsApp(telefone, mensagem) {
+  let digitos = String(telefone || '').replace(/\D/g, '');
+  if (!digitos) return '';
+  if (digitos.length <= 11) digitos = '55' + digitos;
+  return 'https://wa.me/' + digitos + '?text=' + encodeURIComponent(mensagem);
+}
+
+function abrirWhatsApp(id) {
+  const eq = todosEquipamentos().find((item) => item.id === id);
+  if (!eq) return;
+  const telefone = eq.anunciante && eq.anunciante.telefone;
+  if (!String(telefone || '').replace(/\D/g, '')) {
+    avisar('Este anúncio não tem telefone para contato.', 'erro');
+    return;
+  }
+  const mensagem = 'Olá, ' + ((eq.anunciante && eq.anunciante.nome) || 'tudo bem') + '! Vi a máquina "' + eq.titulo + '" (' + fmtMoeda.format(eq.diaria) + '/dia) no Aluga Fácil e gostaria de saber a disponibilidade.';
+  window.open(linkWhatsApp(telefone, mensagem), '_blank', 'noopener');
+}
+
+function whatsAppReserva(id) {
+  const v = reservas.find((item) => item.id === id);
+  if (!v) return;
+  const eq = todosEquipamentos().find((item) => item.id === v.equipamentoId);
+  const telefone = (eq && eq.anunciante && eq.anunciante.telefone) || v.telefone;
+  const mensagem = 'Olá! Reservei a máquina "' + v.titulo + '" para retirada em ' + formatarData(v.data) + ' às ' + v.hora + '. Meu nome é ' + v.nome + '.';
+  const url = linkWhatsApp(telefone, mensagem);
+  if (!url) { avisar('Nenhum telefone disponível.', 'erro'); return; }
+  window.open(url, '_blank', 'noopener');
+}
+
+function compartilhar(id) {
+  const eq = todosEquipamentos().find((item) => item.id === id);
+  if (!eq) return;
+  const url = location.origin + location.pathname + '#maquina=' + encodeURIComponent(id);
+  const texto = eq.titulo + ' — ' + fmtMoeda.format(eq.diaria) + '/dia em ' + eq.bairro + ', ' + eq.cidade + ' · Aluga Fácil';
+  if (navigator.share) {
+    navigator.share({ title: 'Aluga Fácil', text: texto, url: url }).catch(() => {});
+    return;
+  }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(texto + '\n' + url)
+      .then(() => avisar('Link copiado para compartilhar'))
+      .catch(() => avisar('Copie o link: ' + url, 'erro'));
+    return;
+  }
+  avisar('Copie o link: ' + url);
+}
+
+
+/* ================= Meus anúncios ================= */
+function renderMeusAnuncios() {
+  $('#topo-meus').hidden = meusAnuncios.length === 0;
+  $('#lista-meus').innerHTML = meusAnuncios.map(cartaoMeu).join('');
+}
+
+function cartaoMeu(eq) {
+  return '<article class="visita">'
+    + '<div class="visita-data" style="background:' + gradiente(eq) + ';color:#fff">' + icone(eq.tipo) + '</div>'
+    + '<div class="visita-info">'
+    +   '<b>' + esc(eq.titulo) + '</b>'
+    +   '<p>' + esc(eq.bairro) + ', ' + esc(eq.cidade) + ' — ' + esc(eq.uf) + ' · ' + fmtMoeda.format(eq.diaria) + '/dia</p>'
+    +   '<div class="visita-acoes">'
+    +     '<button class="btn-secundario" data-acao="abrir" data-id="' + esc(eq.id) + '">' + icone('busca') + 'Ver anúncio</button>'
+    +     '<button class="btn-secundario btn-perigo" data-acao="remover-anuncio" data-id="' + esc(eq.id) + '">Excluir</button>'
+    +   '</div>'
+    + '</div>'
+    + '</article>';
+}
+
+function removerAnuncio(id) {
+  const eq = meusAnuncios.find((item) => item.id === id);
+  if (!eq) return;
+  if (!window.confirm('Excluir o anúncio "' + eq.titulo + '"? Essa ação não pode ser desfeita.')) return;
+  meusAnuncios = meusAnuncios.filter((item) => item.id !== id);
+  salvar(CHAVES.anuncios, meusAnuncios);
+  if (favoritos.delete(id)) salvar(CHAVES.favoritos, [...favoritos]);
+  const antes = reservas.length;
+  reservas = reservas.filter((v) => v.equipamentoId !== id);
+  if (reservas.length !== antes) salvar(CHAVES.reservas, reservas);
+  renderCidades();
+  renderBusca();
+  renderFavoritos();
+  renderReservas();
+  renderMeusAnuncios();
+  avisar('Anúncio excluído');
+}
+
+/* ================= Formulário de anúncio ================= */
+function renderAcessoriosAnuncio() {
+  $('#acessorios-anuncio').innerHTML = ACESSORIOS.map((c) =>
+    '<label class="check" style="border:1px solid var(--borda);border-radius:8px;padding:6px 10px;font-size:.8rem">'
+    + '<input type="checkbox" value="' + esc(c) + '">' + esc(c) + '</label>'
+  ).join('');
+}
+
+function mascaraTelefone(valor) {
+  const d = String(valor || '').replace(/\D/g, '').slice(0, 11);
+  if (!d) return '';
+  if (d.length <= 2) return '(' + d;
+  if (d.length <= 6) return '(' + d.slice(0, 2) + ') ' + d.slice(2);
+  if (d.length <= 10) return '(' + d.slice(0, 2) + ') ' + d.slice(2, 6) + '-' + d.slice(6);
+  return '(' + d.slice(0, 2) + ') ' + d.slice(2, 7) + '-' + d.slice(7);
+}
+
+function validarAnuncio(dados) {
+  const erros = [];
+  if (dados.titulo.length < 6) erros.push('titulo');
+  if (dados.cidade.length < 2) erros.push('cidade');
+  if (dados.uf.length !== 2) erros.push('uf');
+  if (dados.bairro.length < 2) erros.push('bairro');
+  if (!dados.diaria || dados.diaria <= 0) erros.push('diaria');
+  if (dados.anunciante.nome.length < 3) erros.push('anunciante');
+  if (dados.anunciante.telefone.replace(/\D/g, '').length < 10) erros.push('telefone');
+  return erros;
+}
+
+function marcarErros(erros) {
+  $$('#form-anuncio .campo-grupo').forEach((grupo) => {
+    grupo.classList.toggle('erro', erros.includes(grupo.dataset.campo));
+  });
+}
+
+function publicarAnuncio(form) {
+  const dados = {
+    titulo: form.titulo.value.trim(),
+    tipo: form.tipo.value,
+    cidade: form.cidade.value.trim(),
+    uf: form.uf.value.trim().toUpperCase(),
+    bairro: form.bairro.value.trim(),
+    diaria: Number(form.diaria.value),
+    frete: Number(form.frete.value) || 0,
+    caucao: Number(form.caucao.value) || 0,
+    energia: form.energia.value,
+    potencia: form.potencia.value.trim() || '—',
+    peso: Number(form.peso.value) || 0,
+    entrega: form.entrega.checked,
+    descricao: form.descricao.value.trim(),
+    acessorios: $$('#acessorios-anuncio input:checked').map((i) => i.value),
+    anunciante: { nome: form.anunciante.value.trim(), telefone: form.telefone.value.trim() },
+    criadoEm: new Date().toISOString().slice(0, 10),
+    destaque: false
+  };
+
+  const erros = validarAnuncio(dados);
+  marcarErros(erros);
+  if (erros.length) {
+    avisar('Revise os campos destacados.', 'erro');
+    const primeiro = $('#form-anuncio .campo-grupo.erro input, #form-anuncio .campo-grupo.erro select');
+    if (primeiro) primeiro.focus();
+    return;
+  }
+
+  const novo = Object.assign({ id: 'meu-' + Date.now() }, dados);
+  meusAnuncios.unshift(novo);
+  salvar(CHAVES.anuncios, meusAnuncios);
+  form.reset();
+  $$('#form-anuncio .campo-grupo').forEach((g) => g.classList.remove('erro'));
+  renderCidades();
+  renderBusca();
+  renderMeusAnuncios();
+  avisar('Anúncio publicado com sucesso!');
+  irPara('buscar');
+  setTimeout(() => abrirDetalhe(novo.id), 300);
+}
+
+/* ================= Filtros: controles ================= */
+function sincronizarControlesFiltro() {
+  $('#busca').value = filtros.texto;
+  $('#filtro-cidade').value = filtros.cidade;
+  $('#filtro-preco').value = filtros.diariaMax || 300;
+  $('#valor-preco').textContent = filtros.diariaMax ? 'Até ' + fmtMoeda.format(filtros.diariaMax) : 'Qualquer valor';
+  $$('#filtro-energia button').forEach((b) => b.classList.toggle('ativo', b.dataset.energia === filtros.energia));
+  $('#filtro-entrega').checked = filtros.entrega;
+  $('#filtro-acessorios').checked = filtros.acessorios;
+  renderChips();
+  atualizarContadorFiltros();
+}
+
+function limparFiltros() {
+  filtros = { texto: '', tipo: 'todos', cidade: 'todas', diariaMax: 0, energia: 'todas', entrega: false, acessorios: false };
+  sincronizarControlesFiltro();
+  renderBusca();
+}
+
+/* ================= Ligações de eventos ================= */
+function ligarEventos() {
+  $('#btn-tema').addEventListener('click', alternarTema);
+
+  $('#btn-filtros').addEventListener('click', () => {
+    const painel = $('#painel-filtros');
+    painel.hidden = !painel.hidden;
+    atualizarContadorFiltros();
+    if (!painel.hidden) painel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
+
+  let timerBusca = null;
+  $('#busca').addEventListener('input', (e) => {
+    const valor = e.target.value;
+    clearTimeout(timerBusca);
+    timerBusca = setTimeout(() => { filtros.texto = valor; renderBusca(); }, 160);
+  });
+
+  $('#filtro-cidade').addEventListener('change', (e) => { filtros.cidade = e.target.value; renderBusca(); });
+
+  $('#filtro-preco').addEventListener('input', (e) => {
+    const valor = Number(e.target.value);
+    filtros.diariaMax = valor >= 300 ? 0 : valor;
+    $('#valor-preco').textContent = filtros.diariaMax ? 'Até ' + fmtMoeda.format(filtros.diariaMax) : 'Qualquer valor';
+    renderBusca();
+  });
+
+  $('#filtro-energia').addEventListener('click', (e) => {
+    const btn = e.target.closest('button[data-energia]');
+    if (!btn) return;
+    filtros.energia = btn.dataset.energia;
+    $$('#filtro-energia button').forEach((b) => b.classList.toggle('ativo', b === btn));
+    renderBusca();
+  });
+
+  $('#filtro-entrega').addEventListener('change', (e) => { filtros.entrega = e.target.checked; renderBusca(); });
+  $('#filtro-acessorios').addEventListener('change', (e) => { filtros.acessorios = e.target.checked; renderBusca(); });
+  $('#ordenacao').addEventListener('change', (e) => { ordenacao = e.target.value; renderBusca(); });
+
+  document.addEventListener('click', (e) => {
+    const alvo = e.target.closest('[data-acao]');
+    if (alvo) {
+      const acao = alvo.dataset.acao;
+      const id = alvo.dataset.id;
+      if (acao === 'abrir') {
+        if (e.metaKey || e.ctrlKey || e.shiftKey) return;
+        e.preventDefault();
+        abrirDetalhe(id);
+        return;
+      }
+      if (acao === 'favoritar') { e.preventDefault(); e.stopPropagation(); alternarFavorito(id); return; }
+      if (acao === 'fechar-modal') { fecharModal(); return; }
+      if (acao === 'whatsapp') { abrirWhatsApp(id); return; }
+      if (acao === 'compartilhar') { compartilhar(id); return; }
+      if (acao === 'cancelar-reserva') { cancelarReserva(id); return; }
+      if (acao === 'zap-reserva') { whatsAppReserva(id); return; }
+      if (acao === 'remover-anuncio') { removerAnuncio(id); return; }
+      if (acao === 'limpar-filtros') { limparFiltros(); return; }
+      if (acao === 'aplicar-filtros') { $('#painel-filtros').hidden = true; atualizarContadorFiltros(); return; }
+      if (acao === 'ir-buscar') { irPara('buscar'); return; }
+    }
+
+    const abaBtn = e.target.closest('[data-aba]');
+    if (abaBtn) { e.preventDefault(); irPara(abaBtn.dataset.aba); return; }
+
+    const chip = e.target.closest('.chip[data-tipo]');
+    if (chip) {
+      filtros.tipo = chip.dataset.tipo;
+      renderChips();
+      renderBusca();
+    }
+  });
+
+  document.addEventListener('submit', (e) => {
+    if (e.target.id === 'form-reserva') { e.preventDefault(); agendarReserva(e.target); }
+    if (e.target.id === 'form-anuncio') { e.preventDefault(); publicarAnuncio(e.target); }
+  });
+
+  document.addEventListener('input', (e) => {
+    if (e.target.id === 'a-telefone' || e.target.id === 'r-tel') {
+      e.target.value = mascaraTelefone(e.target.value);
+    }
+    const grupo = e.target.closest('#form-anuncio .campo-grupo');
+    if (grupo) grupo.classList.remove('erro');
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !$('#modal').hidden) fecharModal();
+  });
+
+  window.addEventListener('hashchange', () => {
+    if (location.hash.indexOf('#maquina=') !== 0 && !$('#modal').hidden) fecharModal();
+  });
+
+  let promptInstalacao = null;
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    promptInstalacao = e;
+    const btn = $('#btn-instalar');
+    btn.hidden = false;
+    btn.classList.add('mostrar');
+  });
+  $('#btn-instalar').addEventListener('click', () => {
+    if (!promptInstalacao) return;
+    promptInstalacao.prompt();
+    promptInstalacao.userChoice.then(() => {
+      promptInstalacao = null;
+      const btn = $('#btn-instalar');
+      btn.classList.remove('mostrar');
+      btn.hidden = true;
+    });
+  });
+  window.addEventListener('appinstalled', () => avisar('App instalado no dispositivo!'));
+}
+
+/* ================= Início ================= */
+function iniciar() {
+  const temaSalvo = ler(CHAVES.tema, null);
+  const prefereEscuro = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  aplicarTema(temaSalvo === 'escuro' || temaSalvo === 'claro' ? temaSalvo : (prefereEscuro ? 'escuro' : 'claro'));
+
+  const etiquetaVersao = $('#versao-app');
+  if (etiquetaVersao) etiquetaVersao.textContent = VERSAO_APP;
+
+  renderChips();
+  renderCidades();
+  renderAcessoriosAnuncio();
+  renderBusca();
+  renderFavoritos();
+  renderReservas();
+  renderMeusAnuncios();
+  sincronizarControlesFiltro();
+  atualizarPontos();
+  ligarEventos();
+
+  const casamento = location.hash.match(/^#maquina=(.+)$/);
+  if (casamento) {
+    try { abrirDetalhe(decodeURIComponent(casamento[1])); } catch (e) {}
+  }
+
+  if ('serviceWorker' in navigator && location.protocol.indexOf('http') === 0) {
+    registrarSW();
+  }
+}
+
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', iniciar);
+else iniciar();
+
+</script>
+</body>
+</html>
