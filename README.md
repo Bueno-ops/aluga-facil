@@ -6,6 +6,8 @@ O app reúne betoneiras, marteletes, furadeiras, andaimes, compactadores, gerado
 
 Há também uma **Área da empresa** com dois logins locais: **dono (admin)** e **gerente**. O painel mostra vendas, receita, lucro estimado, ticket médio, caução em aberto, gráfico dos últimos 6 meses, ranking de máquinas e registro manual de vendas/reservas. O dono tem acesso total, incluindo configurações do negócio, controle do acesso do gerente e backup dos dados.
 
+Na mesma aba **Painel**, o **cliente** pode criar a própria conta, entrar, editar os dados, trocar a senha e acompanhar as reservas feitas com aquele cadastro.
+
 ## Como abrir
 
 ### No computador (recomendado)
@@ -51,11 +53,12 @@ O terminal mostra o endereço `http://IP-DO-PC:8099/app.html`. Autorize o PowerS
 - **Ordenação**: relevância, menor/maior diária, mais leve e mais recentes.
 - **Detalhes completos**: descrição, acessórios, potência, peso, energia e **custo estimado** (diária + entrega + caução) com total do primeiro dia.
 - **Favoritos**: salvos no dispositivo, com contador na barra inferior.
-- **Reserva de retirada**: data, horário, nome e WhatsApp; lista ordenada, com opção de cancelar e confirmar por WhatsApp.
+- **Reserva de retirada**: data, horário, nome e WhatsApp; lista ordenada, com opção de cancelar e confirmar por WhatsApp. Se o cliente estiver logado, os dados são preenchidos automaticamente e a reserva fica vinculada à conta.
 - **Anunciar**: formulário com validação, acessórios, publicação imediata na busca e lista dos seus anúncios (com exclusão).
 - **Compartilhar máquina** por link direto (`#maquina=...`), com suporte ao compartilhamento nativo do celular.
 - **Área da empresa** com login local de **dono (admin)** e **gerente**: receita realizada, a receber, lucro estimado, ticket médio, caução em aberto, custo estimado, receita por mês, máquinas mais alugadas, resumo do período e histórico de pedidos com concluir/reabrir/cancelar/reativar.
-- **Administração (somente dono)**: configurações do negócio, redefinir senha do gerente, bloquear/liberar o acesso dele, exportar backup em JSON e apagar todos os dados.
+- **Administração (somente dono)**: configurações do negócio, redefinir senha do gerente, bloquear/liberar o acesso dele, ver os clientes cadastrados, exportar backup em JSON e apagar todos os dados.
+- **Conta do cliente**: cadastro com nome, WhatsApp, e-mail opcional e cidade; login por e-mail ou WhatsApp; edição do perfil; troca de senha; painel com reservas agendadas, locações concluídas e total em locações.
 - **Registro manual de venda/reserva** no painel, com cálculo automático do valor e data padrão de hoje.
 - **Configurações do negócio**: nome exibido e custo operacional (% da receita) para o cálculo do lucro.
 - **Tema claro/escuro** (segue a preferência do sistema na primeira visita).
@@ -108,6 +111,9 @@ O app é **local-first**: não há backend nem envio de dados para a internet. T
 | `aluga:gerente-config` | usuário, nome, hash da senha e situação do gerente |
 | `aluga:admin-config` | usuário, nome e hash da senha do dono (admin) |
 | `aluga:negocio` | custo operacional (%) usado no lucro estimado |
+| `aluga:clientes` | contas de clientes (nome, WhatsApp, e-mail, cidade e hash da senha) |
+| `aluga:cliente-sessao` | sessão do cliente (validade de 30 dias) |
+| `aluga:painel-modo` | último modo aberto na aba Painel (`cliente` ou `empresa`) |
 
 ### Acessos: dono (admin) e gerente
 
@@ -124,6 +130,19 @@ Abra a aba **Painel** na barra inferior e entre com um dos acessos:
 - A sessão dura 12 horas; o botão **Sair** encerra na hora.
 - O painel mostra apenas os pedidos **deste dispositivo** (o app é local-first). Para acompanhar o negócio no celular e no computador ao mesmo tempo seria necessário um backend — não existe sincronização.
 
+### Conta do cliente
+
+Na aba **Painel**, a opção **Sou cliente** abre o cadastro:
+
+1. **Criar conta** com nome completo, WhatsApp, cidade e senha (e-mail é opcional).
+2. Depois é só entrar com **e-mail ou WhatsApp** e senha.
+3. Em **Meus dados** o cliente edita nome, WhatsApp, e-mail e cidade.
+4. Em **Minhas reservas** aparecem as reservas agendadas e concluídas da conta, com opção de cancelar.
+5. A sessão do cliente dura **30 dias**; o botão **Sair** encerra na hora.
+6. O dono vê todos os clientes cadastrados em **Clientes cadastrados**, no painel da empresa.
+
+> Reservas antigas (feitas antes do cadastro) são vinculadas à conta pelo **WhatsApp** quando os números coincidem.
+
 A base de exemplo está em `EQUIPAMENTOS_BASE`, no início do JavaScript de `app.html` (12 máquinas em São Paulo, Campinas, Curitiba, Belo Horizonte, Rio de Janeiro, Recife, Salvador e Barueri).
 
 Para **zerar os dados**, abra o console do navegador e rode:
@@ -137,7 +156,7 @@ location.reload();
 
 O app **é o mesmo** no computador e no celular — não existe um projeto separado para Android. O que roda no celular é este PWA instalado; qualquer alteração publicada chega a ele automaticamente.
 
-- A versão atual aparece no **rodapé** do app (ex.: `v10`).
+- A versão atual aparece no **rodapé** do app (ex.: `v11`).
 - Ao abrir com internet, o app procura uma versão nova. Se existir, aparece o aviso **“Nova versão disponível”** com o botão **Atualizar**.
 - Ao atualizar, favoritos, reservas, anúncios e tema **são preservados** (ficam no `localStorage`, não no cache).
 - A versão do rodapé (`VERSAO_APP` em `app.html`) deve ser igual à do `sw.js` (`CACHE`).
@@ -155,7 +174,7 @@ O app **é o mesmo** no computador e no celular — não existe um projeto separ
 
 ## Limitações (propositalmente simples)
 
-- Os logins (dono e gerente) são **proteção local do dispositivo** (hash no `localStorage`), não uma autenticação de servidor. Quem tiver acesso técnico ao aparelho pode limpar os dados.
+- Os logins (dono, gerente e cliente) são **proteção local do dispositivo** (hash no `localStorage`), não uma autenticação de servidor. Quem tiver acesso técnico ao aparelho pode limpar os dados.
 - Não há sincronização entre dispositivos: o painel vê só as reservas feitas/registradas naquele aparelho.
 - Os anúncios criados ficam apenas no navegador em que foram publicados.
 - As imagens das máquinas são **ilustrações SVG** geradas por tipo, para o app funcionar 100% offline e sem imagens externas.

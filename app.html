@@ -319,6 +319,17 @@ input[type=range]{width:100%;accent-color:var(--primaria);height:28px}
 .periodo button:hover{border-color:var(--primaria);color:var(--primaria)}
 .periodo button.ativo{background:var(--primaria);border-color:var(--primaria);color:#fff}
 [data-tema="escuro"] .periodo button.ativo{color:#04211f}
+.painel-modos{display:flex;gap:5px;padding:4px;border:1px solid var(--borda);border-radius:999px;background:var(--superficie);max-width:430px;margin:18px auto 0;box-shadow:var(--sombra-1)}
+.painel-modos button{flex:1;height:38px;border-radius:999px;font-size:.82rem;font-weight:800;color:var(--texto-2);transition:.15s}
+.painel-modos button.ativo{background:var(--primaria);color:#fff}
+[data-tema="escuro"] .painel-modos button.ativo{color:#04211f}
+.contas-abas{display:flex;gap:5px;padding:4px;margin-top:14px;border:1px solid var(--borda);border-radius:999px;background:var(--superficie-2)}
+.contas-abas button{flex:1;height:34px;border-radius:999px;font-size:.78rem;font-weight:800;color:var(--texto-2);transition:.15s}
+.contas-abas button.ativo{background:var(--superficie);color:var(--primaria);box-shadow:var(--sombra-1)}
+.cliente-linha{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--borda);font-size:.8rem}
+.cliente-linha:last-child{border-bottom:0}
+.cliente-avatar{width:34px;height:34px;border-radius:10px;background:var(--primaria-suave);color:var(--primaria);display:grid;place-items:center;font-weight:800;font-size:.72rem;flex:none}
+.cliente-linha .rank-valor{font-size:.72rem;color:var(--texto-2);font-weight:700;text-align:right;white-space:nowrap}
 .kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px}
 @media(min-width:720px){.kpis{grid-template-columns:repeat(3,1fr)}}
 .kpi{background:var(--superficie);border:1px solid var(--borda);border-radius:14px;padding:13px;box-shadow:var(--sombra-1);min-width:0}
@@ -689,8 +700,146 @@ input[type=range]{width:100%;accent-color:var(--primaria);height:28px}
     <div class="lista-visitas" id="lista-meus"></div>
   </section>
 
-  <!-- ================= GERENTE ================= -->
-  <section id="tela-gerente" aria-label="Área do gerente" hidden>
+  <!-- ================= PAINEL (cliente + empresa) ================= -->
+  <section id="tela-gerente" aria-label="Painel" hidden>
+
+    <div class="painel-modos" id="painel-modos" role="group" aria-label="Tipo de acesso">
+      <button type="button" data-modo-painel="cliente" class="ativo">Sou cliente</button>
+      <button type="button" data-modo-painel="empresa">Sou empresa</button>
+    </div>
+
+    <!-- ================= CLIENTE ================= -->
+    <div id="cliente-area">
+
+      <div id="cliente-login-area">
+        <div class="login-caixa">
+          <div class="login-icone"><svg class="ico" aria-hidden="true"><use href="#i-usuario"/></svg></div>
+          <h2>Minha conta</h2>
+          <p class="login-sub">Crie sua conta para reservar mais rápido e acompanhar seus pedidos.</p>
+
+          <div class="contas-abas">
+            <button type="button" data-cliente-form="cadastro" class="ativo">Criar conta</button>
+            <button type="button" data-cliente-form="entrar">Já tenho conta</button>
+          </div>
+
+          <form class="formulario login-form" id="form-cadastro" novalidate>
+            <div class="campo-grupo">
+              <label for="cad-nome">Nome completo</label>
+              <input class="campo" id="cad-nome" name="nome" maxlength="60" autocomplete="name" placeholder="Seu nome" required>
+            </div>
+            <div class="campo-grupo">
+              <label for="cad-telefone">WhatsApp</label>
+              <input class="campo" id="cad-telefone" name="telefone" maxlength="16" inputmode="tel" autocomplete="tel" placeholder="(11) 91234-5678" required>
+            </div>
+            <div class="campo-grupo">
+              <label for="cad-email">E-mail (opcional)</label>
+              <input class="campo" id="cad-email" name="email" type="email" maxlength="80" autocomplete="email" placeholder="voce@email.com">
+            </div>
+            <div class="campo-grupo">
+              <label for="cad-cidade">Cidade</label>
+              <input class="campo" id="cad-cidade" name="cidade" maxlength="40" autocomplete="address-level2" placeholder="Sua cidade" required>
+            </div>
+            <div class="form-config-linha">
+              <div class="campo-grupo">
+                <label for="cad-senha">Senha</label>
+                <input class="campo" id="cad-senha" name="senha" type="password" minlength="4" autocomplete="new-password" required>
+              </div>
+              <div class="campo-grupo">
+                <label for="cad-senha2">Confirmar senha</label>
+                <input class="campo" id="cad-senha2" name="senha2" type="password" minlength="4" autocomplete="new-password" required>
+              </div>
+            </div>
+            <button class="btn-primario btn-bloco" type="submit"><svg class="ico" aria-hidden="true"><use href="#i-usuario"/></svg>Criar minha conta</button>
+          </form>
+
+          <form class="formulario login-form" id="form-login-cliente" novalidate hidden>
+            <div class="campo-grupo">
+              <label for="cli-ident">E-mail ou WhatsApp</label>
+              <input class="campo" id="cli-ident" name="identificador" autocomplete="username" placeholder="voce@email.com ou (11) 91234-5678" required>
+            </div>
+            <div class="campo-grupo">
+              <label for="cli-senha">Senha</label>
+              <input class="campo" id="cli-senha" name="senha" type="password" autocomplete="current-password" required>
+            </div>
+            <button class="btn-primario btn-bloco" type="submit"><svg class="ico" aria-hidden="true"><use href="#i-cadeado"/></svg>Entrar</button>
+          </form>
+
+          <p class="aviso">Sua conta fica salva neste dispositivo; nada é enviado para servidores.</p>
+        </div>
+      </div>
+
+      <div id="cliente-painel" hidden>
+        <div class="painel-topo">
+          <div>
+            <span class="painel-etiqueta">Minha conta <span class="papel-badge">Cliente</span></span>
+            <h2>Olá, <span id="cliente-nome">Cliente</span></h2>
+            <p id="cliente-resumo">Seus pedidos e dados.</p>
+          </div>
+          <button class="btn-secundario btn-sair" data-acao="sair-cliente"><svg class="ico" aria-hidden="true"><use href="#i-sair"/></svg>Sair</button>
+        </div>
+
+        <div class="kpis" id="cliente-kpis"></div>
+
+        <div class="painel-bloco">
+          <h3>Meus dados</h3>
+          <form class="form-config" id="form-perfil" novalidate>
+            <div class="form-config-linha">
+              <div class="campo-grupo">
+                <label for="perfil-nome">Nome completo</label>
+                <input class="campo" id="perfil-nome" name="nome" maxlength="60" required>
+              </div>
+              <div class="campo-grupo">
+                <label for="perfil-telefone">WhatsApp</label>
+                <input class="campo" id="perfil-telefone" name="telefone" maxlength="16" inputmode="tel" required>
+              </div>
+            </div>
+            <div class="form-config-linha">
+              <div class="campo-grupo">
+                <label for="perfil-email">E-mail (opcional)</label>
+                <input class="campo" id="perfil-email" name="email" type="email" maxlength="80">
+              </div>
+              <div class="campo-grupo">
+                <label for="perfil-cidade">Cidade</label>
+                <input class="campo" id="perfil-cidade" name="cidade" maxlength="40" required>
+              </div>
+            </div>
+            <button class="btn-primario" type="submit">Salvar meus dados</button>
+          </form>
+        </div>
+
+        <div class="painel-bloco">
+          <div class="painel-bloco-topo">
+            <h3>Minhas reservas</h3>
+            <span class="contagem" id="cliente-total-reservas"></span>
+          </div>
+          <div id="cliente-reservas"></div>
+        </div>
+
+        <div class="painel-bloco">
+          <h3>Segurança</h3>
+          <form class="form-config" id="form-senha-cliente" novalidate>
+            <div class="form-config-linha tres">
+              <div class="campo-grupo">
+                <label for="cli-senha-atual">Senha atual</label>
+                <input class="campo" id="cli-senha-atual" name="atual" type="password" autocomplete="current-password" required>
+              </div>
+              <div class="campo-grupo">
+                <label for="cli-senha-nova">Nova senha</label>
+                <input class="campo" id="cli-senha-nova" name="nova" type="password" minlength="4" autocomplete="new-password" required>
+              </div>
+              <div class="campo-grupo">
+                <label for="cli-senha-confirma">Confirmar nova senha</label>
+                <input class="campo" id="cli-senha-confirma" name="confirma" type="password" minlength="4" autocomplete="new-password" required>
+              </div>
+            </div>
+            <button class="btn-secundario" type="submit"><svg class="ico" aria-hidden="true"><use href="#i-escudo"/></svg>Trocar senha</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= EMPRESA ================= -->
+    <div id="empresa-area" hidden>
 
     <!-- Login -->
     <div id="gerente-login">
@@ -868,6 +1017,14 @@ input[type=range]{width:100%;accent-color:var(--primaria);height:28px}
         </div>
       </div>
 
+      <div class="painel-bloco" id="bloco-clientes" hidden>
+        <div class="painel-bloco-topo">
+          <h3>Clientes cadastrados</h3>
+          <span class="contagem" id="admin-total-clientes"></span>
+        </div>
+        <div id="admin-lista-clientes"></div>
+      </div>
+
       <div class="painel-bloco">
         <h3>Dados de demonstração</h3>
         <p class="aviso" style="margin-top:0">Use para ver como o painel funciona. Os pedidos de exemplo ficam marcados e podem ser removidos depois — eles não se misturam com os seus pedidos reais.</p>
@@ -877,11 +1034,12 @@ input[type=range]{width:100%;accent-color:var(--primaria);height:28px}
         </div>
       </div>
     </div>
+    </div>
   </section>
 
   <footer class="rodape">
     <b>Aluga Fácil</b> — PWA de aluguel de máquinas e equipamentos · dados salvos no seu dispositivo
-    <span class="versao" id="versao-app">v10</span>
+    <span class="versao" id="versao-app">v11</span>
     <br><a href="instalar.html">Instalar no celular (QR code)</a>
   </footer>
 </main>
@@ -923,11 +1081,14 @@ const CHAVES = {
   sessao: 'aluga:gerente',
   gerenteConfig: 'aluga:gerente-config',
   adminConfig: 'aluga:admin-config',
-  negocio: 'aluga:negocio'
+  negocio: 'aluga:negocio',
+  clientes: 'aluga:clientes',
+  clienteSessao: 'aluga:cliente-sessao',
+  modoPainel: 'aluga:painel-modo'
 };
 
 // Versão exibida no rodapé — mantenha igual à versão do sw.js.
-const VERSAO_APP = 'v10';
+const VERSAO_APP = 'v11';
 
 // Contas locais (não há servidor: é uma proteção do dispositivo).
 // O admin é o dono: vê tudo e controla o acesso do gerente.
@@ -936,6 +1097,7 @@ const CONTAS_PADRAO = {
   gerente: { papel: 'gerente', usuario: 'gerente', nome: 'Gerente', senha: 'gerente123', rotulo: 'Gerente' }
 };
 const HORAS_SESSAO = 12;
+const DIAS_SESSAO_CLIENTE = 30;
 
 const TIPOS = [
   { id: 'todos', nome: 'Todos' },
@@ -1265,6 +1427,12 @@ let configGerente = null;
 let configAdmin = null;
 let sessaoGerente = ler(CHAVES.sessao, null);
 let configNegocio = normalizarConfigNegocio(ler(CHAVES.negocio, null));
+
+let clientes = ler(CHAVES.clientes, []);
+if (!Array.isArray(clientes)) clientes = [];
+let sessaoCliente = ler(CHAVES.clienteSessao, null);
+let modoPainel = ler(CHAVES.modoPainel, null) === 'empresa' ? 'empresa' : 'cliente';
+let modoClienteForm = 'cadastro';
 let periodoGerente = '30';
 
 function todosEquipamentos() {
@@ -1510,6 +1678,9 @@ function abrirDetalhe(id, opcoes) {
   const fav = favoritos.has(eq.id);
   const hoje = new Date().toISOString().slice(0, 10);
   const recente = reservaMaisRecente() || {};
+  const clienteLogado = clienteAtual();
+  const nomePadrao = clienteLogado ? clienteLogado.nome : (recente.nome || '');
+  const telPadrao = clienteLogado ? clienteLogado.telefone : (recente.telefone || '');
 
   const specs = [];
   if (eq.potencia && eq.potencia !== '—') specs.push(['potencia', eq.potencia]);
@@ -1564,8 +1735,8 @@ function abrirDetalhe(id, opcoes) {
     +         '<div><label for="r-hora">Horário</label><select class="campo" id="r-hora">' + opcoesHora() + '</select></div>'
     +       '</div>'
     +       '<div class="linha">'
-    +         '<div><label for="r-nome">Seu nome</label><input class="campo" id="r-nome" maxlength="60" placeholder="Nome completo" required value="' + esc(recente.nome || '') + '"></div>'
-    +         '<div><label for="r-tel">WhatsApp</label><input class="campo" id="r-tel" maxlength="16" inputmode="tel" placeholder="(11) 91234-5678" required value="' + esc(recente.telefone || '') + '"></div>'
+    +         '<div><label for="r-nome">Seu nome</label><input class="campo" id="r-nome" maxlength="60" placeholder="Nome completo" required value="' + esc(nomePadrao) + '"></div>'
+    +         '<div><label for="r-tel">WhatsApp</label><input class="campo" id="r-tel" maxlength="16" inputmode="tel" placeholder="(11) 91234-5678" required value="' + esc(telPadrao) + '"></div>'
     +       '</div>'
     +       '<button class="btn-primario" type="submit">' + icone('calendario') + 'Confirmar reserva</button>'
     +     '</form>'
@@ -1691,6 +1862,7 @@ function agendarReserva(form) {
   const diaria = Number(eq.diaria) || 0;
   const frete = eq.entrega ? Number(eq.frete) || 0 : 0;
   const caucao = Number(eq.caucao) || 0;
+  const cliente = clienteAtual();
 
   reservas.push({
     id: 'r' + Date.now(),
@@ -1703,6 +1875,7 @@ function agendarReserva(form) {
     hora: hora,
     nome: nome,
     telefone: telefone,
+    clienteId: cliente ? cliente.id : null,
     dias: dias,
     diaria: diaria,
     frete: frete,
@@ -1713,6 +1886,7 @@ function agendarReserva(form) {
   });
   salvar(CHAVES.reservas, reservas);
   renderReservas();
+  renderCliente();
   fecharModal();
   avisar('Reserva confirmada para ' + formatarData(data) + ' às ' + hora);
   irPara('reservas');
@@ -1726,6 +1900,7 @@ function cancelarReserva(id) {
   v.atualizadoEm = new Date().toISOString();
   salvar(CHAVES.reservas, reservas);
   renderReservas();
+  renderCliente();
   atualizarPontos();
   avisar('Reserva cancelada');
 }
@@ -2048,6 +2223,12 @@ function renderPainelGerente() {
     const ativoGerente = $('#admin-gerente-ativo');
     if (usuarioGerente && document.activeElement !== usuarioGerente) usuarioGerente.value = configGerente.usuario;
     if (ativoGerente && document.activeElement !== ativoGerente) ativoGerente.checked = configGerente.ativo !== false;
+
+    const listaClientes = [...clientes].sort((a, b) => new Date(b.criadoEm || 0) - new Date(a.criadoEm || 0));
+    $('#admin-total-clientes').textContent = listaClientes.length + (listaClientes.length === 1 ? ' cliente' : ' clientes');
+    $('#admin-lista-clientes').innerHTML = listaClientes.length
+      ? listaClientes.map(cartaoClienteAdmin).join('')
+      : '<p class="aviso" style="margin-top:0">Nenhum cliente cadastrado ainda. Quando alguém criar conta na aba Painel, aparece aqui.</p>';
   }
 
   const remover = $('#btn-remover-exemplo');
@@ -2078,6 +2259,8 @@ function renderGerente() {
   $('#gerente-login').hidden = logado;
   $('#gerente-painel').hidden = !logado;
   atualizarDicaLogin();
+  renderPainelModo();
+  renderCliente();
   if (!logado) return;
 
   const conta = contaDaSessao();
@@ -2086,6 +2269,7 @@ function renderGerente() {
   $('#gerente-papel').textContent = admin ? 'Dono / Administrador' : 'Gerente';
   $('#bloco-admin').hidden = !admin;
   $('#bloco-config-negocio').hidden = !admin;
+  $('#bloco-clientes').hidden = !admin;
   $$('#periodo-gerente button').forEach((btn) => btn.classList.toggle('ativo', btn.dataset.periodo === periodoGerente));
   renderPainelGerente();
 }
@@ -2126,6 +2310,256 @@ function sairGerente() {
   limparSessao();
   renderGerente();
   avisar('Sessão encerrada');
+}
+
+/* ================= Cliente: cadastro, login e painel ================= */
+function soDigitos(valor) {
+  return String(valor || '').replace(/\D/g, '');
+}
+
+function normalizarEmail(valor) {
+  return String(valor || '').trim().toLowerCase();
+}
+
+function clienteAtual() {
+  if (!sessaoCliente || !sessaoCliente.clienteId) return null;
+  if (sessaoCliente.expira && new Date(sessaoCliente.expira).getTime() <= Date.now()) {
+    sessaoCliente = null;
+    salvar(CHAVES.clienteSessao, null);
+    return null;
+  }
+  return clientes.find((item) => item.id === sessaoCliente.clienteId) || null;
+}
+
+function reservasDoCliente(cliente) {
+  if (!cliente) return [];
+  const telefone = soDigitos(cliente.telefone);
+  return reservas.filter((v) => v.clienteId === cliente.id
+    || (!v.clienteId && telefone && soDigitos(v.telefone) === telefone));
+}
+
+function renderPainelModo() {
+  $$('#painel-modos [data-modo-painel]').forEach((btn) => btn.classList.toggle('ativo', btn.dataset.modoPainel === modoPainel));
+  const areaCliente = $('#cliente-area');
+  const areaEmpresa = $('#empresa-area');
+  if (areaCliente) areaCliente.hidden = modoPainel !== 'cliente';
+  if (areaEmpresa) areaEmpresa.hidden = modoPainel !== 'empresa';
+}
+
+function renderModoClienteForm() {
+  $$('#cliente-login-area [data-cliente-form]').forEach((btn) => btn.classList.toggle('ativo', btn.dataset.clienteForm === modoClienteForm));
+  const cadastro = $('#form-cadastro');
+  const entrar = $('#form-login-cliente');
+  if (cadastro) cadastro.hidden = modoClienteForm !== 'cadastro';
+  if (entrar) entrar.hidden = modoClienteForm !== 'entrar';
+}
+
+function cartaoReservaCliente(v) {
+  const st = statusReserva(v);
+  const r = reservaValores(v);
+  const rotulo = { confirmada: 'Agendada', concluida: 'Concluída', cancelada: 'Cancelada' }[st] || st;
+  return '<article class="pedido">'
+    + '<div class="pedido-topo"><div><b>' + esc(v.titulo) + '</b>'
+    + '<span class="status status-' + st + '">' + rotulo + '</span></div>'
+    + '<strong>' + fmtMoeda.format(r.receita) + '</strong></div>'
+    + '<p>Retirada ' + esc(formatarData(v.data)) + ' às ' + esc(v.hora || '09:00')
+    + ' · ' + r.dias + (r.dias === 1 ? ' diária' : ' diárias')
+    + ' · caução ' + fmtMoeda.format(r.caucao) + '</p>'
+    + (st === 'confirmada' ? '<div class="pedido-acoes"><button type="button" data-acao="cancelar-reserva" data-id="' + esc(v.id) + '">Cancelar reserva</button></div>' : '')
+    + '</article>';
+}
+
+function renderCliente() {
+  renderPainelModo();
+  renderModoClienteForm();
+  const cliente = clienteAtual();
+  const loginArea = $('#cliente-login-area');
+  const painel = $('#cliente-painel');
+  if (!loginArea || !painel) return;
+  loginArea.hidden = !!cliente;
+  painel.hidden = !cliente;
+  if (!cliente) return;
+
+  $('#cliente-nome').textContent = cliente.nome;
+  const minhas = reservasDoCliente(cliente).filter((v) => statusReserva(v) !== 'cancelada');
+  const concluidas = minhas.filter((v) => statusReserva(v) === 'concluida');
+  const agendadas = minhas.filter((v) => statusReserva(v) === 'confirmada');
+  const total = minhas.reduce((soma, v) => soma + reservaValores(v).receita, 0);
+
+  $('#cliente-resumo').textContent = (cliente.cidade ? cliente.cidade + ' · ' : '')
+    + (minhas.length ? minhas.length + (minhas.length === 1 ? ' pedido' : ' pedidos') : 'nenhum pedido ainda');
+
+  $('#cliente-kpis').innerHTML = [
+    kpiCard('Reservas agendadas', String(agendadas.length), agendadas.length === 1 ? 'retirada a caminho' : 'retiradas a caminho', 'calendario', true),
+    kpiCard('Locações concluídas', String(concluidas.length), 'pedidos finalizados', 'cheque', false),
+    kpiCard('Total em locações', fmtMoeda.format(total), 'agendadas + concluídas', 'dinheiro', false)
+  ].join('');
+
+  const ordenadas = [...minhas].sort((a, b) => dataDaReserva(b) - dataDaReserva(a));
+  $('#cliente-reservas').innerHTML = ordenadas.length
+    ? ordenadas.map(cartaoReservaCliente).join('')
+    : '<p class="aviso" style="margin-top:0">Você ainda não tem reservas. Escolha uma máquina na aba Buscar e agende a retirada.</p>';
+  $('#cliente-total-reservas').textContent = ordenadas.length + (ordenadas.length === 1 ? ' reserva' : ' reservas');
+
+  const campos = {
+    nome: $('#perfil-nome'),
+    telefone: $('#perfil-telefone'),
+    email: $('#perfil-email'),
+    cidade: $('#perfil-cidade')
+  };
+  if (campos.nome && document.activeElement !== campos.nome) campos.nome.value = cliente.nome;
+  if (campos.telefone && document.activeElement !== campos.telefone) campos.telefone.value = cliente.telefone;
+  if (campos.email && document.activeElement !== campos.email) campos.email.value = cliente.email || '';
+  if (campos.cidade && document.activeElement !== campos.cidade) campos.cidade.value = cliente.cidade || '';
+}
+
+function criarContaCliente(form) {
+  const nome = String(form.nome.value || '').trim();
+  const telefone = String(form.telefone.value || '').trim();
+  const email = normalizarEmail(form.email.value);
+  const cidade = String(form.cidade.value || '').trim();
+  const senha = String(form.senha.value || '');
+  const senha2 = String(form.senha2.value || '');
+  if (nome.length < 3) { avisar('Informe seu nome completo.', 'erro'); form.nome.focus(); return; }
+  if (soDigitos(telefone).length < 10) { avisar('Informe um WhatsApp com DDD.', 'erro'); form.telefone.focus(); return; }
+  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { avisar('Informe um e-mail válido.', 'erro'); form.email.focus(); return; }
+  if (cidade.length < 2) { avisar('Informe sua cidade.', 'erro'); form.cidade.focus(); return; }
+  if (senha.length < 4) { avisar('A senha precisa ter pelo menos 4 caracteres.', 'erro'); form.senha.focus(); return; }
+  if (senha !== senha2) { avisar('A confirmação da senha não confere.', 'erro'); form.senha2.focus(); return; }
+  if (clientes.some((c) => soDigitos(c.telefone) === soDigitos(telefone))) {
+    avisar('Já existe uma conta com esse WhatsApp. Use “Já tenho conta”.', 'erro');
+    form.telefone.focus();
+    return;
+  }
+  if (email && clientes.some((c) => normalizarEmail(c.email) === email)) {
+    avisar('Já existe uma conta com esse e-mail. Use “Já tenho conta”.', 'erro');
+    form.email.focus();
+    return;
+  }
+
+  const conta = {
+    id: 'c' + Date.now(),
+    nome: nome,
+    telefone: telefone,
+    email: email,
+    cidade: cidade,
+    senhaHash: hashSenha(senha),
+    criadoEm: new Date().toISOString()
+  };
+  clientes.push(conta);
+  salvar(CHAVES.clientes, clientes);
+
+  sessaoCliente = {
+    clienteId: conta.id,
+    nome: conta.nome,
+    desde: new Date().toISOString(),
+    expira: new Date(Date.now() + DIAS_SESSAO_CLIENTE * 86400000).toISOString()
+  };
+  salvar(CHAVES.clienteSessao, sessaoCliente);
+  form.reset();
+  modoPainel = 'cliente';
+  salvar(CHAVES.modoPainel, modoPainel);
+  renderCliente();
+  avisar('Conta criada! Bem-vindo(a), ' + nome.split(' ')[0] + '!');
+}
+
+function entrarCliente(form) {
+  const identificador = String(form.identificador.value || '').trim();
+  const senha = String(form.senha.value || '');
+  if (!identificador || !senha) { avisar('Informe o e-mail/WhatsApp e a senha.', 'erro'); return; }
+  const email = normalizarEmail(identificador);
+  const telefone = soDigitos(identificador);
+  const porTelefone = !identificador.includes('@') && telefone.length >= 10;
+  const conta = clientes.find((c) => (c.email && normalizarEmail(c.email) === email) || (porTelefone && soDigitos(c.telefone) === telefone));
+  if (!conta || hashSenha(senha) !== conta.senhaHash) {
+    avisar('E-mail/WhatsApp ou senha incorretos.', 'erro');
+    form.senha.value = '';
+    form.senha.focus();
+    return;
+  }
+
+  sessaoCliente = {
+    clienteId: conta.id,
+    nome: conta.nome,
+    desde: new Date().toISOString(),
+    expira: new Date(Date.now() + DIAS_SESSAO_CLIENTE * 86400000).toISOString()
+  };
+  salvar(CHAVES.clienteSessao, sessaoCliente);
+  form.reset();
+  modoPainel = 'cliente';
+  salvar(CHAVES.modoPainel, modoPainel);
+  renderCliente();
+  avisar('Bem-vindo(a) de volta, ' + conta.nome.split(' ')[0] + '!');
+}
+
+function sairCliente() {
+  sessaoCliente = null;
+  salvar(CHAVES.clienteSessao, null);
+  renderCliente();
+  avisar('Você saiu da conta');
+}
+
+function salvarPerfilCliente(form) {
+  const cliente = clienteAtual();
+  if (!cliente) return;
+  const nome = String(form.nome.value || '').trim();
+  const telefone = String(form.telefone.value || '').trim();
+  const email = normalizarEmail(form.email.value);
+  const cidade = String(form.cidade.value || '').trim();
+  if (nome.length < 3) { avisar('Informe seu nome completo.', 'erro'); form.nome.focus(); return; }
+  if (soDigitos(telefone).length < 10) { avisar('Informe um WhatsApp com DDD.', 'erro'); form.telefone.focus(); return; }
+  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { avisar('Informe um e-mail válido.', 'erro'); form.email.focus(); return; }
+  if (cidade.length < 2) { avisar('Informe sua cidade.', 'erro'); form.cidade.focus(); return; }
+  if (clientes.some((c) => c.id !== cliente.id && soDigitos(c.telefone) === soDigitos(telefone))) {
+    avisar('Esse WhatsApp já está em outra conta.', 'erro');
+    form.telefone.focus();
+    return;
+  }
+  if (email && clientes.some((c) => c.id !== cliente.id && normalizarEmail(c.email) === email)) {
+    avisar('Esse e-mail já está em outra conta.', 'erro');
+    form.email.focus();
+    return;
+  }
+
+  cliente.nome = nome;
+  cliente.telefone = telefone;
+  cliente.email = email;
+  cliente.cidade = cidade;
+  cliente.atualizadoEm = new Date().toISOString();
+  salvar(CHAVES.clientes, clientes);
+  if (sessaoCliente) {
+    sessaoCliente.nome = nome;
+    salvar(CHAVES.clienteSessao, sessaoCliente);
+  }
+  renderCliente();
+  avisar('Dados atualizados');
+}
+
+function trocarSenhaCliente(form) {
+  const cliente = clienteAtual();
+  if (!cliente) return;
+  const atual = String(form.atual.value || '');
+  const nova = String(form.nova.value || '');
+  const confirma = String(form.confirma.value || '');
+  if (hashSenha(atual) !== cliente.senhaHash) { avisar('Senha atual incorreta.', 'erro'); form.atual.focus(); return; }
+  if (nova.length < 4) { avisar('A nova senha precisa ter pelo menos 4 caracteres.', 'erro'); form.nova.focus(); return; }
+  if (nova !== confirma) { avisar('A confirmação não confere.', 'erro'); form.confirma.focus(); return; }
+  cliente.senhaHash = hashSenha(nova);
+  cliente.atualizadoEm = new Date().toISOString();
+  salvar(CHAVES.clientes, clientes);
+  form.reset();
+  avisar('Senha atualizada');
+}
+
+function cartaoClienteAdmin(c) {
+  const total = reservasDoCliente(c).filter((v) => statusReserva(v) !== 'cancelada').length;
+  const contato = [c.telefone, c.email].filter(Boolean).join(' · ');
+  return '<div class="cliente-linha">'
+    + '<span class="cliente-avatar">' + esc(iniciais(c.nome)) + '</span>'
+    + '<div class="rank-info"><b>' + esc(c.nome) + '</b>'
+    + '<small>' + esc(contato || 'sem contato') + (c.cidade ? ' · ' + esc(c.cidade) : '') + '</small></div>'
+    + '<span class="rank-valor">' + total + (total === 1 ? ' pedido' : ' pedidos') + '<br>' + esc(dataBR(c.criadoEm)) + '</span>'
+    + '</div>';
 }
 
 function alterarStatusReserva(id, status) {
@@ -2593,6 +3027,22 @@ function ligarEventos() {
       if (acao === 'remover-exemplo') { removerExemplo(); return; }
       if (acao === 'exportar-backup') { exportarBackup(); return; }
       if (acao === 'limpar-dados') { limparTodosDados(); return; }
+      if (acao === 'sair-cliente') { sairCliente(); return; }
+    }
+
+    const modoBtn = e.target.closest('[data-modo-painel]');
+    if (modoBtn) {
+      modoPainel = modoBtn.dataset.modoPainel === 'empresa' ? 'empresa' : 'cliente';
+      salvar(CHAVES.modoPainel, modoPainel);
+      renderPainelModo();
+      return;
+    }
+
+    const formClienteBtn = e.target.closest('[data-cliente-form]');
+    if (formClienteBtn) {
+      modoClienteForm = formClienteBtn.dataset.clienteForm === 'entrar' ? 'entrar' : 'cadastro';
+      renderModoClienteForm();
+      return;
     }
 
     const periodoBtn = e.target.closest('[data-periodo]');
@@ -2621,10 +3071,14 @@ function ligarEventos() {
     if (e.target.id === 'form-senha') { e.preventDefault(); trocarSenhaConta(e.target); }
     if (e.target.id === 'form-admin-gerente') { e.preventDefault(); salvarAcessoGerente(e.target); }
     if (e.target.id === 'form-venda') { e.preventDefault(); registrarVenda(e.target); }
+    if (e.target.id === 'form-cadastro') { e.preventDefault(); criarContaCliente(e.target); }
+    if (e.target.id === 'form-login-cliente') { e.preventDefault(); entrarCliente(e.target); }
+    if (e.target.id === 'form-perfil') { e.preventDefault(); salvarPerfilCliente(e.target); }
+    if (e.target.id === 'form-senha-cliente') { e.preventDefault(); trocarSenhaCliente(e.target); }
   });
 
   document.addEventListener('input', (e) => {
-    if (e.target.id === 'a-telefone' || e.target.id === 'r-tel') {
+    if (e.target.id === 'a-telefone' || e.target.id === 'r-tel' || e.target.id === 'cad-telefone' || e.target.id === 'perfil-telefone') {
       e.target.value = mascaraTelefone(e.target.value);
     }
     if (e.target.id === 'venda-dias') atualizarEstimativaVenda();
