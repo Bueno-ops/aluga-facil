@@ -4,7 +4,7 @@
 
 O app reúne betoneiras, marteletes, furadeiras, andaimes, compactadores, geradores, lavadoras, serras e escadas, com filtros, favoritos, cálculo do custo estimado, contato por WhatsApp e agendamento de retirada. Anúncios criados por você ficam salvos no próprio dispositivo.
 
-Há também uma **Área do gerente** com login local: painel de vendas, receita, lucro estimado, ticket médio, caução em aberto, gráfico dos últimos 6 meses, ranking de máquinas e registro manual de vendas/reservas.
+Há também uma **Área da empresa** com dois logins locais: **dono (admin)** e **gerente**. O painel mostra vendas, receita, lucro estimado, ticket médio, caução em aberto, gráfico dos últimos 6 meses, ranking de máquinas e registro manual de vendas/reservas. O dono tem acesso total, incluindo configurações do negócio, controle do acesso do gerente e backup dos dados.
 
 ## Como abrir
 
@@ -54,7 +54,8 @@ O terminal mostra o endereço `http://IP-DO-PC:8099/app.html`. Autorize o PowerS
 - **Reserva de retirada**: data, horário, nome e WhatsApp; lista ordenada, com opção de cancelar e confirmar por WhatsApp.
 - **Anunciar**: formulário com validação, acessórios, publicação imediata na busca e lista dos seus anúncios (com exclusão).
 - **Compartilhar máquina** por link direto (`#maquina=...`), com suporte ao compartilhamento nativo do celular.
-- **Área do gerente** (login local): receita realizada, a receber, lucro estimado, ticket médio, caução em aberto, custo estimado, receita por mês, máquinas mais alugadas, resumo do período e histórico de pedidos com concluir/reabrir/cancelar/reativar.
+- **Área da empresa** com login local de **dono (admin)** e **gerente**: receita realizada, a receber, lucro estimado, ticket médio, caução em aberto, custo estimado, receita por mês, máquinas mais alugadas, resumo do período e histórico de pedidos com concluir/reabrir/cancelar/reativar.
+- **Administração (somente dono)**: configurações do negócio, redefinir senha do gerente, bloquear/liberar o acesso dele, exportar backup em JSON e apagar todos os dados.
 - **Registro manual de venda/reserva** no painel, com cálculo automático do valor e data padrão de hoje.
 - **Configurações do negócio**: nome exibido e custo operacional (% da receita) para o cálculo do lucro.
 - **Tema claro/escuro** (segue a preferência do sistema na primeira visita).
@@ -103,15 +104,23 @@ O app é **local-first**: não há backend nem envio de dados para a internet. T
 | `aluga:reservas` | reservas e vendas (máquina, data, hora, contato, valores, status) |
 | `aluga:anuncios` | anúncios criados por você |
 | `aluga:tema` | `claro` ou `escuro` |
-| `aluga:gerente` | sessão do gerente (validade de 12 h) |
-| `aluga:gerente-config` | usuário, nome e hash da senha do gerente |
+| `aluga:gerente` | sessão ativa (validade de 12 h) |
+| `aluga:gerente-config` | usuário, nome, hash da senha e situação do gerente |
+| `aluga:admin-config` | usuário, nome e hash da senha do dono (admin) |
 | `aluga:negocio` | custo operacional (%) usado no lucro estimado |
 
-### Login do gerente
+### Acessos: dono (admin) e gerente
 
-- Abra a aba **Gerente** na barra inferior.
-- **Primeiro acesso:** usuário `gerente` e senha `gerente123`.
-- Troque a senha em **Segurança** logo depois de entrar.
+Abra a aba **Painel** na barra inferior e entre com um dos acessos:
+
+| Acesso | Usuário | Senha inicial | O que pode fazer |
+|---|---|---|---|
+| **Dono / Administrador** | `admin` | `admin123` | Tudo: painel completo, configurações do negócio, controle do acesso do gerente, backup e limpeza dos dados |
+| **Gerente** | `gerente` | `gerente123` | Painel, vendas/reservas, dados de exemplo e troca da própria senha |
+
+- Troque as senhas em **Segurança** logo depois do primeiro acesso.
+- O admin pode redefinir a senha do gerente e **bloquear/liberar** o acesso dele em **Administração do acesso**.
+- O admin pode **exportar um backup** em JSON e **apagar todos os dados** do dispositivo.
 - A sessão dura 12 horas; o botão **Sair** encerra na hora.
 - O painel mostra apenas os pedidos **deste dispositivo** (o app é local-first). Para acompanhar o negócio no celular e no computador ao mesmo tempo seria necessário um backend — não existe sincronização.
 
@@ -128,7 +137,7 @@ location.reload();
 
 O app **é o mesmo** no computador e no celular — não existe um projeto separado para Android. O que roda no celular é este PWA instalado; qualquer alteração publicada chega a ele automaticamente.
 
-- A versão atual aparece no **rodapé** do app (ex.: `v9`).
+- A versão atual aparece no **rodapé** do app (ex.: `v10`).
 - Ao abrir com internet, o app procura uma versão nova. Se existir, aparece o aviso **“Nova versão disponível”** com o botão **Atualizar**.
 - Ao atualizar, favoritos, reservas, anúncios e tema **são preservados** (ficam no `localStorage`, não no cache).
 - A versão do rodapé (`VERSAO_APP` em `app.html`) deve ser igual à do `sw.js` (`CACHE`).
@@ -146,7 +155,7 @@ O app **é o mesmo** no computador e no celular — não existe um projeto separ
 
 ## Limitações (propositalmente simples)
 
-- O login do gerente é **proteção local do dispositivo** (hash no `localStorage`), não uma autenticação de servidor. Quem tiver acesso técnico ao aparelho pode limpar os dados.
+- Os logins (dono e gerente) são **proteção local do dispositivo** (hash no `localStorage`), não uma autenticação de servidor. Quem tiver acesso técnico ao aparelho pode limpar os dados.
 - Não há sincronização entre dispositivos: o painel vê só as reservas feitas/registradas naquele aparelho.
 - Os anúncios criados ficam apenas no navegador em que foram publicados.
 - As imagens das máquinas são **ilustrações SVG** geradas por tipo, para o app funcionar 100% offline e sem imagens externas.

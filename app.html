@@ -303,10 +303,14 @@ input[type=range]{width:100%;accent-color:var(--primaria);height:28px}
 .login-dica code{background:rgba(0,0,0,.09);padding:1px 5px;border-radius:5px;font-weight:800}
 [data-tema="escuro"] .login-dica code{background:rgba(255,255,255,.12)}
 .login-dica small{opacity:.82}
+#login-dica-contas{display:grid;gap:2px}
 
 /* ================= Painel do gerente ================= */
 .painel-topo{display:flex;align-items:flex-start;gap:12px;padding:22px 0 14px;flex-wrap:wrap}
 .painel-etiqueta{font-size:.67rem;text-transform:uppercase;letter-spacing:.11em;font-weight:800;color:var(--primaria)}
+.papel-badge{display:inline-block;margin-left:6px;padding:2px 8px;border-radius:999px;background:var(--primaria-suave);color:var(--primaria);font-size:.6rem;font-weight:800;letter-spacing:.05em;vertical-align:middle}
+.caixa-check{display:flex;align-items:center;gap:9px;font-size:.84rem;font-weight:600;color:var(--texto);padding:10px 12px;border:1px solid var(--borda);border-radius:10px;background:var(--superficie-2);cursor:pointer;line-height:1.35}
+.caixa-check input{width:18px;height:18px;accent-color:var(--primaria);flex:none;margin:0}
 .painel-topo h2{font-size:1.42rem;letter-spacing:-.035em;line-height:1.15}
 .painel-topo p{color:var(--texto-2);font-size:.82rem;margin-top:3px}
 .btn-sair{margin-left:auto;min-height:38px;font-size:.8rem;padding:0 12px;flex:none}
@@ -692,8 +696,8 @@ input[type=range]{width:100%;accent-color:var(--primaria);height:28px}
     <div id="gerente-login">
       <div class="login-caixa">
         <div class="login-icone"><svg class="ico" aria-hidden="true"><use href="#i-cadeado"/></svg></div>
-        <h2 id="titulo-gerente">Área do gerente</h2>
-        <p class="login-sub">Entre para acompanhar vendas, lucro e os indicadores da empresa.</p>
+        <h2 id="titulo-gerente">Área da empresa</h2>
+        <p class="login-sub">Entre como dono (administrador) ou como gerente para acompanhar vendas, lucro e os indicadores.</p>
 
         <form class="formulario login-form" id="form-login" novalidate>
           <div class="campo-grupo">
@@ -709,7 +713,7 @@ input[type=range]{width:100%;accent-color:var(--primaria);height:28px}
 
         <div class="login-dica" id="login-dica">
           <b>Primeiro acesso</b>
-          <span>Usuário <code>gerente</code> · senha <code>gerente123</code></span>
+          <div id="login-dica-contas"></div>
           <small>Troque a senha em “Segurança” logo depois de entrar.</small>
         </div>
 
@@ -721,7 +725,7 @@ input[type=range]{width:100%;accent-color:var(--primaria);height:28px}
     <div id="gerente-painel" hidden>
       <div class="painel-topo">
         <div>
-          <span class="painel-etiqueta">Painel do gerente</span>
+          <span class="painel-etiqueta">Painel da empresa <span class="papel-badge" id="gerente-papel">Gerente</span></span>
           <h2>Olá, <span id="gerente-nome">Gerente</span></h2>
           <p id="gerente-resumo">Visão geral do negócio.</p>
         </div>
@@ -799,12 +803,12 @@ input[type=range]{width:100%;accent-color:var(--primaria);height:28px}
         <div id="gerente-lista"></div>
       </div>
 
-      <div class="painel-bloco">
+      <div class="painel-bloco" id="bloco-config-negocio">
         <h3>Configurações do negócio</h3>
         <form class="form-config" id="form-config-gerente" novalidate>
           <div class="form-config-linha">
             <div class="campo-grupo">
-              <label for="config-nome">Nome exibido</label>
+              <label for="config-nome">Seu nome (exibido no painel)</label>
               <input class="campo" id="config-nome" name="nome" maxlength="40" required>
             </div>
             <div class="campo-grupo">
@@ -838,6 +842,32 @@ input[type=range]{width:100%;accent-color:var(--primaria);height:28px}
         </form>
       </div>
 
+      <div class="painel-bloco" id="bloco-admin" hidden>
+        <h3>Administração do acesso</h3>
+        <p class="aviso" style="margin-top:0">Como dono, você controla o acesso do gerente: pode trocar o usuário, redefinir a senha e bloquear ou liberar a entrada dele.</p>
+        <form class="form-config" id="form-admin-gerente" novalidate>
+          <div class="form-config-linha">
+            <div class="campo-grupo">
+              <label for="admin-gerente-usuario">Usuário do gerente</label>
+              <input class="campo" id="admin-gerente-usuario" name="usuario" maxlength="20" autocomplete="off" required>
+            </div>
+            <div class="campo-grupo">
+              <label for="admin-gerente-senha">Nova senha do gerente</label>
+              <input class="campo" id="admin-gerente-senha" name="senha" type="password" minlength="4" autocomplete="new-password" placeholder="Deixe em branco para manter">
+            </div>
+          </div>
+          <label class="caixa-check"><input type="checkbox" id="admin-gerente-ativo" name="ativo"> Permitir que o gerente entre no painel</label>
+          <button class="btn-secundario" type="submit"><svg class="ico" aria-hidden="true"><use href="#i-usuario"/></svg>Salvar acesso do gerente</button>
+        </form>
+
+        <h3 style="margin-top:20px">Dados do aplicativo</h3>
+        <p class="aviso" style="margin-top:0">O backup inclui reservas, vendas, anúncios, favoritos e configurações deste dispositivo. Guarde o arquivo em local seguro.</p>
+        <div class="acoes-exemplo">
+          <button class="btn-secundario" data-acao="exportar-backup"><svg class="ico" aria-hidden="true"><use href="#i-baixar"/></svg>Exportar backup</button>
+          <button class="btn-secundario btn-perigo" data-acao="limpar-dados"><svg class="ico" aria-hidden="true"><use href="#i-alerta"/></svg>Apagar todos os dados</button>
+        </div>
+      </div>
+
       <div class="painel-bloco">
         <h3>Dados de demonstração</h3>
         <p class="aviso" style="margin-top:0">Use para ver como o painel funciona. Os pedidos de exemplo ficam marcados e podem ser removidos depois — eles não se misturam com os seus pedidos reais.</p>
@@ -851,7 +881,7 @@ input[type=range]{width:100%;accent-color:var(--primaria);height:28px}
 
   <footer class="rodape">
     <b>Aluga Fácil</b> — PWA de aluguel de máquinas e equipamentos · dados salvos no seu dispositivo
-    <span class="versao" id="versao-app">v9</span>
+    <span class="versao" id="versao-app">v10</span>
     <br><a href="instalar.html">Instalar no celular (QR code)</a>
   </footer>
 </main>
@@ -862,7 +892,7 @@ input[type=range]{width:100%;accent-color:var(--primaria);height:28px}
     <button class="nav-btn" data-aba="favoritos"><svg class="ico"><use href="#i-coracao"/></svg>Favoritos<span class="ponto" id="ponto-favoritos" hidden>0</span></button>
     <button class="nav-btn" data-aba="reservas"><svg class="ico"><use href="#i-calendario"/></svg>Reservas<span class="ponto" id="ponto-reservas" hidden>0</span></button>
     <button class="nav-btn" data-aba="anunciar"><svg class="ico"><use href="#i-mais"/></svg>Anunciar</button>
-    <button class="nav-btn" data-aba="gerente"><svg class="ico"><use href="#i-cadeado"/></svg>Gerente</button>
+    <button class="nav-btn" data-aba="gerente"><svg class="ico"><use href="#i-cadeado"/></svg>Painel</button>
   </div>
 </nav>
 
@@ -890,18 +920,22 @@ const CHAVES = {
   reservas: 'aluga:reservas',
   anuncios: 'aluga:anuncios',
   tema: 'aluga:tema',
-  gerente: 'aluga:gerente',
+  sessao: 'aluga:gerente',
   gerenteConfig: 'aluga:gerente-config',
+  adminConfig: 'aluga:admin-config',
   negocio: 'aluga:negocio'
 };
 
 // Versão exibida no rodapé — mantenha igual à versão do sw.js.
-const VERSAO_APP = 'v9';
+const VERSAO_APP = 'v10';
 
-// Login local do gerente (não há servidor: é uma proteção do dispositivo).
-const USUARIO_GERENTE = 'gerente';
-const SENHA_GERENTE_PADRAO = 'gerente123';
-const HORAS_SESSAO_GERENTE = 12;
+// Contas locais (não há servidor: é uma proteção do dispositivo).
+// O admin é o dono: vê tudo e controla o acesso do gerente.
+const CONTAS_PADRAO = {
+  admin: { papel: 'admin', usuario: 'admin', nome: 'Dono', senha: 'admin123', rotulo: 'Dono / Administrador' },
+  gerente: { papel: 'gerente', usuario: 'gerente', nome: 'Gerente', senha: 'gerente123', rotulo: 'Gerente' }
+};
+const HORAS_SESSAO = 12;
 
 const TIPOS = [
   { id: 'todos', nome: 'Todos' },
@@ -1228,7 +1262,8 @@ let abaAtual = 'buscar';
 let acessoriosAnuncio = new Set();
 
 let configGerente = null;
-let sessaoGerente = ler(CHAVES.gerente, null);
+let configAdmin = null;
+let sessaoGerente = ler(CHAVES.sessao, null);
 let configNegocio = normalizarConfigNegocio(ler(CHAVES.negocio, null));
 let periodoGerente = '30';
 
@@ -1720,27 +1755,63 @@ function normalizarConfigNegocio(salvo) {
   };
 }
 
-function garantirConfigGerente() {
-  const salvo = ler(CHAVES.gerenteConfig, null);
-  if (salvo && salvo.senhaHash && salvo.usuario) {
-    configGerente = salvo;
-    return;
-  }
-  configGerente = {
-    usuario: USUARIO_GERENTE,
-    nome: 'Gerente',
-    senhaHash: hashSenha(SENHA_GERENTE_PADRAO),
+function configPadrao(papel) {
+  const base = CONTAS_PADRAO[papel];
+  return {
+    papel: papel,
+    usuario: base.usuario,
+    nome: base.nome,
+    senhaHash: hashSenha(base.senha),
     senhaPadrao: true,
+    ativo: true,
     criadoEm: new Date().toISOString()
   };
-  salvar(CHAVES.gerenteConfig, configGerente);
+}
+
+function garantirContas() {
+  const salvoGerente = ler(CHAVES.gerenteConfig, null);
+  if (salvoGerente && salvoGerente.senhaHash && salvoGerente.usuario) {
+    configGerente = Object.assign({}, salvoGerente, {
+      papel: 'gerente',
+      ativo: salvoGerente.ativo !== false
+    });
+  } else {
+    configGerente = configPadrao('gerente');
+    salvar(CHAVES.gerenteConfig, configGerente);
+  }
+
+  const salvoAdmin = ler(CHAVES.adminConfig, null);
+  if (salvoAdmin && salvoAdmin.senhaHash && salvoAdmin.usuario) {
+    configAdmin = Object.assign({}, salvoAdmin, { papel: 'admin', ativo: true });
+  } else {
+    configAdmin = configPadrao('admin');
+    salvar(CHAVES.adminConfig, configAdmin);
+  }
+}
+
+function contaPorPapel(papel) {
+  return papel === 'admin' ? configAdmin : configGerente;
+}
+
+function contaDaSessao() {
+  if (!sessaoGerente) return null;
+  return contaPorPapel(sessaoGerente.papel === 'admin' ? 'admin' : 'gerente');
+}
+
+function limparSessao() {
+  sessaoGerente = null;
+  salvar(CHAVES.sessao, null);
 }
 
 function sessaoGerenteValida() {
   if (!sessaoGerente || !sessaoGerente.expira) return false;
   if (new Date(sessaoGerente.expira).getTime() <= Date.now()) {
-    sessaoGerente = null;
-    salvar(CHAVES.gerente, null);
+    limparSessao();
+    return false;
+  }
+  const conta = contaDaSessao();
+  if (!conta || conta.ativo === false) {
+    limparSessao();
     return false;
   }
   return true;
@@ -1931,7 +2002,9 @@ function rotuloPeriodo() {
 }
 
 function renderPainelGerente() {
-  if (!configGerente) garantirConfigGerente();
+  if (!configGerente || !configAdmin) garantirContas();
+  const conta = contaDaSessao() || configGerente;
+  const admin = sessaoGerente && sessaoGerente.papel === 'admin';
   const todas = reservas.slice();
   const listaPeriodo = filtrarPeriodoGerente(todas);
   const m = calcularMetricas(listaPeriodo);
@@ -1967,8 +2040,15 @@ function renderPainelGerente() {
 
   const nome = $('#config-nome');
   const custo = $('#config-custo');
-  if (nome && document.activeElement !== nome) nome.value = configGerente.nome || 'Gerente';
+  if (nome && document.activeElement !== nome) nome.value = conta.nome || 'Gerente';
   if (custo && document.activeElement !== custo) custo.value = configNegocio.custoPct;
+
+  if (admin) {
+    const usuarioGerente = $('#admin-gerente-usuario');
+    const ativoGerente = $('#admin-gerente-ativo');
+    if (usuarioGerente && document.activeElement !== usuarioGerente) usuarioGerente.value = configGerente.usuario;
+    if (ativoGerente && document.activeElement !== ativoGerente) ativoGerente.checked = configGerente.ativo !== false;
+  }
 
   const remover = $('#btn-remover-exemplo');
   if (remover) remover.hidden = !reservas.some((v) => v.exemplo);
@@ -1977,44 +2057,73 @@ function renderPainelGerente() {
   atualizarEstimativaVenda();
 }
 
+function atualizarDicaLogin() {
+  const dica = $('#login-dica');
+  const lista = $('#login-dica-contas');
+  if (!dica || !lista) return;
+  const linhas = [];
+  if (configAdmin && configAdmin.senhaPadrao) {
+    linhas.push('<span>Dono: usuário <code>' + esc(configAdmin.usuario) + '</code> · senha <code>' + esc(CONTAS_PADRAO.admin.senha) + '</code></span>');
+  }
+  if (configGerente && configGerente.senhaPadrao && configGerente.ativo !== false) {
+    linhas.push('<span>Gerente: usuário <code>' + esc(configGerente.usuario) + '</code> · senha <code>' + esc(CONTAS_PADRAO.gerente.senha) + '</code></span>');
+  }
+  dica.hidden = linhas.length === 0;
+  lista.innerHTML = linhas.join('');
+}
+
 function renderGerente() {
-  garantirConfigGerente();
+  garantirContas();
   const logado = sessaoGerenteValida();
   $('#gerente-login').hidden = logado;
   $('#gerente-painel').hidden = !logado;
-  const dica = $('#login-dica');
-  if (dica) dica.hidden = !configGerente.senhaPadrao;
+  atualizarDicaLogin();
   if (!logado) return;
-  $('#gerente-nome').textContent = configGerente.nome || 'Gerente';
+
+  const conta = contaDaSessao();
+  const admin = sessaoGerente.papel === 'admin';
+  $('#gerente-nome').textContent = conta.nome || 'Gerente';
+  $('#gerente-papel').textContent = admin ? 'Dono / Administrador' : 'Gerente';
+  $('#bloco-admin').hidden = !admin;
+  $('#bloco-config-negocio').hidden = !admin;
   $$('#periodo-gerente button').forEach((btn) => btn.classList.toggle('ativo', btn.dataset.periodo === periodoGerente));
   renderPainelGerente();
 }
 
 function entrarGerente(form) {
-  garantirConfigGerente();
+  garantirContas();
   const usuario = String(form.usuario.value || '').trim().toLowerCase();
   const senha = String(form.senha.value || '');
   if (!usuario || !senha) { avisar('Informe usuário e senha.', 'erro'); return; }
-  if (usuario !== String(configGerente.usuario || USUARIO_GERENTE).toLowerCase() || hashSenha(senha) !== configGerente.senhaHash) {
+
+  const conta = [configAdmin, configGerente].find((item) => item && String(item.usuario).toLowerCase() === usuario);
+  if (!conta || hashSenha(senha) !== conta.senhaHash) {
     avisar('Usuário ou senha incorretos.', 'erro');
     form.senha.value = '';
     form.senha.focus();
     return;
   }
+  if (conta.papel !== 'admin' && conta.ativo === false) {
+    avisar('O acesso do gerente está desativado. Fale com o administrador.', 'erro');
+    form.senha.value = '';
+    return;
+  }
+
   sessaoGerente = {
-    nome: configGerente.nome || 'Gerente',
+    papel: conta.papel,
+    usuario: conta.usuario,
+    nome: conta.nome || conta.usuario,
     desde: new Date().toISOString(),
-    expira: new Date(Date.now() + HORAS_SESSAO_GERENTE * 60 * 60 * 1000).toISOString()
+    expira: new Date(Date.now() + HORAS_SESSAO * 60 * 60 * 1000).toISOString()
   };
-  salvar(CHAVES.gerente, sessaoGerente);
+  salvar(CHAVES.sessao, sessaoGerente);
   form.reset();
   renderGerente();
-  avisar('Bem-vindo, ' + (configGerente.nome || 'gerente') + '!');
+  avisar('Bem-vindo, ' + (conta.nome || conta.usuario) + (conta.papel === 'admin' ? ' (administrador)' : '') + '!');
 }
 
 function sairGerente() {
-  sessaoGerente = null;
-  salvar(CHAVES.gerente, null);
+  limparSessao();
   renderGerente();
   avisar('Sessão encerrada');
 }
@@ -2037,41 +2146,101 @@ function alterarStatusReserva(id, status) {
   avisar(mensagens[status] || 'Pedido atualizado');
 }
 
-function salvarConfigGerente(form) {
+function salvarConfigNegocio(form) {
+  if (!sessaoGerente || sessaoGerente.papel !== 'admin') {
+    avisar('Apenas o administrador pode alterar as configurações do negócio.', 'erro');
+    return;
+  }
   const nome = String(form.nome.value || '').trim();
   const custo = Number(form.custo.value);
-  if (nome.length < 2) { avisar('Informe o nome do gerente.', 'erro'); form.nome.focus(); return; }
+  if (nome.length < 2) { avisar('Informe seu nome.', 'erro'); form.nome.focus(); return; }
   if (!isFinite(custo) || custo < 0 || custo > 100) { avisar('O custo deve ficar entre 0 e 100%.', 'erro'); form.custo.focus(); return; }
-  configGerente.nome = nome;
+  configAdmin.nome = nome;
   configNegocio = { custoPct: custo, empresa: configNegocio.empresa };
-  salvar(CHAVES.gerenteConfig, configGerente);
+  salvar(CHAVES.adminConfig, configAdmin);
   salvar(CHAVES.negocio, configNegocio);
   if (sessaoGerente) {
     sessaoGerente.nome = nome;
-    salvar(CHAVES.gerente, sessaoGerente);
+    salvar(CHAVES.sessao, sessaoGerente);
   }
   renderGerente();
   avisar('Configurações salvas');
 }
 
-function trocarSenhaGerente(form) {
+function trocarSenhaConta(form) {
+  const conta = contaDaSessao();
+  if (!conta) return;
   const atual = String(form.atual.value || '');
   const nova = String(form.nova.value || '');
   const confirma = String(form.confirma.value || '');
-  if (hashSenha(atual) !== configGerente.senhaHash) {
+  if (hashSenha(atual) !== conta.senhaHash) {
     avisar('Senha atual incorreta.', 'erro');
     form.atual.focus();
     return;
   }
   if (nova.length < 4) { avisar('A nova senha precisa ter pelo menos 4 caracteres.', 'erro'); form.nova.focus(); return; }
   if (nova !== confirma) { avisar('A confirmação não confere.', 'erro'); form.confirma.focus(); return; }
-  configGerente.senhaHash = hashSenha(nova);
-  configGerente.senhaPadrao = false;
-  configGerente.atualizadoEm = new Date().toISOString();
-  salvar(CHAVES.gerenteConfig, configGerente);
+  conta.senhaHash = hashSenha(nova);
+  conta.senhaPadrao = false;
+  conta.atualizadoEm = new Date().toISOString();
+  salvar(conta.papel === 'admin' ? CHAVES.adminConfig : CHAVES.gerenteConfig, conta);
   form.reset();
   renderGerente();
   avisar('Senha atualizada');
+}
+
+function salvarAcessoGerente(form) {
+  if (!sessaoGerente || sessaoGerente.papel !== 'admin') return;
+  const usuario = String(form.usuario.value || '').trim().toLowerCase();
+  const senha = String(form.senha.value || '');
+  const ativo = !!form.ativo.checked;
+  if (usuario.length < 3) { avisar('O usuário do gerente precisa ter pelo menos 3 caracteres.', 'erro'); form.usuario.focus(); return; }
+  if (usuario === String(configAdmin.usuario).toLowerCase()) { avisar('Escolha um usuário diferente do administrador.', 'erro'); form.usuario.focus(); return; }
+  if (senha && senha.length < 4) { avisar('A senha do gerente precisa ter pelo menos 4 caracteres.', 'erro'); form.senha.focus(); return; }
+
+  configGerente.usuario = usuario;
+  configGerente.ativo = ativo;
+  if (senha) {
+    configGerente.senhaHash = hashSenha(senha);
+    configGerente.senhaPadrao = false;
+  }
+  configGerente.atualizadoEm = new Date().toISOString();
+  salvar(CHAVES.gerenteConfig, configGerente);
+  form.senha.value = '';
+  renderGerente();
+  avisar(ativo ? 'Acesso do gerente salvo' : 'Acesso do gerente desativado');
+}
+
+function exportarBackup() {
+  const dados = {};
+  Object.entries(CHAVES).forEach(([nome, chave]) => {
+    if (nome === 'sessao') return; // não exporta a sessão ativa
+    const valor = localStorage.getItem(chave);
+    if (valor !== null) dados[chave] = valor;
+  });
+  const conteudo = JSON.stringify({
+    app: 'Aluga Fácil',
+    versao: VERSAO_APP,
+    exportadoEm: new Date().toISOString(),
+    dados: dados
+  }, null, 2);
+  const blob = new Blob([conteudo], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = 'aluga-facil-backup-' + hojeISO() + '.json';
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1500);
+  avisar('Backup exportado');
+}
+
+function limparTodosDados() {
+  if (!sessaoGerente || sessaoGerente.papel !== 'admin') return;
+  if (!window.confirm('Apagar TODOS os dados deste dispositivo (reservas, vendas, anúncios, favoritos e senhas)? Não dá para desfazer.')) return;
+  Object.values(CHAVES).forEach((chave) => localStorage.removeItem(chave));
+  location.reload();
 }
 
 function registrarVenda(form) {
@@ -2422,6 +2591,8 @@ function ligarEventos() {
       if (acao === 'status-reserva') { alterarStatusReserva(id, alvo.dataset.status); return; }
       if (acao === 'carregar-exemplo') { carregarExemplo(); return; }
       if (acao === 'remover-exemplo') { removerExemplo(); return; }
+      if (acao === 'exportar-backup') { exportarBackup(); return; }
+      if (acao === 'limpar-dados') { limparTodosDados(); return; }
     }
 
     const periodoBtn = e.target.closest('[data-periodo]');
@@ -2446,8 +2617,9 @@ function ligarEventos() {
     if (e.target.id === 'form-reserva') { e.preventDefault(); agendarReserva(e.target); }
     if (e.target.id === 'form-anuncio') { e.preventDefault(); publicarAnuncio(e.target); }
     if (e.target.id === 'form-login') { e.preventDefault(); entrarGerente(e.target); }
-    if (e.target.id === 'form-config-gerente') { e.preventDefault(); salvarConfigGerente(e.target); }
-    if (e.target.id === 'form-senha') { e.preventDefault(); trocarSenhaGerente(e.target); }
+    if (e.target.id === 'form-config-gerente') { e.preventDefault(); salvarConfigNegocio(e.target); }
+    if (e.target.id === 'form-senha') { e.preventDefault(); trocarSenhaConta(e.target); }
+    if (e.target.id === 'form-admin-gerente') { e.preventDefault(); salvarAcessoGerente(e.target); }
     if (e.target.id === 'form-venda') { e.preventDefault(); registrarVenda(e.target); }
   });
 
@@ -2513,7 +2685,7 @@ function iniciar() {
   renderMeusAnuncios();
   sincronizarControlesFiltro();
   atualizarPontos();
-  garantirConfigGerente();
+  garantirContas();
   renderGerente();
   ligarEventos();
 
