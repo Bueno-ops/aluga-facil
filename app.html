@@ -6,6 +6,8 @@
 <title>Aluga Fácil — Aluguel de máquinas e equipamentos</title>
 <meta name="description" content="Alugue betoneiras, marteletes, furadeiras, andaimes e outras máquinas para sua obra. Filtre por tipo, diária e energia, veja o custo estimado e reserve pelo app.">
 <meta name="theme-color" content="#0f766e">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://brasilapi.com.br https://publica.cnpj.ws; manifest-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'">
+<meta name="referrer" content="no-referrer">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" type="image/svg+xml" href="icon.svg">
 <link rel="apple-touch-icon" href="icon-192.png">
@@ -303,6 +305,21 @@ input[type=range]{width:100%;accent-color:var(--primaria);height:28px}
 .login-dica code{background:rgba(0,0,0,.09);padding:1px 5px;border-radius:5px;font-weight:800}
 [data-tema="escuro"] .login-dica code{background:rgba(255,255,255,.12)}
 .login-dica small{opacity:.82}
+.seguranca-overlay{position:fixed;inset:0;z-index:1200;display:grid;place-items:center;padding:18px;background:rgba(4,12,24,.74);backdrop-filter:blur(4px);overflow:auto}
+.seguranca-caixa{width:100%;max-width:420px;background:var(--superficie);border:1px solid var(--borda);border-radius:20px;padding:24px 20px;box-shadow:0 24px 60px -20px rgba(0,0,0,.55);text-align:center}
+.seguranca-caixa h2{font-size:1.2rem;letter-spacing:-.02em}
+.seguranca-caixa p{color:var(--texto-2);font-size:.84rem;margin-top:7px}
+.seguranca-caixa .login-form{margin-top:16px}
+.seguranca-caixa .btn-sair{margin-top:12px;width:100%}
+.seguranca-lista{display:grid;gap:7px}
+.seguranca-evento{display:grid;gap:2px;padding:9px 11px;border:1px solid var(--borda);border-radius:10px;background:var(--superficie-2);font-size:.76rem;line-height:1.35}
+.seguranca-evento b{font-size:.78rem;color:var(--texto)}
+.seguranca-evento small{color:var(--texto-2);font-size:.68rem}
+.seguranca-evento span{color:var(--texto-2);overflow-wrap:anywhere}
+.seguranca-evento.tipo-falha{border-color:#fecaca;background:#fef2f2}
+[data-tema="escuro"] .seguranca-evento.tipo-falha{border-color:#7f1d1d;background:rgba(127,29,29,.18)}
+.seguranca-evento.tipo-bloqueio{border-color:#fcd34d;background:#fffbeb}
+[data-tema="escuro"] .seguranca-evento.tipo-bloqueio{border-color:#78350f;background:rgba(120,53,15,.2)}
 #login-dica-contas{display:grid;gap:2px}
 
 /* ================= Painel do gerente ================= */
@@ -786,13 +803,14 @@ input[type=range]{width:100%;accent-color:var(--primaria);height:28px}
             <div class="form-config-linha">
               <div class="campo-grupo">
                 <label for="cad-senha">Senha</label>
-                <input class="campo" id="cad-senha" name="senha" type="password" minlength="4" autocomplete="new-password" required>
+                <input class="campo" id="cad-senha" name="senha" type="password" minlength="8" maxlength="128" autocomplete="new-password" spellcheck="false" required>
               </div>
               <div class="campo-grupo">
                 <label for="cad-senha2">Confirmar senha</label>
-                <input class="campo" id="cad-senha2" name="senha2" type="password" minlength="4" autocomplete="new-password" required>
+                <input class="campo" id="cad-senha2" name="senha2" type="password" minlength="8" maxlength="128" autocomplete="new-password" spellcheck="false" required>
               </div>
             </div>
+            <p class="campo-dica" style="margin:-2px 0 8px">Use pelo menos 8 caracteres, com uma letra e um número. Não use dados pessoais.</p>
             <button class="btn-primario btn-bloco" type="submit"><svg class="ico" aria-hidden="true"><use href="#i-usuario"/></svg><span id="cad-botao-texto">Criar minha conta</span></button>
           </form>
 
@@ -867,17 +885,18 @@ input[type=range]{width:100%;accent-color:var(--primaria);height:28px}
             <div class="form-config-linha tres">
               <div class="campo-grupo">
                 <label for="cli-senha-atual">Senha atual</label>
-                <input class="campo" id="cli-senha-atual" name="atual" type="password" autocomplete="current-password" required>
+                <input class="campo" id="cli-senha-atual" name="atual" type="password" maxlength="128" autocomplete="current-password" required>
               </div>
               <div class="campo-grupo">
                 <label for="cli-senha-nova">Nova senha</label>
-                <input class="campo" id="cli-senha-nova" name="nova" type="password" minlength="4" autocomplete="new-password" required>
+                <input class="campo" id="cli-senha-nova" name="nova" type="password" minlength="8" maxlength="128" autocomplete="new-password" spellcheck="false" required>
               </div>
               <div class="campo-grupo">
                 <label for="cli-senha-confirma">Confirmar nova senha</label>
-                <input class="campo" id="cli-senha-confirma" name="confirma" type="password" minlength="4" autocomplete="new-password" required>
+                <input class="campo" id="cli-senha-confirma" name="confirma" type="password" minlength="8" maxlength="128" autocomplete="new-password" spellcheck="false" required>
               </div>
             </div>
+            <p class="campo-dica" style="margin:-2px 0 8px">Mínimo de 8 caracteres, com pelo menos uma letra e um número.</p>
             <button class="btn-secundario" type="submit"><svg class="ico" aria-hidden="true"><use href="#i-escudo"/></svg>Trocar senha</button>
           </form>
         </div>
@@ -892,24 +911,46 @@ input[type=range]{width:100%;accent-color:var(--primaria);height:28px}
       <div class="login-caixa">
         <div class="login-icone"><svg class="ico" aria-hidden="true"><use href="#i-cadeado"/></svg></div>
         <h2 id="titulo-gerente">Área da empresa</h2>
-        <p class="login-sub">Entre como dono (administrador) ou como gerente para acompanhar vendas, lucro e os indicadores.</p>
+        <p class="login-sub" id="subtitulo-gerente">Entre como dono (administrador) ou como gerente para acompanhar vendas, lucro e os indicadores.</p>
 
         <form class="formulario login-form" id="form-login" novalidate>
           <div class="campo-grupo">
             <label for="login-usuario">Usuário</label>
-            <input class="campo" id="login-usuario" name="usuario" autocomplete="username" placeholder="gerente" required>
+            <input class="campo" id="login-usuario" name="usuario" maxlength="40" autocomplete="username" autocapitalize="off" spellcheck="false" placeholder="Seu usuário" required>
           </div>
           <div class="campo-grupo">
             <label for="login-senha">Senha</label>
-            <input class="campo" id="login-senha" name="senha" type="password" autocomplete="current-password" placeholder="Sua senha" required>
+            <input class="campo" id="login-senha" name="senha" type="password" maxlength="128" autocomplete="current-password" placeholder="Sua senha" required>
           </div>
           <button class="btn-primario btn-bloco" type="submit"><svg class="ico" aria-hidden="true"><use href="#i-cadeado"/></svg>Entrar no painel</button>
         </form>
 
-        <div class="login-dica" id="login-dica">
-          <b>Primeiro acesso</b>
+        <form class="formulario login-form" id="form-admin-setup" novalidate hidden>
+          <p class="campo-dica" style="margin:0 0 10px">Primeiro acesso do dono. Crie um usuário e uma senha forte — não existem mais senhas padrão.</p>
+          <div class="campo-grupo">
+            <label for="setup-usuario">Usuário do dono</label>
+            <input class="campo" id="setup-usuario" name="usuario" maxlength="40" autocomplete="username" autocapitalize="off" spellcheck="false" value="admin" required>
+          </div>
+          <div class="campo-grupo">
+            <label for="setup-nome">Nome exibido</label>
+            <input class="campo" id="setup-nome" name="nome" maxlength="60" autocomplete="name" value="Dono" required>
+          </div>
+          <div class="campo-grupo">
+            <label for="setup-senha">Senha</label>
+            <input class="campo" id="setup-senha" name="senha" type="password" minlength="8" maxlength="128" autocomplete="new-password" spellcheck="false" required>
+            <small class="campo-dica">Mínimo de 8 caracteres, com pelo menos uma letra e um número.</small>
+          </div>
+          <div class="campo-grupo">
+            <label for="setup-senha2">Confirmar senha</label>
+            <input class="campo" id="setup-senha2" name="senha2" type="password" minlength="8" maxlength="128" autocomplete="new-password" spellcheck="false" required>
+          </div>
+          <button class="btn-primario btn-bloco" type="submit"><svg class="ico" aria-hidden="true"><use href="#i-escudo"/></svg>Criar acesso do dono</button>
+        </form>
+
+        <div class="login-dica" id="login-dica" hidden>
+          <b>Proteção do acesso</b>
           <div id="login-dica-contas"></div>
-          <small>Troque a senha em “Segurança” logo depois de entrar.</small>
+          <small>5 tentativas erradas bloqueiam o acesso por 15 minutos. Nunca compartilhe sua senha.</small>
         </div>
 
         <p class="aviso">Este login é uma proteção local: os dados ficam neste dispositivo e não são enviados para nenhum servidor.</p>
@@ -1022,17 +1063,18 @@ input[type=range]{width:100%;accent-color:var(--primaria);height:28px}
           <div class="form-config-linha tres">
             <div class="campo-grupo">
               <label for="senha-atual">Senha atual</label>
-              <input class="campo" id="senha-atual" name="atual" type="password" autocomplete="current-password" required>
+              <input class="campo" id="senha-atual" name="atual" type="password" maxlength="128" autocomplete="current-password" required>
             </div>
             <div class="campo-grupo">
               <label for="senha-nova">Nova senha</label>
-              <input class="campo" id="senha-nova" name="nova" type="password" autocomplete="new-password" minlength="4" required>
+              <input class="campo" id="senha-nova" name="nova" type="password" autocomplete="new-password" minlength="8" maxlength="128" spellcheck="false" required>
             </div>
             <div class="campo-grupo">
               <label for="senha-confirma">Confirmar nova senha</label>
-              <input class="campo" id="senha-confirma" name="confirma" type="password" autocomplete="new-password" minlength="4" required>
+              <input class="campo" id="senha-confirma" name="confirma" type="password" autocomplete="new-password" minlength="8" maxlength="128" spellcheck="false" required>
             </div>
           </div>
+          <p class="campo-dica" style="margin:-2px 0 8px">Mínimo de 8 caracteres, com pelo menos uma letra e um número.</p>
           <button class="btn-secundario" type="submit"><svg class="ico" aria-hidden="true"><use href="#i-escudo"/></svg>Trocar senha</button>
         </form>
       </div>
@@ -1048,9 +1090,10 @@ input[type=range]{width:100%;accent-color:var(--primaria);height:28px}
             </div>
             <div class="campo-grupo">
               <label for="admin-gerente-senha">Nova senha do gerente</label>
-              <input class="campo" id="admin-gerente-senha" name="senha" type="password" minlength="4" autocomplete="new-password" placeholder="Deixe em branco para manter">
+              <input class="campo" id="admin-gerente-senha" name="senha" type="password" minlength="8" maxlength="128" autocomplete="new-password" spellcheck="false" placeholder="Deixe em branco para manter">
             </div>
           </div>
+          <p class="campo-dica" style="margin:-2px 0 8px">Ao criar ou redefinir, use pelo menos 8 caracteres, com uma letra e um número.</p>
           <label class="caixa-check"><input type="checkbox" id="admin-gerente-ativo" name="ativo"> Permitir que o gerente entre no painel</label>
           <button class="btn-secundario" type="submit"><svg class="ico" aria-hidden="true"><use href="#i-usuario"/></svg>Salvar acesso do gerente</button>
         </form>
@@ -1061,6 +1104,10 @@ input[type=range]{width:100%;accent-color:var(--primaria);height:28px}
           <button class="btn-secundario" data-acao="exportar-backup"><svg class="ico" aria-hidden="true"><use href="#i-baixar"/></svg>Exportar backup</button>
           <button class="btn-secundario btn-perigo" data-acao="limpar-dados"><svg class="ico" aria-hidden="true"><use href="#i-alerta"/></svg>Apagar todos os dados</button>
         </div>
+        <h3 style="margin-top:20px">Histórico de segurança</h3>
+        <p class="aviso" style="margin-top:0">Últimos acessos, falhas de senha e bloqueios registrados neste dispositivo. Nada é enviado para a internet.</p>
+        <div id="admin-seguranca-log"></div>
+        <button class="btn-secundario" type="button" data-acao="limpar-seguranca" style="margin-top:10px">Limpar histórico de segurança</button>
       </div>
 
       <div class="painel-bloco" id="bloco-clientes" hidden>
@@ -1085,7 +1132,7 @@ input[type=range]{width:100%;accent-color:var(--primaria);height:28px}
 
   <footer class="rodape">
     <b>Aluga Fácil</b> — PWA de aluguel de máquinas e equipamentos · dados salvos no seu dispositivo
-    <span class="versao" id="versao-app">v12</span>
+    <span class="versao" id="versao-app">v13</span>
     <br><a href="instalar.html">Instalar no celular (QR code)</a>
   </footer>
 </main>
@@ -1105,6 +1152,27 @@ input[type=range]{width:100%;accent-color:var(--primaria);height:28px}
   <div class="modal-caixa" role="dialog" aria-modal="true" aria-label="Detalhes da máquina">
     <button class="modal-fechar" data-acao="fechar-modal" aria-label="Fechar"><svg class="ico"><use href="#i-x"/></svg></button>
     <div id="modal-conteudo"></div>
+  </div>
+</div>
+
+<div class="seguranca-overlay" id="troca-obrigatoria" hidden>
+  <div class="seguranca-caixa" role="dialog" aria-modal="true" aria-labelledby="troca-titulo">
+    <div class="login-icone"><svg class="ico" aria-hidden="true"><use href="#i-escudo"/></svg></div>
+    <h2 id="troca-titulo">Atualize sua senha</h2>
+    <p id="troca-texto">Sua conta ainda usa uma senha padrão ou antiga. Crie uma senha forte para continuar.</p>
+    <form class="formulario login-form" id="form-troca-obrigatoria" novalidate>
+      <div class="campo-grupo">
+        <label for="troca-nova">Nova senha</label>
+        <input class="campo" id="troca-nova" name="nova" type="password" minlength="8" maxlength="128" autocomplete="new-password" spellcheck="false" required>
+        <small class="campo-dica">Mínimo de 8 caracteres, com pelo menos uma letra e um número.</small>
+      </div>
+      <div class="campo-grupo">
+        <label for="troca-confirma">Confirmar nova senha</label>
+        <input class="campo" id="troca-confirma" name="confirma" type="password" minlength="8" maxlength="128" autocomplete="new-password" spellcheck="false" required>
+      </div>
+      <button class="btn-primario btn-bloco" type="submit"><svg class="ico" aria-hidden="true"><use href="#i-escudo"/></svg>Salvar nova senha</button>
+    </form>
+    <button class="btn-secundario btn-sair" type="button" data-acao="sair-troca"><svg class="ico" aria-hidden="true"><use href="#i-sair"/></svg>Sair e trocar depois</button>
   </div>
 </div>
 
@@ -1130,20 +1198,33 @@ const CHAVES = {
   negocio: 'aluga:negocio',
   clientes: 'aluga:clientes',
   clienteSessao: 'aluga:cliente-sessao',
-  modoPainel: 'aluga:painel-modo'
+  modoPainel: 'aluga:painel-modo',
+  seguranca: 'aluga:seguranca'
 };
 
 // Versão exibida no rodapé — mantenha igual à versão do sw.js.
-const VERSAO_APP = 'v12';
+const VERSAO_APP = 'v13';
 
 // Contas locais (não há servidor: é uma proteção do dispositivo).
 // O admin é o dono: vê tudo e controla o acesso do gerente.
+// As senhas iniciais abaixo existem apenas para detectar e migrar contas antigas.
+// Instalações novas começam sem senha e exigem a criação do acesso do dono.
 const CONTAS_PADRAO = {
-  admin: { papel: 'admin', usuario: 'admin', nome: 'Dono', senha: 'admin123', rotulo: 'Dono / Administrador' },
-  gerente: { papel: 'gerente', usuario: 'gerente', nome: 'Gerente', senha: 'gerente123', rotulo: 'Gerente' }
+  admin: { papel: 'admin', usuario: 'admin', nome: 'Dono', senhaInicial: 'admin123', rotulo: 'Dono / Administrador' },
+  gerente: { papel: 'gerente', usuario: 'gerente', nome: 'Gerente', senhaInicial: 'gerente123', rotulo: 'Gerente' }
 };
 const HORAS_SESSAO = 12;
-const DIAS_SESSAO_CLIENTE = 30;
+const MINUTOS_OCIOSOS_PAINEL = 120;
+const DIAS_SESSAO_CLIENTE = 7;
+const DIAS_OCIOSOS_CLIENTE = 7;
+const SEGURANCA = {
+  iteracoesPbkdf2: 310000,
+  minimoSenha: 8,
+  maximoSenha: 128,
+  maxTentativas: 5,
+  minutosBloqueio: 15,
+  maxEventos: 60
+};
 
 const TIPOS = [
   { id: 'todos', nome: 'Todos' },
@@ -1336,13 +1417,316 @@ function esc(valor) {
   }[c]));
 }
 
+/* ================= Segurança: senhas, sessões e tentativas ================= */
+function limparTexto(valor, maximo) {
+  let texto = String(valor == null ? '' : valor)
+    .replace(/[\u0000-\u001f\u007f]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+  if (maximo && texto.length > maximo) texto = texto.slice(0, maximo);
+  return texto;
+}
+
+function agoraISO() {
+  return new Date().toISOString();
+}
+
+function rodar(fn, arg) {
+  try {
+    const resultado = fn(arg);
+    if (resultado && typeof resultado.catch === 'function') {
+      resultado.catch((erro) => {
+        console.error(erro);
+        avisar('Não foi possível concluir. Tente novamente.', 'erro');
+      });
+    }
+  } catch (erro) {
+    console.error(erro);
+    avisar('Não foi possível concluir. Tente novamente.', 'erro');
+  }
+}
+
+function bytesParaHex(bytes) {
+  return Array.from(bytes, (b) => b.toString(16).padStart(2, '0')).join('');
+}
+
+function hexParaBytes(hex) {
+  const limpo = String(hex || '').replace(/[^0-9a-f]/gi, '');
+  const bytes = new Uint8Array(Math.floor(limpo.length / 2));
+  for (let i = 0; i < bytes.length; i++) bytes[i] = parseInt(limpo.slice(i * 2, i * 2 + 2), 16);
+  return bytes;
+}
+
+function gerarSalt() {
+  const bytes = new Uint8Array(16);
+  if (window.crypto && window.crypto.getRandomValues) window.crypto.getRandomValues(bytes);
+  else for (let i = 0; i < bytes.length; i++) bytes[i] = Math.floor(Math.random() * 256);
+  return bytesParaHex(bytes);
+}
+
+function temCriptoForte() {
+  return !!(window.crypto && window.crypto.subtle && window.crypto.getRandomValues && window.TextEncoder);
+}
+
+// Hash legado (v12 e anteriores). Mantido apenas para verificar e migrar contas antigas.
+function hashSenhaLegado(senha) {
+  const texto = 'aluga-facil|' + String(senha || '');
+  let h1 = 0x811c9dc5;
+  let h2 = 0x1000193;
+  for (let i = 0; i < texto.length; i++) {
+    const c = texto.charCodeAt(i);
+    h1 = Math.imul(h1 ^ c, 0x01000193) >>> 0;
+    h2 = Math.imul(h2 + c, 0x85ebca6b) >>> 0;
+  }
+  return h1.toString(16).padStart(8, '0') + h2.toString(16).padStart(8, '0');
+}
+
+async function hashSenhaForte(senha, saltHex, iteracoes) {
+  const material = await window.crypto.subtle.importKey(
+    'raw',
+    new TextEncoder().encode(String(senha || '')),
+    'PBKDF2',
+    false,
+    ['deriveBits']
+  );
+  const bits = await window.crypto.subtle.deriveBits({
+    name: 'PBKDF2',
+    salt: hexParaBytes(saltHex),
+    iterations: Number(iteracoes) || SEGURANCA.iteracoesPbkdf2,
+    hash: 'SHA-256'
+  }, material, 256);
+  return bytesParaHex(new Uint8Array(bits));
+}
+
+async function criarRegistroSenha(senha) {
+  if (!temCriptoForte()) {
+    // Fallback para navegadores muito antigos ou abertura via file://.
+    // O app publicado usa HTTPS e sempre cai no PBKDF2.
+    return { algoritmo: 'legado', hash: hashSenhaLegado(senha), criadoEm: agoraISO() };
+  }
+  const salt = gerarSalt();
+  const iteracoes = SEGURANCA.iteracoesPbkdf2;
+  const hash = await hashSenhaForte(senha, salt, iteracoes);
+  return { algoritmo: 'PBKDF2-SHA256', iteracoes: iteracoes, salt: salt, hash: hash, criadoEm: agoraISO() };
+}
+
+function compararSeguro(a, b) {
+  const textoA = String(a == null ? '' : a);
+  const textoB = String(b == null ? '' : b);
+  let diferenca = textoA.length ^ textoB.length;
+  const total = Math.max(textoA.length, textoB.length);
+  for (let i = 0; i < total; i++) {
+    diferenca |= (textoA.charCodeAt(i) || 0) ^ (textoB.charCodeAt(i) || 0);
+  }
+  return diferenca === 0;
+}
+
+async function verificarSenha(senha, conta) {
+  if (!conta) return false;
+  const registro = conta.senha;
+  if (registro && registro.algoritmo === 'PBKDF2-SHA256' && registro.salt && registro.hash) {
+    if (!temCriptoForte()) return false;
+    const hash = await hashSenhaForte(senha, registro.salt, registro.iteracoes);
+    return compararSeguro(hash, registro.hash);
+  }
+  if (registro && registro.algoritmo === 'legado' && registro.hash) {
+    return compararSeguro(hashSenhaLegado(senha), registro.hash);
+  }
+  if (conta.senhaHash) {
+    return compararSeguro(hashSenhaLegado(senha), conta.senhaHash);
+  }
+  return false;
+}
+
+async function migrarSenhaConta(conta, senha) {
+  if (!conta) return false;
+  if (conta.senha && conta.senha.algoritmo === 'PBKDF2-SHA256') return false;
+  conta.senha = await criarRegistroSenha(senha);
+  delete conta.senhaHash;
+  conta.senhaAtualizadaEm = agoraISO();
+  conta.precisaMigrarSenha = false;
+  conta.precisaTrocarSenha = true;
+  return true;
+}
+
+const SENHAS_PROIBIDAS = [
+  '12345678', '123456789', '1234567890', 'senha123', 'senha1234', 'password', 'password1',
+  'qwerty123', 'abc12345', 'admin123', 'gerente123', 'aluga123', 'alugafacil', 'brasil123',
+  '12345678a', 'aaaaaaaa', '11111111', '00000000', '1q2w3e4r', 'iloveyou', 'princesa',
+  'familia', 'corinthians', 'flamengo', 'palmeiras', 'saopaulo', 'riodejaneiro', 'mudar123'
+];
+
+function avaliarSenha(senha, contexto) {
+  const texto = String(senha || '');
+  if (texto.length < SEGURANCA.minimoSenha) return 'A senha precisa ter pelo menos ' + SEGURANCA.minimoSenha + ' caracteres.';
+  if (texto.length > SEGURANCA.maximoSenha) return 'A senha pode ter no máximo ' + SEGURANCA.maximoSenha + ' caracteres.';
+  if (!/[A-Za-zÀ-ÿ]/.test(texto) || !/\d/.test(texto)) return 'Use pelo menos uma letra e um número.';
+  if (/^(.)\1+$/.test(texto)) return 'Escolha uma senha menos previsível.';
+  if (SENHAS_PROIBIDAS.includes(texto.toLowerCase())) return 'Essa senha é muito comum. Escolha outra.';
+  const baixa = texto.toLowerCase();
+  const dados = contexto || {};
+  const nome = limparTexto(dados.nome, 80).toLowerCase();
+  const primeiroNome = nome.split(/\s+/)[0];
+  if (primeiroNome && primeiroNome.length >= 3 && baixa.includes(primeiroNome)) return 'Não use seu nome na senha.';
+  const email = normalizarEmail(dados.email);
+  if (email && email.includes('@')) {
+    const parteEmail = email.split('@')[0];
+    if (parteEmail.length >= 3 && baixa.includes(parteEmail)) return 'Não use seu e-mail na senha.';
+  }
+  const telefone = soDigitos(dados.telefone);
+  if (telefone.length >= 4 && baixa.includes(telefone.slice(-4))) return 'Não use seu telefone na senha.';
+  const cnpj = soDigitos(dados.cnpj);
+  if (cnpj.length >= 4 && baixa.includes(cnpj.slice(0, 4))) return 'Não use o CNPJ na senha.';
+  return '';
+}
+
+function lerSeguranca() {
+  const salvo = ler(CHAVES.seguranca, null);
+  if (!salvo || typeof salvo !== 'object') return { tentativas: {}, eventos: [] };
+  if (!salvo.tentativas || typeof salvo.tentativas !== 'object') salvo.tentativas = {};
+  if (!Array.isArray(salvo.eventos)) salvo.eventos = [];
+  return salvo;
+}
+
+function salvarSeguranca(estado) {
+  salvar(CHAVES.seguranca, estado);
+}
+
+function registrarEvento(tipo, detalhe) {
+  try {
+    const estado = lerSeguranca();
+    estado.eventos.push({
+      tipo: String(tipo || 'evento').slice(0, 30),
+      detalhe: limparTexto(detalhe, 160),
+      em: agoraISO()
+    });
+    estado.eventos = estado.eventos.slice(-SEGURANCA.maxEventos);
+    salvarSeguranca(estado);
+  } catch (e) {
+    /* não interrompe o app por causa do histórico */
+  }
+}
+
+function chaveTentativa(prefixo, identificador) {
+  return prefixo + ':' + normalizarEmail(identificador).slice(0, 80);
+}
+
+function minutosBloqueado(chave) {
+  const estado = lerSeguranca();
+  const item = estado.tentativas[chave];
+  if (!item || !item.bloqueadoAte) return 0;
+  const restante = Number(item.bloqueadoAte) - Date.now();
+  return restante > 0 ? Math.ceil(restante / 60000) : 0;
+}
+
+function registrarFalha(chave) {
+  const estado = lerSeguranca();
+  const item = estado.tentativas[chave] || { falhas: 0 };
+  item.falhas = (Number(item.falhas) || 0) + 1;
+  item.ultima = agoraISO();
+  let minutos = 0;
+  if (item.falhas >= SEGURANCA.maxTentativas) {
+    const extra = Math.floor((item.falhas - SEGURANCA.maxTentativas) / SEGURANCA.maxTentativas);
+    minutos = Math.min(60, SEGURANCA.minutosBloqueio * Math.pow(2, extra));
+    item.bloqueadoAte = Date.now() + minutos * 60000;
+  }
+  estado.tentativas[chave] = item;
+  salvarSeguranca(estado);
+  if (minutos) registrarEvento('bloqueio', chave + ' por ' + minutos + ' min');
+  return item;
+}
+
+function limparTentativas(chave) {
+  const estado = lerSeguranca();
+  if (estado.tentativas[chave]) {
+    delete estado.tentativas[chave];
+    salvarSeguranca(estado);
+  }
+}
+
+function verificarBloqueios(chaves) {
+  let maior = 0;
+  (chaves || []).forEach((chave) => { maior = Math.max(maior, minutosBloqueado(chave)); });
+  return maior;
+}
+
+function registrarFalhas(chaves) {
+  const unicas = Array.from(new Set((chaves || []).filter(Boolean)));
+  unicas.forEach((chave) => registrarFalha(chave));
+}
+
+function limparFalhas(chaves) {
+  (chaves || []).forEach((chave) => limparTentativas(chave));
+}
+
+function novoToken() {
+  if (window.crypto && window.crypto.getRandomValues) {
+    const bytes = new Uint8Array(24);
+    window.crypto.getRandomValues(bytes);
+    return bytesParaHex(bytes);
+  }
+  return String(Date.now()) + Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2);
+}
+
+function criarSessao(dados, duracaoMs, ociosidadeMs) {
+  const agora = Date.now();
+  return Object.assign({}, dados, {
+    token: novoToken(),
+    desde: new Date(agora).toISOString(),
+    ultimaAtividade: new Date(agora).toISOString(),
+    expira: new Date(agora + duracaoMs).toISOString(),
+    idleExpira: new Date(agora + ociosidadeMs).toISOString()
+  });
+}
+
+function sessaoValida(sessao) {
+  if (!sessao || !sessao.token || !sessao.expira) return false;
+  const agora = Date.now();
+  if (new Date(sessao.expira).getTime() <= agora) return false;
+  if (sessao.idleExpira && new Date(sessao.idleExpira).getTime() <= agora) return false;
+  return true;
+}
+
+function tocarSessao(sessao, ociosidadeMs) {
+  if (!sessao) return;
+  sessao.ultimaAtividade = agoraISO();
+  sessao.idleExpira = new Date(Date.now() + ociosidadeMs).toISOString();
+}
+
+function rotuloEventoSeguranca(tipo) {
+  const rotulos = {
+    login_ok: 'Login realizado',
+    login_falha: 'Tentativa de login falhou',
+    bloqueio: 'Acesso bloqueado temporariamente',
+    senha_alterada: 'Senha alterada',
+    conta_criada: 'Conta criada',
+    admin_criado: 'Acesso do dono criado',
+    gerente_atualizado: 'Acesso do gerente atualizado',
+    backup_exportado: 'Backup exportado',
+    dados_apagados: 'Dados apagados',
+    historico_limpo: 'Histórico de segurança limpo'
+  };
+  return rotulos[tipo] || tipo;
+}
+
+function formatarDataHora(iso) {
+  const data = new Date(iso);
+  if (isNaN(data)) return '—';
+  try {
+    return data.toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+  } catch (e) {
+    return data.toISOString();
+  }
+}
+
 function icone(nome) {
-  return '<svg class="ico" aria-hidden="true"><use href="#i-' + nome + '"/></svg>';
+  const seguro = String(nome || '').replace(/[^a-z0-9-]/gi, '');
+  return '<svg class="ico" aria-hidden="true"><use href="#i-' + seguro + '"/></svg>';
 }
 
 function rotuloTipo(tipo) {
   const t = TIPOS.find((item) => item.id === tipo);
-  return t ? t.nome : tipo;
+  return t ? t.nome : 'Máquina';
 }
 
 function rotuloEnergia(energia) {
@@ -1955,20 +2339,6 @@ function cancelarReserva(id) {
 }
 
 /* ================= Gerente: login e indicadores ================= */
-function hashSenha(senha) {
-  // Hash simples e síncrono: suficiente para não guardar a senha em texto puro.
-  // Como o app é local-first, isto é uma proteção do dispositivo, não segurança de servidor.
-  const texto = 'aluga-facil|' + String(senha || '');
-  let h1 = 0x811c9dc5;
-  let h2 = 0x1000193;
-  for (let i = 0; i < texto.length; i++) {
-    const c = texto.charCodeAt(i);
-    h1 = Math.imul(h1 ^ c, 0x01000193) >>> 0;
-    h2 = Math.imul(h2 + c, 0x85ebca6b) >>> 0;
-  }
-  return h1.toString(16).padStart(8, '0') + h2.toString(16).padStart(8, '0');
-}
-
 function normalizarConfigNegocio(salvo) {
   const padrao = { custoPct: 35, empresa: 'Aluga Fácil' };
   if (!salvo || typeof salvo !== 'object') return padrao;
@@ -1979,47 +2349,100 @@ function normalizarConfigNegocio(salvo) {
   };
 }
 
+function contaTemSenha(conta) {
+  if (!conta) return false;
+  if (conta.senha && conta.senha.hash) return true;
+  return !!conta.senhaHash;
+}
+
 function configPadrao(papel) {
   const base = CONTAS_PADRAO[papel];
   return {
     papel: papel,
     usuario: base.usuario,
     nome: base.nome,
-    senhaHash: hashSenha(base.senha),
-    senhaPadrao: true,
-    ativo: true,
-    criadoEm: new Date().toISOString()
+    senha: null,
+    precisaConfigurar: papel === 'admin',
+    precisaTrocarSenha: false,
+    ativo: papel === 'admin',
+    criadoEm: agoraISO()
   };
+}
+
+function contaMigrada(salvo, papel) {
+  const base = CONTAS_PADRAO[papel];
+  const conta = Object.assign({}, salvo, { papel: papel });
+  if (!conta.usuario) conta.usuario = base.usuario;
+  if (!conta.nome) conta.nome = base.nome;
+  if (papel === 'admin') conta.ativo = true;
+  else conta.ativo = salvo.ativo !== false;
+
+  delete conta.senhaPadrao;
+
+  // Remove de vez qualquer conta que ainda use a senha padrão antiga.
+  // O dono precisa criar uma senha nova; o gerente fica desativado até o dono redefinir.
+  const hashInicial = hashSenhaLegado(base.senhaInicial);
+  const hashLegadoAtual = conta.senhaHash
+    || (conta.senha && conta.senha.algoritmo === 'legado' ? conta.senha.hash : null);
+  if (hashLegadoAtual && compararSeguro(hashLegadoAtual, hashInicial)) {
+    conta.senha = null;
+    delete conta.senhaHash;
+    conta.precisaConfigurar = papel === 'admin';
+    conta.precisaTrocarSenha = false;
+    if (papel === 'gerente') conta.ativo = false;
+    return conta;
+  }
+
+  if (conta.senha && conta.senha.hash) {
+    delete conta.senhaHash;
+    conta.precisaConfigurar = false;
+    conta.precisaTrocarSenha = conta.senha.algoritmo !== 'PBKDF2-SHA256' || !!conta.precisaTrocarSenha;
+    return conta;
+  }
+  if (conta.senhaHash) {
+    // Contas da v12 e anteriores com senha própria: guarda o hash antigo só para
+    // verificar e obriga a troca da senha no primeiro login após a atualização.
+    conta.senha = { algoritmo: 'legado', hash: String(conta.senhaHash) };
+    delete conta.senhaHash;
+    conta.precisaConfigurar = false;
+    conta.precisaTrocarSenha = true;
+    return conta;
+  }
+  conta.senha = null;
+  conta.precisaConfigurar = papel === 'admin';
+  conta.precisaTrocarSenha = false;
+  if (papel === 'gerente') conta.ativo = false;
+  return conta;
 }
 
 function garantirContas() {
   const salvoGerente = ler(CHAVES.gerenteConfig, null);
-  if (salvoGerente && salvoGerente.senhaHash && salvoGerente.usuario) {
-    configGerente = Object.assign({}, salvoGerente, {
-      papel: 'gerente',
-      ativo: salvoGerente.ativo !== false
-    });
-  } else {
-    configGerente = configPadrao('gerente');
-    salvar(CHAVES.gerenteConfig, configGerente);
-  }
+  const gerente = salvoGerente && salvoGerente.usuario
+    ? contaMigrada(salvoGerente, 'gerente')
+    : configPadrao('gerente');
+  configGerente = gerente;
+  if (JSON.stringify(gerente) !== JSON.stringify(salvoGerente)) salvar(CHAVES.gerenteConfig, configGerente);
 
   const salvoAdmin = ler(CHAVES.adminConfig, null);
-  if (salvoAdmin && salvoAdmin.senhaHash && salvoAdmin.usuario) {
-    configAdmin = Object.assign({}, salvoAdmin, { papel: 'admin', ativo: true });
-  } else {
-    configAdmin = configPadrao('admin');
-    salvar(CHAVES.adminConfig, configAdmin);
-  }
+  const admin = salvoAdmin && salvoAdmin.usuario
+    ? contaMigrada(salvoAdmin, 'admin')
+    : configPadrao('admin');
+  configAdmin = admin;
+  if (JSON.stringify(admin) !== JSON.stringify(salvoAdmin)) salvar(CHAVES.adminConfig, configAdmin);
 }
 
-function contaPorPapel(papel) {
-  return papel === 'admin' ? configAdmin : configGerente;
+function salvarConta(conta) {
+  if (!conta) return;
+  salvar(conta.papel === 'admin' ? CHAVES.adminConfig : CHAVES.gerenteConfig, conta);
 }
 
 function contaDaSessao() {
   if (!sessaoGerente) return null;
-  return contaPorPapel(sessaoGerente.papel === 'admin' ? 'admin' : 'gerente');
+  const usuario = String(sessaoGerente.usuario || '').toLowerCase();
+  if (!usuario) return null;
+  return [configAdmin, configGerente]
+    .filter(Boolean)
+    .find((conta) => String(conta.usuario || '').toLowerCase() === usuario) || null;
 }
 
 function limparSessao() {
@@ -2028,17 +2451,30 @@ function limparSessao() {
 }
 
 function sessaoGerenteValida() {
-  if (!sessaoGerente || !sessaoGerente.expira) return false;
-  if (new Date(sessaoGerente.expira).getTime() <= Date.now()) {
+  if (!sessaoGerente) return false;
+  if (!sessaoValida(sessaoGerente)) {
     limparSessao();
     return false;
   }
   const conta = contaDaSessao();
-  if (!conta || conta.ativo === false) {
+  if (!conta || conta.ativo === false || !contaTemSenha(conta)) {
     limparSessao();
     return false;
   }
+  // Amarra a sessão à conta real: papel e usuário precisam bater.
+  if (String(conta.papel) !== String(sessaoGerente.papel)
+    || String(conta.usuario || '').toLowerCase() !== String(sessaoGerente.usuario || '').toLowerCase()) {
+    limparSessao();
+    return false;
+  }
+  tocarSessao(sessaoGerente, MINUTOS_OCIOSOS_PAINEL * 60000);
+  salvar(CHAVES.sessao, sessaoGerente);
   return true;
+}
+
+// Toda ação de dono passa por aqui: sessão válida + papel admin.
+function adminValido() {
+  return sessaoGerenteValida() && sessaoGerente.papel === 'admin';
 }
 
 function statusReserva(v) {
@@ -2290,16 +2726,32 @@ function renderPainelGerente() {
 function atualizarDicaLogin() {
   const dica = $('#login-dica');
   const lista = $('#login-dica-contas');
-  if (!dica || !lista) return;
-  const linhas = [];
-  if (configAdmin && configAdmin.senhaPadrao) {
-    linhas.push('<span>Dono: usuário <code>' + esc(configAdmin.usuario) + '</code> · senha <code>' + esc(CONTAS_PADRAO.admin.senha) + '</code></span>');
+  const setup = $('#form-admin-setup');
+  const login = $('#form-login');
+  const titulo = $('#titulo-gerente');
+  const subtitulo = $('#subtitulo-gerente');
+  const precisaSetup = !!(configAdmin && (configAdmin.precisaConfigurar || !contaTemSenha(configAdmin)));
+
+  if (setup) setup.hidden = !precisaSetup;
+  if (login) login.hidden = precisaSetup;
+  if (titulo) titulo.textContent = precisaSetup ? 'Configurar acesso do dono' : 'Área da empresa';
+  if (subtitulo) {
+    subtitulo.textContent = precisaSetup
+      ? 'Primeiro acesso: crie o usuário e a senha do dono. As senhas padrão antigas não funcionam mais.'
+      : 'Entre como dono (administrador) ou como gerente para acompanhar vendas, lucro e os indicadores.';
   }
-  if (configGerente && configGerente.senhaPadrao && configGerente.ativo !== false) {
-    linhas.push('<span>Gerente: usuário <code>' + esc(configGerente.usuario) + '</code> · senha <code>' + esc(CONTAS_PADRAO.gerente.senha) + '</code></span>');
+
+  if (dica && lista) {
+    const linhas = [];
+    if (!precisaSetup) {
+      linhas.push('<span>O bloqueio por tentativas protege este dispositivo.</span>');
+      if (configGerente && configGerente.ativo === false) {
+        linhas.push('<span>O acesso do gerente está desativado pelo dono.</span>');
+      }
+    }
+    dica.hidden = linhas.length === 0;
+    lista.innerHTML = linhas.join('');
   }
-  dica.hidden = linhas.length === 0;
-  lista.innerHTML = linhas.join('');
 }
 
 function renderGerente() {
@@ -2313,7 +2765,7 @@ function renderGerente() {
   if (!logado) return;
 
   const conta = contaDaSessao();
-  const admin = sessaoGerente.papel === 'admin';
+  const admin = adminValido();
   $('#gerente-nome').textContent = conta.nome || 'Gerente';
   $('#gerente-papel').textContent = admin ? 'Dono / Administrador' : 'Gerente';
   $('#bloco-admin').hidden = !admin;
@@ -2321,35 +2773,74 @@ function renderGerente() {
   $('#bloco-clientes').hidden = !admin;
   $$('#periodo-gerente button').forEach((btn) => btn.classList.toggle('ativo', btn.dataset.periodo === periodoGerente));
   renderPainelGerente();
+  if (admin) renderSegurancaAdmin();
+  renderTrocaObrigatoria();
 }
 
-function entrarGerente(form) {
+function contaTrocaPendente() {
+  if (sessaoGerente && sessaoValida(sessaoGerente)) {
+    const conta = contaDaSessao();
+    if (conta && conta.precisaTrocarSenha) return { tipo: 'conta', conta: conta };
+  }
+  if (sessaoCliente && sessaoValida(sessaoCliente)) {
+    const cliente = clientes.find((item) => item.id === sessaoCliente.clienteId);
+    if (cliente && cliente.precisaTrocarSenha) return { tipo: 'cliente', conta: cliente };
+  }
+  return null;
+}
+
+function renderTrocaObrigatoria() {
+  const overlay = $('#troca-obrigatoria');
+  if (!overlay) return;
+  overlay.hidden = !contaTrocaPendente();
+}
+
+async function entrarGerente(form) {
   garantirContas();
   const usuario = String(form.usuario.value || '').trim().toLowerCase();
   const senha = String(form.senha.value || '');
   if (!usuario || !senha) { avisar('Informe usuário e senha.', 'erro'); return; }
+  if (configAdmin && (configAdmin.precisaConfigurar || !contaTemSenha(configAdmin))) {
+    avisar('Crie primeiro o acesso do dono.', 'erro');
+    return;
+  }
+
+  const chave = chaveTentativa('painel', usuario);
+  const bloqueio = minutosBloqueado(chave);
+  if (bloqueio > 0) {
+    avisar('Muitas tentativas. Tente novamente em ' + bloqueio + ' minuto(s).', 'erro');
+    registrarEvento('bloqueio', 'painel:' + usuario + ' tentativa durante bloqueio');
+    return;
+  }
 
   const conta = [configAdmin, configGerente].find((item) => item && String(item.usuario).toLowerCase() === usuario);
-  if (!conta || hashSenha(senha) !== conta.senhaHash) {
+  const confere = await verificarSenha(senha, conta);
+  if (!conta || !confere) {
+    registrarFalha(chave);
+    registrarEvento('login_falha', 'painel:' + usuario);
     avisar('Usuário ou senha incorretos.', 'erro');
     form.senha.value = '';
     form.senha.focus();
     return;
   }
   if (conta.papel !== 'admin' && conta.ativo === false) {
+    registrarEvento('login_falha', 'painel:' + usuario + ' (acesso desativado)');
     avisar('O acesso do gerente está desativado. Fale com o administrador.', 'erro');
     form.senha.value = '';
     return;
   }
 
-  sessaoGerente = {
+  limparFalhas([chave]);
+  const migrou = await migrarSenhaConta(conta, senha);
+  if (migrou) salvarConta(conta);
+
+  sessaoGerente = criarSessao({
     papel: conta.papel,
     usuario: conta.usuario,
-    nome: conta.nome || conta.usuario,
-    desde: new Date().toISOString(),
-    expira: new Date(Date.now() + HORAS_SESSAO * 60 * 60 * 1000).toISOString()
-  };
+    nome: conta.nome || conta.usuario
+  }, HORAS_SESSAO * 60 * 60 * 1000, MINUTOS_OCIOSOS_PAINEL * 60000);
   salvar(CHAVES.sessao, sessaoGerente);
+  registrarEvento('login_ok', 'painel:' + conta.usuario);
   form.reset();
   renderGerente();
   avisar('Bem-vindo, ' + (conta.nome || conta.usuario) + (conta.papel === 'admin' ? ' (administrador)' : '') + '!');
@@ -2596,12 +3087,20 @@ function cartaoEmpresaCliente(cliente) {
 
 function clienteAtual() {
   if (!sessaoCliente || !sessaoCliente.clienteId) return null;
-  if (sessaoCliente.expira && new Date(sessaoCliente.expira).getTime() <= Date.now()) {
+  if (!sessaoValida(sessaoCliente)) {
     sessaoCliente = null;
     salvar(CHAVES.clienteSessao, null);
     return null;
   }
-  return clientes.find((item) => item.id === sessaoCliente.clienteId) || null;
+  const conta = clientes.find((item) => item.id === sessaoCliente.clienteId) || null;
+  if (!conta) {
+    sessaoCliente = null;
+    salvar(CHAVES.clienteSessao, null);
+    return null;
+  }
+  tocarSessao(sessaoCliente, DIAS_OCIOSOS_CLIENTE * 86400000);
+  salvar(CHAVES.clienteSessao, sessaoCliente);
+  return conta;
 }
 
 function reservasDoCliente(cliente) {
@@ -2704,13 +3203,13 @@ function renderCliente() {
   if (campos.cidade && document.activeElement !== campos.cidade) campos.cidade.value = cliente.cidade || '';
 }
 
-function criarContaCliente(form) {
+async function criarContaCliente(form) {
   const pj = tipoContaCliente === 'pj';
   const cnpj = pj ? soDigitos(form.cnpj.value) : '';
-  const nome = String(form.nome.value || '').trim();
-  const telefone = String(form.telefone.value || '').trim();
-  const email = normalizarEmail(form.email.value);
-  const cidade = String(form.cidade.value || '').trim();
+  const nome = limparTexto(form.nome.value, 80);
+  const telefone = limparTexto(form.telefone.value, 20);
+  const email = normalizarEmail(form.email.value).slice(0, 120);
+  const cidade = limparTexto(form.cidade.value, 60);
   const senha = String(form.senha.value || '');
   const senha2 = String(form.senha2.value || '');
 
@@ -2719,7 +3218,8 @@ function criarContaCliente(form) {
   if (soDigitos(telefone).length < 10) { avisar('Informe um WhatsApp com DDD.', 'erro'); form.telefone.focus(); return; }
   if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { avisar('Informe um e-mail válido.', 'erro'); form.email.focus(); return; }
   if (cidade.length < 2) { avisar('Informe a cidade.', 'erro'); form.cidade.focus(); return; }
-  if (senha.length < 4) { avisar('A senha precisa ter pelo menos 4 caracteres.', 'erro'); form.senha.focus(); return; }
+  const problemaSenha = avaliarSenha(senha, { nome: nome, email: email, telefone: telefone, cnpj: cnpj });
+  if (problemaSenha) { avisar(problemaSenha, 'erro'); form.senha.focus(); return; }
   if (senha !== senha2) { avisar('A confirmação da senha não confere.', 'erro'); form.senha2.focus(); return; }
 
   if (pj && clientes.some((c) => c.tipo === 'pj' && soDigitos(c.cnpj) === cnpj)) {
@@ -2739,6 +3239,7 @@ function criarContaCliente(form) {
   }
 
   const empresa = (pj && cnpjConsultado && cnpjConsultado.cnpj === cnpj) ? cnpjConsultado.empresa : null;
+  const registroSenha = await criarRegistroSenha(senha);
   const conta = {
     id: 'c' + Date.now(),
     tipo: pj ? 'pj' : 'pf',
@@ -2746,8 +3247,9 @@ function criarContaCliente(form) {
     telefone: telefone,
     email: email,
     cidade: cidade,
-    senhaHash: hashSenha(senha),
-    criadoEm: new Date().toISOString()
+    senha: registroSenha,
+    precisaTrocarSenha: false,
+    criadoEm: agoraISO()
   };
   if (pj) {
     conta.cnpj = cnpj;
@@ -2773,13 +3275,12 @@ function criarContaCliente(form) {
 
   clientes.push(conta);
   salvar(CHAVES.clientes, clientes);
+  registrarEvento('conta_criada', (pj ? 'PJ ' : 'PF ') + conta.id);
 
-  sessaoCliente = {
+  sessaoCliente = criarSessao({
     clienteId: conta.id,
-    nome: nomeExibicaoCliente(conta),
-    desde: new Date().toISOString(),
-    expira: new Date(Date.now() + DIAS_SESSAO_CLIENTE * 86400000).toISOString()
-  };
+    nome: nomeExibicaoCliente(conta)
+  }, DIAS_SESSAO_CLIENTE * 86400000, DIAS_OCIOSOS_CLIENTE * 86400000);
   salvar(CHAVES.clienteSessao, sessaoCliente);
   form.reset();
   cnpjConsultado = null;
@@ -2787,11 +3288,12 @@ function criarContaCliente(form) {
   modoPainel = 'cliente';
   salvar(CHAVES.modoPainel, modoPainel);
   renderCliente();
+  renderTrocaObrigatoria();
   avisar('Conta criada! Bem-vindo(a), ' + primeiroNomeCliente(conta) + '!');
 }
 
-function entrarCliente(form) {
-  const identificador = String(form.identificador.value || '').trim();
+async function entrarCliente(form) {
+  const identificador = limparTexto(form.identificador.value, 120);
   const senha = String(form.senha.value || '');
   if (!identificador || !senha) { avisar('Informe e-mail, WhatsApp ou CNPJ e a senha.', 'erro'); return; }
   const email = normalizarEmail(identificador);
@@ -2799,28 +3301,54 @@ function entrarCliente(form) {
   const semArroba = !identificador.includes('@');
   const porCnpj = semArroba && digitos.length === 14;
   const porTelefone = semArroba && digitos.length >= 10 && digitos.length <= 11;
+
+  const chaveEntrada = chaveTentativa('cliente', porCnpj ? 'cnpj:' + digitos : identificador);
+  let bloqueio = minutosBloqueado(chaveEntrada);
+  if (bloqueio > 0) {
+    avisar('Muitas tentativas. Tente novamente em ' + bloqueio + ' minuto(s).', 'erro');
+    registrarEvento('bloqueio', 'cliente: tentativa durante bloqueio');
+    return;
+  }
+
   const conta = clientes.find((c) =>
     (c.email && normalizarEmail(c.email) === email)
     || (porCnpj && c.tipo === 'pj' && soDigitos(c.cnpj) === digitos)
     || (porTelefone && soDigitos(c.telefone) === digitos));
-  if (!conta || hashSenha(senha) !== conta.senhaHash) {
+  const chaveConta = conta ? chaveTentativa('cliente-conta', conta.id) : chaveEntrada;
+  if (conta) {
+    bloqueio = minutosBloqueado(chaveConta);
+    if (bloqueio > 0) {
+      avisar('Muitas tentativas. Tente novamente em ' + bloqueio + ' minuto(s).', 'erro');
+      registrarEvento('bloqueio', 'cliente:' + conta.id + ' tentativa durante bloqueio');
+      return;
+    }
+  }
+
+  const confere = await verificarSenha(senha, conta);
+  if (!conta || !confere) {
+    registrarFalhas([chaveEntrada, chaveConta]);
+    registrarEvento('login_falha', 'cliente:' + chaveEntrada.slice(8));
     avisar('E-mail, WhatsApp, CNPJ ou senha incorretos.', 'erro');
     form.senha.value = '';
     form.senha.focus();
     return;
   }
 
-  sessaoCliente = {
+  limparFalhas([chaveEntrada, chaveConta]);
+  const migrou = await migrarSenhaConta(conta, senha);
+  if (migrou) salvar(CHAVES.clientes, clientes);
+
+  sessaoCliente = criarSessao({
     clienteId: conta.id,
-    nome: nomeExibicaoCliente(conta),
-    desde: new Date().toISOString(),
-    expira: new Date(Date.now() + DIAS_SESSAO_CLIENTE * 86400000).toISOString()
-  };
+    nome: nomeExibicaoCliente(conta)
+  }, DIAS_SESSAO_CLIENTE * 86400000, DIAS_OCIOSOS_CLIENTE * 86400000);
   salvar(CHAVES.clienteSessao, sessaoCliente);
+  registrarEvento('login_ok', 'cliente:' + conta.id);
   form.reset();
   modoPainel = 'cliente';
   salvar(CHAVES.modoPainel, modoPainel);
   renderCliente();
+  renderTrocaObrigatoria();
   avisar('Bem-vindo(a) de volta, ' + primeiroNomeCliente(conta) + '!');
 }
 
@@ -2868,19 +3396,41 @@ function salvarPerfilCliente(form) {
   avisar('Dados atualizados');
 }
 
-function trocarSenhaCliente(form) {
+async function trocarSenhaCliente(form) {
   const cliente = clienteAtual();
   if (!cliente) return;
   const atual = String(form.atual.value || '');
   const nova = String(form.nova.value || '');
   const confirma = String(form.confirma.value || '');
-  if (hashSenha(atual) !== cliente.senhaHash) { avisar('Senha atual incorreta.', 'erro'); form.atual.focus(); return; }
-  if (nova.length < 4) { avisar('A nova senha precisa ter pelo menos 4 caracteres.', 'erro'); form.nova.focus(); return; }
+  const chave = chaveTentativa('senha-cliente', cliente.id);
+  const bloqueio = minutosBloqueado(chave);
+  if (bloqueio > 0) {
+    avisar('Muitas tentativas. Tente novamente em ' + bloqueio + ' minuto(s).', 'erro');
+    return;
+  }
+  const confere = await verificarSenha(atual, cliente);
+  if (!confere) {
+    registrarFalha(chave);
+    registrarEvento('login_falha', 'senha-cliente:' + cliente.id);
+    avisar('Senha atual incorreta.', 'erro');
+    form.atual.focus();
+    return;
+  }
+  const problema = avaliarSenha(nova, cliente);
+  if (problema) { avisar(problema, 'erro'); form.nova.focus(); return; }
   if (nova !== confirma) { avisar('A confirmação não confere.', 'erro'); form.confirma.focus(); return; }
-  cliente.senhaHash = hashSenha(nova);
-  cliente.atualizadoEm = new Date().toISOString();
+  if (nova === atual) { avisar('Escolha uma senha diferente da atual.', 'erro'); form.nova.focus(); return; }
+
+  limparFalhas([chave]);
+  cliente.senha = await criarRegistroSenha(nova);
+  delete cliente.senhaHash;
+  cliente.precisaTrocarSenha = false;
+  cliente.senhaAtualizadaEm = agoraISO();
+  cliente.atualizadoEm = agoraISO();
   salvar(CHAVES.clientes, clientes);
+  registrarEvento('senha_alterada', 'cliente:' + cliente.id);
   form.reset();
+  renderTrocaObrigatoria();
   avisar('Senha atualizada');
 }
 
@@ -2918,7 +3468,7 @@ function alterarStatusReserva(id, status) {
 }
 
 function salvarConfigNegocio(form) {
-  if (!sessaoGerente || sessaoGerente.papel !== 'admin') {
+  if (!adminValido()) {
     avisar('Apenas o administrador pode alterar as configurações do negócio.', 'erro');
     return;
   }
@@ -2938,61 +3488,228 @@ function salvarConfigNegocio(form) {
   avisar('Configurações salvas');
 }
 
-function trocarSenhaConta(form) {
+async function trocarSenhaConta(form) {
   const conta = contaDaSessao();
   if (!conta) return;
   const atual = String(form.atual.value || '');
   const nova = String(form.nova.value || '');
   const confirma = String(form.confirma.value || '');
-  if (hashSenha(atual) !== conta.senhaHash) {
+  const chave = chaveTentativa('senha-painel', conta.papel + ':' + conta.usuario);
+  const bloqueio = minutosBloqueado(chave);
+  if (bloqueio > 0) {
+    avisar('Muitas tentativas. Tente novamente em ' + bloqueio + ' minuto(s).', 'erro');
+    return;
+  }
+  const confere = await verificarSenha(atual, conta);
+  if (!confere) {
+    registrarFalha(chave);
+    registrarEvento('login_falha', 'senha-painel:' + conta.usuario);
     avisar('Senha atual incorreta.', 'erro');
     form.atual.focus();
     return;
   }
-  if (nova.length < 4) { avisar('A nova senha precisa ter pelo menos 4 caracteres.', 'erro'); form.nova.focus(); return; }
+  const problema = avaliarSenha(nova, { nome: conta.nome, email: conta.email });
+  if (problema) { avisar(problema, 'erro'); form.nova.focus(); return; }
   if (nova !== confirma) { avisar('A confirmação não confere.', 'erro'); form.confirma.focus(); return; }
-  conta.senhaHash = hashSenha(nova);
-  conta.senhaPadrao = false;
-  conta.atualizadoEm = new Date().toISOString();
-  salvar(conta.papel === 'admin' ? CHAVES.adminConfig : CHAVES.gerenteConfig, conta);
+  if (nova === atual) { avisar('Escolha uma senha diferente da atual.', 'erro'); form.nova.focus(); return; }
+
+  limparFalhas([chave]);
+  conta.senha = await criarRegistroSenha(nova);
+  delete conta.senhaHash;
+  conta.precisaTrocarSenha = false;
+  conta.precisaConfigurar = false;
+  conta.senhaAtualizadaEm = agoraISO();
+  conta.atualizadoEm = agoraISO();
+  salvarConta(conta);
+  registrarEvento('senha_alterada', 'painel:' + conta.usuario);
   form.reset();
   renderGerente();
   avisar('Senha atualizada');
 }
 
-function salvarAcessoGerente(form) {
-  if (!sessaoGerente || sessaoGerente.papel !== 'admin') return;
-  const usuario = String(form.usuario.value || '').trim().toLowerCase();
+async function salvarAcessoGerente(form) {
+  if (!adminValido()) return;
+  const usuario = limparTexto(form.usuario.value, 40).toLowerCase();
   const senha = String(form.senha.value || '');
   const ativo = !!form.ativo.checked;
-  if (usuario.length < 3) { avisar('O usuário do gerente precisa ter pelo menos 3 caracteres.', 'erro'); form.usuario.focus(); return; }
+  if (!/^[a-z0-9._-]{3,40}$/.test(usuario)) {
+    avisar('Use de 3 a 40 caracteres: letras, números, ponto, hífen ou sublinhado.', 'erro');
+    form.usuario.focus();
+    return;
+  }
   if (usuario === String(configAdmin.usuario).toLowerCase()) { avisar('Escolha um usuário diferente do administrador.', 'erro'); form.usuario.focus(); return; }
-  if (senha && senha.length < 4) { avisar('A senha do gerente precisa ter pelo menos 4 caracteres.', 'erro'); form.senha.focus(); return; }
+  if (senha) {
+    const problema = avaliarSenha(senha, { nome: configGerente.nome, email: configGerente.email });
+    if (problema) { avisar(problema, 'erro'); form.senha.focus(); return; }
+  } else if (ativo && !contaTemSenha(configGerente)) {
+    avisar('Defina uma senha para ativar o acesso do gerente.', 'erro');
+    form.senha.focus();
+    return;
+  }
 
   configGerente.usuario = usuario;
   configGerente.ativo = ativo;
   if (senha) {
-    configGerente.senhaHash = hashSenha(senha);
-    configGerente.senhaPadrao = false;
+    configGerente.senha = await criarRegistroSenha(senha);
+    delete configGerente.senhaHash;
+    configGerente.precisaTrocarSenha = false;
+    configGerente.precisaConfigurar = false;
+    configGerente.senhaAtualizadaEm = agoraISO();
   }
-  configGerente.atualizadoEm = new Date().toISOString();
+  configGerente.atualizadoEm = agoraISO();
   salvar(CHAVES.gerenteConfig, configGerente);
+  registrarEvento('gerente_atualizado', 'usuario:' + usuario + (ativo ? ' ativo' : ' inativo'));
   form.senha.value = '';
   renderGerente();
   avisar(ativo ? 'Acesso do gerente salvo' : 'Acesso do gerente desativado');
 }
 
+async function criarAcessoAdmin(form) {
+  garantirContas();
+  if (configAdmin && contaTemSenha(configAdmin) && !configAdmin.precisaConfigurar) {
+    avisar('O acesso do dono já está configurado.', 'erro');
+    return;
+  }
+  const usuario = limparTexto(form.usuario.value, 40).toLowerCase();
+  const nome = limparTexto(form.nome.value, 60);
+  const senha = String(form.senha.value || '');
+  const senha2 = String(form.senha2.value || '');
+  if (!/^[a-z0-9._-]{3,40}$/.test(usuario)) {
+    avisar('Use de 3 a 40 caracteres: letras, números, ponto, hífen ou sublinhado.', 'erro');
+    form.usuario.focus();
+    return;
+  }
+  if (nome.length < 2) { avisar('Informe o nome exibido do dono.', 'erro'); form.nome.focus(); return; }
+  if (configGerente && configGerente.ativo !== false
+    && String(configGerente.usuario || '').toLowerCase() === usuario) {
+    avisar('Este usuário já é do gerente. Escolha outro para o dono.', 'erro');
+    form.usuario.focus();
+    return;
+  }
+  const problema = avaliarSenha(senha, { nome: nome });
+  if (problema) { avisar(problema, 'erro'); form.senha.focus(); return; }
+  if (senha !== senha2) { avisar('A confirmação da senha não confere.', 'erro'); form.senha2.focus(); return; }
+
+  configAdmin = {
+    papel: 'admin',
+    usuario: usuario,
+    nome: nome,
+    senha: await criarRegistroSenha(senha),
+    precisaConfigurar: false,
+    precisaTrocarSenha: false,
+    ativo: true,
+    criadoEm: agoraISO()
+  };
+  salvar(CHAVES.adminConfig, configAdmin);
+  registrarEvento('admin_criado', 'usuario:' + usuario);
+  form.reset();
+  renderGerente();
+  avisar('Acesso do dono criado. Use o usuário ' + usuario + ' para entrar.');
+}
+
+async function salvarTrocaObrigatoria(form) {
+  const pendente = contaTrocaPendente();
+  if (!pendente) { renderTrocaObrigatoria(); return; }
+  const nova = String(form.nova.value || '');
+  const confirma = String(form.confirma.value || '');
+  const problema = avaliarSenha(nova, pendente.conta);
+  if (problema) { avisar(problema, 'erro'); form.nova.focus(); return; }
+  if (nova !== confirma) { avisar('A confirmação não confere.', 'erro'); form.confirma.focus(); return; }
+
+  pendente.conta.senha = await criarRegistroSenha(nova);
+  delete pendente.conta.senhaHash;
+  pendente.conta.precisaTrocarSenha = false;
+  pendente.conta.precisaConfigurar = false;
+  pendente.conta.senhaAtualizadaEm = agoraISO();
+  if (pendente.tipo === 'conta') salvarConta(pendente.conta);
+  else salvar(CHAVES.clientes, clientes);
+  registrarEvento('senha_alterada', (pendente.tipo === 'cliente' ? 'cliente:' : 'painel:') + (pendente.conta.usuario || pendente.conta.id));
+  form.reset();
+  renderTrocaObrigatoria();
+  renderGerente();
+  renderCliente();
+  avisar('Senha forte salva. Acesso liberado!');
+}
+
+function sairTroca() {
+  limparSessao();
+  sessaoCliente = null;
+  salvar(CHAVES.clienteSessao, null);
+  renderTrocaObrigatoria();
+  renderGerente();
+  renderCliente();
+  avisar('Saia e entre novamente quando quiser trocar a senha.');
+}
+
+function renderSegurancaAdmin() {
+  const alvo = $('#admin-seguranca-log');
+  if (!alvo) return;
+  const estado = lerSeguranca();
+  const eventos = estado.eventos.slice(-12).reverse();
+  if (!eventos.length) {
+    alvo.innerHTML = '<p class="aviso" style="margin-top:0">Nenhum evento registrado ainda.</p>';
+    return;
+  }
+  alvo.innerHTML = '<div class="seguranca-lista">' + eventos.map((evento) => {
+    const tipo = String(evento.tipo || '');
+    const classe = tipo === 'login_falha' ? ' tipo-falha' : (tipo === 'bloqueio' ? ' tipo-bloqueio' : '');
+    return '<div class="seguranca-evento' + classe + '">'
+      + '<b>' + esc(rotuloEventoSeguranca(tipo)) + '</b>'
+      + '<small>' + esc(formatarDataHora(evento.em)) + '</small>'
+      + (evento.detalhe ? '<span>' + esc(evento.detalhe) + '</span>' : '')
+      + '</div>';
+  }).join('') + '</div>';
+}
+
+function limparSeguranca() {
+  if (!adminValido()) return;
+  if (!window.confirm('Limpar o histórico de segurança e os bloqueios de tentativas deste dispositivo?')) return;
+  salvarSeguranca({ tentativas: {}, eventos: [{ tipo: 'historico_limpo', detalhe: 'pelo administrador', em: agoraISO() }] });
+  renderSegurancaAdmin();
+  avisar('Histórico de segurança limpo');
+}
+
+function semCredenciais(conta) {
+  if (!conta || typeof conta !== 'object') return conta;
+  const copia = Object.assign({}, conta);
+  delete copia.senha;
+  delete copia.senhaHash;
+  delete copia.precisaTrocarSenha;
+  return copia;
+}
+
 function exportarBackup() {
+  if (!adminValido()) return;
   const dados = {};
   Object.entries(CHAVES).forEach(([nome, chave]) => {
-    if (nome === 'sessao') return; // não exporta a sessão ativa
+    // Nunca exporta sessões ativas, hashes de senha ou histórico de segurança.
+    if (nome === 'sessao' || nome === 'clienteSessao' || nome === 'seguranca') return;
     const valor = localStorage.getItem(chave);
-    if (valor !== null) dados[chave] = valor;
+    if (valor === null) return;
+    if (nome === 'clientes') {
+      try {
+        const lista = JSON.parse(valor);
+        dados[chave] = JSON.stringify(Array.isArray(lista) ? lista.map(semCredenciais) : []);
+      } catch (e) { /* ignora dado inválido */ }
+      return;
+    }
+    if (nome === 'adminConfig' || nome === 'gerenteConfig') {
+      try {
+        const conta = JSON.parse(valor);
+        const limpa = semCredenciais(conta);
+        limpa.precisaConfigurar = true;
+        if (nome === 'gerenteConfig') limpa.ativo = false;
+        dados[chave] = JSON.stringify(limpa);
+      } catch (e) { /* ignora dado inválido */ }
+      return;
+    }
+    dados[chave] = valor;
   });
   const conteudo = JSON.stringify({
     app: 'Aluga Fácil',
     versao: VERSAO_APP,
-    exportadoEm: new Date().toISOString(),
+    exportadoEm: agoraISO(),
+    aviso: 'Backup sem senhas e sem sessões. Ao restaurar, será preciso criar novas senhas.',
     dados: dados
   }, null, 2);
   const blob = new Blob([conteudo], { type: 'application/json' });
@@ -3004,12 +3721,19 @@ function exportarBackup() {
   link.click();
   link.remove();
   setTimeout(() => URL.revokeObjectURL(url), 1500);
-  avisar('Backup exportado');
+  registrarEvento('backup_exportado', 'sem credenciais');
+  avisar('Backup exportado (sem senhas)');
 }
 
 function limparTodosDados() {
-  if (!sessaoGerente || sessaoGerente.papel !== 'admin') return;
-  if (!window.confirm('Apagar TODOS os dados deste dispositivo (reservas, vendas, anúncios, favoritos e senhas)? Não dá para desfazer.')) return;
+  if (!adminValido()) return;
+  const resposta = window.prompt('Isto apaga TODOS os dados deste dispositivo, inclusive senhas. Digite APAGAR para confirmar.');
+  if (resposta === null) return;
+  if (String(resposta).trim().toUpperCase() !== 'APAGAR') {
+    avisar('Confirmação incorreta. Nada foi apagado.', 'erro');
+    return;
+  }
+  registrarEvento('dados_apagados', 'pelo administrador');
   Object.values(CHAVES).forEach((chave) => localStorage.removeItem(chave));
   location.reload();
 }
@@ -3364,6 +4088,8 @@ function ligarEventos() {
       if (acao === 'remover-exemplo') { removerExemplo(); return; }
       if (acao === 'exportar-backup') { exportarBackup(); return; }
       if (acao === 'limpar-dados') { limparTodosDados(); return; }
+      if (acao === 'limpar-seguranca') { limparSeguranca(); return; }
+      if (acao === 'sair-troca') { sairTroca(); return; }
       if (acao === 'sair-cliente') { sairCliente(); return; }
     }
 
@@ -3415,15 +4141,17 @@ function ligarEventos() {
   document.addEventListener('submit', (e) => {
     if (e.target.id === 'form-reserva') { e.preventDefault(); agendarReserva(e.target); }
     if (e.target.id === 'form-anuncio') { e.preventDefault(); publicarAnuncio(e.target); }
-    if (e.target.id === 'form-login') { e.preventDefault(); entrarGerente(e.target); }
+    if (e.target.id === 'form-login') { e.preventDefault(); rodar(entrarGerente, e.target); }
+    if (e.target.id === 'form-admin-setup') { e.preventDefault(); rodar(criarAcessoAdmin, e.target); }
     if (e.target.id === 'form-config-gerente') { e.preventDefault(); salvarConfigNegocio(e.target); }
-    if (e.target.id === 'form-senha') { e.preventDefault(); trocarSenhaConta(e.target); }
-    if (e.target.id === 'form-admin-gerente') { e.preventDefault(); salvarAcessoGerente(e.target); }
+    if (e.target.id === 'form-senha') { e.preventDefault(); rodar(trocarSenhaConta, e.target); }
+    if (e.target.id === 'form-admin-gerente') { e.preventDefault(); rodar(salvarAcessoGerente, e.target); }
     if (e.target.id === 'form-venda') { e.preventDefault(); registrarVenda(e.target); }
-    if (e.target.id === 'form-cadastro') { e.preventDefault(); criarContaCliente(e.target); }
-    if (e.target.id === 'form-login-cliente') { e.preventDefault(); entrarCliente(e.target); }
+    if (e.target.id === 'form-cadastro') { e.preventDefault(); rodar(criarContaCliente, e.target); }
+    if (e.target.id === 'form-login-cliente') { e.preventDefault(); rodar(entrarCliente, e.target); }
     if (e.target.id === 'form-perfil') { e.preventDefault(); salvarPerfilCliente(e.target); }
-    if (e.target.id === 'form-senha-cliente') { e.preventDefault(); trocarSenhaCliente(e.target); }
+    if (e.target.id === 'form-senha-cliente') { e.preventDefault(); rodar(trocarSenhaCliente, e.target); }
+    if (e.target.id === 'form-troca-obrigatoria') { e.preventDefault(); rodar(salvarTrocaObrigatoria, e.target); }
   });
 
   document.addEventListener('input', (e) => {
@@ -3513,6 +4241,7 @@ function iniciar() {
   atualizarPontos();
   garantirContas();
   renderGerente();
+  renderTrocaObrigatoria();
   ligarEventos();
 
   const casamento = location.hash.match(/^#maquina=(.+)$/);

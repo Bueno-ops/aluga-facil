@@ -107,27 +107,31 @@ O app é **local-first**: não há backend nem envio de dados para a internet. T
 | `aluga:reservas` | reservas e vendas (máquina, data, hora, contato, valores, status) |
 | `aluga:anuncios` | anúncios criados por você |
 | `aluga:tema` | `claro` ou `escuro` |
-| `aluga:gerente` | sessão ativa (validade de 12 h) |
-| `aluga:gerente-config` | usuário, nome, hash da senha e situação do gerente |
-| `aluga:admin-config` | usuário, nome e hash da senha do dono (admin) |
+| `aluga:gerente` | sessão ativa do painel (token aleatório, validade de 12 h e 2 h de inatividade) |
+| `aluga:gerente-config` | usuário, nome, hash PBKDF2 da senha e situação do gerente |
+| `aluga:admin-config` | usuário, nome e hash PBKDF2 da senha do dono (admin) |
 | `aluga:negocio` | custo operacional (%) usado no lucro estimado |
-| `aluga:clientes` | contas de clientes: tipo (`pf`/`pj`), nome/razão social, WhatsApp, e-mail, cidade, CNPJ e dados da empresa, além do hash da senha |
-| `aluga:cliente-sessao` | sessão do cliente (validade de 30 dias) |
+| `aluga:clientes` | contas de clientes: tipo (`pf`/`pj`), nome/razão social, WhatsApp, e-mail, cidade, CNPJ e dados da empresa, além do hash PBKDF2 da senha |
+| `aluga:cliente-sessao` | sessão do cliente (token aleatório, validade de 7 dias e 7 dias de inatividade) |
 | `aluga:painel-modo` | último modo aberto na aba Painel (`cliente` ou `empresa`) |
+| `aluga:seguranca` | histórico local de logins, falhas, bloqueios e contadores de tentativas |
 
 ### Acessos: dono (admin) e gerente
 
-Abra a aba **Painel** na barra inferior e entre com um dos acessos:
+Abra a aba **Painel** na barra inferior. **Não existem mais senhas padrão**: no primeiro acesso o app pede para criar o usuário e a senha do dono. Depois, o dono cria ou libera o acesso do gerente.
 
-| Acesso | Usuário | Senha inicial | O que pode fazer |
-|---|---|---|---|
-| **Dono / Administrador** | `admin` | `admin123` | Tudo: painel completo, configurações do negócio, controle do acesso do gerente, backup e limpeza dos dados |
-| **Gerente** | `gerente` | `gerente123` | Painel, vendas/reservas, dados de exemplo e troca da própria senha |
+| Acesso | Como entrar | O que pode fazer |
+|---|---|---|
+| **Dono / Administrador** | usuário e senha definidos no primeiro acesso | Tudo: painel completo, configurações do negócio, controle do acesso do gerente, histórico de segurança, backup e limpeza dos dados |
+| **Gerente** | usuário e senha definidos pelo dono | Painel, vendas/reservas, dados de exemplo e troca da própria senha |
 
-- Troque as senhas em **Segurança** logo depois do primeiro acesso.
+- As contas antigas com as senhas `admin123` / `gerente123` são **invalidadas automaticamente** na atualização: o dono precisa criar uma senha nova e o gerente fica desativado até o dono redefinir.
+- Contas antigas com senha própria continuam entrando uma vez com a senha atual e são **obrigadas a criar uma senha nova** (hash migrado para PBKDF2).
+- A senha precisa ter **8 a 128 caracteres, com pelo menos uma letra e um número**, e não pode ser igual ao nome/usuário nem estar em uma lista de senhas comuns.
+- **5 tentativas erradas** bloqueiam o acesso por **15 minutos**; novas falhas dobram o tempo até o limite de 60 minutos.
 - O admin pode redefinir a senha do gerente e **bloquear/liberar** o acesso dele em **Administração do acesso**.
-- O admin pode **exportar um backup** em JSON e **apagar todos os dados** do dispositivo.
-- A sessão dura 12 horas; o botão **Sair** encerra na hora.
+- O admin pode **exportar um backup** em JSON (sem senhas e sem sessões) e **apagar todos os dados** do dispositivo digitando `APAGAR` para confirmar.
+- A sessão do painel dura 12 horas e expira após 2 horas sem atividade; a do cliente dura 7 dias. O botão **Sair** encerra na hora.
 - O painel mostra apenas os pedidos **deste dispositivo** (o app é local-first). Para acompanhar o negócio no celular e no computador ao mesmo tempo seria necessário um backend — não existe sincronização.
 
 ### Conta do cliente
@@ -140,7 +144,7 @@ Na aba **Painel**, a opção **Sou cliente** abre o cadastro:
 4. Depois é só entrar com **e-mail, WhatsApp ou CNPJ** e senha.
 5. Em **Meus dados** o cliente edita nome/razão social, WhatsApp, e-mail e cidade. Para empresa, o cartão com os dados do CNPJ aparece no topo do painel.
 6. Em **Minhas reservas** aparecem as reservas agendadas e concluídas da conta, com opção de cancelar.
-7. A sessão do cliente dura **30 dias**; o botão **Sair** encerra na hora.
+7. A sessão do cliente dura **7 dias** (renovada enquanto ele usa o app); o botão **Sair** encerra na hora.
 8. O dono vê todos os clientes cadastrados em **Clientes cadastrados**, no painel da empresa, com selo **PJ** e CNPJ para empresas.
 
 ### Cadastro de empresa (CNPJ)
@@ -164,11 +168,37 @@ localStorage.clear();
 location.reload();
 ```
 
+## Segurança (v13)
+
+O app não tem servidor: os dados e as contas ficam no `localStorage` **daquele dispositivo**. A v13 reforça a proteção local contra acesso casual e contra erros comuns, mas **não transforma o app em um sistema 100% seguro** — isso só existiria com backend e autenticação no servidor.
+
+O que foi implementado:
+
+- **Senhas com PBKDF2-SHA-256** (310.000 iterações) e salt aleatório por conta. A senha em texto puro nunca é salva.
+- **Comparação em tempo constante** para reduzir ataques de temporização.
+- **Fim das senhas padrão**: o primeiro acesso cria o dono; o gerente só entra depois que o dono define usuário e senha.
+- **Migração segura**: hashes antigos são aceitos uma única vez e a pessoa é obrigada a criar uma senha nova; as senhas padrão antigas são invalidadas.
+- **Política de senha**: 8 a 128 caracteres, com letra e número, sem repetir nome/usuário e sem senhas óbvias.
+- **Bloqueio por tentativas**: 5 erros → 15 minutos; novas rodadas dobram o tempo até 60 minutos. Vale para o painel, para o login do cliente e para a troca de senha.
+- **Sessões com token aleatório** (`crypto.getRandomValues`), expiração por tempo e por inatividade, e invalidação ao sair.
+- **Ações de dono exigem sessão válida** (não basta uma variável antiga na tela): configurações, acesso do gerente, backup, histórico e limpeza.
+- **CSP** restringindo scripts, estilos, imagens e conexões ao próprio app e às APIs de CNPJ.
+- **Sanitização de entrada e escaping de saída** nos dados exibidos, incluindo o histórico de segurança.
+- **Backup sem credenciais**: exporta reservas, vendas, anúncios, favoritos e configurações, mas remove senhas, hashes e sessões.
+- **Confirmação forte para apagar tudo**: é preciso digitar `APAGAR`.
+- **Histórico de segurança local** com logins, falhas, bloqueios, trocas de senha, backup e limpeza (sem enviar nada para a internet).
+
+### O que ainda não é possível garantir
+
+- Quem tem **acesso físico ao aparelho** ou ao navegador (DevTools) pode limpar o `localStorage`, alterar o código ou ler os dados. Use bloqueio de tela/PIN e mantenha o sistema atualizado.
+- **Não há sincronização nem recuperação de senha por e-mail**: se esquecer a senha do dono, será preciso limpar os dados do app (e perder o que não estiver em backup).
+- Um **backend com autenticação real** seria necessário para impedir invasão remota, limitar tentativas no servidor e proteger os dados de verdade.
+
 ## Atualizações e versão
 
 O app **é o mesmo** no computador e no celular — não existe um projeto separado para Android. O que roda no celular é este PWA instalado; qualquer alteração publicada chega a ele automaticamente.
 
-- A versão atual aparece no **rodapé** do app (ex.: `v12`).
+- A versão atual aparece no **rodapé** do app (ex.: `v13`).
 - Ao abrir com internet, o app procura uma versão nova. Se existir, aparece o aviso **“Nova versão disponível”** com o botão **Atualizar**.
 - Ao atualizar, favoritos, reservas, anúncios e tema **são preservados** (ficam no `localStorage`, não no cache).
 - A versão do rodapé (`VERSAO_APP` em `app.html`) deve ser igual à do `sw.js` (`CACHE`).
@@ -186,7 +216,7 @@ O app **é o mesmo** no computador e no celular — não existe um projeto separ
 
 ## Limitações (propositalmente simples)
 
-- Os logins (dono, gerente e cliente) são **proteção local do dispositivo** (hash no `localStorage`), não uma autenticação de servidor. Quem tiver acesso técnico ao aparelho pode limpar os dados.
+- Os logins (dono, gerente e cliente) são **proteção local do dispositivo** (PBKDF2 no `localStorage`), não uma autenticação de servidor. Quem tiver acesso técnico ao aparelho pode limpar ou alterar os dados — veja a seção **Segurança (v13)**.
 - Não há sincronização entre dispositivos: o painel vê só as reservas feitas/registradas naquele aparelho.
 - Os anúncios criados ficam apenas no navegador em que foram publicados.
 - As imagens das máquinas são **ilustrações SVG** geradas por tipo, para o app funcionar 100% offline e sem imagens externas.
