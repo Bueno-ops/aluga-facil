@@ -330,6 +330,33 @@ input[type=range]{width:100%;accent-color:var(--primaria);height:28px}
 .cliente-linha:last-child{border-bottom:0}
 .cliente-avatar{width:34px;height:34px;border-radius:10px;background:var(--primaria-suave);color:var(--primaria);display:grid;place-items:center;font-weight:800;font-size:.72rem;flex:none}
 .cliente-linha .rank-valor{font-size:.72rem;color:var(--texto-2);font-weight:700;text-align:right;white-space:nowrap}
+.tipo-conta{display:flex;gap:5px;padding:4px;margin:4px 0 2px;border:1px solid var(--borda);border-radius:999px;background:var(--superficie-2)}
+.tipo-conta button{flex:1;height:34px;border-radius:999px;font-size:.76rem;font-weight:800;color:var(--texto-2);transition:.15s}
+.tipo-conta button.ativo{background:var(--primaria);color:#fff}
+[data-tema="escuro"] .tipo-conta button.ativo{color:#04211f}
+.cnpj-linha{display:flex;gap:8px;align-items:stretch}
+.cnpj-linha .campo{flex:1;min-width:0}
+.cnpj-linha .btn-secundario{flex:none;height:auto;padding:0 14px;white-space:nowrap}
+.campo-dica{display:block;margin-top:5px;font-size:.72rem;line-height:1.4;color:var(--texto-2)}
+.campo-dica.ok{color:var(--primaria);font-weight:700}
+.campo-dica.erro{color:#b91c1c;font-weight:700}
+[data-tema="escuro"] .campo-dica.erro{color:#fca5a5}
+.empresa-resumo{margin:4px 0 2px;padding:12px 13px;border:1px solid var(--borda);border-radius:12px;background:var(--superficie-2);text-align:left}
+.empresa-resumo-topo{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:9px}
+.empresa-resumo-topo b{display:block;font-size:.86rem;line-height:1.3;color:var(--texto)}
+.empresa-resumo-topo small{display:block;margin-top:2px;font-size:.72rem;color:var(--texto-2);font-weight:600}
+.empresa-selo{display:inline-block;padding:2px 8px;border-radius:999px;background:var(--primaria-suave);color:var(--primaria);font-size:.58rem;font-weight:800;letter-spacing:.06em;white-space:nowrap;flex:none}
+.empresa-linhas{display:grid;gap:5px;font-size:.74rem;line-height:1.35}
+.empresa-linhas div{display:flex;justify-content:space-between;gap:12px}
+.empresa-linhas span{color:var(--texto-2);flex:none}
+.empresa-linhas b{color:var(--texto);font-weight:700;text-align:right;overflow-wrap:anywhere}
+.cliente-avatar.pj{background:#dbeafe;color:#1d4ed8}
+[data-tema="escuro"] .cliente-avatar.pj{background:rgba(59,130,246,.18);color:#93c5fd}
+.empresa-info{margin-bottom:14px;padding:12px 13px;border:1px solid var(--borda);border-radius:12px;background:var(--superficie-2)}
+.empresa-info .empresa-linhas{margin-top:8px}
+.empresa-info-topo{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.empresa-info-topo b{font-size:.84rem;line-height:1.3}
+.empresa-info-topo small{display:block;margin-top:2px;font-size:.72rem;color:var(--texto-2);font-weight:600}
 .kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px}
 @media(min-width:720px){.kpis{grid-template-columns:repeat(3,1fr)}}
 .kpi{background:var(--superficie);border:1px solid var(--borda);border-radius:14px;padding:13px;box-shadow:var(--sombra-1);min-width:0}
@@ -705,7 +732,7 @@ input[type=range]{width:100%;accent-color:var(--primaria);height:28px}
 
     <div class="painel-modos" id="painel-modos" role="group" aria-label="Tipo de acesso">
       <button type="button" data-modo-painel="cliente" class="ativo">Sou cliente</button>
-      <button type="button" data-modo-painel="empresa">Sou empresa</button>
+      <button type="button" data-modo-painel="empresa">Dono ou gerente</button>
     </div>
 
     <!-- ================= CLIENTE ================= -->
@@ -723,9 +750,26 @@ input[type=range]{width:100%;accent-color:var(--primaria);height:28px}
           </div>
 
           <form class="formulario login-form" id="form-cadastro" novalidate>
+            <div class="tipo-conta" role="group" aria-label="Tipo de conta">
+              <button type="button" data-tipo-conta="pf" class="ativo">Pessoa física</button>
+              <button type="button" data-tipo-conta="pj">Empresa (CNPJ)</button>
+            </div>
+
+            <div id="campos-pj" hidden>
+              <div class="campo-grupo">
+                <label for="cad-cnpj">CNPJ</label>
+                <div class="cnpj-linha">
+                  <input class="campo" id="cad-cnpj" name="cnpj" maxlength="18" inputmode="numeric" autocomplete="off" placeholder="00.000.000/0000-00">
+                  <button type="button" class="btn-secundario" id="btn-buscar-cnpj">Buscar</button>
+                </div>
+                <small class="campo-dica" id="cnpj-status">Digite o CNPJ que os dados da empresa são preenchidos automaticamente.</small>
+              </div>
+              <div class="empresa-resumo" id="empresa-resumo" hidden></div>
+            </div>
+
             <div class="campo-grupo">
-              <label for="cad-nome">Nome completo</label>
-              <input class="campo" id="cad-nome" name="nome" maxlength="60" autocomplete="name" placeholder="Seu nome" required>
+              <label for="cad-nome" id="label-cad-nome">Nome completo</label>
+              <input class="campo" id="cad-nome" name="nome" maxlength="80" autocomplete="name" placeholder="Seu nome" required>
             </div>
             <div class="campo-grupo">
               <label for="cad-telefone">WhatsApp</label>
@@ -737,7 +781,7 @@ input[type=range]{width:100%;accent-color:var(--primaria);height:28px}
             </div>
             <div class="campo-grupo">
               <label for="cad-cidade">Cidade</label>
-              <input class="campo" id="cad-cidade" name="cidade" maxlength="40" autocomplete="address-level2" placeholder="Sua cidade" required>
+              <input class="campo" id="cad-cidade" name="cidade" maxlength="60" autocomplete="address-level2" placeholder="Sua cidade" required>
             </div>
             <div class="form-config-linha">
               <div class="campo-grupo">
@@ -749,13 +793,13 @@ input[type=range]{width:100%;accent-color:var(--primaria);height:28px}
                 <input class="campo" id="cad-senha2" name="senha2" type="password" minlength="4" autocomplete="new-password" required>
               </div>
             </div>
-            <button class="btn-primario btn-bloco" type="submit"><svg class="ico" aria-hidden="true"><use href="#i-usuario"/></svg>Criar minha conta</button>
+            <button class="btn-primario btn-bloco" type="submit"><svg class="ico" aria-hidden="true"><use href="#i-usuario"/></svg><span id="cad-botao-texto">Criar minha conta</span></button>
           </form>
 
           <form class="formulario login-form" id="form-login-cliente" novalidate hidden>
             <div class="campo-grupo">
-              <label for="cli-ident">E-mail ou WhatsApp</label>
-              <input class="campo" id="cli-ident" name="identificador" autocomplete="username" placeholder="voce@email.com ou (11) 91234-5678" required>
+              <label for="cli-ident">E-mail, WhatsApp ou CNPJ</label>
+              <input class="campo" id="cli-ident" name="identificador" autocomplete="username" placeholder="voce@email.com, (11) 91234-5678 ou CNPJ" required>
             </div>
             <div class="campo-grupo">
               <label for="cli-senha">Senha</label>
@@ -780,13 +824,15 @@ input[type=range]{width:100%;accent-color:var(--primaria);height:28px}
 
         <div class="kpis" id="cliente-kpis"></div>
 
+        <div class="empresa-info" id="cliente-empresa" hidden></div>
+
         <div class="painel-bloco">
           <h3>Meus dados</h3>
           <form class="form-config" id="form-perfil" novalidate>
             <div class="form-config-linha">
               <div class="campo-grupo">
-                <label for="perfil-nome">Nome completo</label>
-                <input class="campo" id="perfil-nome" name="nome" maxlength="60" required>
+                <label for="perfil-nome" id="label-perfil-nome">Nome completo</label>
+                <input class="campo" id="perfil-nome" name="nome" maxlength="80" required>
               </div>
               <div class="campo-grupo">
                 <label for="perfil-telefone">WhatsApp</label>
@@ -1039,7 +1085,7 @@ input[type=range]{width:100%;accent-color:var(--primaria);height:28px}
 
   <footer class="rodape">
     <b>Aluga Fácil</b> — PWA de aluguel de máquinas e equipamentos · dados salvos no seu dispositivo
-    <span class="versao" id="versao-app">v11</span>
+    <span class="versao" id="versao-app">v12</span>
     <br><a href="instalar.html">Instalar no celular (QR code)</a>
   </footer>
 </main>
@@ -1088,7 +1134,7 @@ const CHAVES = {
 };
 
 // Versão exibida no rodapé — mantenha igual à versão do sw.js.
-const VERSAO_APP = 'v11';
+const VERSAO_APP = 'v12';
 
 // Contas locais (não há servidor: é uma proteção do dispositivo).
 // O admin é o dono: vê tudo e controla o acesso do gerente.
@@ -1433,6 +1479,9 @@ if (!Array.isArray(clientes)) clientes = [];
 let sessaoCliente = ler(CHAVES.clienteSessao, null);
 let modoPainel = ler(CHAVES.modoPainel, null) === 'empresa' ? 'empresa' : 'cliente';
 let modoClienteForm = 'cadastro';
+let tipoContaCliente = 'pf';
+let cnpjConsultado = null;
+let consultandoCnpj = false;
 let periodoGerente = '30';
 
 function todosEquipamentos() {
@@ -1679,7 +1728,7 @@ function abrirDetalhe(id, opcoes) {
   const hoje = new Date().toISOString().slice(0, 10);
   const recente = reservaMaisRecente() || {};
   const clienteLogado = clienteAtual();
-  const nomePadrao = clienteLogado ? clienteLogado.nome : (recente.nome || '');
+  const nomePadrao = clienteLogado ? nomeExibicaoCliente(clienteLogado) : (recente.nome || '');
   const telPadrao = clienteLogado ? clienteLogado.telefone : (recente.telefone || '');
 
   const specs = [];
@@ -2321,6 +2370,230 @@ function normalizarEmail(valor) {
   return String(valor || '').trim().toLowerCase();
 }
 
+/* ---------- CNPJ / dados da empresa ---------- */
+function formatarCnpj(valor) {
+  const d = soDigitos(valor).slice(0, 14);
+  if (d.length <= 2) return d;
+  if (d.length <= 5) return d.slice(0, 2) + '.' + d.slice(2);
+  if (d.length <= 8) return d.slice(0, 2) + '.' + d.slice(2, 5) + '.' + d.slice(5);
+  if (d.length <= 12) return d.slice(0, 2) + '.' + d.slice(2, 5) + '.' + d.slice(5, 8) + '/' + d.slice(8);
+  return d.slice(0, 2) + '.' + d.slice(2, 5) + '.' + d.slice(5, 8) + '/' + d.slice(8, 12) + '-' + d.slice(12);
+}
+
+function validarCnpj(valor) {
+  const cnpj = soDigitos(valor);
+  if (cnpj.length !== 14) return false;
+  if (/^(\d)\1{13}$/.test(cnpj)) return false;
+  const digito = (base) => {
+    let peso = base.length - 7;
+    let soma = 0;
+    for (let i = 0; i < base.length; i++) {
+      soma += Number(base[i]) * peso--;
+      if (peso < 2) peso = 9;
+    }
+    const resto = soma % 11;
+    return resto < 2 ? 0 : 11 - resto;
+  };
+  const d1 = digito(cnpj.slice(0, 12));
+  const d2 = digito(cnpj.slice(0, 12) + d1);
+  return cnpj === cnpj.slice(0, 12) + d1 + d2;
+}
+
+function normalizarEmpresa(origem, dados) {
+  if (!dados || typeof dados !== 'object') return null;
+  if (origem === 'publica') {
+    const est = dados.estabelecimento || {};
+    const cidade = est.cidade || {};
+    const estado = est.estado || {};
+    const atividade = est.atividade_principal || {};
+    return {
+      cnpj: '',
+      razaoSocial: String(dados.razao_social || '').trim(),
+      nomeFantasia: String(est.nome_fantasia || '').trim(),
+      situacao: String(est.situacao_cadastral || '').trim(),
+      cnae: String(atividade.descricao || '').trim(),
+      naturezaJuridica: String((dados.natureza_juridica && dados.natureza_juridica.descricao) || '').trim(),
+      porte: String((dados.porte && dados.porte.descricao) || '').trim(),
+      logradouro: [est.tipo_logradouro, est.logradouro, est.numero].filter(Boolean).join(' ').trim(),
+      complemento: String(est.complemento || '').trim(),
+      bairro: String(est.bairro || '').trim(),
+      municipio: String(cidade.nome || '').trim(),
+      uf: String(estado.sigla || '').trim(),
+      cep: String(est.cep || '').replace(/\D/g, ''),
+      telefone: (String(est.ddd1 || '') + String(est.telefone1 || '')).replace(/\D/g, ''),
+      email: String(est.email || '').trim().toLowerCase()
+    };
+  }
+  return {
+    cnpj: String(dados.cnpj || '').replace(/\D/g, ''),
+    razaoSocial: String(dados.razao_social || '').trim(),
+    nomeFantasia: String(dados.nome_fantasia || '').trim(),
+    situacao: String(dados.descricao_situacao_cadastral || '').trim(),
+    cnae: String(dados.cnae_fiscal_descricao || '').trim(),
+    naturezaJuridica: String(dados.natureza_juridica || '').trim(),
+    porte: String(dados.porte || '').trim(),
+    logradouro: [dados.logradouro, dados.numero].filter(Boolean).join(', ').trim(),
+    complemento: String(dados.complemento || '').trim(),
+    bairro: String(dados.bairro || '').trim(),
+    municipio: String(dados.municipio || '').trim(),
+    uf: String(dados.uf || '').trim(),
+    cep: String(dados.cep || '').replace(/\D/g, ''),
+    telefone: String(dados.ddd_telefone_1 || '').replace(/\D/g, ''),
+    email: String(dados.email || '').trim().toLowerCase()
+  };
+}
+
+function nomeExibicaoCliente(cliente) {
+  if (!cliente) return '';
+  if (cliente.tipo === 'pj') return cliente.nomeFantasia || cliente.nome || '';
+  return cliente.nome || '';
+}
+
+function primeiroNomeCliente(cliente) {
+  const nome = nomeExibicaoCliente(cliente);
+  return nome ? nome.split(/\s+/)[0] : '';
+}
+
+function renderTipoConta() {
+  const pj = tipoContaCliente === 'pj';
+  $$('#form-cadastro [data-tipo-conta]').forEach((btn) => btn.classList.toggle('ativo', btn.dataset.tipoConta === tipoContaCliente));
+  const camposPj = $('#campos-pj');
+  if (camposPj) camposPj.hidden = !pj;
+  const label = $('#label-cad-nome');
+  if (label) label.textContent = pj ? 'Razão social' : 'Nome completo';
+  const nome = $('#cad-nome');
+  if (nome) nome.placeholder = pj ? 'Razão social da empresa' : 'Seu nome';
+  const botao = $('#cad-botao-texto');
+  if (botao) botao.textContent = pj ? 'Criar conta da empresa' : 'Criar minha conta';
+  if (!pj) {
+    cnpjConsultado = null;
+    const cnpj = $('#cad-cnpj');
+    if (cnpj) cnpj.value = '';
+    const resumo = $('#empresa-resumo');
+    if (resumo) { resumo.hidden = true; resumo.innerHTML = ''; }
+    const status = $('#cnpj-status');
+    if (status) {
+      status.textContent = 'Digite o CNPJ que os dados da empresa são preenchidos automaticamente.';
+      status.className = 'campo-dica';
+    }
+  }
+}
+
+function renderEmpresaResumo(e) {
+  const resumo = $('#empresa-resumo');
+  if (!resumo || !e) return;
+  const endereco = [e.logradouro, e.bairro].filter(Boolean).join(' - ');
+  const linhas = [
+    ['Situação', e.situacao],
+    ['Atividade', e.cnae],
+    ['Endereço', endereco],
+    ['Cidade', [e.municipio, e.uf].filter(Boolean).join('/')],
+    ['Porte', e.porte],
+    ['Telefone', e.telefone ? mascaraTelefone(e.telefone) : ''],
+    ['E-mail', e.email]
+  ].filter((item) => item[1]);
+  resumo.innerHTML = '<div class="empresa-resumo-topo"><div><b>' + esc(e.razaoSocial) + '</b>'
+    + (e.nomeFantasia ? '<small>' + esc(e.nomeFantasia) + '</small>' : '')
+    + '</div><span class="empresa-selo">CNPJ ' + esc(formatarCnpj(e.cnpj)) + '</span></div>'
+    + '<div class="empresa-linhas">' + linhas.map((item) => '<div><span>' + esc(item[0]) + '</span><b>' + esc(item[1]) + '</b></div>').join('') + '</div>';
+  resumo.hidden = false;
+}
+
+function preencherDadosEmpresa(e) {
+  const form = $('#form-cadastro');
+  if (!form || !e) return;
+  if (e.razaoSocial) form.nome.value = e.razaoSocial;
+  if (e.email) form.email.value = e.email;
+  if (e.telefone && e.telefone.length >= 10) form.telefone.value = mascaraTelefone(e.telefone);
+  const cidade = [e.municipio, e.uf].filter(Boolean).join('/');
+  if (cidade) form.cidade.value = cidade;
+}
+
+async function consultarCnpj(opcoes) {
+  opcoes = opcoes || {};
+  const input = $('#cad-cnpj');
+  if (!input) return;
+  const digitos = soDigitos(input.value);
+  const status = $('#cnpj-status');
+  const btn = $('#btn-buscar-cnpj');
+  const definirStatus = (texto, classe) => {
+    if (!status) return;
+    status.textContent = texto;
+    status.className = 'campo-dica' + (classe ? ' ' + classe : '');
+  };
+
+  if (!validarCnpj(digitos)) {
+    definirStatus('CNPJ inválido. Confira os 14 números.', 'erro');
+    return;
+  }
+  if (consultandoCnpj) return;
+
+  consultandoCnpj = true;
+  if (btn) { btn.disabled = true; btn.textContent = 'Buscando...'; }
+  definirStatus('Consultando os dados da empresa...', '');
+
+  const fontes = [
+    { tipo: 'brasilapi', url: 'https://brasilapi.com.br/api/cnpj/v1/' + digitos },
+    { tipo: 'publica', url: 'https://publica.cnpj.ws/cnpj/' + digitos }
+  ];
+  let empresa = null;
+  for (const fonte of fontes) {
+    try {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), 9000);
+      const resposta = await fetch(fonte.url, { signal: controller.signal });
+      clearTimeout(timer);
+      if (!resposta.ok) throw new Error('HTTP ' + resposta.status);
+      const dados = await resposta.json();
+      const normalizada = normalizarEmpresa(fonte.tipo, dados);
+      if (!normalizada || !normalizada.razaoSocial) throw new Error('Resposta sem razão social');
+      normalizada.cnpj = digitos;
+      empresa = normalizada;
+      break;
+    } catch (erro) {
+      // tenta a próxima fonte
+    }
+  }
+
+  consultandoCnpj = false;
+  if (btn) { btn.disabled = false; btn.textContent = 'Buscar'; }
+
+  // Ignora resposta atrasada se o CNPJ do campo já mudou (ou o tipo voltou para PF).
+  if (tipoContaCliente !== 'pj' || soDigitos(input.value) !== digitos) return;
+
+  if (!empresa) {
+    cnpjConsultado = null;
+    const resumo = $('#empresa-resumo');
+    if (resumo) { resumo.hidden = true; resumo.innerHTML = ''; }
+    definirStatus('Não foi possível consultar agora. Preencha os dados manualmente ou tente de novo.', 'erro');
+    if (!opcoes.silencioso) avisar('Consulta de CNPJ indisponível. Preencha os dados manualmente.', 'erro');
+    return;
+  }
+
+  cnpjConsultado = { cnpj: digitos, empresa: empresa };
+  preencherDadosEmpresa(empresa);
+  renderEmpresaResumo(empresa);
+  definirStatus('Dados da empresa carregados. Confira e crie a conta.', 'ok');
+  avisar('Empresa encontrada: ' + (empresa.nomeFantasia || empresa.razaoSocial));
+}
+
+function cartaoEmpresaCliente(cliente) {
+  const e = cliente.empresa || {};
+  const linhas = [
+    ['CNPJ', formatarCnpj(cliente.cnpj)],
+    ['Situação', e.situacao],
+    ['Atividade', e.cnae],
+    ['Endereço', [e.logradouro, e.bairro].filter(Boolean).join(' - ')],
+    ['Cidade', [e.municipio, e.uf].filter(Boolean).join('/')],
+    ['Telefone', cliente.telefone],
+    ['E-mail', cliente.email]
+  ].filter((item) => item[1]);
+  return '<div class="empresa-info-topo"><div><b>' + esc(cliente.nome) + '</b>'
+    + (cliente.nomeFantasia ? '<small>' + esc(cliente.nomeFantasia) + '</small>' : '')
+    + '</div><span class="empresa-selo">PJ</span></div>'
+    + '<div class="empresa-linhas">' + linhas.map((item) => '<div><span>' + esc(item[0]) + '</span><b>' + esc(item[1]) + '</b></div>').join('') + '</div>';
+}
+
 function clienteAtual() {
   if (!sessaoCliente || !sessaoCliente.clienteId) return null;
   if (sessaoCliente.expira && new Date(sessaoCliente.expira).getTime() <= Date.now()) {
@@ -2352,6 +2625,7 @@ function renderModoClienteForm() {
   const entrar = $('#form-login-cliente');
   if (cadastro) cadastro.hidden = modoClienteForm !== 'cadastro';
   if (entrar) entrar.hidden = modoClienteForm !== 'entrar';
+  if (modoClienteForm === 'cadastro') renderTipoConta();
 }
 
 function cartaoReservaCliente(v) {
@@ -2380,13 +2654,30 @@ function renderCliente() {
   painel.hidden = !cliente;
   if (!cliente) return;
 
-  $('#cliente-nome').textContent = cliente.nome;
+  $('#cliente-nome').textContent = nomeExibicaoCliente(cliente);
   const minhas = reservasDoCliente(cliente).filter((v) => statusReserva(v) !== 'cancelada');
   const concluidas = minhas.filter((v) => statusReserva(v) === 'concluida');
   const agendadas = minhas.filter((v) => statusReserva(v) === 'confirmada');
   const total = minhas.reduce((soma, v) => soma + reservaValores(v).receita, 0);
 
-  $('#cliente-resumo').textContent = (cliente.cidade ? cliente.cidade + ' · ' : '')
+  const empresaCard = $('#cliente-empresa');
+  if (empresaCard) {
+    if (cliente.tipo === 'pj') {
+      empresaCard.hidden = false;
+      empresaCard.innerHTML = cartaoEmpresaCliente(cliente);
+    } else {
+      empresaCard.hidden = true;
+      empresaCard.innerHTML = '';
+    }
+  }
+
+  const labelPerfil = $('#label-perfil-nome');
+  if (labelPerfil) labelPerfil.textContent = cliente.tipo === 'pj' ? 'Razão social' : 'Nome completo';
+
+  const identificacao = cliente.tipo === 'pj' && cliente.cnpj
+    ? 'CNPJ ' + formatarCnpj(cliente.cnpj)
+    : (cliente.cidade || '');
+  $('#cliente-resumo').textContent = (identificacao ? identificacao + ' · ' : '')
     + (minhas.length ? minhas.length + (minhas.length === 1 ? ' pedido' : ' pedidos') : 'nenhum pedido ainda');
 
   $('#cliente-kpis').innerHTML = [
@@ -2414,18 +2705,28 @@ function renderCliente() {
 }
 
 function criarContaCliente(form) {
+  const pj = tipoContaCliente === 'pj';
+  const cnpj = pj ? soDigitos(form.cnpj.value) : '';
   const nome = String(form.nome.value || '').trim();
   const telefone = String(form.telefone.value || '').trim();
   const email = normalizarEmail(form.email.value);
   const cidade = String(form.cidade.value || '').trim();
   const senha = String(form.senha.value || '');
   const senha2 = String(form.senha2.value || '');
-  if (nome.length < 3) { avisar('Informe seu nome completo.', 'erro'); form.nome.focus(); return; }
+
+  if (pj && !validarCnpj(cnpj)) { avisar('Informe um CNPJ válido.', 'erro'); form.cnpj.focus(); return; }
+  if (nome.length < (pj ? 2 : 3)) { avisar(pj ? 'Informe a razão social da empresa.' : 'Informe seu nome completo.', 'erro'); form.nome.focus(); return; }
   if (soDigitos(telefone).length < 10) { avisar('Informe um WhatsApp com DDD.', 'erro'); form.telefone.focus(); return; }
   if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { avisar('Informe um e-mail válido.', 'erro'); form.email.focus(); return; }
-  if (cidade.length < 2) { avisar('Informe sua cidade.', 'erro'); form.cidade.focus(); return; }
+  if (cidade.length < 2) { avisar('Informe a cidade.', 'erro'); form.cidade.focus(); return; }
   if (senha.length < 4) { avisar('A senha precisa ter pelo menos 4 caracteres.', 'erro'); form.senha.focus(); return; }
   if (senha !== senha2) { avisar('A confirmação da senha não confere.', 'erro'); form.senha2.focus(); return; }
+
+  if (pj && clientes.some((c) => c.tipo === 'pj' && soDigitos(c.cnpj) === cnpj)) {
+    avisar('Já existe uma conta com esse CNPJ. Use “Já tenho conta”.', 'erro');
+    form.cnpj.focus();
+    return;
+  }
   if (clientes.some((c) => soDigitos(c.telefone) === soDigitos(telefone))) {
     avisar('Já existe uma conta com esse WhatsApp. Use “Já tenho conta”.', 'erro');
     form.telefone.focus();
@@ -2437,8 +2738,10 @@ function criarContaCliente(form) {
     return;
   }
 
+  const empresa = (pj && cnpjConsultado && cnpjConsultado.cnpj === cnpj) ? cnpjConsultado.empresa : null;
   const conta = {
     id: 'c' + Date.now(),
+    tipo: pj ? 'pj' : 'pf',
     nome: nome,
     telefone: telefone,
     email: email,
@@ -2446,33 +2749,62 @@ function criarContaCliente(form) {
     senhaHash: hashSenha(senha),
     criadoEm: new Date().toISOString()
   };
+  if (pj) {
+    conta.cnpj = cnpj;
+    conta.nomeFantasia = empresa ? empresa.nomeFantasia : '';
+    conta.empresa = empresa ? {
+      razaoSocial: empresa.razaoSocial || nome,
+      nomeFantasia: empresa.nomeFantasia || '',
+      situacao: empresa.situacao || '',
+      cnae: empresa.cnae || '',
+      naturezaJuridica: empresa.naturezaJuridica || '',
+      porte: empresa.porte || '',
+      logradouro: empresa.logradouro || '',
+      complemento: empresa.complemento || '',
+      bairro: empresa.bairro || '',
+      municipio: empresa.municipio || '',
+      uf: empresa.uf || '',
+      cep: empresa.cep || '',
+      telefone: empresa.telefone || '',
+      email: empresa.email || '',
+      consultadoEm: new Date().toISOString()
+    } : null;
+  }
+
   clientes.push(conta);
   salvar(CHAVES.clientes, clientes);
 
   sessaoCliente = {
     clienteId: conta.id,
-    nome: conta.nome,
+    nome: nomeExibicaoCliente(conta),
     desde: new Date().toISOString(),
     expira: new Date(Date.now() + DIAS_SESSAO_CLIENTE * 86400000).toISOString()
   };
   salvar(CHAVES.clienteSessao, sessaoCliente);
   form.reset();
+  cnpjConsultado = null;
+  tipoContaCliente = 'pf';
   modoPainel = 'cliente';
   salvar(CHAVES.modoPainel, modoPainel);
   renderCliente();
-  avisar('Conta criada! Bem-vindo(a), ' + nome.split(' ')[0] + '!');
+  avisar('Conta criada! Bem-vindo(a), ' + primeiroNomeCliente(conta) + '!');
 }
 
 function entrarCliente(form) {
   const identificador = String(form.identificador.value || '').trim();
   const senha = String(form.senha.value || '');
-  if (!identificador || !senha) { avisar('Informe o e-mail/WhatsApp e a senha.', 'erro'); return; }
+  if (!identificador || !senha) { avisar('Informe e-mail, WhatsApp ou CNPJ e a senha.', 'erro'); return; }
   const email = normalizarEmail(identificador);
-  const telefone = soDigitos(identificador);
-  const porTelefone = !identificador.includes('@') && telefone.length >= 10;
-  const conta = clientes.find((c) => (c.email && normalizarEmail(c.email) === email) || (porTelefone && soDigitos(c.telefone) === telefone));
+  const digitos = soDigitos(identificador);
+  const semArroba = !identificador.includes('@');
+  const porCnpj = semArroba && digitos.length === 14;
+  const porTelefone = semArroba && digitos.length >= 10 && digitos.length <= 11;
+  const conta = clientes.find((c) =>
+    (c.email && normalizarEmail(c.email) === email)
+    || (porCnpj && c.tipo === 'pj' && soDigitos(c.cnpj) === digitos)
+    || (porTelefone && soDigitos(c.telefone) === digitos));
   if (!conta || hashSenha(senha) !== conta.senhaHash) {
-    avisar('E-mail/WhatsApp ou senha incorretos.', 'erro');
+    avisar('E-mail, WhatsApp, CNPJ ou senha incorretos.', 'erro');
     form.senha.value = '';
     form.senha.focus();
     return;
@@ -2480,7 +2812,7 @@ function entrarCliente(form) {
 
   sessaoCliente = {
     clienteId: conta.id,
-    nome: conta.nome,
+    nome: nomeExibicaoCliente(conta),
     desde: new Date().toISOString(),
     expira: new Date(Date.now() + DIAS_SESSAO_CLIENTE * 86400000).toISOString()
   };
@@ -2489,7 +2821,7 @@ function entrarCliente(form) {
   modoPainel = 'cliente';
   salvar(CHAVES.modoPainel, modoPainel);
   renderCliente();
-  avisar('Bem-vindo(a) de volta, ' + conta.nome.split(' ')[0] + '!');
+  avisar('Bem-vindo(a) de volta, ' + primeiroNomeCliente(conta) + '!');
 }
 
 function sairCliente() {
@@ -2506,10 +2838,10 @@ function salvarPerfilCliente(form) {
   const telefone = String(form.telefone.value || '').trim();
   const email = normalizarEmail(form.email.value);
   const cidade = String(form.cidade.value || '').trim();
-  if (nome.length < 3) { avisar('Informe seu nome completo.', 'erro'); form.nome.focus(); return; }
+  if (nome.length < (cliente.tipo === 'pj' ? 2 : 3)) { avisar(cliente.tipo === 'pj' ? 'Informe a razão social da empresa.' : 'Informe seu nome completo.', 'erro'); form.nome.focus(); return; }
   if (soDigitos(telefone).length < 10) { avisar('Informe um WhatsApp com DDD.', 'erro'); form.telefone.focus(); return; }
   if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { avisar('Informe um e-mail válido.', 'erro'); form.email.focus(); return; }
-  if (cidade.length < 2) { avisar('Informe sua cidade.', 'erro'); form.cidade.focus(); return; }
+  if (cidade.length < 2) { avisar('Informe a cidade.', 'erro'); form.cidade.focus(); return; }
   if (clientes.some((c) => c.id !== cliente.id && soDigitos(c.telefone) === soDigitos(telefone))) {
     avisar('Esse WhatsApp já está em outra conta.', 'erro');
     form.telefone.focus();
@@ -2526,9 +2858,10 @@ function salvarPerfilCliente(form) {
   cliente.email = email;
   cliente.cidade = cidade;
   cliente.atualizadoEm = new Date().toISOString();
+  if (cliente.tipo === 'pj' && cliente.empresa) cliente.empresa.razaoSocial = nome;
   salvar(CHAVES.clientes, clientes);
   if (sessaoCliente) {
-    sessaoCliente.nome = nome;
+    sessaoCliente.nome = nomeExibicaoCliente(cliente);
     salvar(CHAVES.clienteSessao, sessaoCliente);
   }
   renderCliente();
@@ -2553,10 +2886,14 @@ function trocarSenhaCliente(form) {
 
 function cartaoClienteAdmin(c) {
   const total = reservasDoCliente(c).filter((v) => statusReserva(v) !== 'cancelada').length;
-  const contato = [c.telefone, c.email].filter(Boolean).join(' · ');
+  const pj = c.tipo === 'pj';
+  const nome = nomeExibicaoCliente(c);
+  const contato = pj
+    ? 'CNPJ ' + formatarCnpj(c.cnpj)
+    : [c.telefone, c.email].filter(Boolean).join(' · ');
   return '<div class="cliente-linha">'
-    + '<span class="cliente-avatar">' + esc(iniciais(c.nome)) + '</span>'
-    + '<div class="rank-info"><b>' + esc(c.nome) + '</b>'
+    + '<span class="cliente-avatar' + (pj ? ' pj' : '') + '">' + esc(iniciais(nome)) + '</span>'
+    + '<div class="rank-info"><b>' + esc(nome) + (pj ? ' <span class="empresa-selo">PJ</span>' : '') + '</b>'
     + '<small>' + esc(contato || 'sem contato') + (c.cidade ? ' · ' + esc(c.cidade) : '') + '</small></div>'
     + '<span class="rank-valor">' + total + (total === 1 ? ' pedido' : ' pedidos') + '<br>' + esc(dataBR(c.criadoEm)) + '</span>'
     + '</div>';
@@ -3045,6 +3382,18 @@ function ligarEventos() {
       return;
     }
 
+    const tipoContaBtn = e.target.closest('[data-tipo-conta]');
+    if (tipoContaBtn) {
+      tipoContaCliente = tipoContaBtn.dataset.tipoConta === 'pj' ? 'pj' : 'pf';
+      renderTipoConta();
+      return;
+    }
+
+    if (e.target.closest('#btn-buscar-cnpj')) {
+      consultarCnpj();
+      return;
+    }
+
     const periodoBtn = e.target.closest('[data-periodo]');
     if (periodoBtn) {
       periodoGerente = periodoBtn.dataset.periodo;
@@ -3080,6 +3429,29 @@ function ligarEventos() {
   document.addEventListener('input', (e) => {
     if (e.target.id === 'a-telefone' || e.target.id === 'r-tel' || e.target.id === 'cad-telefone' || e.target.id === 'perfil-telefone') {
       e.target.value = mascaraTelefone(e.target.value);
+    }
+    if (e.target.id === 'cad-cnpj') {
+      e.target.value = formatarCnpj(e.target.value);
+      const digitos = soDigitos(e.target.value);
+      const status = $('#cnpj-status');
+      const resumo = $('#empresa-resumo');
+      if (digitos.length === 14) {
+        if (validarCnpj(digitos)) {
+          if (!cnpjConsultado || cnpjConsultado.cnpj !== digitos) consultarCnpj({ silencioso: true });
+        } else if (status) {
+          status.textContent = 'CNPJ inválido. Confira os 14 números.';
+          status.className = 'campo-dica erro';
+          if (resumo) { resumo.hidden = true; resumo.innerHTML = ''; }
+          cnpjConsultado = null;
+        }
+      } else if (cnpjConsultado) {
+        cnpjConsultado = null;
+        if (resumo) { resumo.hidden = true; resumo.innerHTML = ''; }
+        if (status) {
+          status.textContent = 'Digite o CNPJ que os dados da empresa são preenchidos automaticamente.';
+          status.className = 'campo-dica';
+        }
+      }
     }
     if (e.target.id === 'venda-dias') atualizarEstimativaVenda();
     const grupo = e.target.closest('#form-anuncio .campo-grupo');
