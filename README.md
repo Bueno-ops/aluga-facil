@@ -54,10 +54,10 @@ O terminal mostra o endereço `http://IP-DO-PC:8099/app.html`. Autorize o PowerS
 - **Detalhes completos**: descrição, acessórios, potência, peso, energia e **custo estimado** (diária + entrega + caução) com total do primeiro dia.
 - **Favoritos**: salvos no dispositivo, com contador na barra inferior.
 - **Reserva de retirada**: data, horário, nome e WhatsApp; lista ordenada, com opção de cancelar e confirmar por WhatsApp. Se o cliente estiver logado, os dados são preenchidos automaticamente e a reserva fica vinculada à conta.
-- **Anunciar**: formulário com validação, acessórios, publicação imediata na busca e lista dos seus anúncios (com exclusão).
+- **Anúncios (somente dono)**: o formulário não fica na barra inferior. O dono abre **Painel → Dono ou gerente → Administração → Publicar anúncio**, com validação, acessórios, publicação imediata na busca e lista dos anúncios (com exclusão).
 - **Compartilhar máquina** por link direto (`#maquina=...`), com suporte ao compartilhamento nativo do celular.
 - **Área da empresa** com login local de **dono (admin)** e **gerente**: receita realizada, a receber, lucro estimado, ticket médio, caução em aberto, custo estimado, receita por mês, máquinas mais alugadas, resumo do período e histórico de pedidos com concluir/reabrir/cancelar/reativar.
-- **Administração (somente dono)**: configurações do negócio, redefinir senha do gerente, bloquear/liberar o acesso dele, ver os clientes cadastrados, exportar backup em JSON e apagar todos os dados.
+- **Administração (somente dono)**: configurações do negócio, redefinir senha do gerente, bloquear/liberar o acesso dele, ver os clientes cadastrados, publicar/excluir anúncios, exportar backup em JSON e apagar todos os dados.
 - **Conta do cliente**: cadastro de **pessoa física** (nome, WhatsApp, e-mail opcional e cidade) ou **empresa** (só o CNPJ, com busca automática dos dados), login por e-mail, WhatsApp ou CNPJ, edição do perfil, troca de senha e painel com reservas agendadas, locações concluídas e total em locações.
 - **Registro manual de venda/reserva** no painel, com cálculo automático do valor e data padrão de hoje.
 - **Configurações do negócio**: nome exibido e custo operacional (% da receita) para o cálculo do lucro.
@@ -105,7 +105,7 @@ O app é **local-first**: não há backend nem envio de dados para a internet. T
 |---|---|
 | `aluga:favoritos` | IDs das máquinas favoritadas |
 | `aluga:reservas` | reservas e vendas (máquina, data, hora, contato, valores, status) |
-| `aluga:anuncios` | anúncios criados por você |
+| `aluga:anuncios` | anúncios publicados pelo dono (admin) |
 | `aluga:tema` | `claro` ou `escuro` |
 | `aluga:gerente` | sessão ativa do painel (token aleatório, validade de 12 h e 2 h de inatividade) |
 | `aluga:gerente-config` | usuário, nome, hash PBKDF2 da senha e situação do gerente |
@@ -122,8 +122,8 @@ Abra a aba **Painel** na barra inferior. **Não existem mais senhas padrão**: n
 
 | Acesso | Como entrar | O que pode fazer |
 |---|---|---|
-| **Dono / Administrador** | usuário e senha definidos no primeiro acesso | Tudo: painel completo, configurações do negócio, controle do acesso do gerente, histórico de segurança, backup e limpeza dos dados |
-| **Gerente** | usuário e senha definidos pelo dono | Painel, vendas/reservas, dados de exemplo e troca da própria senha |
+| **Dono / Administrador** | usuário e senha definidos no primeiro acesso | Tudo: painel completo, configurações do negócio, controle do acesso do gerente, histórico de segurança, **publicação/exclusão de anúncios**, backup e limpeza dos dados |
+| **Gerente** | usuário e senha definidos pelo dono | Painel, vendas/reservas, dados de exemplo e troca da própria senha (não publica anúncios) |
 
 - As contas antigas com as senhas `admin123` / `gerente123` são **invalidadas automaticamente** na atualização: o dono precisa criar uma senha nova e o gerente fica desativado até o dono redefinir.
 - Contas antigas com senha própria continuam entrando uma vez com a senha atual e são **obrigadas a criar uma senha nova** (hash migrado para PBKDF2).
@@ -133,6 +133,16 @@ Abra a aba **Painel** na barra inferior. **Não existem mais senhas padrão**: n
 - O admin pode **exportar um backup** em JSON (sem senhas e sem sessões) e **apagar todos os dados** do dispositivo digitando `APAGAR` para confirmar.
 - A sessão do painel dura 12 horas e expira após 2 horas sem atividade; a do cliente dura 7 dias. O botão **Sair** encerra na hora.
 - O painel mostra apenas os pedidos **deste dispositivo** (o app é local-first). Para acompanhar o negócio no celular e no computador ao mesmo tempo seria necessário um backend — não existe sincronização.
+
+### Anúncios (somente dono)
+
+A opção **Anunciar** foi removida da barra inferior. Ninguém além do dono (admin) pode publicar ou excluir anúncios:
+
+1. Entre em **Painel → Dono ou gerente**.
+2. Abra o bloco **Anúncios** em **Administração**.
+3. Toque em **Publicar anúncio**. O formulário abre na hora e o anúncio aparece na busca ao publicar.
+
+O acesso é bloqueado também na lógica do app: gerentes, clientes e visitantes não conseguem abrir a tela de anúncio nem chamar as funções de publicar/excluir.
 
 ### Conta do cliente
 
@@ -168,7 +178,7 @@ localStorage.clear();
 location.reload();
 ```
 
-## Segurança (v13)
+## Segurança (v13+)
 
 O app não tem servidor: os dados e as contas ficam no `localStorage` **daquele dispositivo**. A v13 reforça a proteção local contra acesso casual e contra erros comuns, mas **não transforma o app em um sistema 100% seguro** — isso só existiria com backend e autenticação no servidor.
 
@@ -198,7 +208,7 @@ O que foi implementado:
 
 O app **é o mesmo** no computador e no celular — não existe um projeto separado para Android. O que roda no celular é este PWA instalado; qualquer alteração publicada chega a ele automaticamente.
 
-- A versão atual aparece no **rodapé** do app (ex.: `v13`).
+- A versão atual aparece no **rodapé** do app (ex.: `v14`).
 - Ao abrir com internet, o app procura uma versão nova. Se existir, aparece o aviso **“Nova versão disponível”** com o botão **Atualizar**.
 - Ao atualizar, favoritos, reservas, anúncios e tema **são preservados** (ficam no `localStorage`, não no cache).
 - A versão do rodapé (`VERSAO_APP` em `app.html`) deve ser igual à do `sw.js` (`CACHE`).
@@ -216,9 +226,9 @@ O app **é o mesmo** no computador e no celular — não existe um projeto separ
 
 ## Limitações (propositalmente simples)
 
-- Os logins (dono, gerente e cliente) são **proteção local do dispositivo** (PBKDF2 no `localStorage`), não uma autenticação de servidor. Quem tiver acesso técnico ao aparelho pode limpar ou alterar os dados — veja a seção **Segurança (v13)**.
+- Os logins (dono, gerente e cliente) são **proteção local do dispositivo** (PBKDF2 no `localStorage`), não uma autenticação de servidor. Quem tiver acesso técnico ao aparelho pode limpar ou alterar os dados — veja a seção **Segurança (v13+)**.
 - Não há sincronização entre dispositivos: o painel vê só as reservas feitas/registradas naquele aparelho.
-- Os anúncios criados ficam apenas no navegador em que foram publicados.
+- Os anúncios são publicados apenas pelo dono e ficam apenas no navegador em que foram publicados.
 - As imagens das máquinas são **ilustrações SVG** geradas por tipo, para o app funcionar 100% offline e sem imagens externas.
 - A busca de CNPJ depende de internet e de APIs públicas de terceiros (BrasilAPI/publica.cnpj.ws). Sem conexão, o cadastro da empresa pode ser concluído com preenchimento manual.
 - O contato real acontece via WhatsApp do anunciante.

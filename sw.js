@@ -1,5 +1,5 @@
 /* Service worker do Aluga Fácil — app shell offline */
-const CACHE = 'aluga-facil-v13';
+const CACHE = 'aluga-facil-v14';
 const ARQUIVOS = [
   './',
   './app.html',

@@ -616,8 +616,8 @@ input[type=range]{width:100%;accent-color:var(--primaria);height:28px}
   <section id="tela-anunciar" aria-labelledby="titulo-anunciar" hidden>
     <div class="secao-topo">
       <div>
-        <h2 id="titulo-anunciar">Anuncie sua máquina</h2>
-        <p>Preencha os dados e o anúncio aparece na busca na hora. Fica salvo neste dispositivo.</p>
+        <h2 id="titulo-anunciar">Anunciar máquina</h2>
+        <p>Área do dono. Preencha os dados e o anúncio aparece na busca na hora. Fica salvo neste dispositivo.</p>
       </div>
     </div>
 
@@ -1108,6 +1108,12 @@ input[type=range]{width:100%;accent-color:var(--primaria);height:28px}
         <p class="aviso" style="margin-top:0">Últimos acessos, falhas de senha e bloqueios registrados neste dispositivo. Nada é enviado para a internet.</p>
         <div id="admin-seguranca-log"></div>
         <button class="btn-secundario" type="button" data-acao="limpar-seguranca" style="margin-top:10px">Limpar histórico de segurança</button>
+
+        <h3 style="margin-top:20px">Anúncios</h3>
+        <p class="aviso" style="margin-top:0">Somente o dono pode publicar e excluir anúncios no app. O formulário fica disponível apenas aqui, na área do administrador.</p>
+        <div class="acoes-exemplo">
+          <button class="btn-secundario" type="button" data-acao="abrir-anunciar"><svg class="ico" aria-hidden="true"><use href="#i-mais"/></svg>Publicar anúncio</button>
+        </div>
       </div>
 
       <div class="painel-bloco" id="bloco-clientes" hidden>
@@ -1132,7 +1138,7 @@ input[type=range]{width:100%;accent-color:var(--primaria);height:28px}
 
   <footer class="rodape">
     <b>Aluga Fácil</b> — PWA de aluguel de máquinas e equipamentos · dados salvos no seu dispositivo
-    <span class="versao" id="versao-app">v13</span>
+    <span class="versao" id="versao-app">v14</span>
     <br><a href="instalar.html">Instalar no celular (QR code)</a>
   </footer>
 </main>
@@ -1142,7 +1148,6 @@ input[type=range]{width:100%;accent-color:var(--primaria);height:28px}
     <button class="nav-btn ativo" data-aba="buscar" aria-current="page"><svg class="ico"><use href="#i-busca"/></svg>Buscar</button>
     <button class="nav-btn" data-aba="favoritos"><svg class="ico"><use href="#i-coracao"/></svg>Favoritos<span class="ponto" id="ponto-favoritos" hidden>0</span></button>
     <button class="nav-btn" data-aba="reservas"><svg class="ico"><use href="#i-calendario"/></svg>Reservas<span class="ponto" id="ponto-reservas" hidden>0</span></button>
-    <button class="nav-btn" data-aba="anunciar"><svg class="ico"><use href="#i-mais"/></svg>Anunciar</button>
     <button class="nav-btn" data-aba="gerente"><svg class="ico"><use href="#i-cadeado"/></svg>Painel</button>
   </div>
 </nav>
@@ -1203,7 +1208,7 @@ const CHAVES = {
 };
 
 // Versão exibida no rodapé — mantenha igual à versão do sw.js.
-const VERSAO_APP = 'v13';
+const VERSAO_APP = 'v14';
 
 // Contas locais (não há servidor: é uma proteção do dispositivo).
 // O admin é o dono: vê tudo e controla o acesso do gerente.
@@ -1990,6 +1995,10 @@ function alternarTema() {
 
 function irPara(aba, opcoes) {
   opcoes = opcoes || {};
+  if (aba === 'anunciar' && !adminValido()) {
+    avisar('Apenas o dono pode publicar anúncios.', 'erro');
+    aba = 'gerente';
+  }
   abaAtual = aba;
   $$('#conteudo > section').forEach((sec) => { sec.hidden = sec.id !== 'tela-' + aba; });
   $$('.nav-btn').forEach((btn) => {
@@ -2757,6 +2766,8 @@ function atualizarDicaLogin() {
 function renderGerente() {
   garantirContas();
   const logado = sessaoGerenteValida();
+  const admin = logado && sessaoGerente.papel === 'admin';
+  if (!admin && abaAtual === 'anunciar') irPara('gerente');
   $('#gerente-login').hidden = logado;
   $('#gerente-painel').hidden = !logado;
   atualizarDicaLogin();
@@ -2765,7 +2776,6 @@ function renderGerente() {
   if (!logado) return;
 
   const conta = contaDaSessao();
-  const admin = adminValido();
   $('#gerente-nome').textContent = conta.nome || 'Gerente';
   $('#gerente-papel').textContent = admin ? 'Dono / Administrador' : 'Gerente';
   $('#bloco-admin').hidden = !admin;
@@ -3908,6 +3918,10 @@ function cartaoMeu(eq) {
 }
 
 function removerAnuncio(id) {
+  if (!adminValido()) {
+    avisar('Apenas o dono pode excluir anúncios.', 'erro');
+    return;
+  }
   const eq = meusAnuncios.find((item) => item.id === id);
   if (!eq) return;
   if (!window.confirm('Excluir o anúncio "' + eq.titulo + '"? Essa ação não pode ser desfeita.')) return;
@@ -3961,6 +3975,11 @@ function marcarErros(erros) {
 }
 
 function publicarAnuncio(form) {
+  if (!adminValido()) {
+    avisar('Apenas o dono pode publicar anúncios.', 'erro');
+    irPara('gerente');
+    return;
+  }
   const dados = {
     titulo: form.titulo.value.trim(),
     tipo: form.tipo.value,
@@ -4089,6 +4108,11 @@ function ligarEventos() {
       if (acao === 'exportar-backup') { exportarBackup(); return; }
       if (acao === 'limpar-dados') { limparTodosDados(); return; }
       if (acao === 'limpar-seguranca') { limparSeguranca(); return; }
+      if (acao === 'abrir-anunciar') {
+        if (!adminValido()) { avisar('Apenas o dono pode publicar anúncios.', 'erro'); return; }
+        irPara('anunciar');
+        return;
+      }
       if (acao === 'sair-troca') { sairTroca(); return; }
       if (acao === 'sair-cliente') { sairCliente(); return; }
     }
