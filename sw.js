@@ -1,13 +1,14 @@
-/* Service worker do Aluga Fácil — app shell offline */
-const CACHE = 'aluga-facil-v14';
+/* Service worker do Aluga Fácil — app shell offline com atualização automática */
+const VERSAO = '15';
+const CACHE = 'aluga-facil-v' + VERSAO;
 const ARQUIVOS = [
   './',
-  './app.html',
-  './index.html',
-  './instalar.html',
+  './app.html?v=' + VERSAO,
+  './index.html?v=' + VERSAO,
+  './instalar.html?v=' + VERSAO,
   './qrcode-instalar.png',
   './qrcode-fixo.png',
-  './manifest.json',
+  './manifest.json?v=' + VERSAO,
   './icon.svg',
   './icon-48.png',
   './icon-72.png',
@@ -26,11 +27,14 @@ const ARQUIVOS = [
 self.addEventListener('install', (evento) => {
   evento.waitUntil(
     caches.open(CACHE)
-      .then((cache) => cache.addAll(ARQUIVOS))
+      .then((cache) => cache.addAll(ARQUIVOS.map((url) =>
+        new Request(new URL(url, self.location).href, { cache: 'reload' })
+      )))
+      // Assume o controle na hora: a próxima abertura já usa a versão nova.
+      .then(() => self.skipWaiting())
   );
 });
 
-// A nova versão só entra quando o usuário toca em "Atualizar" (ou na próxima abertura).
 self.addEventListener('message', (evento) => {
   if (evento.data && evento.data.tipo === 'PULAR_ESPERA') {
     self.skipWaiting();
@@ -38,11 +42,13 @@ self.addEventListener('message', (evento) => {
 });
 
 self.addEventListener('activate', (evento) => {
-  evento.waitUntil(
-    caches.keys()
-      .then((chaves) => Promise.all(chaves.filter((chave) => chave !== CACHE).map((chave) => caches.delete(chave))))
-      .then(() => self.clients.claim())
-  );
+  evento.waitUntil((async () => {
+    const chaves = await caches.keys();
+    const antigas = chaves.filter((chave) => chave !== CACHE && chave.indexOf('aluga-facil-') === 0);
+    await Promise.all(antigas.map((chave) => caches.delete(chave)));
+    // Assume as janelas abertas; a página detecta a troca e recarrega uma única vez.
+    await self.clients.claim();
+  })());
 });
 
 /** Busca o app no cache, aceitando variações de query string. */
@@ -67,6 +73,15 @@ function paginaOffline() {
   );
 }
 
+/** Nas páginas principais, busca com a versão atual para furar cache de CDN/navegador. */
+function urlDaRede(requisicao) {
+  const url = new URL(requisicao.url);
+  if (/\/$|\/index\.html$|\/app\.html$|\/instalar\.html$/.test(url.pathname)) {
+    url.searchParams.set('v', VERSAO);
+  }
+  return url.href;
+}
+
 self.addEventListener('fetch', (evento) => {
   const requisicao = evento.request;
   if (requisicao.method !== 'GET') return;
@@ -79,11 +94,11 @@ self.addEventListener('fetch', (evento) => {
   }
   if (url.origin !== self.location.origin) return;
 
-  // Navegação: rede primeiro; se falhar OU vier erro (ex.: 502 de proxy), usa o app em cache.
+  // Navegação: rede primeiro (sem cache HTTP e com versão na URL); se falhar, usa o cache.
   if (requisicao.mode === 'navigate') {
     evento.respondWith((async () => {
       try {
-        const resposta = await fetch(requisicao);
+        const resposta = await fetch(urlDaRede(requisicao), { cache: 'reload' });
         if (!resposta || !resposta.ok) throw new Error('HTTP ' + (resposta ? resposta.status : 'sem resposta'));
         const copia = resposta.clone();
         caches.open(CACHE).then((cache) => cache.put(requisicao, copia)).catch(() => {});

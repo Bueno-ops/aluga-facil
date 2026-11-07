@@ -179,7 +179,11 @@
   <section class="cartao">
     <div class="aviso">
       <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5M12 16.2v.3"/></svg>
-      <span>O app instalado <b>é o mesmo</b> que você vê no computador. Quando eu publicar uma mudança, ele mostra o aviso <b>“Nova versão disponível”</b> — basta tocar em <b>Atualizar</b>. A versão atual aparece no rodapé do app (<b>v14</b>).</span>
+      <span>O app instalado <b>é o mesmo</b> que você vê no computador. A partir da <b>v15</b>, ele procura e aplica atualizações <b>automaticamente</b> ao abrir e a cada 5 minutos com o app aberto. A versão atual aparece no rodapé do app (<b>v15</b>).</span>
+    </div>
+    <div class="aviso">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5M12 16.2v.3"/></svg>
+      <span>Se o app do Android continuar mostrando a versão antiga, toque em <b>Forçar atualização</b> abaixo. Se ainda não mudar, desinstale e instale de novo pelo QR principal.</span>
     </div>
     <div class="aviso">
       <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5M12 16.2v.3"/></svg>
@@ -189,6 +193,10 @@
       <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5M12 16.2v.3"/></svg>
       <span>No link da <b>rede local (http://)</b> o Android não libera “Instalar app”; use <b>Adicionar à tela inicial</b>. O app abre normalmente, mas sem cache offline.</span>
     </div>
+    <button class="btn" id="btn-forcar-atualizacao" type="button" style="width:100%;justify-content:center;margin-top:10px">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v11"/><path d="m8 10 4 4 4-4"/><path d="M5 20h14"/></svg>
+      Forçar atualização do app
+    </button>
     <a class="link-app" href="app.html">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
       Abrir o app neste dispositivo
@@ -227,6 +235,25 @@
 
   ligarCopiar('btn-copiar-online', 'endereco-online');
   ligarCopiar('btn-copiar-local', 'endereco-local');
+
+  var btnForcar = document.getElementById('btn-forcar-atualizacao');
+  if (btnForcar) {
+    btnForcar.addEventListener('click', async function () {
+      btnForcar.disabled = true;
+      btnForcar.textContent = 'Atualizando…';
+      try {
+        if ('serviceWorker' in navigator) {
+          var registros = await navigator.serviceWorker.getRegistrations();
+          await Promise.all(registros.map(function (r) { return r.unregister(); }));
+        }
+        if ('caches' in window) {
+          var chaves = await caches.keys();
+          await Promise.all(chaves.map(function (k) { return caches.delete(k); }));
+        }
+      } catch (e) {}
+      location.replace('app.html?v=' + Date.now());
+    });
+  }
 
   if ('serviceWorker' in navigator && window.isSecureContext) {
     navigator.serviceWorker.register('sw.js').catch(function () {});

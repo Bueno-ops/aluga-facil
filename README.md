@@ -68,7 +68,7 @@ O terminal mostra o endereço `http://IP-DO-PC:8099/app.html`. Autorize o PowerS
 ## Estrutura
 
 ```
-F:\APP ALUGUEL
+C:\Users\palot\OneDrive\Documentos\APP ALUGUEL
 ├── app.html                # aplicativo completo (HTML + CSS + JS)
 ├── index.html              # redireciona para app.html
 ├── instalar.html           # página com QR codes e passo a passo
@@ -208,12 +208,14 @@ O que foi implementado:
 
 O app **é o mesmo** no computador e no celular — não existe um projeto separado para Android. O que roda no celular é este PWA instalado; qualquer alteração publicada chega a ele automaticamente.
 
-- A versão atual aparece no **rodapé** do app (ex.: `v14`).
-- Ao abrir com internet, o app procura uma versão nova. Se existir, aparece o aviso **“Nova versão disponível”** com o botão **Atualizar**.
-- Ao atualizar, favoritos, reservas, anúncios e tema **são preservados** (ficam no `localStorage`, não no cache).
-- A versão do rodapé (`VERSAO_APP` em `app.html`) deve ser igual à do `sw.js` (`CACHE`).
+- A versão atual aparece no **rodapé** do app (ex.: `v15`).
+- A partir da **v15**, o app **procura e aplica atualizações automaticamente**: ao abrir, ao voltar para o app e a cada 5 minutos com ele aberto. O service worker novo assume na hora (`skipWaiting`) e a página recarrega sozinha.
+- A checagem busca `sw.js` e as páginas com a versão na URL e `cache: 'reload'`, para furar cache antigo do navegador e do GitHub Pages.
+- Ao atualizar, favoritos, reservas, anúncios, contas e tema **são preservados** (ficam no `localStorage`, não no cache).
+- A versão do rodapé (`VERSAO_APP` em `app.html`) deve ser igual à versão do `sw.js` (`VERSAO` e `CACHE`).
+- Se o Android continuar na versão antiga, abra **instalar.html** e toque em **Forçar atualização do app**. Isso remove o service worker/cache antigos e abre a versão nova.
 
-> Se o celular estiver mostrando uma versão antiga, feche e abra o app duas vezes com internet. Se ainda assim não mudar, desinstale e instale novamente pelo QR code.
+> **Importante:** o PWA só recebe atualizações se foi instalado pelo **link público** (`https://bueno-ops.github.io/aluga-facil/app.html`) ou por outro endereço HTTPS do mesmo projeto. Se foi instalado pelo link da rede local (`http://192.168.x.x:8099`), ele é outro endereço e **não atualiza**. Nesse caso, desinstale e instale de novo pelo QR principal.
 
 ## Personalização rápida
 
@@ -245,15 +247,15 @@ O app **é o mesmo** no computador e no celular — não existe um projeto separ
 ### Como atualizar o app publicado
 
 ```powershell
-cd "F:\APP ALUGUEL"
+cd "C:\Users\palot\OneDrive\Documentos\APP ALUGUEL"
 git add -A
 git commit -m "descreva a mudança"
 git push
 ```
 
-Em cerca de 1 minuto o GitHub Pages publica. Quem já instalou no celular recebe o aviso **“Nova versão disponível”**.
+Em cerca de 1 minuto o GitHub Pages publica. Quem já instalou pelo link público recebe a atualização **automaticamente** ao abrir o app (ou em até 5 minutos com ele aberto).
 
-> Lembre-se de atualizar a versão em **dois lugares**: `VERSAO_APP` (app.html) e `CACHE` (sw.js). Isso força o celular a baixar os arquivos novos.
+> Lembre-se de atualizar a versão em **dois lugares**: `VERSAO_APP` (app.html) e `VERSAO`/`CACHE` (sw.js). Isso força o celular a baixar os arquivos novos.
 
 ### Outros destinos (opcional)
 

@@ -1102,6 +1102,7 @@ input[type=range]{width:100%;accent-color:var(--primaria);height:28px}
         <p class="aviso" style="margin-top:0">O backup inclui reservas, vendas, anúncios, favoritos e configurações deste dispositivo. Guarde o arquivo em local seguro.</p>
         <div class="acoes-exemplo">
           <button class="btn-secundario" data-acao="exportar-backup"><svg class="ico" aria-hidden="true"><use href="#i-baixar"/></svg>Exportar backup</button>
+          <button class="btn-secundario" type="button" data-acao="forcar-atualizacao"><svg class="ico" aria-hidden="true"><use href="#i-baixar"/></svg>Forçar atualização do app</button>
           <button class="btn-secundario btn-perigo" data-acao="limpar-dados"><svg class="ico" aria-hidden="true"><use href="#i-alerta"/></svg>Apagar todos os dados</button>
         </div>
         <h3 style="margin-top:20px">Histórico de segurança</h3>
@@ -1138,7 +1139,7 @@ input[type=range]{width:100%;accent-color:var(--primaria);height:28px}
 
   <footer class="rodape">
     <b>Aluga Fácil</b> — PWA de aluguel de máquinas e equipamentos · dados salvos no seu dispositivo
-    <span class="versao" id="versao-app">v14</span>
+    <span class="versao" id="versao-app">v15</span>
     <br><a href="instalar.html">Instalar no celular (QR code)</a>
   </footer>
 </main>
@@ -1208,7 +1209,7 @@ const CHAVES = {
 };
 
 // Versão exibida no rodapé — mantenha igual à versão do sw.js.
-const VERSAO_APP = 'v14';
+const VERSAO_APP = 'v15';
 
 // Contas locais (não há servidor: é uma proteção do dispositivo).
 // O admin é o dono: vê tudo e controla o acesso do gerente.
@@ -2029,33 +2030,41 @@ function avisar(mensagem, tipo) {
 
 /* ================= Atualização do app (PWA) ================= */
 let registroSW = null;
-let atualizandoApp = false;
+let recarregandoApp = false;
+const CHAVE_RECARGA = 'aluga:recarga-automatica';
 
-function avisarAtualizacao(worker) {
-  if ($('#toast-atualizar')) return;
-  const el = document.createElement('div');
-  el.className = 'toast acao';
-  el.id = 'toast-atualizar';
-  el.innerHTML = icone('baixar')
-    + '<span>Nova versão disponível</span>'
-    + '<button type="button" data-atualizar>Atualizar</button>'
-    + '<button type="button" class="fechar" data-dispensar aria-label="Agora não">' + icone('x') + '</button>';
-  el.querySelector('[data-atualizar]').addEventListener('click', () => {
-    atualizandoApp = true;
-    if (worker) {
-      try { worker.postMessage({ tipo: 'PULAR_ESPERA' }); } catch (e) {}
-    }
-    setTimeout(() => location.reload(), 1200);
-  });
-  el.querySelector('[data-dispensar]').addEventListener('click', () => el.remove());
-  $('#toasts').appendChild(el);
+/** Evita laço: no máximo uma recarga automática a cada 20 segundos. */
+function podeRecarregar() {
+  try {
+    const ultima = Number(sessionStorage.getItem(CHAVE_RECARGA) || 0);
+    if (Date.now() - ultima < 20000) return false;
+    sessionStorage.setItem(CHAVE_RECARGA, String(Date.now()));
+    return true;
+  } catch (e) {
+    return true;
+  }
+}
+
+function aplicarAtualizacao(worker) {
+  if (recarregandoApp) return;
+  if (!podeRecarregar()) return;
+  recarregandoApp = true;
+  avisar('Nova versão encontrada. Atualizando…');
+  try { if (worker) worker.postMessage({ tipo: 'PULAR_ESPERA' }); } catch (e) {}
+  setTimeout(() => location.reload(), 1200);
 }
 
 function registrarSW() {
   if (!('serviceWorker' in navigator) || location.protocol.indexOf('http') !== 0) return;
 
+  let tinhaControle = !!navigator.serviceWorker.controller;
+
   navigator.serviceWorker.addEventListener('controllerchange', () => {
-    if (!atualizandoApp) return;
+    // O primeiro controle (instalação inicial) não precisa recarregar.
+    if (!tinhaControle) { tinhaControle = true; return; }
+    if (recarregandoApp) return;
+    if (!podeRecarregar()) return;
+    recarregandoApp = true;
     location.reload();
   });
 
@@ -2063,22 +2072,46 @@ function registrarSW() {
     registroSW = reg;
 
     // Já existe uma versão nova instalada esperando para entrar?
-    if (reg.waiting && navigator.serviceWorker.controller) avisarAtualizacao(reg.waiting);
+    if (reg.waiting && navigator.serviceWorker.controller) aplicarAtualizacao(reg.waiting);
 
     reg.addEventListener('updatefound', () => {
       const novo = reg.installing;
       if (!novo) return;
       novo.addEventListener('statechange', () => {
-        if (novo.state === 'installed' && navigator.serviceWorker.controller) avisarAtualizacao(novo);
+        if (novo.state === 'installed' && navigator.serviceWorker.controller) aplicarAtualizacao(novo);
       });
     });
 
-    // Procura atualizações ao voltar para o app e de tempos em tempos.
+    // Procura atualizações ao abrir, ao voltar para o app e a cada 5 minutos.
+    const verificarAtualizacao = () => {
+      if (reg.installing || reg.waiting) return;
+      reg.update().catch(() => {});
+    };
+    verificarAtualizacao();
     document.addEventListener('visibilitychange', () => {
-      if (!document.hidden) reg.update().catch(() => {});
+      if (!document.hidden) verificarAtualizacao();
     });
-    setInterval(() => reg.update().catch(() => {}), 15 * 60 * 1000);
+    setInterval(verificarAtualizacao, 5 * 60 * 1000);
   }).catch(() => {});
+}
+
+/** Destrava o app no celular: remove cache/service worker antigos e abre a versão nova. */
+async function forcarAtualizacao() {
+  try {
+    if (registroSW) await registroSW.update();
+    if (registroSW && registroSW.waiting) registroSW.waiting.postMessage({ tipo: 'PULAR_ESPERA' });
+    if ('caches' in window) {
+      const chaves = await caches.keys();
+      await Promise.all(chaves.map((chave) => caches.delete(chave)));
+    }
+    if ('serviceWorker' in navigator) {
+      const registros = await navigator.serviceWorker.getRegistrations();
+      await Promise.all(registros.map((r) => r.unregister()));
+    }
+  } catch (e) {}
+  const destino = new URL(location.href);
+  destino.searchParams.set('v', Date.now());
+  location.replace(destino.href);
 }
 
 /* ================= Detalhe da máquina ================= */
@@ -4108,6 +4141,7 @@ function ligarEventos() {
       if (acao === 'exportar-backup') { exportarBackup(); return; }
       if (acao === 'limpar-dados') { limparTodosDados(); return; }
       if (acao === 'limpar-seguranca') { limparSeguranca(); return; }
+      if (acao === 'forcar-atualizacao') { forcarAtualizacao(); return; }
       if (acao === 'abrir-anunciar') {
         if (!adminValido()) { avisar('Apenas o dono pode publicar anúncios.', 'erro'); return; }
         irPara('anunciar');
