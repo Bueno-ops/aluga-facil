@@ -28,7 +28,7 @@ jobs:
         run: |
           mkdir -p dist
           cp app.html index.html instalar.html manifest.json sw.js robots.txt dist/
-          cp icon.svg qrcode-fixo.png qrcode-instalar.png dist/
+          cp icon.svg qrcode-fixo.png qrcode-instalar.png qrcode-atualizar.png dist/
           cp icon-*.png dist/
 
       - name: Configurar o Pages

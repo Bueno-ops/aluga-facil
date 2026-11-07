@@ -23,7 +23,8 @@ $arquivos = @(
     'robots.txt',
     'icon.svg',
     'qrcode-fixo.png',
-    'qrcode-instalar.png'
+    'qrcode-instalar.png',
+    'qrcode-atualizar.png'
 )
 $arquivos += Get-ChildItem -LiteralPath $Raiz -Filter 'icon-*.png' | Select-Object -ExpandProperty Name
 
