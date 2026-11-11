@@ -1,5 +1,5 @@
 /* Service worker do Aluga Fácil — app shell offline com atualização automática */
-const VERSAO = '15';
+const VERSAO = '16';
 const CACHE = 'aluga-facil-v' + VERSAO;
 const ARQUIVOS = [
   './',
@@ -64,10 +64,10 @@ function paginaOffline() {
     '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8">' +
     '<meta name="viewport" content="width=device-width, initial-scale=1">' +
     '<title>Aluga Fácil — offline</title></head>' +
-    '<body style="font-family:system-ui,sans-serif;background:#f4f6f8;color:#0f172a;display:grid;place-items:center;min-height:100vh;margin:0;text-align:center">' +
+    '<body style="font-family:system-ui,sans-serif;background:#f4f4f4;color:#212529;display:grid;place-items:center;min-height:100vh;margin:0;text-align:center">' +
     '<main style="padding:24px"><h1 style="font-size:1.2rem">Você está offline</h1>' +
-    '<p style="color:#5d6b80">Abra o app uma vez com internet para liberar o modo offline.</p>' +
-    '<p><button onclick="location.reload()" style="border:0;border-radius:999px;padding:10px 18px;background:#0f766e;color:#fff;font-weight:700">Tentar novamente</button></p>' +
+    '<p style="color:#6c757d">Abra o app uma vez com internet para liberar o modo offline.</p>' +
+    '<p><button onclick="location.reload()" style="border:0;border-radius:999px;padding:10px 18px;background:#183c8f;color:#fff;font-weight:700">Tentar novamente</button></p>' +
     '</main></body></html>',
     { status: 200, headers: { 'Content-Type': 'text/html; charset=utf-8' } }
   );

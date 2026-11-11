@@ -2,7 +2,9 @@
 
 **PWA de aluguel de máquinas e equipamentos de obra** feito do zero, em HTML único, CSS e JavaScript puro — sem frameworks, sem dependências externas e funcionando offline depois do primeiro acesso.
 
-O app reúne betoneiras, marteletes, furadeiras, andaimes, compactadores, geradores, lavadoras, serras e escadas, com filtros, favoritos, cálculo do custo estimado, contato por WhatsApp e agendamento de retirada. Anúncios criados por você ficam salvos no próprio dispositivo.
+O app reúne betoneiras, andaimes, compactadores, ferramentas elétricas, equipamentos de jardinagem, limpeza e acesso em altura, organizados nas categorias **Acesso e elevação, Andaimes, Compactação, Concretagem, Ferramentas elétricas, Furação e demolição, Jardinagem, Limpeza, Motores e Outros**. Tem filtros, favoritos, cálculo do custo estimado, contato por WhatsApp e agendamento de retirada. Anúncios criados por você ficam salvos no próprio dispositivo.
+
+> **Identidade visual (v16):** o app adotou uma paleta de loja de locação para obra — azul `#183C8F`, azul escuro `#0A1C59` e amarelo `#F7CE46` — com cartões, categorias e chamadas inspirados no segmento. A marca e os ícones são próprios do Aluga Fácil.
 
 Há também uma **Área da empresa** com dois logins locais: **dono (admin)** e **gerente**. O painel mostra vendas, receita, lucro estimado, ticket médio, caução em aberto, gráfico dos últimos 6 meses, ranking de máquinas e registro manual de vendas/reservas. O dono tem acesso total, incluindo configurações do negócio, controle do acesso do gerente e backup dos dados.
 
@@ -169,7 +171,7 @@ Na aba **Painel**, a opção **Sou cliente** abre o cadastro:
 
 > Reservas antigas (feitas antes do cadastro) são vinculadas à conta pelo **WhatsApp** quando os números coincidem.
 
-A base de exemplo está em `EQUIPAMENTOS_BASE`, no início do JavaScript de `app.html` (12 máquinas em São Paulo, Campinas, Curitiba, Belo Horizonte, Rio de Janeiro, Recife, Salvador e Barueri).
+A base de exemplo está em `EQUIPAMENTOS_BASE`, no início do JavaScript de `app.html` (18 equipamentos em São Paulo, Campinas, Curitiba, Belo Horizonte, Rio de Janeiro, Recife, Salvador e Barueri, cobrindo todas as categorias).
 
 Para **zerar os dados**, abra o console do navegador e rode:
 
@@ -208,7 +210,7 @@ O que foi implementado:
 
 O app **é o mesmo** no computador e no celular — não existe um projeto separado para Android. O que roda no celular é este PWA instalado; qualquer alteração publicada chega a ele automaticamente.
 
-- A versão atual aparece no **rodapé** do app (ex.: `v15`).
+- A versão atual aparece no **rodapé** do app (ex.: `v16`).
 - A partir da **v15**, o app **procura e aplica atualizações automaticamente**: ao abrir, ao voltar para o app e a cada 5 minutos com ele aberto. O service worker novo assume na hora (`skipWaiting`) e a página recarrega sozinha.
 - A checagem busca `sw.js` e as páginas com a versão na URL e `cache: 'reload'`, para furar cache antigo do navegador e do GitHub Pages.
 - Ao atualizar, favoritos, reservas, anúncios, contas e tema **são preservados** (ficam no `localStorage`, não no cache).

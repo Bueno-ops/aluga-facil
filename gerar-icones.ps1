@@ -19,8 +19,8 @@ function New-Icone {
     $g.PixelOffsetMode = [System.Drawing.Drawing2D.PixelOffsetMode]::HighQuality
     $g.Clear([System.Drawing.Color]::Transparent)
 
-    $inicio = [System.Drawing.ColorTranslator]::FromHtml('#0f766e')
-    $fim = [System.Drawing.ColorTranslator]::FromHtml('#34d399')
+    $inicio = [System.Drawing.ColorTranslator]::FromHtml('#183C8F')
+    $fim = [System.Drawing.ColorTranslator]::FromHtml('#0A1C59')
     $brush = [System.Drawing.Drawing2D.LinearGradientBrush]::new(
         [System.Drawing.Point]::new(0, 0),
         [System.Drawing.Point]::new($Tamanho, $Tamanho),
@@ -59,27 +59,29 @@ function New-Icone {
     $g.TranslateTransform($offset, $offset)
     $g.ScaleTransform($escala, $escala)
 
-    $caneta = [System.Drawing.Pen]::new([System.Drawing.Color]::White, 30)
+    $caneta = [System.Drawing.Pen]::new([System.Drawing.ColorTranslator]::FromHtml('#F7CE46'), 28)
     $caneta.StartCap = [System.Drawing.Drawing2D.LineCap]::Round
     $caneta.EndCap = [System.Drawing.Drawing2D.LineCap]::Round
     $caneta.LineJoin = [System.Drawing.Drawing2D.LineJoin]::Round
 
-    # Engrenagem: aro externo, furo central e 8 dentes
-    $g.DrawEllipse($caneta, 138, 138, 236, 236)
-    $g.DrawEllipse($caneta, 212, 212, 88, 88)
-    $dentes = @(
-        @(256, 138, 256, 84),
-        @(256, 374, 256, 428),
-        @(138, 256, 84, 256),
-        @(374, 256, 428, 256),
-        @(173, 173, 135, 135),
-        @(339, 339, 377, 377),
-        @(339, 173, 377, 135),
-        @(173, 339, 135, 377)
-    )
-    foreach ($d in $dentes) {
-        $g.DrawLine($caneta, [float]$d[0], [float]$d[1], [float]$d[2], [float]$d[3])
-    }
+    # Casa: telhado, paredes e porta (marca própria inspirada no segmento de obra)
+    $g.DrawLines($caneta, [System.Drawing.Point[]]@(
+        [System.Drawing.Point]::new(118, 248),
+        [System.Drawing.Point]::new(256, 138),
+        [System.Drawing.Point]::new(394, 248)
+    ))
+    $g.DrawLines($caneta, [System.Drawing.Point[]]@(
+        [System.Drawing.Point]::new(160, 232),
+        [System.Drawing.Point]::new(160, 382),
+        [System.Drawing.Point]::new(352, 382),
+        [System.Drawing.Point]::new(352, 232)
+    ))
+    $g.DrawLines($caneta, [System.Drawing.Point[]]@(
+        [System.Drawing.Point]::new(226, 382),
+        [System.Drawing.Point]::new(226, 292),
+        [System.Drawing.Point]::new(286, 292),
+        [System.Drawing.Point]::new(286, 382)
+    ))
 
     $destino = Join-Path $Raiz $Nome
     $bmp.Save($destino, [System.Drawing.Imaging.ImageFormat]::Png)

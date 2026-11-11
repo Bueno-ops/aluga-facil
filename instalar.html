@@ -5,24 +5,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Instalar o Aluga Fácil no celular</title>
 <meta name="description" content="Escaneie o QR code para abrir o Aluga Fácil no celular e instalar como aplicativo.">
-<meta name="theme-color" content="#0f766e">
+<meta name="theme-color" content="#183C8F">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" type="image/svg+xml" href="icon.svg">
 <link rel="apple-touch-icon" href="icon-192.png">
 <style>
   *,*::before,*::after{box-sizing:border-box}
   :root{
-    --bg:#f4f6f8; --superficie:#fff; --texto:#0f172a; --texto-2:#5d6b80;
-    --borda:#e2e8f0; --primaria:#0f766e; --primaria-forte:#0b5d56;
-    --primaria-suave:#e7f5f2; --destaque:#d97706; --destaque-suave:#fef3c7;
-    --raio:18px;
+    --bg:#f4f4f4; --superficie:#fff; --texto:#212529; --texto-2:#6c757d;
+    --borda:#dee2e6; --primaria:#183c8f; --primaria-forte:#0a1c59;
+    --primaria-suave:#e8eefb; --destaque:#f7ce46; --destaque-suave:#fdf3cf;
+    --raio:16px;
     color-scheme:light;
   }
   @media (prefers-color-scheme: dark){
     :root{
       --bg:#070d18; --superficie:#101a2c; --texto:#e9eff8; --texto-2:#93a3ba;
-      --borda:#20304a; --primaria:#2dd4bf; --primaria-forte:#5eead4;
-      --primaria-suave:#0d2f2c; --destaque:#fbbf24; --destaque-suave:#3a2a08;
+      --borda:#20304a; --primaria:#3b6fd4; --primaria-forte:#2a56ad;
+      --primaria-suave:#12244a; --destaque:#f7ce46; --destaque-suave:#3a2f08;
       color-scheme:dark;
     }
   }
@@ -36,10 +36,10 @@
   .marca{display:flex; align-items:center; gap:10px; margin-bottom:20px}
   .marca-logo{
     width:42px; height:42px; border-radius:12px; flex:none;
-    background:linear-gradient(135deg,#0f766e,#34d399);
+    background:linear-gradient(135deg,#f7ce46,#efc02e);
     display:grid; place-items:center;
   }
-  .marca-logo svg{width:24px;height:24px;stroke:#fff;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+  .marca-logo svg{width:26px;height:26px;stroke:#0a1c59;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
   .marca b{font-size:1.05rem; display:block; line-height:1.15}
   .marca small{color:var(--texto-2); font-size:.74rem; text-transform:uppercase; letter-spacing:.06em; font-weight:700}
   h1{font-size:1.45rem; line-height:1.2; margin:0 0 6px; letter-spacing:-.02em}
@@ -101,7 +101,8 @@
     font-size:.82rem; color:var(--texto); display:flex; gap:9px; margin-top:12px;
   }
   .aviso svg{width:17px;height:17px;flex:none;margin-top:2px;stroke:var(--destaque);fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
-  .aviso b{color:var(--destaque)}
+  .aviso b{color:#6b5200}
+  @media (prefers-color-scheme: dark){ .aviso b{color:var(--destaque)} }
   .link-app{
     display:flex; align-items:center; justify-content:center; gap:8px;
     background:var(--primaria); color:#fff; text-decoration:none; font-weight:800;
@@ -120,9 +121,9 @@
 <main>
   <div class="marca">
     <span class="marca-logo" aria-hidden="true">
-      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9 17 7M7 17l-2.1 2.1"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M3 11 12 4l9 7"/><path d="M6 10v10h12V10"/><path d="M10 20v-5h4v5"/></svg>
     </span>
-    <span><b>Aluga Fácil</b><small>máquinas para obra</small></span>
+    <span><b>Aluga Fácil</b><small>equipamentos para obra</small></span>
   </div>
 
   <h1>Instale o app no <em>seu celular</em></h1>
@@ -179,7 +180,7 @@
   <section class="cartao">
     <div class="aviso">
       <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5M12 16.2v.3"/></svg>
-      <span>O app instalado <b>é o mesmo</b> que você vê no computador. A partir da <b>v15</b>, ele procura e aplica atualizações <b>automaticamente</b> ao abrir e a cada 5 minutos com o app aberto. A versão atual aparece no rodapé do app (<b>v15</b>).</span>
+      <span>O app instalado <b>é o mesmo</b> que você vê no computador. A partir da <b>v15</b>, ele procura e aplica atualizações <b>automaticamente</b> ao abrir e a cada 5 minutos com o app aberto. A versão atual aparece no rodapé do app (<b>v16</b>).</span>
     </div>
     <div class="aviso">
       <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5M12 16.2v.3"/></svg>
