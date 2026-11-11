@@ -1,5 +1,5 @@
 /* Service worker do Aluga Fácil — app shell offline com atualização automática */
-const VERSAO = '16';
+const VERSAO = '17';
 const CACHE = 'aluga-facil-v' + VERSAO;
 const ARQUIVOS = [
   './',
