@@ -4,7 +4,9 @@
 
 O app reúne betoneiras, andaimes, compactadores, ferramentas elétricas, equipamentos de jardinagem, limpeza e acesso em altura, organizados nas categorias **Acesso e elevação, Andaimes, Compactação, Concretagem, Ferramentas elétricas, Furação e demolição, Jardinagem, Limpeza, Motores e Outros**. Tem filtros, favoritos, cálculo do custo estimado, contato por WhatsApp e agendamento de retirada. Anúncios criados por você ficam salvos no próprio dispositivo.
 
-> **Identidade visual (v16):** o app adotou uma paleta de loja de locação para obra — azul `#183C8F`, azul escuro `#0A1C59` e amarelo `#F7CE46` — com cartões, categorias e chamadas inspirados no segmento. A marca e os ícones são próprios do Aluga Fácil.
+> **Identidade visual (v16):** o app adotou uma paleta de loja de locação para obra - azul `#183C8F`, azul escuro `#0A1C59` e amarelo `#F7CE46` - com cartões, categorias e chamadas inspirados no segmento. A marca e os ícones são próprios do Aluga Fácil.
+
+> **Catálogo (v19):** os 167 itens foram revisados um a um, com preços por versão (potência/tamanho), pesos reais, energia e potência corretas, descrições específicas e a nova opção de energia **Pneumático**.
 
 Há também uma **Área da empresa** com dois logins locais: **dono (admin)** e **gerente**. O painel mostra vendas, receita, lucro estimado, ticket médio, caução em aberto, gráfico dos últimos 6 meses, ranking de máquinas e registro manual de vendas/reservas. O dono tem acesso total, incluindo configurações do negócio, controle do acesso do gerente e backup dos dados.
 
@@ -51,7 +53,7 @@ O terminal mostra o endereço `http://IP-DO-PC:8099/app.html`. Autorize o PowerS
 
 ## Funcionalidades
 
-- **Busca e filtros**: texto livre, tipo de máquina, cidade, diária máxima, energia (110V, 220V, gasolina ou manual), entrega incluída e acessórios inclusos.
+- **Busca e filtros**: texto livre, tipo de máquina, cidade, diária máxima, energia (110V, 220V, gasolina, bateria, pneumático ou manual), entrega incluída e acessórios inclusos.
 - **Ordenação**: relevância, menor/maior diária, mais leve e mais recentes.
 - **Detalhes completos**: descrição, acessórios, potência, peso, energia e **custo estimado** (diária + entrega + caução) com total do primeiro dia.
 - **Favoritos**: salvos no dispositivo, com contador na barra inferior.
@@ -171,7 +173,7 @@ Na aba **Painel**, a opção **Sou cliente** abre o cadastro:
 
 > Reservas antigas (feitas antes do cadastro) são vinculadas à conta pelo **WhatsApp** quando os números coincidem.
 
-A base de exemplo está em `EQUIPAMENTOS_BASE`, no início do JavaScript de `app.html` (167 equipamentos inspirados no catálogo da Casa do Construtor, em Pelotas/RS, com diárias, descrições, categorias e acessórios editáveis pelo dono).
+A base de exemplo está em `EQUIPAMENTOS_BASE`, no início do JavaScript de `app.html` (167 equipamentos inspirados no catálogo da Casa do Construtor, em Pelotas/RS, com diárias, descrições, categorias e acessórios editáveis pelo dono). A **v19** revisou o catálogo item por item: preços por versão, pesos, energia, potência e descrições específicas.
 
 Para **zerar os dados**, abra o console do navegador e rode:
 
@@ -210,7 +212,7 @@ O que foi implementado:
 
 O app **é o mesmo** no computador e no celular — não existe um projeto separado para Android. O que roda no celular é este PWA instalado; qualquer alteração publicada chega a ele automaticamente.
 
-- A versão atual aparece no **rodapé** do app (ex.: `v18`).
+- A versão atual aparece no **rodapé** do app (ex.: `v19`).
 - A partir da **v15**, o app **procura e aplica atualizações automaticamente**: ao abrir, ao voltar para o app e a cada 5 minutos com ele aberto. O service worker novo assume na hora (`skipWaiting`) e a página recarrega sozinha.
 - A checagem busca `sw.js` e as páginas com a versão na URL e `cache: 'reload'`, para furar cache antigo do navegador e do GitHub Pages.
 - Ao atualizar, favoritos, reservas, anúncios, contas e tema **são preservados** (ficam no `localStorage`, não no cache).

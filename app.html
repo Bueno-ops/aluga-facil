@@ -562,6 +562,7 @@ input[type=range]{width:100%;accent-color:var(--primaria);height:28px}
             <button type="button" data-energia="220v">220V</button>
             <button type="button" data-energia="gasolina">Gasolina</button>
             <button type="button" data-energia="bateria">Bateria</button>
+          <button type="button" data-energia="pneumatico">Pneumático</button>
             <button type="button" data-energia="manual">Manual</button>
           </div>
         </div>
@@ -721,6 +722,7 @@ input[type=range]{width:100%;accent-color:var(--primaria);height:28px}
             <option value="220v" selected>220V</option>
             <option value="gasolina">Gasolina</option>
             <option value="bateria">Bateria</option>
+            <option value="pneumatico">Pneumático</option>
             <option value="manual">Manual</option>
           </select>
         </div>
@@ -1164,7 +1166,7 @@ input[type=range]{width:100%;accent-color:var(--primaria);height:28px}
 
   <footer class="rodape">
     <b>Aluga Fácil</b> — locação de equipamentos para obra · dados salvos no seu dispositivo
-    <span class="versao" id="versao-app">v18</span>
+    <span class="versao" id="versao-app">v19</span>
     <br><a href="instalar.html">Instalar no celular (QR code)</a>
   </footer>
 </main>
@@ -1234,7 +1236,7 @@ const CHAVES = {
 };
 
 // Versão exibida no rodapé — mantenha igual à versão do sw.js.
-const VERSAO_APP = 'v18';
+const VERSAO_APP = 'v19';
 
 // Contas locais (não há servidor: é uma proteção do dispositivo).
 // O admin é o dono: vê tudo e controla o acesso do gerente.
@@ -1277,6 +1279,7 @@ const ENERGIAS = [
   { id: '220v', nome: '220V' },
   { id: 'gasolina', nome: 'Gasolina' },
   { id: 'bateria', nome: 'Bateria' },
+  { id: 'pneumatico', nome: 'Pneumático' },
   { id: 'manual', nome: 'Manual' }
 ];
 
@@ -1303,36 +1306,36 @@ const EQUIPAMENTOS_BASE = [
   {
     id: 'c1', titulo: 'Empilhadeira', tipo: 'acesso-elevacao',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Centro',
-    diaria: 550, frete: 80, caucao: 1650, energia: 'manual', potencia: '', peso: 300,
+    diaria: 550, frete: 150, caucao: 1650, energia: 'gasolina', potencia: '', peso: 3000,
     entrega: true, destaque: false,
-    descricao: 'Empilhadeira: equipamento para trabalhos em altura com segurança, disponível para locação em Pelotas. Revisado, com entrega e retirada combinadas conforme a necessidade da obra.',
+    descricao: 'Empilhadeira para locação em Pelotas/RS. Move e eleva cargas pesadas em obras e depósitos. Eleva paletes e materiais pesados com garfos e mastro. Motor a gasolina, sem depender de tomada. Equipamento revisado e testado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-08-07', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c2', titulo: 'Escada', tipo: 'acesso-elevacao',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Fragata',
-    diaria: 30, frete: 25, caucao: 100, energia: 'manual', potencia: '', peso: 12,
+    diaria: 30, frete: 25, caucao: 100, energia: 'manual', potencia: '', peso: 10,
     entrega: true, destaque: false,
-    descricao: 'Escada: equipamento para trabalhos em altura com segurança, disponível para locação em Pelotas. Revisado, com entrega e retirada combinadas conforme a necessidade da obra.',
+    descricao: 'Escada para locação em Pelotas/RS. Ajuda a alcançar pontos altos com estabilidade em reformas e construções. Estrutura leve, para acesso rápido em serviços de altura. Equipamento revisado e testado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-09-13', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c3', titulo: 'Escada de Abrir', tipo: 'acesso-elevacao',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Três Vendas',
-    diaria: 35, frete: 25, caucao: 100, energia: 'manual', potencia: '', peso: 12,
+    diaria: 35, frete: 25, caucao: 100, energia: 'manual', potencia: '', peso: 11,
     entrega: true, destaque: false,
-    descricao: 'Escada de Abrir: equipamento para trabalhos em altura com segurança, disponível para locação em Pelotas. Revisado, com entrega e retirada combinadas conforme a necessidade da obra.',
+    descricao: 'Escada de Abrir para locação em Pelotas/RS. Solução para acesso seguro a locais elevados, do início ao acabamento. Estrutura leve, para acesso rápido em serviços de altura. Equipamento revisado e testado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-10-20', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c4', titulo: 'Grade de Contenção', tipo: 'acesso-elevacao',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Laranjal',
-    diaria: 30, frete: 25, caucao: 100, energia: 'manual', potencia: '', peso: 10,
+    diaria: 30, frete: 25, caucao: 100, energia: 'manual', potencia: '', peso: 18,
     entrega: true, destaque: false,
-    descricao: 'Grade de Contenção: equipamento para trabalhos em altura com segurança, disponível para locação em Pelotas. Revisado, com entrega e retirada combinadas conforme a necessidade da obra.',
+    descricao: 'Grade de Contenção para locação em Pelotas/RS. Delimita e protege a área de trabalho em obras e reformas. Protege as laterais da obra e delimita a área de trabalho. Item conferido e em bom estado, com entrega no local e retirada combinadas conforme a obra.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-07-21', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
@@ -1341,16 +1344,16 @@ const EQUIPAMENTOS_BASE = [
     cidade: 'Pelotas', uf: 'RS', bairro: 'Areal',
     diaria: 130, frete: 50, caucao: 400, energia: '220v', potencia: '', peso: 60,
     entrega: true, destaque: false,
-    descricao: 'Guincho de Coluna: equipamento para trabalhos em altura com segurança, disponível para locação em Pelotas. Revisado, com entrega e retirada combinadas conforme a necessidade da obra.',
+    descricao: 'Guincho de Coluna para locação em Pelotas/RS. Ajuda a alcançar pontos altos com estabilidade em reformas e construções. Iça materiais em altura com cabo de aço. Funciona em tomada de 220V. Item conferido e em bom estado, com entrega no local e retirada combinadas conforme a obra.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-08-27', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c6', titulo: 'Guincho de Coluna 200 kg', tipo: 'acesso-elevacao',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Porto',
-    diaria: 110, frete: 50, caucao: 350, energia: '220v', potencia: '', peso: 40,
+    diaria: 110, frete: 50, caucao: 350, energia: '220v', potencia: '', peso: 60,
     entrega: true, destaque: false,
-    descricao: 'Guincho de Coluna 200 kg: equipamento para trabalhos em altura com segurança, disponível para locação em Pelotas. Revisado, com entrega e retirada combinadas conforme a necessidade da obra.',
+    descricao: 'Guincho de Coluna 200 kg para locação em Pelotas/RS. Solução para acesso seguro a locais elevados, do início ao acabamento. Iça materiais em altura com cabo de aço. Funciona em tomada de 220V. Item conferido e em bom estado, com entrega no local e retirada combinadas conforme a obra.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-10-03', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
@@ -1359,16 +1362,16 @@ const EQUIPAMENTOS_BASE = [
     cidade: 'Pelotas', uf: 'RS', bairro: 'São Gonçalo',
     diaria: 160, frete: 50, caucao: 500, energia: '220v', potencia: '', peso: 60,
     entrega: true, destaque: false,
-    descricao: 'Guincho de Coluna 400 kg: equipamento para trabalhos em altura com segurança, disponível para locação em Pelotas. Revisado, com entrega e retirada combinadas conforme a necessidade da obra.',
+    descricao: 'Guincho de Coluna 400 kg para locação em Pelotas/RS. Para trabalhos em altura com segurança e praticidade na obra. Iça materiais em altura com cabo de aço. Funciona em tomada de 220V. Equipamento revisado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-07-04', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c8', titulo: 'Guincho de Coluna de 350 kg', tipo: 'acesso-elevacao',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Navegantes',
-    diaria: 140, frete: 50, caucao: 400, energia: '220v', potencia: '', peso: 55,
+    diaria: 140, frete: 50, caucao: 400, energia: '220v', potencia: '', peso: 60,
     entrega: true, destaque: false,
-    descricao: 'Guincho de Coluna de 350 kg: equipamento para trabalhos em altura com segurança, disponível para locação em Pelotas. Revisado, com entrega e retirada combinadas conforme a necessidade da obra.',
+    descricao: 'Guincho de Coluna de 350 kg para locação em Pelotas/RS. Ajuda a alcançar pontos altos com estabilidade em reformas e construções. Iça materiais em altura com cabo de aço. Funciona em tomada de 220V. Equipamento revisado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-08-10', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
@@ -1377,7 +1380,7 @@ const EQUIPAMENTOS_BASE = [
     cidade: 'Pelotas', uf: 'RS', bairro: 'Jardim América',
     diaria: 350, frete: 80, caucao: 1050, energia: '220v', potencia: '', peso: 300,
     entrega: true, destaque: false,
-    descricao: 'Mini Grua TM500: equipamento para trabalhos em altura com segurança, disponível para locação em Pelotas. Revisado, com entrega e retirada combinadas conforme a necessidade da obra.',
+    descricao: 'Mini Grua TM500 para locação em Pelotas/RS. Solução para acesso seguro a locais elevados, do início ao acabamento. Iça materiais em altura com cabo de aço. Funciona em tomada de 220V. Equipamento revisado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-09-16', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
@@ -1386,25 +1389,25 @@ const EQUIPAMENTOS_BASE = [
     cidade: 'Pelotas', uf: 'RS', bairro: 'COHAB Fragata',
     diaria: 70, frete: 50, caucao: 200, energia: 'manual', potencia: '', peso: 80,
     entrega: true, destaque: false,
-    descricao: 'Paleteira (Transpalete): equipamento para trabalhos em altura com segurança, disponível para locação em Pelotas. Revisado, com entrega e retirada combinadas conforme a necessidade da obra.',
+    descricao: 'Paleteira (Transpalete) para locação em Pelotas/RS. Move paletes e cargas no canteiro, com esforço reduzido. Tem garfos e bomba hidráulica para levantar e transportar paletes. Equipamento revisado e testado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-10-23', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c11', titulo: 'Plataforma Elevatória Manual', tipo: 'acesso-elevacao',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Dunas',
-    diaria: 180, frete: 80, caucao: 550, energia: 'manual', potencia: '', peso: 120,
+    diaria: 180, frete: 80, caucao: 550, energia: 'manual', potencia: '', peso: 150,
     entrega: true, destaque: false,
-    descricao: 'Plataforma Elevatória Manual: equipamento para trabalhos em altura com segurança, disponível para locação em Pelotas. Revisado, com entrega e retirada combinadas conforme a necessidade da obra.',
+    descricao: 'Plataforma Elevatória Manual para locação em Pelotas/RS. Ajuda a alcançar pontos altos com estabilidade em reformas e construções. Estrutura estável para trabalhos em altura. Operação manual, sem motor. Equipamento revisado e testado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-07-24', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c12', titulo: 'Plataforma elevatória mastro', tipo: 'acesso-elevacao',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Vila Princesa',
-    diaria: 400, frete: 150, caucao: 1200, energia: '220v', potencia: '', peso: 700,
+    diaria: 400, frete: 150, caucao: 1200, energia: '220v', potencia: '', peso: 750,
     entrega: true, destaque: false,
-    descricao: 'Plataforma elevatória mastro: equipamento para trabalhos em altura com segurança, disponível para locação em Pelotas. Revisado, com entrega e retirada combinadas conforme a necessidade da obra.',
+    descricao: 'Plataforma elevatória mastro para locação em Pelotas/RS. Solução para acesso seguro a locais elevados, do início ao acabamento. Estrutura estável para trabalhos em altura. Funciona em tomada de 220V. Equipamento revisado e testado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-08-30', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
@@ -1413,7 +1416,7 @@ const EQUIPAMENTOS_BASE = [
     cidade: 'Pelotas', uf: 'RS', bairro: 'Centro',
     diaria: 480, frete: 150, caucao: 1450, energia: '220v', potencia: '', peso: 900,
     entrega: true, destaque: true,
-    descricao: 'Plataforma Elevatória Tipo Tesoura: equipamento para trabalhos em altura com segurança, disponível para locação em Pelotas. Revisado, com entrega e retirada combinadas conforme a necessidade da obra.',
+    descricao: 'Plataforma Elevatória Tipo Tesoura para locação em Pelotas/RS. Para trabalhos em altura com segurança e praticidade na obra. Estrutura estável para trabalhos em altura. Funciona em tomada de 220V. Item conferido e em bom estado, com entrega no local e retirada combinadas conforme a obra.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-10-06', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
@@ -1422,7 +1425,7 @@ const EQUIPAMENTOS_BASE = [
     cidade: 'Pelotas', uf: 'RS', bairro: 'Fragata',
     diaria: 500, frete: 150, caucao: 1500, energia: '220v', potencia: '', peso: 1200,
     entrega: true, destaque: true,
-    descricao: 'Plataforma Elevatória Tipo Tesoura Skyjack 3213: equipamento para trabalhos em altura com segurança, disponível para locação em Pelotas. Revisado, com entrega e retirada combinadas conforme a necessidade da obra.',
+    descricao: 'Plataforma Elevatória Tipo Tesoura Skyjack 3213 para locação em Pelotas/RS. Ajuda a alcançar pontos altos com estabilidade em reformas e construções. Estrutura estável para trabalhos em altura. Funciona em tomada de 220V. Item conferido e em bom estado, com entrega no local e retirada combinadas conforme a obra.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-07-07', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
@@ -1431,7 +1434,7 @@ const EQUIPAMENTOS_BASE = [
     cidade: 'Pelotas', uf: 'RS', bairro: 'Três Vendas',
     diaria: 550, frete: 150, caucao: 1650, energia: '220v', potencia: '', peso: 1500,
     entrega: true, destaque: true,
-    descricao: 'Plataforma Elevatória Tipo Tesoura Skyjack 3219: equipamento para trabalhos em altura com segurança, disponível para locação em Pelotas. Revisado, com entrega e retirada combinadas conforme a necessidade da obra.',
+    descricao: 'Plataforma Elevatória Tipo Tesoura Skyjack 3219 para locação em Pelotas/RS. Solução para acesso seguro a locais elevados, do início ao acabamento. Estrutura estável para trabalhos em altura. Funciona em tomada de 220V. Item conferido e em bom estado, com entrega no local e retirada combinadas conforme a obra.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-08-13', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
@@ -1440,7 +1443,7 @@ const EQUIPAMENTOS_BASE = [
     cidade: 'Pelotas', uf: 'RS', bairro: 'Laranjal',
     diaria: 700, frete: 150, caucao: 2100, energia: '220v', potencia: '', peso: 2600,
     entrega: true, destaque: true,
-    descricao: 'Plataforma Elevatória Tipo Tesoura Skyjack 4632: equipamento para trabalhos em altura com segurança, disponível para locação em Pelotas. Revisado, com entrega e retirada combinadas conforme a necessidade da obra.',
+    descricao: 'Plataforma Elevatória Tipo Tesoura Skyjack 4632 para locação em Pelotas/RS. Para trabalhos em altura com segurança e praticidade na obra. Estrutura estável para trabalhos em altura. Funciona em tomada de 220V. Equipamento revisado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-09-19', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
@@ -1449,7 +1452,7 @@ const EQUIPAMENTOS_BASE = [
     cidade: 'Pelotas', uf: 'RS', bairro: 'Areal',
     diaria: 750, frete: 150, caucao: 2250, energia: '220v', potencia: '', peso: 3200,
     entrega: true, destaque: true,
-    descricao: 'Plataforma Elevatória Tipo Tesoura Skyjack 4740: equipamento para trabalhos em altura com segurança, disponível para locação em Pelotas. Revisado, com entrega e retirada combinadas conforme a necessidade da obra.',
+    descricao: 'Plataforma Elevatória Tipo Tesoura Skyjack 4740 para locação em Pelotas/RS. Ajuda a alcançar pontos altos com estabilidade em reformas e construções. Estrutura estável para trabalhos em altura. Funciona em tomada de 220V. Equipamento revisado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-10-26', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
@@ -1458,34 +1461,34 @@ const EQUIPAMENTOS_BASE = [
     cidade: 'Pelotas', uf: 'RS', bairro: 'Porto',
     diaria: 650, frete: 150, caucao: 1950, energia: '220v', potencia: '', peso: 1500,
     entrega: true, destaque: false,
-    descricao: 'Plataforma Retrátil: equipamento para trabalhos em altura com segurança, disponível para locação em Pelotas. Revisado, com entrega e retirada combinadas conforme a necessidade da obra.',
+    descricao: 'Plataforma Retrátil para locação em Pelotas/RS. Solução para acesso seguro a locais elevados, do início ao acabamento. Estrutura estável para trabalhos em altura. Funciona em tomada de 220V. Equipamento revisado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-07-27', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c19', titulo: 'Talha Manual de 1 t', tipo: 'acesso-elevacao',
     cidade: 'Pelotas', uf: 'RS', bairro: 'São Gonçalo',
-    diaria: 40, frete: 25, caucao: 100, energia: 'manual', potencia: '', peso: 15,
+    diaria: 40, frete: 25, caucao: 100, energia: 'manual', potencia: '', peso: 12,
     entrega: true, destaque: false,
-    descricao: 'Talha Manual de 1 t: equipamento para trabalhos em altura com segurança, disponível para locação em Pelotas. Revisado, com entrega e retirada combinadas conforme a necessidade da obra.',
+    descricao: 'Talha Manual de 1 t para locação em Pelotas/RS. Para trabalhos em altura com segurança e praticidade na obra. Içamento manual com cabo de aço, catraca e gancho. Equipamento revisado e testado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-09-02', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c20', titulo: 'Talha Manual de 2 t', tipo: 'acesso-elevacao',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Navegantes',
-    diaria: 50, frete: 25, caucao: 150, energia: 'manual', potencia: '', peso: 15,
+    diaria: 50, frete: 25, caucao: 150, energia: 'manual', potencia: '', peso: 18,
     entrega: true, destaque: false,
-    descricao: 'Talha Manual de 2 t: equipamento para trabalhos em altura com segurança, disponível para locação em Pelotas. Revisado, com entrega e retirada combinadas conforme a necessidade da obra.',
+    descricao: 'Talha Manual de 2 t para locação em Pelotas/RS. Ajuda a alcançar pontos altos com estabilidade em reformas e construções. Içamento manual com cabo de aço, catraca e gancho. Equipamento revisado e testado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-10-09', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c21', titulo: 'Talha Manual de 3 t', tipo: 'acesso-elevacao',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Jardim América',
-    diaria: 60, frete: 25, caucao: 200, energia: 'manual', potencia: '', peso: 15,
+    diaria: 60, frete: 25, caucao: 200, energia: 'manual', potencia: '', peso: 26,
     entrega: true, destaque: false,
-    descricao: 'Talha Manual de 3 t: equipamento para trabalhos em altura com segurança, disponível para locação em Pelotas. Revisado, com entrega e retirada combinadas conforme a necessidade da obra.',
+    descricao: 'Talha Manual de 3 t para locação em Pelotas/RS. Solução para acesso seguro a locais elevados, do início ao acabamento. Içamento manual com cabo de aço, catraca e gancho. Equipamento revisado e testado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-07-10', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
@@ -1494,106 +1497,106 @@ const EQUIPAMENTOS_BASE = [
     cidade: 'Pelotas', uf: 'RS', bairro: 'COHAB Fragata',
     diaria: 60, frete: 50, caucao: 200, energia: 'manual', potencia: '', peso: 60,
     entrega: true, destaque: false,
-    descricao: 'Tirfor (Guincho de Alavanca): equipamento para trabalhos em altura com segurança, disponível para locação em Pelotas. Revisado, com entrega e retirada combinadas conforme a necessidade da obra.',
+    descricao: 'Tirfor (Guincho de Alavanca) para locação em Pelotas/RS. Para tracionar e içar cargas com cabo de aço. Içamento manual com cabo de aço, catraca e gancho. Item conferido e em bom estado, com entrega no local e retirada combinadas conforme a obra.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-08-16', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c23', titulo: 'Base Fixa para Andaime', tipo: 'andaimes',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Dunas',
-    diaria: 10, frete: 25, caucao: 50, energia: 'manual', potencia: '', peso: 5,
+    diaria: 10, frete: 25, caucao: 50, energia: 'manual', potencia: '', peso: 3,
     entrega: true, destaque: false,
-    descricao: 'Base Fixa para Andaime: peça para montagem de andaimes em obras e reformas, disponível para locação em Pelotas. Entrega e retirada combinadas.',
+    descricao: 'Base Fixa para Andaime para locação em Pelotas/RS. Componente de andaime tubular, com encaixe rápido e boa resistência. Peça original do conjunto, para montagem e desmontagem da estrutura. Item conferido e em bom estado, com entrega no local e retirada combinadas conforme a obra.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-09-22', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c24', titulo: 'Base Regulável para Andaime', tipo: 'andaimes',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Vila Princesa',
-    diaria: 10, frete: 25, caucao: 50, energia: 'manual', potencia: '', peso: 5,
+    diaria: 10, frete: 25, caucao: 50, energia: 'manual', potencia: '', peso: 4,
     entrega: true, destaque: false,
-    descricao: 'Base Regulável para Andaime: peça para montagem de andaimes em obras e reformas, disponível para locação em Pelotas. Entrega e retirada combinadas.',
+    descricao: 'Base Regulável para Andaime para locação em Pelotas/RS. Item de montagem de andaime, indicado para fachadas e serviços em altura. Peça original do conjunto, para montagem e desmontagem da estrutura. Item conferido e em bom estado, com entrega no local e retirada combinadas conforme a obra.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-10-29', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c25', titulo: 'Diagonal para Andaimes', tipo: 'andaimes',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Centro',
-    diaria: 10, frete: 25, caucao: 50, energia: 'manual', potencia: '', peso: 6,
+    diaria: 10, frete: 25, caucao: 50, energia: 'manual', potencia: '', peso: 5,
     entrega: true, destaque: false,
-    descricao: 'Diagonal para Andaimes: peça para montagem de andaimes em obras e reformas, disponível para locação em Pelotas. Entrega e retirada combinadas.',
+    descricao: 'Diagonal para Andaimes para locação em Pelotas/RS. Peça do conjunto de andaimes, para montagem de estruturas em obras e reformas. Peça original do conjunto, para montagem e desmontagem da estrutura. Equipamento revisado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-07-30', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c26', titulo: 'Escada para Andaime de 1 m', tipo: 'andaimes',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Fragata',
-    diaria: 15, frete: 25, caucao: 50, energia: 'manual', potencia: '', peso: 12,
+    diaria: 15, frete: 25, caucao: 50, energia: 'manual', potencia: '', peso: 8,
     entrega: true, destaque: false,
-    descricao: 'Escada para Andaime de 1 m: peça para montagem de andaimes em obras e reformas, disponível para locação em Pelotas. Entrega e retirada combinadas.',
+    descricao: 'Escada para Andaime de 1 m para locação em Pelotas/RS. Componente de andaime tubular, com encaixe rápido e boa resistência. Escada de acesso para o conjunto de andaime. Equipamento revisado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-09-05', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c27', titulo: 'Escada para Andaime de 2 m', tipo: 'andaimes',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Três Vendas',
-    diaria: 15, frete: 25, caucao: 50, energia: 'manual', potencia: '', peso: 12,
+    diaria: 15, frete: 25, caucao: 50, energia: 'manual', potencia: '', peso: 14,
     entrega: true, destaque: false,
-    descricao: 'Escada para Andaime de 2 m: peça para montagem de andaimes em obras e reformas, disponível para locação em Pelotas. Entrega e retirada combinadas.',
+    descricao: 'Escada para Andaime de 2 m para locação em Pelotas/RS. Item de montagem de andaime, indicado para fachadas e serviços em altura. Escada de acesso para o conjunto de andaime. Equipamento revisado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-10-12', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c28', titulo: 'Guarda-corpo para Andaime de 1 m', tipo: 'andaimes',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Laranjal',
-    diaria: 15, frete: 25, caucao: 50, energia: 'manual', potencia: '', peso: 8,
+    diaria: 15, frete: 25, caucao: 50, energia: 'manual', potencia: '', peso: 7,
     entrega: true, destaque: false,
-    descricao: 'Guarda-corpo para Andaime de 1 m: peça para montagem de andaimes em obras e reformas, disponível para locação em Pelotas. Entrega e retirada combinadas.',
+    descricao: 'Guarda-corpo para Andaime de 1 m para locação em Pelotas/RS. Peça do conjunto de andaimes, para montagem de estruturas em obras e reformas. Peça original do conjunto, para montagem e desmontagem da estrutura. Equipamento revisado e testado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-07-13', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c29', titulo: 'Guarda-corpo para Andaime de 1,5 m', tipo: 'andaimes',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Areal',
-    diaria: 15, frete: 25, caucao: 50, energia: 'manual', potencia: '', peso: 8,
+    diaria: 15, frete: 25, caucao: 50, energia: 'manual', potencia: '', peso: 9,
     entrega: true, destaque: false,
-    descricao: 'Guarda-corpo para Andaime de 1,5 m: peça para montagem de andaimes em obras e reformas, disponível para locação em Pelotas. Entrega e retirada combinadas.',
+    descricao: 'Guarda-corpo para Andaime de 1,5 m para locação em Pelotas/RS. Componente de andaime tubular, com encaixe rápido e boa resistência. Peça original do conjunto, para montagem e desmontagem da estrutura. Equipamento revisado e testado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-08-19', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c30', titulo: 'Painel Metálico para Andaime de 1 m', tipo: 'andaimes',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Porto',
-    diaria: 30, frete: 25, caucao: 100, energia: 'manual', potencia: '', peso: 15,
+    diaria: 30, frete: 25, caucao: 100, energia: 'manual', potencia: '', peso: 13,
     entrega: true, destaque: false,
-    descricao: 'Painel Metálico para Andaime de 1 m: peça para montagem de andaimes em obras e reformas, disponível para locação em Pelotas. Entrega e retirada combinadas.',
+    descricao: 'Painel Metálico para Andaime de 1 m para locação em Pelotas/RS. Item de montagem de andaime, indicado para fachadas e serviços em altura. Peça original do conjunto, para montagem e desmontagem da estrutura. Equipamento revisado e testado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-09-25', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c31', titulo: 'Painel Metálico para Andaime de 1,5 m', tipo: 'andaimes',
     cidade: 'Pelotas', uf: 'RS', bairro: 'São Gonçalo',
-    diaria: 30, frete: 25, caucao: 100, energia: 'manual', potencia: '', peso: 15,
+    diaria: 30, frete: 25, caucao: 100, energia: 'manual', potencia: '', peso: 17,
     entrega: true, destaque: false,
-    descricao: 'Painel Metálico para Andaime de 1,5 m: peça para montagem de andaimes em obras e reformas, disponível para locação em Pelotas. Entrega e retirada combinadas.',
+    descricao: 'Painel Metálico para Andaime de 1,5 m para locação em Pelotas/RS. Peça do conjunto de andaimes, para montagem de estruturas em obras e reformas. Peça original do conjunto, para montagem e desmontagem da estrutura. Item conferido e em bom estado, com entrega no local e retirada combinadas conforme a obra.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-11-01', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c32', titulo: 'Piso Metálico para Andaime 1 m', tipo: 'andaimes',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Navegantes',
-    diaria: 25, frete: 25, caucao: 100, energia: 'manual', potencia: '', peso: 18,
+    diaria: 25, frete: 25, caucao: 100, energia: 'manual', potencia: '', peso: 14,
     entrega: true, destaque: false,
-    descricao: 'Piso Metálico para Andaime 1 m: peça para montagem de andaimes em obras e reformas, disponível para locação em Pelotas. Entrega e retirada combinadas.',
+    descricao: 'Piso Metálico para Andaime 1 m para locação em Pelotas/RS. Componente de andaime tubular, com encaixe rápido e boa resistência. Peça original do conjunto, para montagem e desmontagem da estrutura. Item conferido e em bom estado, com entrega no local e retirada combinadas conforme a obra.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-08-02', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c33', titulo: 'Piso Metálico para Andaime 1,5 m', tipo: 'andaimes',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Jardim América',
-    diaria: 25, frete: 25, caucao: 100, energia: 'manual', potencia: '', peso: 18,
+    diaria: 25, frete: 25, caucao: 100, energia: 'manual', potencia: '', peso: 19,
     entrega: true, destaque: false,
-    descricao: 'Piso Metálico para Andaime 1,5 m: peça para montagem de andaimes em obras e reformas, disponível para locação em Pelotas. Entrega e retirada combinadas.',
+    descricao: 'Piso Metálico para Andaime 1,5 m para locação em Pelotas/RS. Item de montagem de andaime, indicado para fachadas e serviços em altura. Peça original do conjunto, para montagem e desmontagem da estrutura. Item conferido e em bom estado, com entrega no local e retirada combinadas conforme a obra.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-09-08', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
@@ -1602,70 +1605,70 @@ const EQUIPAMENTOS_BASE = [
     cidade: 'Pelotas', uf: 'RS', bairro: 'COHAB Fragata',
     diaria: 10, frete: 25, caucao: 50, energia: 'manual', potencia: '', peso: 2,
     entrega: true, destaque: false,
-    descricao: 'Rodízios para Andaime: peça para montagem de andaimes em obras e reformas, disponível para locação em Pelotas. Entrega e retirada combinadas.',
+    descricao: 'Rodízios para Andaime para locação em Pelotas/RS. Peça do conjunto de andaimes, para montagem de estruturas em obras e reformas. Peça original do conjunto, para montagem e desmontagem da estrutura. Equipamento revisado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-10-15', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c35', titulo: 'Compactador de Solo', tipo: 'compactacao',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Dunas',
-    diaria: 100, frete: 50, caucao: 300, energia: 'gasolina', potencia: '', peso: 90,
+    diaria: 100, frete: 50, caucao: 300, energia: 'gasolina', potencia: '5,5 cv', peso: 90,
     entrega: true, destaque: true,
-    descricao: 'Compactador de Solo: equipamento para compactação de solo, brita e asfalto em calçadas, pisos e pequenas obras. Disponível para locação em Pelotas, com entrega combinada.',
+    descricao: 'Compactador de Solo para locação em Pelotas/RS. Prepara a base do piso, pavimentação e nivelamento de terreno. Compacta solo e brita e prepara a base do piso. Motor a gasolina de 5,5 cv. Equipamento revisado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Protetor auricular', 'Manual de uso'],
     criadoEm: '2026-07-16', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c36', titulo: 'Compactador de Solo Elétrico', tipo: 'compactacao',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Vila Princesa',
-    diaria: 110, frete: 50, caucao: 350, energia: '220v', potencia: '', peso: 90,
+    diaria: 110, frete: 50, caucao: 350, energia: '220v', potencia: '2 cv', peso: 75,
     entrega: true, destaque: true,
-    descricao: 'Compactador de Solo Elétrico: equipamento para compactação de solo, brita e asfalto em calçadas, pisos e pequenas obras. Disponível para locação em Pelotas, com entrega combinada.',
+    descricao: 'Compactador de Solo Elétrico para locação em Pelotas/RS. Adensa o solo antes da concretagem, reduzindo recalques. Compacta solo e brita e prepara a base do piso. Motor elétrico de 220V com potência de 2 cv. Equipamento revisado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Protetor auricular', 'Manual de uso'],
     criadoEm: '2026-08-22', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c37', titulo: 'Escarificadora', tipo: 'compactacao',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Centro',
-    diaria: 220, frete: 80, caucao: 650, energia: '220v', potencia: '', peso: 150,
+    diaria: 220, frete: 80, caucao: 650, energia: '220v', potencia: '5,5 cv', peso: 140,
     entrega: true, destaque: false,
-    descricao: 'Escarificadora: equipamento para compactação de solo, brita e asfalto em calçadas, pisos e pequenas obras. Disponível para locação em Pelotas, com entrega combinada.',
+    descricao: 'Escarificadora para locação em Pelotas/RS. Compacta solo, brita e asfalto em calçadas, pisos e pequenas obras. Compacta solo e brita e prepara a base do piso. Motor elétrico de 220V com potência de 5,5 cv. Equipamento revisado e testado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Protetor auricular', 'Manual de uso'],
     criadoEm: '2026-09-28', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c38', titulo: 'Placa Vibratória', tipo: 'compactacao',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Fragata',
-    diaria: 120, frete: 50, caucao: 350, energia: 'gasolina', potencia: '', peso: 100,
+    diaria: 120, frete: 50, caucao: 350, energia: 'gasolina', potencia: '5,5 cv', peso: 100,
     entrega: true, destaque: false,
-    descricao: 'Placa Vibratória: equipamento para compactação de solo, brita e asfalto em calçadas, pisos e pequenas obras. Disponível para locação em Pelotas, com entrega combinada.',
+    descricao: 'Placa Vibratória para locação em Pelotas/RS. Prepara a base do piso, pavimentação e nivelamento de terreno. Compacta solo e brita e prepara a base do piso. Motor a gasolina de 5,5 cv. Equipamento revisado e testado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Protetor auricular', 'Manual de uso'],
     criadoEm: '2026-11-04', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c39', titulo: 'Rolo Compactador', tipo: 'compactacao',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Três Vendas',
-    diaria: 280, frete: 80, caucao: 850, energia: '220v', potencia: '', peso: 350,
+    diaria: 280, frete: 80, caucao: 850, energia: '220v', potencia: '5,5 cv', peso: 320,
     entrega: true, destaque: false,
-    descricao: 'Rolo Compactador: equipamento para compactação de solo, brita e asfalto em calçadas, pisos e pequenas obras. Disponível para locação em Pelotas, com entrega combinada.',
+    descricao: 'Rolo Compactador para locação em Pelotas/RS. Adensa o solo antes da concretagem, reduzindo recalques. Compacta asfalto, brita e solo em áreas maiores. Motor elétrico de 220V com potência de 5,5 cv. Equipamento revisado e testado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Protetor auricular', 'Manual de uso'],
     criadoEm: '2026-08-05', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c40', titulo: 'Acabadora de Piso', tipo: 'concretagem',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Laranjal',
-    diaria: 160, frete: 50, caucao: 500, energia: '220v', potencia: '', peso: 100,
+    diaria: 160, frete: 50, caucao: 500, energia: '220v', potencia: '5,5 cv', peso: 90,
     entrega: true, destaque: false,
-    descricao: 'Acabadora de Piso: equipamento para mistura, lançamento e acabamento de concreto e argamassa. Ideal para obras residenciais e comerciais, com entrega combinada em Pelotas.',
+    descricao: 'Acabadora de Piso para locação em Pelotas/RS. Para mistura, lançamento e acabamento de concreto e argamassa. Alisa e dá acabamento em pisos de concreto. Motor elétrico de 220V com potência de 5,5 cv. Item conferido e em bom estado, com entrega no local e retirada combinadas conforme a obra.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-09-11', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c41', titulo: 'Betoneira 150 litros', tipo: 'concretagem',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Areal',
-    diaria: 65, frete: 50, caucao: 200, energia: '220v', potencia: '', peso: 80,
+    diaria: 65, frete: 50, caucao: 200, energia: '220v', potencia: '0,5 cv', peso: 80,
     entrega: true, destaque: false,
-    descricao: 'Betoneira 150 litros: equipamento para mistura, lançamento e acabamento de concreto e argamassa. Ideal para obras residenciais e comerciais, com entrega combinada em Pelotas.',
+    descricao: 'Betoneira 150 litros para locação em Pelotas/RS. Ajuda na produção e no acabamento de concreto em obras residenciais e comerciais. Tambor de mistura para concreto e argamassa, com boa produtividade. Motor elétrico de 220V com potência de 0,5 cv. Item conferido e em bom estado, com entrega no local e retirada combinadas conforme a obra.',
     acessorios: ['Pá e enxada', 'Extensão elétrica', 'Manual de uso'],
     criadoEm: '2026-10-18', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
@@ -1674,52 +1677,52 @@ const EQUIPAMENTOS_BASE = [
     cidade: 'Pelotas', uf: 'RS', bairro: 'Porto',
     diaria: 80, frete: 80, caucao: 250, energia: '220v', potencia: '1 cv', peso: 110,
     entrega: true, destaque: true,
-    descricao: 'Betoneira 250 litros 110V/220V - Monofásico 1 cv: equipamento para mistura, lançamento e acabamento de concreto e argamassa. Ideal para obras residenciais e comerciais, com entrega combinada em Pelotas.',
+    descricao: 'Betoneira 250 litros 110V/220V - Monofásico 1 cv para locação em Pelotas/RS. Atende serviços de concretagem, de pequenas reformas a lajes maiores. Tambor de mistura para concreto e argamassa, com boa produtividade. Motor elétrico de 220V com potência de 1 cv. Item conferido e em bom estado, com entrega no local e retirada combinadas conforme a obra.',
     acessorios: ['Pá e enxada', 'Extensão elétrica', 'Manual de uso'],
     criadoEm: '2026-07-19', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c43', titulo: 'Betoneira 400 litros', tipo: 'concretagem',
     cidade: 'Pelotas', uf: 'RS', bairro: 'São Gonçalo',
-    diaria: 110, frete: 80, caucao: 350, energia: '220v', potencia: '', peso: 160,
+    diaria: 110, frete: 80, caucao: 350, energia: '220v', potencia: '1,5 cv', peso: 160,
     entrega: true, destaque: true,
-    descricao: 'Betoneira 400 litros: equipamento para mistura, lançamento e acabamento de concreto e argamassa. Ideal para obras residenciais e comerciais, com entrega combinada em Pelotas.',
+    descricao: 'Betoneira 400 litros para locação em Pelotas/RS. Para mistura, lançamento e acabamento de concreto e argamassa. Tambor de mistura para concreto e argamassa, com boa produtividade. Motor elétrico de 220V com potência de 1,5 cv. Equipamento revisado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Pá e enxada', 'Extensão elétrica', 'Manual de uso'],
     criadoEm: '2026-08-25', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c44', titulo: 'Cortadora de Piso', tipo: 'concretagem',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Navegantes',
-    diaria: 130, frete: 80, caucao: 400, energia: '220v', potencia: '', peso: 120,
+    diaria: 130, frete: 80, caucao: 400, energia: '220v', potencia: '5,5 cv', peso: 110,
     entrega: true, destaque: false,
-    descricao: 'Cortadora de Piso: equipamento para mistura, lançamento e acabamento de concreto e argamassa. Ideal para obras residenciais e comerciais, com entrega combinada em Pelotas.',
+    descricao: 'Cortadora de Piso para locação em Pelotas/RS. Ajuda na produção e no acabamento de concreto em obras residenciais e comerciais. Corta pisos e pavimentos com disco diamantado. Motor elétrico de 220V com potência de 5,5 cv. Equipamento revisado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Disco de corte', 'Maleta de transporte', 'Manual de uso'],
     criadoEm: '2026-10-01', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c45', titulo: 'Mangote para Vibrador de 48 mm', tipo: 'concretagem',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Jardim América',
-    diaria: 30, frete: 25, caucao: 100, energia: '220v', potencia: '', peso: 6,
+    diaria: 30, frete: 25, caucao: 100, energia: '', potencia: '', peso: 6,
     entrega: true, destaque: false,
-    descricao: 'Mangote para Vibrador de 48 mm: equipamento para mistura, lançamento e acabamento de concreto e argamassa. Ideal para obras residenciais e comerciais, com entrega combinada em Pelotas.',
+    descricao: 'Mangote para Vibrador de 48 mm para locação em Pelotas/RS. Atende serviços de concretagem, de pequenas reformas a lajes maiores. Peça de reposição do conjunto de vibração do concreto. Equipamento revisado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-07-02', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c46', titulo: 'Mangueira para Vibrador de 63 mm', tipo: 'concretagem',
     cidade: 'Pelotas', uf: 'RS', bairro: 'COHAB Fragata',
-    diaria: 25, frete: 25, caucao: 100, energia: '220v', potencia: '', peso: 6,
+    diaria: 25, frete: 25, caucao: 100, energia: '', potencia: '', peso: 6,
     entrega: true, destaque: false,
-    descricao: 'Mangueira para Vibrador de 63 mm: equipamento para mistura, lançamento e acabamento de concreto e argamassa. Ideal para obras residenciais e comerciais, com entrega combinada em Pelotas.',
+    descricao: 'Mangueira para Vibrador de 63 mm para locação em Pelotas/RS. Para mistura, lançamento e acabamento de concreto e argamassa. Peça de reposição do conjunto de vibração do concreto. Equipamento revisado e testado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-08-08', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c47', titulo: 'Misturador', tipo: 'concretagem',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Dunas',
-    diaria: 100, frete: 50, caucao: 300, energia: '220v', potencia: '', peso: 60,
+    diaria: 100, frete: 50, caucao: 300, energia: '220v', potencia: '', peso: 55,
     entrega: true, destaque: false,
-    descricao: 'Misturador: equipamento para mistura, lançamento e acabamento de concreto e argamassa. Ideal para obras residenciais e comerciais, com entrega combinada em Pelotas.',
+    descricao: 'Misturador para locação em Pelotas/RS. Ajuda na produção e no acabamento de concreto em obras residenciais e comerciais. Mistura argamassa, concreto e tintas com homogeneidade. Funciona em tomada de 220V. Equipamento revisado e testado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-09-14', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
@@ -1728,25 +1731,25 @@ const EQUIPAMENTOS_BASE = [
     cidade: 'Pelotas', uf: 'RS', bairro: 'Vila Princesa',
     diaria: 90, frete: 25, caucao: 250, energia: '220v', potencia: '', peso: 20,
     entrega: true, destaque: false,
-    descricao: 'Motor de Acionamento: equipamento para mistura, lançamento e acabamento de concreto e argamassa. Ideal para obras residenciais e comerciais, com entrega combinada em Pelotas.',
+    descricao: 'Motor de Acionamento para locação em Pelotas/RS. Atende serviços de concretagem, de pequenas reformas a lajes maiores. Aciona o vibrador ou o mangote do conjunto. Funciona em tomada de 220V. Equipamento revisado e testado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-10-21', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c49', titulo: 'Motovibrador a Gasolina', tipo: 'concretagem',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Centro',
-    diaria: 110, frete: 25, caucao: 350, energia: 'gasolina', potencia: '', peso: 15,
+    diaria: 110, frete: 25, caucao: 350, energia: 'gasolina', potencia: '5,5 cv', peso: 15,
     entrega: true, destaque: false,
-    descricao: 'Motovibrador a Gasolina: equipamento para mistura, lançamento e acabamento de concreto e argamassa. Ideal para obras residenciais e comerciais, com entrega combinada em Pelotas.',
+    descricao: 'Motovibrador a Gasolina para locação em Pelotas/RS. Para mistura, lançamento e acabamento de concreto e argamassa. Adensa o concreto lançado, eliminando bolhas e vazios. Motor a gasolina de 5,5 cv. Item conferido e em bom estado, com entrega no local e retirada combinadas conforme a obra.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-07-22', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c50', titulo: 'Projetor de Argamassa', tipo: 'concretagem',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Fragata',
-    diaria: 280, frete: 80, caucao: 850, energia: '220v', potencia: '', peso: 150,
+    diaria: 280, frete: 80, caucao: 850, energia: '220v', potencia: '5,5 cv', peso: 140,
     entrega: true, destaque: false,
-    descricao: 'Projetor de Argamassa: equipamento para mistura, lançamento e acabamento de concreto e argamassa. Ideal para obras residenciais e comerciais, com entrega combinada em Pelotas.',
+    descricao: 'Projetor de Argamassa para locação em Pelotas/RS. Ajuda na produção e no acabamento de concreto em obras residenciais e comerciais. Projeta argamassa em paredes e tetos com rapidez. Motor elétrico de 220V com potência de 5,5 cv. Item conferido e em bom estado, com entrega no local e retirada combinadas conforme a obra.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-08-28', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
@@ -1755,16 +1758,16 @@ const EQUIPAMENTOS_BASE = [
     cidade: 'Pelotas', uf: 'RS', bairro: 'Três Vendas',
     diaria: 90, frete: 25, caucao: 250, energia: '220v', potencia: '', peso: 20,
     entrega: true, destaque: false,
-    descricao: 'Régua Vibratória: equipamento para mistura, lançamento e acabamento de concreto e argamassa. Ideal para obras residenciais e comerciais, com entrega combinada em Pelotas.',
+    descricao: 'Régua Vibratória para locação em Pelotas/RS. Atende serviços de concretagem, de pequenas reformas a lajes maiores. Nivela e adensa o concreto em pisos e lajes. Funciona em tomada de 220V. Item conferido e em bom estado, com entrega no local e retirada combinadas conforme a obra.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-10-04', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c52', titulo: 'Vibrador de concreto - elétrico', tipo: 'concretagem',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Laranjal',
-    diaria: 80, frete: 25, caucao: 250, energia: '220v', potencia: '', peso: 8,
+    diaria: 80, frete: 25, caucao: 250, energia: '220v', potencia: '1,5 cv', peso: 8,
     entrega: true, destaque: false,
-    descricao: 'Vibrador de concreto - elétrico: equipamento para mistura, lançamento e acabamento de concreto e argamassa. Ideal para obras residenciais e comerciais, com entrega combinada em Pelotas.',
+    descricao: 'Vibrador de concreto - elétrico para locação em Pelotas/RS. Para mistura, lançamento e acabamento de concreto e argamassa. Adensa o concreto lançado, eliminando bolhas e vazios. Motor elétrico de 220V com potência de 1,5 cv. Equipamento revisado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-07-05', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
@@ -1773,7 +1776,7 @@ const EQUIPAMENTOS_BASE = [
     cidade: 'Pelotas', uf: 'RS', bairro: 'Areal',
     diaria: 80, frete: 25, caucao: 250, energia: '220v', potencia: '', peso: 8,
     entrega: true, destaque: false,
-    descricao: 'Vibrador para Concreto AF 36 mm: equipamento para mistura, lançamento e acabamento de concreto e argamassa. Ideal para obras residenciais e comerciais, com entrega combinada em Pelotas.',
+    descricao: 'Vibrador para Concreto AF 36 mm para locação em Pelotas/RS. Ajuda na produção e no acabamento de concreto em obras residenciais e comerciais. Adensa o concreto lançado, eliminando bolhas e vazios. Funciona em tomada de 220V. Equipamento revisado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-08-11', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
@@ -1782,70 +1785,70 @@ const EQUIPAMENTOS_BASE = [
     cidade: 'Pelotas', uf: 'RS', bairro: 'Porto',
     diaria: 80, frete: 25, caucao: 250, energia: '220v', potencia: '', peso: 8,
     entrega: true, destaque: false,
-    descricao: 'Vibrador para Concreto AR 25mm: equipamento para mistura, lançamento e acabamento de concreto e argamassa. Ideal para obras residenciais e comerciais, com entrega combinada em Pelotas.',
+    descricao: 'Vibrador para Concreto AR 25mm para locação em Pelotas/RS. Atende serviços de concretagem, de pequenas reformas a lajes maiores. Adensa o concreto lançado, eliminando bolhas e vazios. Funciona em tomada de 220V. Equipamento revisado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-09-17', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c55', titulo: 'Chave de Impacto', tipo: 'ferramentas-eletricas',
     cidade: 'Pelotas', uf: 'RS', bairro: 'São Gonçalo',
-    diaria: 50, frete: 25, caucao: 150, energia: '220v', potencia: '', peso: 4,
+    diaria: 50, frete: 25, caucao: 150, energia: '220v', potencia: '710 W', peso: 4,
     entrega: true, destaque: false,
-    descricao: 'Chave de Impacto: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    descricao: 'Chave de Impacto para locação em Pelotas/RS. Para montagem, acabamento e manutenção em obras e reformas. Fura e aperta parafusos em madeira, metal e alvenaria. Motor elétrico de 220V com potência de 710 W. Equipamento revisado e testado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Maleta de transporte', 'Manual de uso'],
     criadoEm: '2026-10-24', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c56', titulo: 'Cortadora de Bloco', tipo: 'ferramentas-eletricas',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Navegantes',
-    diaria: 160, frete: 50, caucao: 500, energia: '220v', potencia: '', peso: 40,
+    diaria: 160, frete: 50, caucao: 500, energia: '220v', potencia: '2.200 W', peso: 35,
     entrega: true, destaque: false,
-    descricao: 'Cortadora de Bloco: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    descricao: 'Cortadora de Bloco para locação em Pelotas/RS. Acelera serviços de acabamento e montagem, com bom rendimento no dia a dia. Corta blocos, tijolos e paredes com disco diamantado. Motor elétrico de 220V com potência de 2.200 W. Equipamento revisado e testado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Disco de corte', 'Maleta de transporte', 'Manual de uso'],
     criadoEm: '2026-07-25', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c57', titulo: 'Cortadora de Parede com Disco', tipo: 'ferramentas-eletricas',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Jardim América',
-    diaria: 150, frete: 25, caucao: 450, energia: '220v', potencia: '', peso: 20,
+    diaria: 150, frete: 25, caucao: 450, energia: '220v', potencia: '2.400 W', peso: 20,
     entrega: true, destaque: false,
-    descricao: 'Cortadora de Parede com Disco: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    descricao: 'Cortadora de Parede com Disco para locação em Pelotas/RS. Uso profissional em reformas, manutenção e construção. Corta blocos, tijolos e paredes com disco diamantado. Motor elétrico de 220V com potência de 2.400 W. Equipamento revisado e testado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Disco de corte', 'Maleta de transporte', 'Manual de uso'],
     criadoEm: '2026-08-31', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c58', titulo: 'Cortadora de Parede com Fresa', tipo: 'ferramentas-eletricas',
     cidade: 'Pelotas', uf: 'RS', bairro: 'COHAB Fragata',
-    diaria: 150, frete: 25, caucao: 450, energia: '220v', potencia: '', peso: 20,
+    diaria: 150, frete: 25, caucao: 450, energia: '220v', potencia: '2.400 W', peso: 20,
     entrega: true, destaque: false,
-    descricao: 'Cortadora de Parede com Fresa: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    descricao: 'Cortadora de Parede com Fresa para locação em Pelotas/RS. Para montagem, acabamento e manutenção em obras e reformas. Corta blocos, tijolos e paredes com disco diamantado. Motor elétrico de 220V com potência de 2.400 W. Item conferido e em bom estado, com entrega no local e retirada combinadas conforme a obra.',
     acessorios: ['Disco de corte', 'Maleta de transporte', 'Manual de uso'],
     criadoEm: '2026-10-07', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c59', titulo: 'Cortadora de Porcelanato Portátil TT', tipo: 'ferramentas-eletricas',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Dunas',
-    diaria: 70, frete: 25, caucao: 200, energia: '220v', potencia: '', peso: 25,
+    diaria: 70, frete: 25, caucao: 200, energia: 'manual', potencia: '', peso: 12,
     entrega: true, destaque: false,
-    descricao: 'Cortadora de Porcelanato Portátil TT: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    descricao: 'Cortadora de Porcelanato Portátil TT para locação em Pelotas/RS. Acelera serviços de acabamento e montagem, com bom rendimento no dia a dia. Corte manual de pisos e revestimentos, sem energia elétrica. Item conferido e em bom estado, com entrega no local e retirada combinadas conforme a obra.',
     acessorios: ['Disco de corte', 'Maleta de transporte', 'Manual de uso'],
     criadoEm: '2026-07-08', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c60', titulo: 'Cortadora de Porcelanato TR', tipo: 'ferramentas-eletricas',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Vila Princesa',
-    diaria: 70, frete: 25, caucao: 200, energia: '220v', potencia: '', peso: 25,
+    diaria: 50, frete: 25, caucao: 150, energia: 'manual', potencia: '', peso: 9,
     entrega: true, destaque: false,
-    descricao: 'Cortadora de Porcelanato TR: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    descricao: 'Cortadora de Porcelanato TR para locação em Pelotas/RS. Uso profissional em reformas, manutenção e construção. Corte manual de pisos e revestimentos, sem energia elétrica. Item conferido e em bom estado, com entrega no local e retirada combinadas conforme a obra.',
     acessorios: ['Disco de corte', 'Maleta de transporte', 'Manual de uso'],
     criadoEm: '2026-08-14', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c61', titulo: 'Cortadora em Vergalhão', tipo: 'ferramentas-eletricas',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Centro',
-    diaria: 100, frete: 25, caucao: 300, energia: '220v', potencia: '', peso: 30,
+    diaria: 100, frete: 25, caucao: 300, energia: '220v', potencia: '2.200 W', peso: 30,
     entrega: true, destaque: false,
-    descricao: 'Cortadora em Vergalhão: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    descricao: 'Cortadora em Vergalhão para locação em Pelotas/RS. Para montagem, acabamento e manutenção em obras e reformas. Corta vergalhões e barras de aço com disco. Motor elétrico de 220V com potência de 2.200 W. Equipamento revisado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Disco de corte', 'Maleta de transporte', 'Manual de uso'],
     criadoEm: '2026-09-20', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
@@ -1854,502 +1857,502 @@ const EQUIPAMENTOS_BASE = [
     cidade: 'Pelotas', uf: 'RS', bairro: 'Fragata',
     diaria: 50, frete: 25, caucao: 150, energia: 'manual', potencia: '', peso: 10,
     entrega: true, destaque: false,
-    descricao: 'Cortadora Manual com Disco: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    descricao: 'Cortadora Manual com Disco para locação em Pelotas/RS. Acelera serviços de acabamento e montagem, com bom rendimento no dia a dia. Corte manual de pisos e revestimentos, sem energia elétrica. Equipamento revisado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Disco de corte', 'Maleta de transporte', 'Manual de uso'],
     criadoEm: '2026-10-27', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c63', titulo: 'Cortadora Portátil', tipo: 'ferramentas-eletricas',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Três Vendas',
-    diaria: 100, frete: 25, caucao: 300, energia: '220v', potencia: '', peso: 12,
+    diaria: 100, frete: 25, caucao: 300, energia: '220v', potencia: '1.200 W', peso: 12,
     entrega: true, destaque: false,
-    descricao: 'Cortadora Portátil: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    descricao: 'Cortadora Portátil para locação em Pelotas/RS. Uso profissional em reformas, manutenção e construção. Corta, desbasta e dá acabamento em diversos materiais. Motor elétrico de 220V com potência de 1.200 W. Equipamento revisado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Disco de corte', 'Maleta de transporte', 'Manual de uso'],
     criadoEm: '2026-07-28', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c64', titulo: 'Desempenadeira Elétrica', tipo: 'ferramentas-eletricas',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Laranjal',
-    diaria: 70, frete: 25, caucao: 200, energia: '220v', potencia: '', peso: 10,
+    diaria: 70, frete: 25, caucao: 200, energia: '220v', potencia: '1.500 W', peso: 10,
     entrega: true, destaque: false,
-    descricao: 'Desempenadeira Elétrica: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    descricao: 'Desempenadeira Elétrica para locação em Pelotas/RS. Para montagem, acabamento e manutenção em obras e reformas. Alisa e desempena argamassa em paredes e pisos. Motor elétrico de 220V com potência de 1.500 W. Equipamento revisado e testado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Maleta de transporte', 'Manual de uso'],
     criadoEm: '2026-09-03', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c65', titulo: 'Esmerilhadeira 4.1/2', tipo: 'ferramentas-eletricas',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Areal',
-    diaria: 45, frete: 25, caucao: 150, energia: '220v', potencia: '', peso: 5,
+    diaria: 45, frete: 25, caucao: 150, energia: '220v', potencia: '850 W', peso: 5,
     entrega: true, destaque: false,
-    descricao: 'Esmerilhadeira 4.1/2: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    descricao: 'Esmerilhadeira 4.1/2 para locação em Pelotas/RS. Acelera serviços de acabamento e montagem, com bom rendimento no dia a dia. Corta, desbasta e dá acabamento em diversos materiais. Motor elétrico de 220V com potência de 850 W. Equipamento revisado e testado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Disco de corte', 'Maleta de transporte', 'Manual de uso'],
     criadoEm: '2026-10-10', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c66', titulo: 'Esmerilhadeira 9', tipo: 'ferramentas-eletricas',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Porto',
-    diaria: 70, frete: 25, caucao: 200, energia: '220v', potencia: '', peso: 8,
+    diaria: 70, frete: 25, caucao: 200, energia: '220v', potencia: '2.200 W', peso: 8,
     entrega: true, destaque: false,
-    descricao: 'Esmerilhadeira 9: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    descricao: 'Esmerilhadeira 9 para locação em Pelotas/RS. Uso profissional em reformas, manutenção e construção. Corta, desbasta e dá acabamento em diversos materiais. Motor elétrico de 220V com potência de 2.200 W. Equipamento revisado e testado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Disco de corte', 'Maleta de transporte', 'Manual de uso'],
     criadoEm: '2026-07-11', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c67', titulo: 'Esmerilhadeiras 7 polegadas (Elétrica)', tipo: 'ferramentas-eletricas',
     cidade: 'Pelotas', uf: 'RS', bairro: 'São Gonçalo',
-    diaria: 45, frete: 25, caucao: 150, energia: '220v', potencia: '', peso: 5,
+    diaria: 55, frete: 25, caucao: 150, energia: '220v', potencia: '2.200 W', peso: 6,
     entrega: true, destaque: false,
-    descricao: 'Esmerilhadeiras 7 polegadas (Elétrica): ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    descricao: 'Esmerilhadeiras 7 polegadas (Elétrica) para locação em Pelotas/RS. Para montagem, acabamento e manutenção em obras e reformas. Corta, desbasta e dá acabamento em diversos materiais. Motor elétrico de 220V com potência de 2.200 W. Item conferido e em bom estado, com entrega no local e retirada combinadas conforme a obra.',
     acessorios: ['Disco de corte', 'Maleta de transporte', 'Manual de uso'],
     criadoEm: '2026-08-17', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c68', titulo: 'Esquadrilhadeira', tipo: 'ferramentas-eletricas',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Navegantes',
-    diaria: 50, frete: 25, caucao: 150, energia: '220v', potencia: '', peso: 8,
+    diaria: 50, frete: 25, caucao: 150, energia: '220v', potencia: '800 W', peso: 8,
     entrega: true, destaque: false,
-    descricao: 'Esquadrilhadeira: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    descricao: 'Esquadrilhadeira para locação em Pelotas/RS. Acelera serviços de acabamento e montagem, com bom rendimento no dia a dia. Corta e ajusta esquadrias de madeira e alumínio. Motor elétrico de 220V com potência de 800 W. Item conferido e em bom estado, com entrega no local e retirada combinadas conforme a obra.',
     acessorios: ['Maleta de transporte', 'Manual de uso'],
     criadoEm: '2026-09-23', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c69', titulo: 'Ferramenta de Policorte 12', tipo: 'ferramentas-eletricas',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Jardim América',
-    diaria: 80, frete: 25, caucao: 250, energia: '220v', potencia: '', peso: 20,
+    diaria: 80, frete: 25, caucao: 250, energia: '220v', potencia: '2.200 W', peso: 20,
     entrega: true, destaque: false,
-    descricao: 'Ferramenta de Policorte 12: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    descricao: 'Ferramenta de Policorte 12 para locação em Pelotas/RS. Uso profissional em reformas, manutenção e construção. Corta, desbasta e dá acabamento em diversos materiais. Motor elétrico de 220V com potência de 2.200 W. Item conferido e em bom estado, com entrega no local e retirada combinadas conforme a obra.',
     acessorios: ['Disco de corte', 'Maleta de transporte', 'Manual de uso'],
     criadoEm: '2026-10-30', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c70', titulo: 'Ferramenta de Policorte 14', tipo: 'ferramentas-eletricas',
     cidade: 'Pelotas', uf: 'RS', bairro: 'COHAB Fragata',
-    diaria: 80, frete: 25, caucao: 250, energia: '220v', potencia: '', peso: 20,
+    diaria: 90, frete: 25, caucao: 250, energia: '220v', potencia: '2.200 W', peso: 20,
     entrega: true, destaque: false,
-    descricao: 'Ferramenta de Policorte 14: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    descricao: 'Ferramenta de Policorte 14 para locação em Pelotas/RS. Para montagem, acabamento e manutenção em obras e reformas. Corta, desbasta e dá acabamento em diversos materiais. Motor elétrico de 220V com potência de 2.200 W. Equipamento revisado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Disco de corte', 'Maleta de transporte', 'Manual de uso'],
     criadoEm: '2026-07-31', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c71', titulo: 'Furadeira base magnética', tipo: 'ferramentas-eletricas',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Dunas',
-    diaria: 120, frete: 25, caucao: 350, energia: '220v', potencia: '', peso: 15,
+    diaria: 120, frete: 25, caucao: 350, energia: '220v', potencia: '1.200 W', peso: 13,
     entrega: true, destaque: false,
-    descricao: 'Furadeira base magnética: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    descricao: 'Furadeira base magnética para locação em Pelotas/RS. Acelera serviços de acabamento e montagem, com bom rendimento no dia a dia. Fura e aperta parafusos em madeira, metal e alvenaria. Motor elétrico de 220V com potência de 1.200 W. Equipamento revisado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Jogo de brocas', 'Maleta de transporte', 'Manual de uso'],
     criadoEm: '2026-09-06', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c72', titulo: 'Furadeira de bancada', tipo: 'ferramentas-eletricas',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Vila Princesa',
-    diaria: 60, frete: 25, caucao: 200, energia: '220v', potencia: '', peso: 25,
+    diaria: 60, frete: 25, caucao: 200, energia: '220v', potencia: '350 W', peso: 22,
     entrega: true, destaque: false,
-    descricao: 'Furadeira de bancada: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    descricao: 'Furadeira de bancada para locação em Pelotas/RS. Uso profissional em reformas, manutenção e construção. Fura e aperta parafusos em madeira, metal e alvenaria. Motor elétrico de 220V com potência de 350 W. Equipamento revisado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Jogo de brocas', 'Maleta de transporte', 'Manual de uso'],
     criadoEm: '2026-10-13', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c73', titulo: 'Grampeador Pneumático', tipo: 'ferramentas-eletricas',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Centro',
-    diaria: 40, frete: 25, caucao: 100, energia: '220v', potencia: '', peso: 3,
+    diaria: 40, frete: 25, caucao: 100, energia: 'pneumatico', potencia: '', peso: 3,
     entrega: true, destaque: false,
-    descricao: 'Grampeador Pneumático: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    descricao: 'Grampeador Pneumático para locação em Pelotas/RS. Para montagem, acabamento e manutenção em obras e reformas. Fixa grampos e pinos em madeira e estruturas. Funciona com ar comprimido do compressor. Equipamento revisado e testado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Maleta de transporte', 'Manual de uso'],
     criadoEm: '2026-07-14', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c74', titulo: 'Lixadeira Angular 7', tipo: 'ferramentas-eletricas',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Fragata',
-    diaria: 45, frete: 25, caucao: 150, energia: '220v', potencia: '', peso: 6,
+    diaria: 50, frete: 25, caucao: 150, energia: '220v', potencia: '1.200 W', peso: 6,
     entrega: true, destaque: false,
-    descricao: 'Lixadeira Angular 7: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    descricao: 'Lixadeira Angular 7 para locação em Pelotas/RS. Acelera serviços de acabamento e montagem, com bom rendimento no dia a dia. Lixa e alisa superfícies de madeira, metal e massa. Motor elétrico de 220V com potência de 1.200 W. Equipamento revisado e testado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Maleta de transporte', 'Manual de uso'],
     criadoEm: '2026-08-20', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c75', titulo: 'Lixadeira de Cinta', tipo: 'ferramentas-eletricas',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Três Vendas',
-    diaria: 45, frete: 25, caucao: 150, energia: '220v', potencia: '', peso: 6,
+    diaria: 45, frete: 25, caucao: 150, energia: '220v', potencia: '800 W', peso: 6,
     entrega: true, destaque: false,
-    descricao: 'Lixadeira de Cinta: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    descricao: 'Lixadeira de Cinta para locação em Pelotas/RS. Uso profissional em reformas, manutenção e construção. Lixa e alisa superfícies de madeira, metal e massa. Motor elétrico de 220V com potência de 800 W. Equipamento revisado e testado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Maleta de transporte', 'Manual de uso'],
     criadoEm: '2026-09-26', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c76', titulo: 'Lixadeira de Parede e Teto', tipo: 'ferramentas-eletricas',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Laranjal',
-    diaria: 45, frete: 25, caucao: 150, energia: '220v', potencia: '', peso: 6,
+    diaria: 45, frete: 25, caucao: 150, energia: '220v', potencia: '700 W', peso: 6,
     entrega: true, destaque: false,
-    descricao: 'Lixadeira de Parede e Teto: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    descricao: 'Lixadeira de Parede e Teto para locação em Pelotas/RS. Para montagem, acabamento e manutenção em obras e reformas. Lixa e alisa superfícies de madeira, metal e massa. Motor elétrico de 220V com potência de 700 W. Item conferido e em bom estado, com entrega no local e retirada combinadas conforme a obra.',
     acessorios: ['Maleta de transporte', 'Manual de uso'],
     criadoEm: '2026-11-02', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c77', titulo: 'Lixadeira Orbital', tipo: 'ferramentas-eletricas',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Areal',
-    diaria: 45, frete: 25, caucao: 150, energia: '220v', potencia: '', peso: 6,
+    diaria: 45, frete: 25, caucao: 150, energia: '220v', potencia: '300 W', peso: 6,
     entrega: true, destaque: false,
-    descricao: 'Lixadeira Orbital: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    descricao: 'Lixadeira Orbital para locação em Pelotas/RS. Acelera serviços de acabamento e montagem, com bom rendimento no dia a dia. Lixa e alisa superfícies de madeira, metal e massa. Motor elétrico de 220V com potência de 300 W. Item conferido e em bom estado, com entrega no local e retirada combinadas conforme a obra.',
     acessorios: ['Maleta de transporte', 'Manual de uso'],
     criadoEm: '2026-08-03', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
-    id: 'c78', titulo: 'Martelete Perfurador 2 kg Elétrico', tipo: 'ferramentas-eletricas',
-    cidade: 'Pelotas', uf: 'RS', bairro: 'Porto',
-    diaria: 80, frete: 25, caucao: 250, energia: '220v', potencia: '', peso: 5,
-    entrega: true, destaque: false,
-    descricao: 'Martelete Perfurador 2 kg Elétrico: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
-    acessorios: ['Maleta de transporte', 'Manual de uso'],
-    criadoEm: '2026-09-09', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
-  },
-  {
-    id: 'c79', titulo: 'Martelo Demolidor 16 kg', tipo: 'ferramentas-eletricas',
-    cidade: 'Pelotas', uf: 'RS', bairro: 'São Gonçalo',
-    diaria: 180, frete: 25, caucao: 550, energia: '220v', potencia: '', peso: 16,
-    entrega: true, destaque: true,
-    descricao: 'Martelo Demolidor 16 kg: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
-    acessorios: ['Ponteiro e cinzel', 'Protetor auricular', 'Maleta de transporte'],
-    criadoEm: '2026-10-16', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
-  },
-  {
-    id: 'c80', titulo: 'Martelo Demolidor de 30 kg', tipo: 'ferramentas-eletricas',
-    cidade: 'Pelotas', uf: 'RS', bairro: 'Navegantes',
-    diaria: 250, frete: 25, caucao: 750, energia: '220v', potencia: '', peso: 30,
-    entrega: true, destaque: true,
-    descricao: 'Martelo Demolidor de 30 kg: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
-    acessorios: ['Ponteiro e cinzel', 'Protetor auricular', 'Maleta de transporte'],
-    criadoEm: '2026-07-17', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
-  },
-  {
     id: 'c81', titulo: 'Misturador de Tintas', tipo: 'ferramentas-eletricas',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Jardim América',
-    diaria: 50, frete: 25, caucao: 150, energia: '220v', potencia: '', peso: 5,
+    diaria: 50, frete: 25, caucao: 150, energia: '220v', potencia: '1.200 W', peso: 5,
     entrega: true, destaque: false,
-    descricao: 'Misturador de Tintas: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    descricao: 'Misturador de Tintas para locação em Pelotas/RS. Uso profissional em reformas, manutenção e construção. Mistura argamassa, concreto e tintas com homogeneidade. Motor elétrico de 220V com potência de 1.200 W. Equipamento revisado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Maleta de transporte', 'Manual de uso'],
     criadoEm: '2026-08-23', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c82', titulo: 'Multicortadora', tipo: 'ferramentas-eletricas',
     cidade: 'Pelotas', uf: 'RS', bairro: 'COHAB Fragata',
-    diaria: 70, frete: 25, caucao: 200, energia: '220v', potencia: '', peso: 8,
+    diaria: 70, frete: 25, caucao: 200, energia: '220v', potencia: '710 W', peso: 8,
     entrega: true, destaque: false,
-    descricao: 'Multicortadora: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    descricao: 'Multicortadora para locação em Pelotas/RS. Para montagem, acabamento e manutenção em obras e reformas. Corta, desbasta e dá acabamento em diversos materiais. Motor elétrico de 220V com potência de 710 W. Equipamento revisado e testado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Disco de corte', 'Maleta de transporte', 'Manual de uso'],
     criadoEm: '2026-09-29', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c83', titulo: 'Parafusadeira (Elétrica)', tipo: 'ferramentas-eletricas',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Dunas',
-    diaria: 40, frete: 25, caucao: 100, energia: '220v', potencia: '', peso: 3,
+    diaria: 40, frete: 25, caucao: 100, energia: '220v', potencia: '500 W', peso: 3,
     entrega: true, destaque: false,
-    descricao: 'Parafusadeira (Elétrica): ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    descricao: 'Parafusadeira (Elétrica) para locação em Pelotas/RS. Acelera serviços de acabamento e montagem, com bom rendimento no dia a dia. Fura e aperta parafusos em madeira, metal e alvenaria. Motor elétrico de 220V com potência de 500 W. Equipamento revisado e testado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Jogo de brocas', 'Maleta de transporte', 'Manual de uso'],
     criadoEm: '2026-11-05', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c84', titulo: 'Parafusadeira a Bateria', tipo: 'ferramentas-eletricas',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Vila Princesa',
-    diaria: 40, frete: 25, caucao: 100, energia: 'bateria', potencia: '', peso: 3,
+    diaria: 40, frete: 25, caucao: 100, energia: 'bateria', potencia: '18 V', peso: 3,
     entrega: true, destaque: false,
-    descricao: 'Parafusadeira a Bateria: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    descricao: 'Parafusadeira a Bateria para locação em Pelotas/RS. Uso profissional em reformas, manutenção e construção. Fura e aperta parafusos em madeira, metal e alvenaria. Funciona a bateria (18 V), sem fios durante o uso. Equipamento revisado e testado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Jogo de brocas', 'Maleta de transporte', 'Manual de uso'],
     criadoEm: '2026-08-06', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c85', titulo: 'Pistola de Pintura', tipo: 'ferramentas-eletricas',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Centro',
-    diaria: 50, frete: 25, caucao: 150, energia: '220v', potencia: '', peso: 2,
+    diaria: 50, frete: 25, caucao: 150, energia: '220v', potencia: '600 W', peso: 2,
     entrega: true, destaque: false,
-    descricao: 'Pistola de Pintura: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    descricao: 'Pistola de Pintura para locação em Pelotas/RS. Para montagem, acabamento e manutenção em obras e reformas. Pulveriza tintas e vernizes em paredes e superfícies. Motor elétrico de 220V com potência de 600 W. Item conferido e em bom estado, com entrega no local e retirada combinadas conforme a obra.',
     acessorios: ['Maleta de transporte', 'Manual de uso'],
     criadoEm: '2026-09-12', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c86', titulo: 'Pistola Finca Pino', tipo: 'ferramentas-eletricas',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Fragata',
-    diaria: 45, frete: 25, caucao: 150, energia: '220v', potencia: '', peso: 3,
+    diaria: 45, frete: 25, caucao: 150, energia: 'pneumatico', potencia: '', peso: 3,
     entrega: true, destaque: false,
-    descricao: 'Pistola Finca Pino: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    descricao: 'Pistola Finca Pino para locação em Pelotas/RS. Acelera serviços de acabamento e montagem, com bom rendimento no dia a dia. Fixa pinos e pregos em concreto, aço e madeira. Funciona com ar comprimido do compressor. Item conferido e em bom estado, com entrega no local e retirada combinadas conforme a obra.',
     acessorios: ['Maleta de transporte', 'Manual de uso'],
     criadoEm: '2026-10-19', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c87', titulo: 'Plaina Elétrica', tipo: 'ferramentas-eletricas',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Três Vendas',
-    diaria: 55, frete: 25, caucao: 150, energia: '220v', potencia: '', peso: 8,
+    diaria: 55, frete: 25, caucao: 150, energia: '220v', potencia: '650 W', peso: 8,
     entrega: true, destaque: false,
-    descricao: 'Plaina Elétrica: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    descricao: 'Plaina Elétrica para locação em Pelotas/RS. Uso profissional em reformas, manutenção e construção. Aplaina e ajusta madeiras em marcenaria e reformas. Motor elétrico de 220V com potência de 650 W. Item conferido e em bom estado, com entrega no local e retirada combinadas conforme a obra.',
     acessorios: ['Maleta de transporte', 'Manual de uso'],
     criadoEm: '2026-07-20', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c88', titulo: 'Rosqueadeira', tipo: 'ferramentas-eletricas',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Laranjal',
-    diaria: 100, frete: 25, caucao: 300, energia: '220v', potencia: '', peso: 25,
+    diaria: 100, frete: 25, caucao: 300, energia: '220v', potencia: '1.200 W', peso: 22,
     entrega: true, destaque: false,
-    descricao: 'Rosqueadeira: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    descricao: 'Rosqueadeira para locação em Pelotas/RS. Para montagem, acabamento e manutenção em obras e reformas. Faz roscas em tubos e conexões de aço. Motor elétrico de 220V com potência de 1.200 W. Equipamento revisado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Maleta de transporte', 'Manual de uso'],
     criadoEm: '2026-08-26', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c89', titulo: 'Serra de Bancada', tipo: 'ferramentas-eletricas',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Areal',
-    diaria: 90, frete: 25, caucao: 250, energia: '220v', potencia: '', peso: 30,
+    diaria: 90, frete: 25, caucao: 250, energia: '220v', potencia: '1.800 W', peso: 28,
     entrega: true, destaque: false,
-    descricao: 'Serra de Bancada: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    descricao: 'Serra de Bancada para locação em Pelotas/RS. Acelera serviços de acabamento e montagem, com bom rendimento no dia a dia. Corta, desbasta e dá acabamento em diversos materiais. Motor elétrico de 220V com potência de 1.800 W. Equipamento revisado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Disco de corte', 'Maleta de transporte', 'Manual de uso'],
     criadoEm: '2026-10-02', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c90', titulo: 'Serra Elétrica', tipo: 'ferramentas-eletricas',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Porto',
-    diaria: 60, frete: 25, caucao: 200, energia: '220v', potencia: '', peso: 6,
+    diaria: 60, frete: 25, caucao: 200, energia: '220v', potencia: '1.200 W', peso: 6,
     entrega: true, destaque: false,
-    descricao: 'Serra Elétrica: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    descricao: 'Serra Elétrica para locação em Pelotas/RS. Uso profissional em reformas, manutenção e construção. Corta, desbasta e dá acabamento em diversos materiais. Motor elétrico de 220V com potência de 1.200 W. Equipamento revisado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Disco de corte', 'Maleta de transporte', 'Manual de uso'],
     criadoEm: '2026-07-03', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c91', titulo: 'Serra Madeira 7.1/4', tipo: 'ferramentas-eletricas',
     cidade: 'Pelotas', uf: 'RS', bairro: 'São Gonçalo',
-    diaria: 50, frete: 25, caucao: 150, energia: '220v', potencia: '', peso: 6,
+    diaria: 50, frete: 25, caucao: 150, energia: '220v', potencia: '1.200 W', peso: 6,
     entrega: true, destaque: false,
-    descricao: 'Serra Madeira 7.1/4: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    descricao: 'Serra Madeira 7.1/4 para locação em Pelotas/RS. Para montagem, acabamento e manutenção em obras e reformas. Corta, desbasta e dá acabamento em diversos materiais. Motor elétrico de 220V com potência de 1.200 W. Equipamento revisado e testado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Disco de corte', 'Maleta de transporte', 'Manual de uso'],
     criadoEm: '2026-08-09', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c92', titulo: 'Serra Madeira 9.1/4', tipo: 'ferramentas-eletricas',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Navegantes',
-    diaria: 50, frete: 25, caucao: 150, energia: '220v', potencia: '', peso: 6,
+    diaria: 60, frete: 25, caucao: 200, energia: '220v', potencia: '1.400 W', peso: 6,
     entrega: true, destaque: false,
-    descricao: 'Serra Madeira 9.1/4: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    descricao: 'Serra Madeira 9.1/4 para locação em Pelotas/RS. Acelera serviços de acabamento e montagem, com bom rendimento no dia a dia. Corta, desbasta e dá acabamento em diversos materiais. Motor elétrico de 220V com potência de 1.400 W. Equipamento revisado e testado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Disco de corte', 'Maleta de transporte', 'Manual de uso'],
     criadoEm: '2026-09-15', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c93', titulo: 'Serra Mármore 4.3/8', tipo: 'ferramentas-eletricas',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Jardim América',
-    diaria: 50, frete: 25, caucao: 150, energia: '220v', potencia: '', peso: 5,
+    diaria: 50, frete: 25, caucao: 150, energia: '220v', potencia: '1.200 W', peso: 5,
     entrega: true, destaque: false,
-    descricao: 'Serra Mármore 4.3/8: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    descricao: 'Serra Mármore 4.3/8 para locação em Pelotas/RS. Uso profissional em reformas, manutenção e construção. Corta, desbasta e dá acabamento em diversos materiais. Motor elétrico de 220V com potência de 1.200 W. Equipamento revisado e testado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Disco de corte', 'Maleta de transporte', 'Manual de uso'],
     criadoEm: '2026-10-22', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c94', titulo: 'Serra Mármore 7', tipo: 'ferramentas-eletricas',
     cidade: 'Pelotas', uf: 'RS', bairro: 'COHAB Fragata',
-    diaria: 50, frete: 25, caucao: 150, energia: '220v', potencia: '', peso: 5,
+    diaria: 60, frete: 25, caucao: 200, energia: '220v', potencia: '1.200 W', peso: 5,
     entrega: true, destaque: false,
-    descricao: 'Serra Mármore 7: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    descricao: 'Serra Mármore 7 para locação em Pelotas/RS. Para montagem, acabamento e manutenção em obras e reformas. Corta, desbasta e dá acabamento em diversos materiais. Motor elétrico de 220V com potência de 1.200 W. Item conferido e em bom estado, com entrega no local e retirada combinadas conforme a obra.',
     acessorios: ['Disco de corte', 'Maleta de transporte', 'Manual de uso'],
     criadoEm: '2026-07-23', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c95', titulo: 'Serra Sabre', tipo: 'ferramentas-eletricas',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Dunas',
-    diaria: 50, frete: 25, caucao: 150, energia: '220v', potencia: '', peso: 4,
+    diaria: 50, frete: 25, caucao: 150, energia: '220v', potencia: '1.010 W', peso: 4,
     entrega: true, destaque: false,
-    descricao: 'Serra Sabre: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    descricao: 'Serra Sabre para locação em Pelotas/RS. Acelera serviços de acabamento e montagem, com bom rendimento no dia a dia. Corta, desbasta e dá acabamento em diversos materiais. Motor elétrico de 220V com potência de 1.010 W. Item conferido e em bom estado, com entrega no local e retirada combinadas conforme a obra.',
     acessorios: ['Disco de corte', 'Maleta de transporte', 'Manual de uso'],
     criadoEm: '2026-08-29', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c96', titulo: 'Serra tico-tico', tipo: 'ferramentas-eletricas',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Vila Princesa',
-    diaria: 45, frete: 25, caucao: 150, energia: '220v', potencia: '', peso: 4,
+    diaria: 45, frete: 25, caucao: 150, energia: '220v', potencia: '650 W', peso: 4,
     entrega: true, destaque: false,
-    descricao: 'Serra tico-tico: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    descricao: 'Serra tico-tico para locação em Pelotas/RS. Uso profissional em reformas, manutenção e construção. Corta, desbasta e dá acabamento em diversos materiais. Motor elétrico de 220V com potência de 650 W. Item conferido e em bom estado, com entrega no local e retirada combinadas conforme a obra.',
     acessorios: ['Disco de corte', 'Maleta de transporte', 'Manual de uso'],
     criadoEm: '2026-10-05', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c97', titulo: 'Serra trilho Elétrica', tipo: 'ferramentas-eletricas',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Centro',
-    diaria: 100, frete: 25, caucao: 300, energia: '220v', potencia: '', peso: 15,
+    diaria: 100, frete: 25, caucao: 300, energia: '220v', potencia: '1.400 W', peso: 12,
     entrega: true, destaque: false,
-    descricao: 'Serra trilho Elétrica: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    descricao: 'Serra trilho Elétrica para locação em Pelotas/RS. Para montagem, acabamento e manutenção em obras e reformas. Corta, desbasta e dá acabamento em diversos materiais. Motor elétrico de 220V com potência de 1.400 W. Equipamento revisado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Disco de corte', 'Maleta de transporte', 'Manual de uso'],
     criadoEm: '2026-07-06', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c98', titulo: 'Soprador Térmico', tipo: 'ferramentas-eletricas',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Fragata',
-    diaria: 50, frete: 25, caucao: 150, energia: '220v', potencia: '', peso: 3,
+    diaria: 50, frete: 25, caucao: 150, energia: '220v', potencia: '1.800 W', peso: 3,
     entrega: true, destaque: false,
-    descricao: 'Soprador Térmico: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    descricao: 'Soprador Térmico para locação em Pelotas/RS. Acelera serviços de acabamento e montagem, com bom rendimento no dia a dia. Aquece e remove tintas, adesivos e plásticos. Motor elétrico de 220V com potência de 1.800 W. Equipamento revisado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Maleta de transporte', 'Manual de uso'],
     criadoEm: '2026-08-12', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c99', titulo: 'Tupia', tipo: 'ferramentas-eletricas',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Três Vendas',
-    diaria: 65, frete: 25, caucao: 200, energia: '220v', potencia: '', peso: 15,
+    diaria: 65, frete: 25, caucao: 200, energia: '220v', potencia: '1.500 W', peso: 12,
     entrega: true, destaque: false,
-    descricao: 'Tupia: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    descricao: 'Tupia para locação em Pelotas/RS. Uso profissional em reformas, manutenção e construção. Fresa madeira para encaixes, molduras e ranhuras. Motor elétrico de 220V com potência de 1.500 W. Equipamento revisado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Maleta de transporte', 'Manual de uso'],
     criadoEm: '2026-09-18', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c100', titulo: 'Furadeira de Impacto', tipo: 'furacao-demolicao',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Laranjal',
-    diaria: 40, frete: 25, caucao: 100, energia: '220v', potencia: '', peso: 3,
+    diaria: 40, frete: 25, caucao: 100, energia: '220v', potencia: '650 W', peso: 3,
     entrega: true, destaque: false,
-    descricao: 'Furadeira de Impacto: equipamento para furação e demolição de concreto, alvenaria e pisos. Robusto para obras e reformas, com entrega combinada em Pelotas.',
+    descricao: 'Furadeira de Impacto para locação em Pelotas/RS. Para furação e demolição de concreto, alvenaria e pisos. Fura e aperta parafusos em madeira, metal e alvenaria. Motor elétrico de 220V com potência de 650 W. Equipamento revisado e testado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Jogo de brocas', 'Maleta de transporte', 'Manual de uso'],
     criadoEm: '2026-10-25', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c101', titulo: 'Furadeira de Impacto 1/2"', tipo: 'furacao-demolicao',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Areal',
-    diaria: 40, frete: 25, caucao: 100, energia: '220v', potencia: '', peso: 3,
+    diaria: 40, frete: 25, caucao: 100, energia: '220v', potencia: '800 W', peso: 3,
     entrega: true, destaque: false,
-    descricao: 'Furadeira de Impacto 1/2": equipamento para furação e demolição de concreto, alvenaria e pisos. Robusto para obras e reformas, com entrega combinada em Pelotas.',
+    descricao: 'Furadeira de Impacto 1/2" para locação em Pelotas/RS. Robusto para quebrar e perfurar materiais duros com agilidade. Fura e aperta parafusos em madeira, metal e alvenaria. Motor elétrico de 220V com potência de 800 W. Equipamento revisado e testado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Jogo de brocas', 'Maleta de transporte', 'Manual de uso'],
     criadoEm: '2026-07-26', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
+    id: 'c78', titulo: 'Martelete Perfurador 2 kg Elétrico', tipo: 'furacao-demolicao',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Porto',
+    diaria: 80, frete: 25, caucao: 250, energia: '220v', potencia: '800 W', peso: 5,
+    entrega: true, destaque: false,
+    descricao: 'Martelete Perfurador 2 kg Elétrico para locação em Pelotas/RS. Para demolições controladas e furações em obras e reformas. Perfura e demole concreto e alvenaria com impacto. Motor elétrico de 220V com potência de 800 W. Item conferido e em bom estado, com entrega no local e retirada combinadas conforme a obra.',
+    acessorios: ['Ponteiro e cinzel', 'Protetor auricular'],
+    criadoEm: '2026-09-09', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
     id: 'c102', titulo: 'Martelete Perfurador de 4 kg', tipo: 'furacao-demolicao',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Porto',
-    diaria: 90, frete: 25, caucao: 250, energia: '220v', potencia: '', peso: 4,
+    diaria: 90, frete: 25, caucao: 250, energia: '220v', potencia: '1.050 W', peso: 4,
     entrega: true, destaque: false,
-    descricao: 'Martelete Perfurador de 4 kg: equipamento para furação e demolição de concreto, alvenaria e pisos. Robusto para obras e reformas, com entrega combinada em Pelotas.',
+    descricao: 'Martelete Perfurador de 4 kg para locação em Pelotas/RS. Para demolições controladas e furações em obras e reformas. Perfura e demole concreto e alvenaria com impacto. Motor elétrico de 220V com potência de 1.050 W. Equipamento revisado e testado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Ponteiro e cinzel', 'Protetor auricular'],
     criadoEm: '2026-09-01', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c103', titulo: 'Martelete Rompedor de 11 kg', tipo: 'furacao-demolicao',
     cidade: 'Pelotas', uf: 'RS', bairro: 'São Gonçalo',
-    diaria: 150, frete: 25, caucao: 450, energia: '220v', potencia: '', peso: 11,
+    diaria: 150, frete: 25, caucao: 450, energia: '220v', potencia: '1.500 W', peso: 11,
     entrega: true, destaque: true,
-    descricao: 'Martelete Rompedor de 11 kg: equipamento para furação e demolição de concreto, alvenaria e pisos. Robusto para obras e reformas, com entrega combinada em Pelotas.',
+    descricao: 'Martelete Rompedor de 11 kg para locação em Pelotas/RS. Para furação e demolição de concreto, alvenaria e pisos. Perfura e demole concreto e alvenaria com impacto. Motor elétrico de 220V com potência de 1.500 W. Item conferido e em bom estado, com entrega no local e retirada combinadas conforme a obra.',
     acessorios: ['Ponteiro e cinzel', 'Protetor auricular', 'Maleta de transporte'],
     criadoEm: '2026-10-08', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c104', titulo: 'Martelete Rompedor de 17 kg', tipo: 'furacao-demolicao',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Navegantes',
-    diaria: 190, frete: 25, caucao: 550, energia: '220v', potencia: '', peso: 17,
+    diaria: 190, frete: 25, caucao: 550, energia: '220v', potencia: '1.700 W', peso: 17,
     entrega: true, destaque: true,
-    descricao: 'Martelete Rompedor de 17 kg: equipamento para furação e demolição de concreto, alvenaria e pisos. Robusto para obras e reformas, com entrega combinada em Pelotas.',
+    descricao: 'Martelete Rompedor de 17 kg para locação em Pelotas/RS. Robusto para quebrar e perfurar materiais duros com agilidade. Perfura e demole concreto e alvenaria com impacto. Motor elétrico de 220V com potência de 1.700 W. Item conferido e em bom estado, com entrega no local e retirada combinadas conforme a obra.',
     acessorios: ['Ponteiro e cinzel', 'Protetor auricular', 'Maleta de transporte'],
     criadoEm: '2026-07-09', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c105', titulo: 'Martelete Rompedor de 5 kg', tipo: 'furacao-demolicao',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Jardim América',
-    diaria: 100, frete: 25, caucao: 300, energia: '220v', potencia: '', peso: 5,
+    diaria: 100, frete: 25, caucao: 300, energia: '220v', potencia: '1.050 W', peso: 5,
     entrega: true, destaque: true,
-    descricao: 'Martelete Rompedor de 5 kg: equipamento para furação e demolição de concreto, alvenaria e pisos. Robusto para obras e reformas, com entrega combinada em Pelotas.',
+    descricao: 'Martelete Rompedor de 5 kg para locação em Pelotas/RS. Para demolições controladas e furações em obras e reformas. Perfura e demole concreto e alvenaria com impacto. Motor elétrico de 220V com potência de 1.050 W. Item conferido e em bom estado, com entrega no local e retirada combinadas conforme a obra.',
     acessorios: ['Ponteiro e cinzel', 'Protetor auricular', 'Maleta de transporte'],
     criadoEm: '2026-08-15', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
+    id: 'c79', titulo: 'Martelo Demolidor 16 kg', tipo: 'furacao-demolicao',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'São Gonçalo',
+    diaria: 180, frete: 25, caucao: 550, energia: '220v', potencia: '1.600 W', peso: 16,
+    entrega: true, destaque: true,
+    descricao: 'Martelo Demolidor 16 kg para locação em Pelotas/RS. Para furação e demolição de concreto, alvenaria e pisos. Perfura e demole concreto e alvenaria com impacto. Motor elétrico de 220V com potência de 1.600 W. Equipamento revisado, com entrega e retirada combinadas em Pelotas/RS.',
+    acessorios: ['Ponteiro e cinzel', 'Protetor auricular', 'Maleta de transporte'],
+    criadoEm: '2026-10-16', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
     id: 'c106', titulo: 'Martelo Demolidor de 10 kg', tipo: 'furacao-demolicao',
     cidade: 'Pelotas', uf: 'RS', bairro: 'COHAB Fragata',
-    diaria: 140, frete: 25, caucao: 400, energia: '220v', potencia: '', peso: 10,
+    diaria: 140, frete: 25, caucao: 400, energia: '220v', potencia: '1.300 W', peso: 10,
     entrega: true, destaque: true,
-    descricao: 'Martelo Demolidor de 10 kg: equipamento para furação e demolição de concreto, alvenaria e pisos. Robusto para obras e reformas, com entrega combinada em Pelotas.',
+    descricao: 'Martelo Demolidor de 10 kg para locação em Pelotas/RS. Para furação e demolição de concreto, alvenaria e pisos. Perfura e demole concreto e alvenaria com impacto. Motor elétrico de 220V com potência de 1.300 W. Equipamento revisado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Ponteiro e cinzel', 'Protetor auricular', 'Maleta de transporte'],
     criadoEm: '2026-09-21', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c107', titulo: 'Martelo Demolidor de 13 kg', tipo: 'furacao-demolicao',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Dunas',
-    diaria: 160, frete: 25, caucao: 500, energia: '220v', potencia: '', peso: 13,
+    diaria: 160, frete: 25, caucao: 500, energia: '220v', potencia: '1.500 W', peso: 13,
     entrega: true, destaque: true,
-    descricao: 'Martelo Demolidor de 13 kg: equipamento para furação e demolição de concreto, alvenaria e pisos. Robusto para obras e reformas, com entrega combinada em Pelotas.',
+    descricao: 'Martelo Demolidor de 13 kg para locação em Pelotas/RS. Robusto para quebrar e perfurar materiais duros com agilidade. Perfura e demole concreto e alvenaria com impacto. Motor elétrico de 220V com potência de 1.500 W. Equipamento revisado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Ponteiro e cinzel', 'Protetor auricular', 'Maleta de transporte'],
     criadoEm: '2026-10-28', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
+    id: 'c80', titulo: 'Martelo Demolidor de 30 kg', tipo: 'furacao-demolicao',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Navegantes',
+    diaria: 250, frete: 25, caucao: 750, energia: '220v', potencia: '2.000 W', peso: 30,
+    entrega: true, destaque: true,
+    descricao: 'Martelo Demolidor de 30 kg para locação em Pelotas/RS. Robusto para quebrar e perfurar materiais duros com agilidade. Perfura e demole concreto e alvenaria com impacto. Motor elétrico de 220V com potência de 2.000 W. Equipamento revisado, com entrega e retirada combinadas em Pelotas/RS.',
+    acessorios: ['Ponteiro e cinzel', 'Protetor auricular', 'Maleta de transporte'],
+    criadoEm: '2026-07-17', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
     id: 'c108', titulo: 'Perfuratriz', tipo: 'furacao-demolicao',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Vila Princesa',
-    diaria: 220, frete: 25, caucao: 650, energia: '220v', potencia: '', peso: 25,
+    diaria: 220, frete: 25, caucao: 650, energia: '220v', potencia: '2 cv', peso: 22,
     entrega: true, destaque: false,
-    descricao: 'Perfuratriz: equipamento para furação e demolição de concreto, alvenaria e pisos. Robusto para obras e reformas, com entrega combinada em Pelotas.',
+    descricao: 'Perfuratriz para locação em Pelotas/RS. Para demolições controladas e furações em obras e reformas. Perfura e demole concreto e alvenaria com impacto. Motor elétrico de 220V com potência de 2 cv. Equipamento revisado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Ponteiro e cinzel', 'Protetor auricular'],
     criadoEm: '2026-07-29', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c109', titulo: 'Triturador de Entulho', tipo: 'furacao-demolicao',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Centro',
-    diaria: 280, frete: 80, caucao: 850, energia: '220v', potencia: '', peso: 120,
+    diaria: 280, frete: 80, caucao: 850, energia: '220v', potencia: '5 cv', peso: 110,
     entrega: true, destaque: false,
-    descricao: 'Triturador de Entulho: equipamento para furação e demolição de concreto, alvenaria e pisos. Robusto para obras e reformas, com entrega combinada em Pelotas.',
+    descricao: 'Triturador de Entulho para locação em Pelotas/RS. Para furação e demolição de concreto, alvenaria e pisos. Tritura entulho e reduz o volume de resíduos. Motor elétrico de 220V com potência de 5 cv. Equipamento revisado e testado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Ponteiro e cinzel', 'Protetor auricular'],
     criadoEm: '2026-09-04', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c110', titulo: 'Aparador de Cerca Viva', tipo: 'jardinagem',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Fragata',
-    diaria: 55, frete: 25, caucao: 150, energia: 'gasolina', potencia: '', peso: 6,
+    diaria: 55, frete: 25, caucao: 150, energia: 'gasolina', potencia: '0,7 cv', peso: 6,
     entrega: true, destaque: false,
-    descricao: 'Aparador de Cerca Viva: equipamento para manutenção de jardins, gramados e terrenos. Disponível para locação em Pelotas, com entrega combinada.',
+    descricao: 'Aparador de Cerca Viva para locação em Pelotas/RS. Ajuda no corte e na limpeza de áreas verdes com menos esforço. Apara cercas vivas e arbustos com acabamento uniforme. Motor a gasolina de 0,7 cv. Equipamento revisado e testado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Protetor auricular', 'Manual de uso'],
     criadoEm: '2026-10-11', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c111', titulo: 'Atomizador', tipo: 'jardinagem',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Três Vendas',
-    diaria: 50, frete: 25, caucao: 150, energia: 'gasolina', potencia: '', peso: 10,
+    diaria: 50, frete: 25, caucao: 150, energia: 'gasolina', potencia: '1 cv', peso: 10,
     entrega: true, destaque: false,
-    descricao: 'Atomizador: equipamento para manutenção de jardins, gramados e terrenos. Disponível para locação em Pelotas, com entrega combinada.',
+    descricao: 'Atomizador para locação em Pelotas/RS. Para jardinagem e conservação de quintais, sítios e áreas comuns. Pulveriza líquidos e pó em plantas e terrenos. Motor a gasolina de 1 cv. Equipamento revisado e testado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Bico pulverizador', 'Manual de uso'],
     criadoEm: '2026-07-12', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c112', titulo: 'Cortadora de Grama Elétrica', tipo: 'jardinagem',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Laranjal',
-    diaria: 70, frete: 25, caucao: 200, energia: '220v', potencia: '', peso: 25,
+    diaria: 60, frete: 25, caucao: 200, energia: '220v', potencia: '1.200 W', peso: 22,
     entrega: true, destaque: true,
-    descricao: 'Cortadora de Grama Elétrica: equipamento para manutenção de jardins, gramados e terrenos. Disponível para locação em Pelotas, com entrega combinada.',
+    descricao: 'Cortadora de Grama Elétrica para locação em Pelotas/RS. Para manutenção de jardins, gramados, cercas vivas e terrenos. Corta grama em jardins e áreas verdes. Motor elétrico de 220V com potência de 1.200 W. Item conferido e em bom estado, com entrega no local e retirada combinadas conforme a obra.',
     acessorios: ['Protetor auricular', 'Manual de uso'],
     criadoEm: '2026-08-18', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c113', titulo: 'Cortadora de Grama Gasolina', tipo: 'jardinagem',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Areal',
-    diaria: 70, frete: 25, caucao: 200, energia: 'gasolina', potencia: '', peso: 25,
+    diaria: 85, frete: 25, caucao: 250, energia: 'gasolina', potencia: '4 cv', peso: 22,
     entrega: true, destaque: true,
-    descricao: 'Cortadora de Grama Gasolina: equipamento para manutenção de jardins, gramados e terrenos. Disponível para locação em Pelotas, com entrega combinada.',
+    descricao: 'Cortadora de Grama Gasolina para locação em Pelotas/RS. Ajuda no corte e na limpeza de áreas verdes com menos esforço. Corta grama em jardins e áreas verdes. Motor a gasolina de 4 cv. Item conferido e em bom estado, com entrega no local e retirada combinadas conforme a obra.',
     acessorios: ['Protetor auricular', 'Manual de uso'],
     criadoEm: '2026-09-24', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c114', titulo: 'Eletrosserra a bateria', tipo: 'jardinagem',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Porto',
-    diaria: 70, frete: 25, caucao: 200, energia: 'bateria', potencia: '', peso: 5,
+    diaria: 70, frete: 25, caucao: 200, energia: 'bateria', potencia: '18 V', peso: 5,
     entrega: true, destaque: false,
-    descricao: 'Eletrosserra a bateria: equipamento para manutenção de jardins, gramados e terrenos. Disponível para locação em Pelotas, com entrega combinada.',
+    descricao: 'Eletrosserra a bateria para locação em Pelotas/RS. Para jardinagem e conservação de quintais, sítios e áreas comuns. Corta galhos e troncos com corrente elétrica. Funciona a bateria (18 V), sem fios durante o uso. Item conferido e em bom estado, com entrega no local e retirada combinadas conforme a obra.',
     acessorios: ['Protetor auricular', 'Manual de uso'],
     criadoEm: '2026-10-31', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c115', titulo: 'Multifuncional', tipo: 'jardinagem',
     cidade: 'Pelotas', uf: 'RS', bairro: 'São Gonçalo',
-    diaria: 75, frete: 25, caucao: 250, energia: 'gasolina', potencia: '', peso: 30,
+    diaria: 75, frete: 25, caucao: 250, energia: 'gasolina', potencia: '1,5 cv', peso: 28,
     entrega: true, destaque: false,
-    descricao: 'Multifuncional: equipamento para manutenção de jardins, gramados e terrenos. Disponível para locação em Pelotas, com entrega combinada.',
+    descricao: 'Multifuncional para locação em Pelotas/RS. Para manutenção de jardins, gramados, cercas vivas e terrenos. Executa corte, roçada e acabamento com um só motor. Motor a gasolina de 1,5 cv. Equipamento revisado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Protetor auricular', 'Manual de uso'],
     criadoEm: '2026-08-01', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c116', titulo: 'Perfurador de Solo', tipo: 'jardinagem',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Navegantes',
-    diaria: 100, frete: 25, caucao: 300, energia: 'gasolina', potencia: '', peso: 20,
+    diaria: 100, frete: 25, caucao: 300, energia: 'gasolina', potencia: '2 cv', peso: 18,
     entrega: true, destaque: false,
-    descricao: 'Perfurador de Solo: equipamento para manutenção de jardins, gramados e terrenos. Disponível para locação em Pelotas, com entrega combinada.',
+    descricao: 'Perfurador de Solo para locação em Pelotas/RS. Ajuda no corte e na limpeza de áreas verdes com menos esforço. Abre furos no solo para estacas, mourões e cercas. Motor a gasolina de 2 cv. Equipamento revisado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Protetor auricular', 'Manual de uso'],
     criadoEm: '2026-09-07', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c117', titulo: 'Podador de Galhos', tipo: 'jardinagem',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Jardim América',
-    diaria: 65, frete: 25, caucao: 200, energia: 'gasolina', potencia: '', peso: 8,
+    diaria: 65, frete: 25, caucao: 200, energia: 'gasolina', potencia: '1 cv', peso: 8,
     entrega: true, destaque: false,
-    descricao: 'Podador de Galhos: equipamento para manutenção de jardins, gramados e terrenos. Disponível para locação em Pelotas, com entrega combinada.',
+    descricao: 'Podador de Galhos para locação em Pelotas/RS. Para jardinagem e conservação de quintais, sítios e áreas comuns. Corta galhos altos com segurança. Motor a gasolina de 1 cv. Equipamento revisado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Protetor auricular', 'Manual de uso'],
     criadoEm: '2026-10-14', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
@@ -2358,34 +2361,34 @@ const EQUIPAMENTOS_BASE = [
     cidade: 'Pelotas', uf: 'RS', bairro: 'COHAB Fragata',
     diaria: 25, frete: 25, caucao: 100, energia: 'manual', potencia: '', peso: 3,
     entrega: true, destaque: false,
-    descricao: 'Pulverizador Manual: equipamento para manutenção de jardins, gramados e terrenos. Disponível para locação em Pelotas, com entrega combinada.',
+    descricao: 'Pulverizador Manual para locação em Pelotas/RS. Para manutenção de jardins, gramados, cercas vivas e terrenos. Aplica defensivos e produtos líquidos em plantas. Operação manual, sem motor. Equipamento revisado e testado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Bico pulverizador', 'Manual de uso'],
     criadoEm: '2026-07-15', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c119', titulo: 'Roçadeira Elétrica', tipo: 'jardinagem',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Dunas',
-    diaria: 80, frete: 25, caucao: 250, energia: '220v', potencia: '', peso: 12,
+    diaria: 70, frete: 25, caucao: 200, energia: '220v', potencia: '1.200 W', peso: 12,
     entrega: true, destaque: true,
-    descricao: 'Roçadeira Elétrica: equipamento para manutenção de jardins, gramados e terrenos. Disponível para locação em Pelotas, com entrega combinada.',
+    descricao: 'Roçadeira Elétrica para locação em Pelotas/RS. Ajuda no corte e na limpeza de áreas verdes com menos esforço. Corta mato alto e limpa terrenos. Motor elétrico de 220V com potência de 1.200 W. Equipamento revisado e testado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Protetor auricular', 'Manual de uso'],
     criadoEm: '2026-08-21', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c120', titulo: 'Roçadeira Gasolina', tipo: 'jardinagem',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Vila Princesa',
-    diaria: 80, frete: 25, caucao: 250, energia: 'gasolina', potencia: '', peso: 12,
+    diaria: 90, frete: 25, caucao: 250, energia: 'gasolina', potencia: '1,5 cv', peso: 15,
     entrega: true, destaque: true,
-    descricao: 'Roçadeira Gasolina: equipamento para manutenção de jardins, gramados e terrenos. Disponível para locação em Pelotas, com entrega combinada.',
+    descricao: 'Roçadeira Gasolina para locação em Pelotas/RS. Para jardinagem e conservação de quintais, sítios e áreas comuns. Corta mato alto e limpa terrenos. Motor a gasolina de 1,5 cv. Equipamento revisado e testado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Protetor auricular', 'Manual de uso'],
     criadoEm: '2026-09-27', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c121', titulo: 'Soprador de Folhas', tipo: 'jardinagem',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Centro',
-    diaria: 50, frete: 25, caucao: 150, energia: 'gasolina', potencia: '', peso: 6,
+    diaria: 50, frete: 25, caucao: 150, energia: 'gasolina', potencia: '1 cv', peso: 6,
     entrega: true, destaque: false,
-    descricao: 'Soprador de Folhas: equipamento para manutenção de jardins, gramados e terrenos. Disponível para locação em Pelotas, com entrega combinada.',
+    descricao: 'Soprador de Folhas para locação em Pelotas/RS. Para manutenção de jardins, gramados, cercas vivas e terrenos. Remove folhas e resíduos de calçadas e jardins. Motor a gasolina de 1 cv. Item conferido e em bom estado, com entrega no local e retirada combinadas conforme a obra.',
     acessorios: ['Protetor auricular', 'Manual de uso'],
     criadoEm: '2026-11-03', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
@@ -2394,115 +2397,115 @@ const EQUIPAMENTOS_BASE = [
     cidade: 'Pelotas', uf: 'RS', bairro: 'Fragata',
     diaria: 70, frete: 25, caucao: 200, energia: '220v', potencia: '', peso: 12,
     entrega: true, destaque: false,
-    descricao: 'Aspirador de Pó e Líquidos: equipamento para limpeza pesada de pisos, fachadas e ambientes. Revisado, com entrega combinada em Pelotas.',
+    descricao: 'Aspirador de Pó e Líquidos para locação em Pelotas/RS. Remove sujeira difícil em obras, garagens, calçadas e áreas externas. Aspira pó, líquidos e resíduos em obras e reformas. Funciona em tomada de 220V. Item conferido e em bom estado, com entrega no local e retirada combinadas conforme a obra.',
     acessorios: ['Mangueira 10 m', 'Manual de uso'],
     criadoEm: '2026-08-04', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c123', titulo: 'Enceradeira Industrial', tipo: 'limpeza',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Três Vendas',
-    diaria: 80, frete: 50, caucao: 250, energia: '220v', potencia: '', peso: 40,
+    diaria: 80, frete: 50, caucao: 250, energia: '220v', potencia: '1.500 W', peso: 38,
     entrega: true, destaque: false,
-    descricao: 'Enceradeira Industrial: equipamento para limpeza pesada de pisos, fachadas e ambientes. Revisado, com entrega combinada em Pelotas.',
+    descricao: 'Enceradeira Industrial para locação em Pelotas/RS. Para higienização e acabamento de superfícies antes da entrega. Aplicação de cera e polimento em pisos. Motor elétrico de 220V com potência de 1.500 W. Item conferido e em bom estado, com entrega no local e retirada combinadas conforme a obra.',
     acessorios: ['Mangueira 10 m', 'Manual de uso'],
     criadoEm: '2026-09-10', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c124', titulo: 'Extratora', tipo: 'limpeza',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Laranjal',
-    diaria: 170, frete: 50, caucao: 500, energia: '220v', potencia: '', peso: 40,
+    diaria: 170, frete: 50, caucao: 500, energia: '220v', potencia: '1.200 W', peso: 38,
     entrega: true, destaque: false,
-    descricao: 'Extratora: equipamento para limpeza pesada de pisos, fachadas e ambientes. Revisado, com entrega combinada em Pelotas.',
+    descricao: 'Extratora para locação em Pelotas/RS. Para limpeza pesada de pisos, fachadas e ambientes. Extrai sujeira e líquidos de estofados, carpetes e pisos. Motor elétrico de 220V com potência de 1.200 W. Equipamento revisado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Mangueira 10 m', 'Manual de uso'],
     criadoEm: '2026-10-17', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c125', titulo: 'Hidrolavadora', tipo: 'limpeza',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Areal',
-    diaria: 90, frete: 25, caucao: 250, energia: '220v', potencia: '', peso: 20,
+    diaria: 90, frete: 25, caucao: 250, energia: '220v', potencia: '1.600 W', peso: 20,
     entrega: true, destaque: false,
-    descricao: 'Hidrolavadora: equipamento para limpeza pesada de pisos, fachadas e ambientes. Revisado, com entrega combinada em Pelotas.',
+    descricao: 'Hidrolavadora para locação em Pelotas/RS. Remove sujeira difícil em obras, garagens, calçadas e áreas externas. Jato de água em alta pressão para limpeza pesada. Motor elétrico de 220V com potência de 1.600 W. Equipamento revisado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Mangueira 10 m', 'Manual de uso'],
     criadoEm: '2026-07-18', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c126', titulo: 'Lavadora a Vapor', tipo: 'limpeza',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Porto',
-    diaria: 140, frete: 25, caucao: 400, energia: '220v', potencia: '', peso: 30,
+    diaria: 140, frete: 25, caucao: 400, energia: '220v', potencia: '', peso: 28,
     entrega: true, destaque: false,
-    descricao: 'Lavadora a Vapor: equipamento para limpeza pesada de pisos, fachadas e ambientes. Revisado, com entrega combinada em Pelotas.',
+    descricao: 'Lavadora a Vapor para locação em Pelotas/RS. Para higienização e acabamento de superfícies antes da entrega. Limpa com vapor e alta temperatura, sem produtos agressivos. Funciona em tomada de 220V. Equipamento revisado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Mangueira 10 m', 'Manual de uso'],
     criadoEm: '2026-08-24', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c127', titulo: 'Lavadora de Alta Pressão a Gasolina', tipo: 'limpeza',
     cidade: 'Pelotas', uf: 'RS', bairro: 'São Gonçalo',
-    diaria: 100, frete: 25, caucao: 300, energia: 'gasolina', potencia: '', peso: 25,
+    diaria: 100, frete: 25, caucao: 300, energia: 'gasolina', potencia: '6,5 cv', peso: 25,
     entrega: true, destaque: true,
-    descricao: 'Lavadora de Alta Pressão a Gasolina: equipamento para limpeza pesada de pisos, fachadas e ambientes. Revisado, com entrega combinada em Pelotas.',
+    descricao: 'Lavadora de Alta Pressão a Gasolina para locação em Pelotas/RS. Para limpeza pesada de pisos, fachadas e ambientes. Jato de água em alta pressão para limpeza pesada. Motor a gasolina de 6,5 cv. Equipamento revisado e testado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Mangueira 10 m', 'Manual de uso'],
     criadoEm: '2026-09-30', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c128', titulo: 'Lavadora de Alta Pressão Elétrica', tipo: 'limpeza',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Navegantes',
-    diaria: 100, frete: 25, caucao: 300, energia: '220v', potencia: '', peso: 25,
+    diaria: 100, frete: 25, caucao: 300, energia: '220v', potencia: '1.800 W', peso: 25,
     entrega: true, destaque: true,
-    descricao: 'Lavadora de Alta Pressão Elétrica: equipamento para limpeza pesada de pisos, fachadas e ambientes. Revisado, com entrega combinada em Pelotas.',
+    descricao: 'Lavadora de Alta Pressão Elétrica para locação em Pelotas/RS. Remove sujeira difícil em obras, garagens, calçadas e áreas externas. Jato de água em alta pressão para limpeza pesada. Motor elétrico de 220V com potência de 1.800 W. Equipamento revisado e testado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Mangueira 10 m', 'Manual de uso'],
     criadoEm: '2026-07-01', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c129', titulo: 'Lavadora e Secadora', tipo: 'limpeza',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Jardim América',
-    diaria: 200, frete: 50, caucao: 600, energia: '220v', potencia: '', peso: 60,
+    diaria: 200, frete: 50, caucao: 600, energia: '220v', potencia: '1.200 W', peso: 55,
     entrega: true, destaque: false,
-    descricao: 'Lavadora e Secadora: equipamento para limpeza pesada de pisos, fachadas e ambientes. Revisado, com entrega combinada em Pelotas.',
+    descricao: 'Lavadora e Secadora para locação em Pelotas/RS. Para higienização e acabamento de superfícies antes da entrega. Lava e seca pisos e carpetes em uma única passada. Motor elétrico de 220V com potência de 1.200 W. Equipamento revisado e testado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Mangueira 10 m', 'Manual de uso'],
     criadoEm: '2026-08-07', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c130', titulo: 'Politriz Angular', tipo: 'limpeza',
     cidade: 'Pelotas', uf: 'RS', bairro: 'COHAB Fragata',
-    diaria: 80, frete: 25, caucao: 250, energia: '220v', potencia: '', peso: 10,
+    diaria: 80, frete: 25, caucao: 250, energia: '220v', potencia: '1.200 W', peso: 10,
     entrega: true, destaque: false,
-    descricao: 'Politriz Angular: equipamento para limpeza pesada de pisos, fachadas e ambientes. Revisado, com entrega combinada em Pelotas.',
+    descricao: 'Politriz Angular para locação em Pelotas/RS. Para limpeza pesada de pisos, fachadas e ambientes. Polimento e nivelamento de pisos de concreto e pedra. Motor elétrico de 220V com potência de 1.200 W. Item conferido e em bom estado, com entrega no local e retirada combinadas conforme a obra.',
     acessorios: ['Mangueira 10 m', 'Manual de uso'],
     criadoEm: '2026-09-13', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c131', titulo: 'Politriz para Concreto', tipo: 'limpeza',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Dunas',
-    diaria: 140, frete: 25, caucao: 400, energia: '220v', potencia: '', peso: 10,
+    diaria: 140, frete: 25, caucao: 400, energia: '220v', potencia: '2.200 W', peso: 9,
     entrega: true, destaque: false,
-    descricao: 'Politriz para Concreto: equipamento para limpeza pesada de pisos, fachadas e ambientes. Revisado, com entrega combinada em Pelotas.',
+    descricao: 'Politriz para Concreto para locação em Pelotas/RS. Remove sujeira difícil em obras, garagens, calçadas e áreas externas. Polimento e nivelamento de pisos de concreto e pedra. Motor elétrico de 220V com potência de 2.200 W. Item conferido e em bom estado, com entrega no local e retirada combinadas conforme a obra.',
     acessorios: ['Mangueira 10 m', 'Manual de uso'],
     criadoEm: '2026-10-20', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c132', titulo: 'Varredeira', tipo: 'limpeza',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Vila Princesa',
-    diaria: 170, frete: 50, caucao: 500, energia: '220v', potencia: '', peso: 60,
+    diaria: 170, frete: 50, caucao: 500, energia: '220v', potencia: '1.100 W', peso: 55,
     entrega: true, destaque: false,
-    descricao: 'Varredeira: equipamento para limpeza pesada de pisos, fachadas e ambientes. Revisado, com entrega combinada em Pelotas.',
+    descricao: 'Varredeira para locação em Pelotas/RS. Para higienização e acabamento de superfícies antes da entrega. Varre e aspira resíduos em pisos grandes. Motor elétrico de 220V com potência de 1.100 W. Item conferido e em bom estado, com entrega no local e retirada combinadas conforme a obra.',
     acessorios: ['Mangueira 10 m', 'Manual de uso'],
     criadoEm: '2026-07-21', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c133', titulo: 'Bomba Airless', tipo: 'motores',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Centro',
-    diaria: 200, frete: 25, caucao: 600, energia: '220v', potencia: '', peso: 15,
+    diaria: 200, frete: 25, caucao: 600, energia: '220v', potencia: '1 cv', peso: 18,
     entrega: true, destaque: false,
-    descricao: 'Bomba Airless: equipamento para geração de energia, bombeamento e acionamento de máquinas. Revisado e testado, com entrega combinada em Pelotas.',
+    descricao: 'Bomba Airless para locação em Pelotas/RS. Para geração de energia, bombeamento e acionamento de máquinas. Pulveriza tintas e vernizes sem ar, com acabamento uniforme. Motor elétrico de 220V com potência de 1 cv. Equipamento revisado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Extensão elétrica', 'Manual de uso'],
     criadoEm: '2026-08-27', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c134', titulo: 'Bomba Mangote', tipo: 'motores',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Fragata',
-    diaria: 70, frete: 25, caucao: 200, energia: '220v', potencia: '', peso: 15,
+    diaria: 70, frete: 25, caucao: 200, energia: '220v', potencia: '2 cv', peso: 15,
     entrega: true, destaque: false,
-    descricao: 'Bomba Mangote: equipamento para geração de energia, bombeamento e acionamento de máquinas. Revisado e testado, com entrega combinada em Pelotas.',
+    descricao: 'Bomba Mangote para locação em Pelotas/RS. Ajuda no bombeamento, na geração e no acionamento de máquinas. Bombeia concreto e argamassa por mangote até o local de aplicação. Motor elétrico de 220V com potência de 2 cv. Equipamento revisado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Extensão elétrica', 'Manual de uso'],
     criadoEm: '2026-10-03', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
@@ -2511,43 +2514,43 @@ const EQUIPAMENTOS_BASE = [
     cidade: 'Pelotas', uf: 'RS', bairro: 'Três Vendas',
     diaria: 100, frete: 25, caucao: 300, energia: '220v', potencia: '', peso: 15,
     entrega: true, destaque: false,
-    descricao: 'Bomba para teste hidrostático: equipamento para geração de energia, bombeamento e acionamento de máquinas. Revisado e testado, com entrega combinada em Pelotas.',
+    descricao: 'Bomba para teste hidrostático para locação em Pelotas/RS. Para serviços que exigem força motriz constante. Testa a estanqueidade de tubulações com pressão de água. Funciona em tomada de 220V. Equipamento revisado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Extensão elétrica', 'Manual de uso'],
     criadoEm: '2026-07-04', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c136', titulo: 'Bomba Submersa (Água Limpa)', tipo: 'motores',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Laranjal',
-    diaria: 80, frete: 25, caucao: 250, energia: '220v', potencia: '', peso: 15,
+    diaria: 80, frete: 25, caucao: 250, energia: '220v', potencia: '1 cv', peso: 15,
     entrega: true, destaque: false,
-    descricao: 'Bomba Submersa (Água Limpa): equipamento para geração de energia, bombeamento e acionamento de máquinas. Revisado e testado, com entrega combinada em Pelotas.',
+    descricao: 'Bomba Submersa (Água Limpa) para locação em Pelotas/RS. Para geração de energia, bombeamento e acionamento de máquinas. Bombeia água e líquidos em obras, escavações e reservatórios. Motor elétrico de 220V com potência de 1 cv. Equipamento revisado e testado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Extensão elétrica', 'Manual de uso'],
     criadoEm: '2026-08-10', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c137', titulo: 'Bomba Submersa Lameira', tipo: 'motores',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Areal',
-    diaria: 80, frete: 25, caucao: 250, energia: '220v', potencia: '', peso: 15,
+    diaria: 80, frete: 25, caucao: 250, energia: '220v', potencia: '1 cv', peso: 15,
     entrega: true, destaque: false,
-    descricao: 'Bomba Submersa Lameira: equipamento para geração de energia, bombeamento e acionamento de máquinas. Revisado e testado, com entrega combinada em Pelotas.',
+    descricao: 'Bomba Submersa Lameira para locação em Pelotas/RS. Ajuda no bombeamento, na geração e no acionamento de máquinas. Bombeia água e líquidos em obras, escavações e reservatórios. Motor elétrico de 220V com potência de 1 cv. Equipamento revisado e testado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Extensão elétrica', 'Manual de uso'],
     criadoEm: '2026-09-16', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c138', titulo: 'Compressor', tipo: 'motores',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Porto',
-    diaria: 130, frete: 50, caucao: 400, energia: '220v', potencia: '', peso: 80,
+    diaria: 130, frete: 50, caucao: 400, energia: '220v', potencia: '2 cv', peso: 75,
     entrega: true, destaque: false,
-    descricao: 'Compressor: equipamento para geração de energia, bombeamento e acionamento de máquinas. Revisado e testado, com entrega combinada em Pelotas.',
+    descricao: 'Compressor para locação em Pelotas/RS. Para serviços que exigem força motriz constante. Produz ar comprimido para ferramentas pneumáticas e pintura. Motor elétrico de 220V com potência de 2 cv. Equipamento revisado e testado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Extensão elétrica', 'Manual de uso'],
     criadoEm: '2026-10-23', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c139', titulo: 'Compressor de Ar Direto', tipo: 'motores',
     cidade: 'Pelotas', uf: 'RS', bairro: 'São Gonçalo',
-    diaria: 100, frete: 50, caucao: 300, energia: '220v', potencia: '', peso: 80,
+    diaria: 100, frete: 50, caucao: 300, energia: '220v', potencia: '2 cv', peso: 70,
     entrega: true, destaque: false,
-    descricao: 'Compressor de Ar Direto: equipamento para geração de energia, bombeamento e acionamento de máquinas. Revisado e testado, com entrega combinada em Pelotas.',
+    descricao: 'Compressor de Ar Direto para locação em Pelotas/RS. Para geração de energia, bombeamento e acionamento de máquinas. Produz ar comprimido para ferramentas pneumáticas e pintura. Motor elétrico de 220V com potência de 2 cv. Item conferido e em bom estado, com entrega no local e retirada combinadas conforme a obra.',
     acessorios: ['Extensão elétrica', 'Manual de uso'],
     criadoEm: '2026-07-24', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
@@ -2556,7 +2559,7 @@ const EQUIPAMENTOS_BASE = [
     cidade: 'Pelotas', uf: 'RS', bairro: 'Navegantes',
     diaria: 360, frete: 80, caucao: 1100, energia: 'gasolina', potencia: '11 kVA', peso: 170,
     entrega: true, destaque: true,
-    descricao: 'Gerador 11 kVA: equipamento para geração de energia, bombeamento e acionamento de máquinas. Revisado e testado, com entrega combinada em Pelotas.',
+    descricao: 'Gerador 11 kVA para locação em Pelotas/RS. Ajuda no bombeamento, na geração e no acionamento de máquinas. Gera energia para ferramentas, iluminação e equipamentos da obra. Potência de 11 kVA. Item conferido e em bom estado, com entrega no local e retirada combinadas conforme a obra.',
     acessorios: ['Extensão elétrica', 'Manual de uso'],
     criadoEm: '2026-08-30', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
@@ -2565,7 +2568,7 @@ const EQUIPAMENTOS_BASE = [
     cidade: 'Pelotas', uf: 'RS', bairro: 'Jardim América',
     diaria: 400, frete: 80, caucao: 1200, energia: 'gasolina', potencia: '12 kVA', peso: 180,
     entrega: true, destaque: true,
-    descricao: 'Gerador 12 kVA: equipamento para geração de energia, bombeamento e acionamento de máquinas. Revisado e testado, com entrega combinada em Pelotas.',
+    descricao: 'Gerador 12 kVA para locação em Pelotas/RS. Para serviços que exigem força motriz constante. Gera energia para ferramentas, iluminação e equipamentos da obra. Potência de 12 kVA. Item conferido e em bom estado, com entrega no local e retirada combinadas conforme a obra.',
     acessorios: ['Extensão elétrica', 'Manual de uso'],
     criadoEm: '2026-10-06', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
@@ -2574,7 +2577,7 @@ const EQUIPAMENTOS_BASE = [
     cidade: 'Pelotas', uf: 'RS', bairro: 'COHAB Fragata',
     diaria: 480, frete: 80, caucao: 1450, energia: 'gasolina', potencia: '14 kVA', peso: 200,
     entrega: true, destaque: true,
-    descricao: 'Gerador 14 kVA: equipamento para geração de energia, bombeamento e acionamento de máquinas. Revisado e testado, com entrega combinada em Pelotas.',
+    descricao: 'Gerador 14 kVA para locação em Pelotas/RS. Para geração de energia, bombeamento e acionamento de máquinas. Gera energia para ferramentas, iluminação e equipamentos da obra. Potência de 14 kVA. Equipamento revisado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Extensão elétrica', 'Manual de uso'],
     criadoEm: '2026-07-07', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
@@ -2583,34 +2586,34 @@ const EQUIPAMENTOS_BASE = [
     cidade: 'Pelotas', uf: 'RS', bairro: 'Dunas',
     diaria: 280, frete: 80, caucao: 850, energia: 'gasolina', potencia: '8 kVA', peso: 120,
     entrega: true, destaque: true,
-    descricao: 'Gerador 8 kVA: equipamento para geração de energia, bombeamento e acionamento de máquinas. Revisado e testado, com entrega combinada em Pelotas.',
+    descricao: 'Gerador 8 kVA para locação em Pelotas/RS. Ajuda no bombeamento, na geração e no acionamento de máquinas. Gera energia para ferramentas, iluminação e equipamentos da obra. Potência de 8 kVA. Equipamento revisado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Extensão elétrica', 'Manual de uso'],
     criadoEm: '2026-08-13', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c144', titulo: 'Gerador de Energia 5 kVA', tipo: 'motores',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Vila Princesa',
-    diaria: 200, frete: 50, caucao: 600, energia: 'gasolina', potencia: '5 kVA', peso: 90,
+    diaria: 200, frete: 50, caucao: 600, energia: 'gasolina', potencia: '5 kVA', peso: 85,
     entrega: true, destaque: true,
-    descricao: 'Gerador de Energia 5 kVA: equipamento para geração de energia, bombeamento e acionamento de máquinas. Revisado e testado, com entrega combinada em Pelotas.',
+    descricao: 'Gerador de Energia 5 kVA para locação em Pelotas/RS. Para serviços que exigem força motriz constante. Gera energia para ferramentas, iluminação e equipamentos da obra. Potência de 5 kVA. Equipamento revisado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Extensão elétrica', 'Manual de uso'],
     criadoEm: '2026-09-19', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c145', titulo: 'Banheiro Container', tipo: 'outros',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Centro',
-    diaria: 400, frete: 150, caucao: 1200, energia: 'manual', potencia: '', peso: 2200,
+    diaria: 400, frete: 150, caucao: 1200, energia: '', potencia: '', peso: 2200,
     entrega: true, destaque: false,
-    descricao: 'Banheiro Container: disponível para locação em Pelotas. Consulte disponibilidade, condições de retirada e entrega para a sua obra.',
+    descricao: 'Banheiro Container para locação em Pelotas/RS. Item de apoio para a organização e a rotina da obra. Cabine sanitária completa, com estrutura de container. Equipamento revisado e testado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-10-26', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c146', titulo: 'Caipitoneira', tipo: 'outros',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Fragata',
-    diaria: 70, frete: 50, caucao: 200, energia: '220v', potencia: '', peso: 50,
+    diaria: 70, frete: 50, caucao: 200, energia: '220v', potencia: '1 cv', peso: 45,
     entrega: true, destaque: false,
-    descricao: 'Caipitoneira: disponível para locação em Pelotas. Consulte disponibilidade, condições de retirada e entrega para a sua obra.',
+    descricao: 'Caipitoneira para locação em Pelotas/RS. Acessório prático para facilitar o dia a dia do canteiro. Mistura concreto e argamassa em pequenas quantidades. Motor elétrico de 220V com potência de 1 cv. Equipamento revisado e testado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-07-27', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
@@ -2619,7 +2622,7 @@ const EQUIPAMENTOS_BASE = [
     cidade: 'Pelotas', uf: 'RS', bairro: 'Três Vendas',
     diaria: 170, frete: 25, caucao: 500, energia: 'bateria', potencia: '', peso: 2,
     entrega: true, destaque: false,
-    descricao: 'Câmera Térmica: disponível para locação em Pelotas. Consulte disponibilidade, condições de retirada e entrega para a sua obra.',
+    descricao: 'Câmera Térmica para locação em Pelotas/RS. Equipamento de suporte para diferentes etapas da construção. Identifica pontos de calor e infiltrações em paredes e telhados. Funciona a bateria, sem fios durante o uso. Equipamento revisado e testado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-09-02', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
@@ -2628,34 +2631,34 @@ const EQUIPAMENTOS_BASE = [
     cidade: 'Pelotas', uf: 'RS', bairro: 'Laranjal',
     diaria: 90, frete: 25, caucao: 250, energia: 'manual', potencia: '', peso: 30,
     entrega: true, destaque: false,
-    descricao: 'Carro para Bloco: disponível para locação em Pelotas. Consulte disponibilidade, condições de retirada e entrega para a sua obra.',
+    descricao: 'Carro para Bloco para locação em Pelotas/RS. Item de apoio para a organização e a rotina da obra. Carro de mão reforçado para transportar blocos e materiais. Item conferido e em bom estado, com entrega no local e retirada combinadas conforme a obra.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-10-09', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c149', titulo: 'Climatizador de ar', tipo: 'outros',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Areal',
-    diaria: 130, frete: 50, caucao: 400, energia: '220v', potencia: '', peso: 70,
+    diaria: 130, frete: 50, caucao: 400, energia: '220v', potencia: '200 W', peso: 65,
     entrega: true, destaque: false,
-    descricao: 'Climatizador de ar: disponível para locação em Pelotas. Consulte disponibilidade, condições de retirada e entrega para a sua obra.',
+    descricao: 'Climatizador de ar para locação em Pelotas/RS. Acessório prático para facilitar o dia a dia do canteiro. Ventila e climatiza ambientes abertos e semiabertos. Motor elétrico de 220V com potência de 200 W. Item conferido e em bom estado, com entrega no local e retirada combinadas conforme a obra.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-07-10', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c150', titulo: 'Climatizador de Ar Portatil', tipo: 'outros',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Porto',
-    diaria: 130, frete: 50, caucao: 400, energia: '220v', potencia: '', peso: 70,
+    diaria: 110, frete: 50, caucao: 350, energia: '220v', potencia: '200 W', peso: 65,
     entrega: true, destaque: false,
-    descricao: 'Climatizador de Ar Portatil: disponível para locação em Pelotas. Consulte disponibilidade, condições de retirada e entrega para a sua obra.',
+    descricao: 'Climatizador de Ar Portatil para locação em Pelotas/RS. Equipamento de suporte para diferentes etapas da construção. Ventila e climatiza ambientes abertos e semiabertos. Motor elétrico de 220V com potência de 200 W. Item conferido e em bom estado, com entrega no local e retirada combinadas conforme a obra.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-08-16', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c151', titulo: 'Container desmontável', tipo: 'outros',
     cidade: 'Pelotas', uf: 'RS', bairro: 'São Gonçalo',
-    diaria: 450, frete: 150, caucao: 1350, energia: 'manual', potencia: '', peso: 2500,
+    diaria: 450, frete: 150, caucao: 1350, energia: '', potencia: '', peso: 2500,
     entrega: true, destaque: false,
-    descricao: 'Container desmontável: disponível para locação em Pelotas. Consulte disponibilidade, condições de retirada e entrega para a sua obra.',
+    descricao: 'Container desmontável para locação em Pelotas/RS. Item de apoio para a organização e a rotina da obra. Container para armazenamento e apoio no canteiro de obras. Equipamento revisado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-09-22', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
@@ -2664,16 +2667,16 @@ const EQUIPAMENTOS_BASE = [
     cidade: 'Pelotas', uf: 'RS', bairro: 'Navegantes',
     diaria: 50, frete: 25, caucao: 150, energia: 'manual', potencia: '', peso: 8,
     entrega: true, destaque: false,
-    descricao: 'Cortador Manual: disponível para locação em Pelotas. Consulte disponibilidade, condições de retirada e entrega para a sua obra.',
+    descricao: 'Cortador Manual para locação em Pelotas/RS. Acessório prático para facilitar o dia a dia do canteiro. Corta pisos e revestimentos com disco, por acionamento manual. Equipamento revisado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-10-29', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c153', titulo: 'Desentupidora', tipo: 'outros',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Jardim América',
-    diaria: 200, frete: 50, caucao: 600, energia: '220v', potencia: '', peso: 40,
+    diaria: 200, frete: 50, caucao: 600, energia: '220v', potencia: '2 cv', peso: 35,
     entrega: true, destaque: false,
-    descricao: 'Desentupidora: disponível para locação em Pelotas. Consulte disponibilidade, condições de retirada e entrega para a sua obra.',
+    descricao: 'Desentupidora para locação em Pelotas/RS. Equipamento de suporte para diferentes etapas da construção. Desobstrui tubulações com jato de alta pressão. Motor elétrico de 220V com potência de 2 cv. Equipamento revisado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-07-30', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
@@ -2682,7 +2685,7 @@ const EQUIPAMENTOS_BASE = [
     cidade: 'Pelotas', uf: 'RS', bairro: 'COHAB Fragata',
     diaria: 100, frete: 25, caucao: 300, energia: 'bateria', potencia: '', peso: 2,
     entrega: true, destaque: false,
-    descricao: 'Detector de Materiais: disponível para locação em Pelotas. Consulte disponibilidade, condições de retirada e entrega para a sua obra.',
+    descricao: 'Detector de Materiais para locação em Pelotas/RS. Item de apoio para a organização e a rotina da obra. Localiza tubulações, ferragens e fiação antes de furar. Funciona a bateria, sem fios durante o uso. Equipamento revisado e testado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-09-05', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
@@ -2691,7 +2694,7 @@ const EQUIPAMENTOS_BASE = [
     cidade: 'Pelotas', uf: 'RS', bairro: 'Dunas',
     diaria: 40, frete: 25, caucao: 100, energia: 'manual', potencia: '', peso: 15,
     entrega: true, destaque: false,
-    descricao: 'Dutos de Entulho: disponível para locação em Pelotas. Consulte disponibilidade, condições de retirada e entrega para a sua obra.',
+    descricao: 'Dutos de Entulho para locação em Pelotas/RS. Acessório prático para facilitar o dia a dia do canteiro. Canaleta para descarte de entulho com segurança na obra. Equipamento revisado e testado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-10-12', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
@@ -2700,70 +2703,70 @@ const EQUIPAMENTOS_BASE = [
     cidade: 'Pelotas', uf: 'RS', bairro: 'Vila Princesa',
     diaria: 20, frete: 25, caucao: 50, energia: 'manual', potencia: '', peso: 12,
     entrega: true, destaque: false,
-    descricao: 'Escora Metálica 3,10m: disponível para locação em Pelotas. Consulte disponibilidade, condições de retirada e entrega para a sua obra.',
+    descricao: 'Escora Metálica 3,10m para locação em Pelotas/RS. Equipamento de suporte para diferentes etapas da construção. Escora para escoramento de lajes, vigas e formas. Equipamento revisado e testado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-07-13', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c157', titulo: 'Escora Metálica 4,50m', tipo: 'outros',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Centro',
-    diaria: 20, frete: 25, caucao: 50, energia: 'manual', potencia: '', peso: 12,
+    diaria: 20, frete: 25, caucao: 50, energia: 'manual', potencia: '', peso: 14,
     entrega: true, destaque: false,
-    descricao: 'Escora Metálica 4,50m: disponível para locação em Pelotas. Consulte disponibilidade, condições de retirada e entrega para a sua obra.',
+    descricao: 'Escora Metálica 4,50m para locação em Pelotas/RS. Item de apoio para a organização e a rotina da obra. Escora para escoramento de lajes, vigas e formas. Item conferido e em bom estado, com entrega no local e retirada combinadas conforme a obra.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-08-19', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c158', titulo: 'Extensão', tipo: 'outros',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Fragata',
-    diaria: 20, frete: 25, caucao: 50, energia: '220v', potencia: '', peso: 3,
+    diaria: 20, frete: 25, caucao: 50, energia: '', potencia: '', peso: 3,
     entrega: true, destaque: false,
-    descricao: 'Extensão: disponível para locação em Pelotas. Consulte disponibilidade, condições de retirada e entrega para a sua obra.',
+    descricao: 'Extensão para locação em Pelotas/RS. Acessório prático para facilitar o dia a dia do canteiro. Cabo com tomadas para ligar ferramentas e máquinas na tomada. Item conferido e em bom estado, com entrega no local e retirada combinadas conforme a obra.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-09-25', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c159', titulo: 'Inversora', tipo: 'outros',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Três Vendas',
-    diaria: 100, frete: 25, caucao: 300, energia: '220v', potencia: '', peso: 10,
+    diaria: 100, frete: 25, caucao: 300, energia: '220v', potencia: '200 A', peso: 10,
     entrega: true, destaque: false,
-    descricao: 'Inversora: disponível para locação em Pelotas. Consulte disponibilidade, condições de retirada e entrega para a sua obra.',
+    descricao: 'Inversora para locação em Pelotas/RS. Equipamento de suporte para diferentes etapas da construção. Solda eletrodos em aço e outros metais, com ajuste de corrente. Corrente de solda de até 200 A. Item conferido e em bom estado, com entrega no local e retirada combinadas conforme a obra.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-11-01', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c160', titulo: 'Máquina de Solda 250', tipo: 'outros',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Laranjal',
-    diaria: 160, frete: 25, caucao: 500, energia: '220v', potencia: '', peso: 30,
+    diaria: 160, frete: 50, caucao: 500, energia: '220v', potencia: '250 A', peso: 60,
     entrega: true, destaque: false,
-    descricao: 'Máquina de Solda 250: disponível para locação em Pelotas. Consulte disponibilidade, condições de retirada e entrega para a sua obra.',
+    descricao: 'Máquina de Solda 250 para locação em Pelotas/RS. Item de apoio para a organização e a rotina da obra. Solda eletrodos em aço e outros metais, com ajuste de corrente. Corrente de solda de até 250 A. Equipamento revisado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-08-02', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c161', titulo: 'Máquina de Solda 300', tipo: 'outros',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Areal',
-    diaria: 180, frete: 25, caucao: 550, energia: '220v', potencia: '', peso: 30,
+    diaria: 180, frete: 50, caucao: 550, energia: '220v', potencia: '300 A', peso: 60,
     entrega: true, destaque: false,
-    descricao: 'Máquina de Solda 300: disponível para locação em Pelotas. Consulte disponibilidade, condições de retirada e entrega para a sua obra.',
+    descricao: 'Máquina de Solda 300 para locação em Pelotas/RS. Acessório prático para facilitar o dia a dia do canteiro. Solda eletrodos em aço e outros metais, com ajuste de corrente. Corrente de solda de até 300 A. Equipamento revisado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-09-08', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c162', titulo: 'Máquina de Solda 400', tipo: 'outros',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Porto',
-    diaria: 190, frete: 25, caucao: 550, energia: '220v', potencia: '', peso: 30,
+    diaria: 190, frete: 50, caucao: 550, energia: '220v', potencia: '400 A', peso: 60,
     entrega: true, destaque: false,
-    descricao: 'Máquina de Solda 400: disponível para locação em Pelotas. Consulte disponibilidade, condições de retirada e entrega para a sua obra.',
+    descricao: 'Máquina de Solda 400 para locação em Pelotas/RS. Equipamento de suporte para diferentes etapas da construção. Solda eletrodos em aço e outros metais, com ajuste de corrente. Corrente de solda de até 400 A. Equipamento revisado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-10-15', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c163', titulo: 'Máquina de Solda 425', tipo: 'outros',
     cidade: 'Pelotas', uf: 'RS', bairro: 'São Gonçalo',
-    diaria: 200, frete: 25, caucao: 600, energia: '220v', potencia: '', peso: 30,
+    diaria: 200, frete: 50, caucao: 600, energia: '220v', potencia: '425 A', peso: 60,
     entrega: true, destaque: false,
-    descricao: 'Máquina de Solda 425: disponível para locação em Pelotas. Consulte disponibilidade, condições de retirada e entrega para a sua obra.',
+    descricao: 'Máquina de Solda 425 para locação em Pelotas/RS. Item de apoio para a organização e a rotina da obra. Solda eletrodos em aço e outros metais, com ajuste de corrente. Corrente de solda de até 425 A. Equipamento revisado e testado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-07-16', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
@@ -2772,34 +2775,34 @@ const EQUIPAMENTOS_BASE = [
     cidade: 'Pelotas', uf: 'RS', bairro: 'Navegantes',
     diaria: 60, frete: 25, caucao: 200, energia: 'bateria', potencia: '', peso: 2,
     entrega: true, destaque: false,
-    descricao: 'Nível Laser: disponível para locação em Pelotas. Consulte disponibilidade, condições de retirada e entrega para a sua obra.',
+    descricao: 'Nível Laser para locação em Pelotas/RS. Acessório prático para facilitar o dia a dia do canteiro. Projeta linhas de nível e prumo em paredes e pisos. Funciona a bateria, sem fios durante o uso. Equipamento revisado e testado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-08-22', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c165', titulo: 'Transformador 3000 W', tipo: 'outros',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Jardim América',
-    diaria: 70, frete: 25, caucao: 200, energia: '220v', potencia: '3000 W', peso: 15,
+    diaria: 70, frete: 25, caucao: 200, energia: '', potencia: '3000 W', peso: 20,
     entrega: true, destaque: false,
-    descricao: 'Transformador 3000 W: disponível para locação em Pelotas. Consulte disponibilidade, condições de retirada e entrega para a sua obra.',
+    descricao: 'Transformador 3000 W para locação em Pelotas/RS. Equipamento de suporte para diferentes etapas da construção. Adapta a tensão da rede para ferramentas de 110V. Equipamento revisado e testado, com entrega e retirada combinadas em Pelotas/RS.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-09-28', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c166', titulo: 'Tripé', tipo: 'outros',
     cidade: 'Pelotas', uf: 'RS', bairro: 'COHAB Fragata',
-    diaria: 30, frete: 25, caucao: 100, energia: 'manual', potencia: '', peso: 3,
+    diaria: 30, frete: 25, caucao: 100, energia: '', potencia: '', peso: 3,
     entrega: true, destaque: false,
-    descricao: 'Tripé: disponível para locação em Pelotas. Consulte disponibilidade, condições de retirada e entrega para a sua obra.',
+    descricao: 'Tripé para locação em Pelotas/RS. Item de apoio para a organização e a rotina da obra. Base com rosca para fixação de níveis e equipamentos de medição. Item conferido e em bom estado, com entrega no local e retirada combinadas conforme a obra.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-11-04', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
     id: 'c167', titulo: 'Valetadeira', tipo: 'outros',
     cidade: 'Pelotas', uf: 'RS', bairro: 'Dunas',
-    diaria: 220, frete: 80, caucao: 650, energia: '220v', potencia: '', peso: 120,
+    diaria: 220, frete: 80, caucao: 650, energia: '220v', potencia: '5,5 cv', peso: 110,
     entrega: true, destaque: false,
-    descricao: 'Valetadeira: disponível para locação em Pelotas. Consulte disponibilidade, condições de retirada e entrega para a sua obra.',
+    descricao: 'Valetadeira para locação em Pelotas/RS. Acessório prático para facilitar o dia a dia do canteiro. Abre valas para tubulação e drenagem. Motor elétrico de 220V com potência de 5,5 cv. Item conferido e em bom estado, com entrega no local e retirada combinadas conforme a obra.',
     acessorios: ['Manual de uso'],
     criadoEm: '2026-08-05', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
