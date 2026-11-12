@@ -550,7 +550,7 @@ input[type=range]{width:100%;accent-color:var(--primaria);height:28px}
         <div class="grupo-filtro">
           <span class="rotulo">Diária até</span>
           <div class="faixa">
-            <input type="range" id="filtro-preco" min="30" max="300" step="5" value="300" aria-label="Valor máximo da diária">
+            <input type="range" id="filtro-preco" min="10" max="1000" step="10" value="1000" aria-label="Valor máximo da diária">
             <span class="valor-faixa" id="valor-preco">Qualquer valor</span>
           </div>
         </div>
@@ -561,6 +561,7 @@ input[type=range]{width:100%;accent-color:var(--primaria);height:28px}
             <button type="button" data-energia="110v">110V</button>
             <button type="button" data-energia="220v">220V</button>
             <button type="button" data-energia="gasolina">Gasolina</button>
+            <button type="button" data-energia="bateria">Bateria</button>
             <button type="button" data-energia="manual">Manual</button>
           </div>
         </div>
@@ -719,6 +720,7 @@ input[type=range]{width:100%;accent-color:var(--primaria);height:28px}
             <option value="110v">110V</option>
             <option value="220v" selected>220V</option>
             <option value="gasolina">Gasolina</option>
+            <option value="bateria">Bateria</option>
             <option value="manual">Manual</option>
           </select>
         </div>
@@ -1162,7 +1164,7 @@ input[type=range]{width:100%;accent-color:var(--primaria);height:28px}
 
   <footer class="rodape">
     <b>Aluga Fácil</b> — locação de equipamentos para obra · dados salvos no seu dispositivo
-    <span class="versao" id="versao-app">v17</span>
+    <span class="versao" id="versao-app">v18</span>
     <br><a href="instalar.html">Instalar no celular (QR code)</a>
   </footer>
 </main>
@@ -1232,7 +1234,7 @@ const CHAVES = {
 };
 
 // Versão exibida no rodapé — mantenha igual à versão do sw.js.
-const VERSAO_APP = 'v17';
+const VERSAO_APP = 'v18';
 
 // Contas locais (não há servidor: é uma proteção do dispositivo).
 // O admin é o dono: vê tudo e controla o acesso do gerente.
@@ -1274,6 +1276,7 @@ const ENERGIAS = [
   { id: '110v', nome: '110V' },
   { id: '220v', nome: '220V' },
   { id: 'gasolina', nome: 'Gasolina' },
+  { id: 'bateria', nome: 'Bateria' },
   { id: 'manual', nome: 'Manual' }
 ];
 
@@ -1298,167 +1301,1508 @@ const CORES = {
 
 const EQUIPAMENTOS_BASE = [
   {
-    id: 's1', titulo: 'Betoneira 400 L com motor 1,5 cv', tipo: 'concretagem',
-    cidade: 'São Paulo', uf: 'SP', bairro: 'Vila Mariana',
-    diaria: 90, frete: 60, caucao: 300, energia: '220v', potencia: '1,5 cv', peso: 120,
-    entrega: true, destaque: true,
-    descricao: 'Betoneira de 400 litros revisada, com motor de 1,5 cv e estrutura reforçada. Ideal para concretos e argamassas em obras de médio porte. Entrega em até 24h na região.',
-    acessorios: ['Pá e enxada', 'Extensão elétrica', 'Manual de uso'],
-    criadoEm: '2026-10-18', anunciante: { nome: 'Obra Fácil Locações', telefone: '(53) 99106-6321' }
-  },
-  {
-    id: 's2', titulo: 'Betoneira 200 L compacta', tipo: 'concretagem',
-    cidade: 'Campinas', uf: 'SP', bairro: 'Cambuí',
-    diaria: 65, frete: 50, caucao: 200, energia: '110v', potencia: '0,75 cv', peso: 65,
+    id: 'c1', titulo: 'Empilhadeira', tipo: 'acesso-elevacao',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Centro',
+    diaria: 550, frete: 80, caucao: 1650, energia: 'manual', potencia: '', peso: 300,
     entrega: true, destaque: false,
-    descricao: 'Modelo leve e fácil de transportar, perfeito para reformas e pequenas obras. Funciona em tomada comum de 110V e cabe na caçamba de uma picape.',
-    acessorios: ['Pá e enxada', 'Manual de uso'],
-    criadoEm: '2026-10-21', anunciante: { nome: 'Cambuí Máquinas', telefone: '(53) 99106-6321' }
-  },
-  {
-    id: 's3', titulo: 'Martelete rompedor 1500 W', tipo: 'furacao-demolicao',
-    cidade: 'São Paulo', uf: 'SP', bairro: 'Moema',
-    diaria: 110, frete: 40, caucao: 400, energia: '220v', potencia: '1500 W', peso: 12,
-    entrega: true, destaque: true,
-    descricao: 'Martelete rompedor com 1500 W de potência, indicado para quebrar concreto, azulejos e pisos. Acompanha ponteiro, cinzel e maleta de transporte.',
-    acessorios: ['Ponteiro e cinzel', 'Maleta de transporte', 'Protetor auricular'],
-    criadoEm: '2026-10-15', anunciante: { nome: 'Ferramentas SP', telefone: '(53) 99106-6321' }
-  },
-  {
-    id: 's4', titulo: 'Furadeira de impacto 750 W', tipo: 'ferramentas-eletricas',
-    cidade: 'Curitiba', uf: 'PR', bairro: 'Batel',
-    diaria: 35, frete: 25, caucao: 100, energia: '110v', potencia: '750 W', peso: 3,
-    entrega: true, destaque: false,
-    descricao: 'Furadeira de impacto com mandril de 1/2", velocidade variável e função reversa. Vai com jogo de brocas para concreto, metal e madeira.',
-    acessorios: ['Jogo de brocas', 'Maleta de transporte'],
-    criadoEm: '2026-10-12', anunciante: { nome: 'Batel Ferramentas', telefone: '(53) 99106-6321' }
-  },
-  {
-    id: 's5', titulo: 'Andaime tubulado 6 m com plataforma', tipo: 'andaimes',
-    cidade: 'Belo Horizonte', uf: 'MG', bairro: 'Savassi',
-    diaria: 80, frete: 90, caucao: 350, energia: 'manual', potencia: '—', peso: 45,
-    entrega: true, destaque: true,
-    descricao: 'Andaime tubulado de 6 metros, com plataforma, rodízios e travas de segurança. Montagem simples e estrutura estável para fachadas e pintura.',
-    acessorios: ['Plataforma', 'Rodízios', 'Manual de uso'],
-    criadoEm: '2026-10-22', anunciante: { nome: 'Savassi Andaimes', telefone: '(53) 99106-6321' }
-  },
-  {
-    id: 's6', titulo: 'Compactador de solo 5,5 cv', tipo: 'compactacao',
-    cidade: 'Rio de Janeiro', uf: 'RJ', bairro: 'Recreio dos Bandeirantes',
-    diaria: 150, frete: 100, caucao: 500, energia: 'gasolina', potencia: '5,5 cv', peso: 90,
-    entrega: true, destaque: false,
-    descricao: 'Placa vibratória a gasolina para compactação de solo, areia e brita. Excelente para calçadas, pisos e preparação de terreno.',
-    acessorios: ['Protetor auricular', 'Manual de uso'],
-    criadoEm: '2026-10-02', anunciante: { nome: 'Recreio Equipamentos', telefone: '(53) 99106-6321' }
-  },
-  {
-    id: 's7', titulo: 'Compactador tipo sapo 4 cv', tipo: 'compactacao',
-    cidade: 'Campinas', uf: 'SP', bairro: 'Barão Geraldo',
-    diaria: 120, frete: 80, caucao: 400, energia: 'gasolina', potencia: '4 cv', peso: 60,
-    entrega: true, destaque: false,
-    descricao: 'Compactador tipo sapo com motor a gasolina, indicado para valas, tubulações e locais de difícil acesso. Fácil de operar e transportar.',
-    acessorios: ['Protetor auricular', 'Manual de uso'],
-    criadoEm: '2026-10-23', anunciante: { nome: 'Barão Locações', telefone: '(53) 99106-6321' }
-  },
-  {
-    id: 's8', titulo: 'Gerador 5 kVA a gasolina', tipo: 'motores',
-    cidade: 'São Paulo', uf: 'SP', bairro: 'Vila Olímpia',
-    diaria: 180, frete: 120, caucao: 600, energia: 'gasolina', potencia: '5 kVA', peso: 80,
-    entrega: true, destaque: true,
-    descricao: 'Gerador portátil de 5 kVA com partida manual e proteção contra sobrecarga. Mantém ferramentas e iluminação funcionando em obras sem energia.',
-    acessorios: ['Extensão elétrica', 'Manual de uso'],
-    criadoEm: '2026-10-08', anunciante: { nome: 'Energia na Obra', telefone: '(53) 99106-6321' }
-  },
-  {
-    id: 's9', titulo: 'Gerador silencioso 3 kVA', tipo: 'motores',
-    cidade: 'Salvador', uf: 'BA', bairro: 'Rio Vermelho',
-    diaria: 140, frete: 90, caucao: 450, energia: 'gasolina', potencia: '3 kVA', peso: 45,
-    entrega: true, destaque: false,
-    descricao: 'Gerador silencioso de 3 kVA, ideal para eventos, feiras e obras em áreas residenciais. Baixo nível de ruído e consumo econômico.',
-    acessorios: ['Extensão elétrica', 'Manual de uso'],
-    criadoEm: '2026-09-30', anunciante: { nome: 'Bahia Geradores', telefone: '(53) 99106-6321' }
-  },
-  {
-    id: 's10', titulo: 'Lavadora de alta pressão 1700 PSI', tipo: 'limpeza',
-    cidade: 'Recife', uf: 'PE', bairro: 'Boa Viagem',
-    diaria: 70, frete: 35, caucao: 250, energia: '220v', potencia: '1700 PSI', peso: 18,
-    entrega: true, destaque: false,
-    descricao: 'Lavadora de alta pressão para limpeza pesada de fachadas, calçadas, carros e equipamentos. Acompanha mangueira de 10 metros e bico pulverizador.',
-    acessorios: ['Mangueira 10 m', 'Bico pulverizador'],
-    criadoEm: '2026-09-28', anunciante: { nome: 'Recife Limpa', telefone: '(53) 99106-6321' }
-  },
-  {
-    id: 's11', titulo: 'Serra circular 1800 W com disco', tipo: 'ferramentas-eletricas',
-    cidade: 'Curitiba', uf: 'PR', bairro: 'Centro',
-    diaria: 60, frete: 30, caucao: 200, energia: '220v', potencia: '1800 W', peso: 7,
-    entrega: false, destaque: false,
-    descricao: 'Serra circular de 1800 W com guia de corte e disco de 7 1/4". Para cortes em madeira, compensado e placas. Retirada no balcão do Centro.',
-    acessorios: ['Disco de corte', 'Manual de uso'],
-    criadoEm: '2026-10-19', anunciante: { nome: 'Centro Ferramentas', telefone: '(53) 99106-6321' }
-  },
-  {
-    id: 's12', titulo: 'Escada extensível de alumínio 6 m', tipo: 'acesso-elevacao',
-    cidade: 'Barueri', uf: 'SP', bairro: 'Alphaville',
-    diaria: 40, frete: 30, caucao: 120, energia: 'manual', potencia: '—', peso: 14,
-    entrega: true, destaque: false,
-    descricao: 'Escada extensível de alumínio com 6 metros de alcance, travas de segurança e sapatas antiderrapantes. Ideal para pintura, telhado e manutenção.',
+    descricao: 'Empilhadeira: equipamento para trabalhos em altura com segurança, disponível para locação em Pelotas. Revisado, com entrega e retirada combinadas conforme a necessidade da obra.',
     acessorios: ['Manual de uso'],
-    criadoEm: '2026-10-20', anunciante: { nome: 'Alphaville Locações', telefone: '(53) 99106-6321' }
+    criadoEm: '2026-08-07', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
-    id: 's13', titulo: 'Cortador de grama 4,5 cv', tipo: 'jardinagem',
-    cidade: 'Campinas', uf: 'SP', bairro: 'Taquaral',
-    diaria: 85, frete: 45, caucao: 250, energia: 'gasolina', potencia: '4,5 cv', peso: 35,
+    id: 'c2', titulo: 'Escada', tipo: 'acesso-elevacao',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Fragata',
+    diaria: 30, frete: 25, caucao: 100, energia: 'manual', potencia: '', peso: 12,
+    entrega: true, destaque: false,
+    descricao: 'Escada: equipamento para trabalhos em altura com segurança, disponível para locação em Pelotas. Revisado, com entrega e retirada combinadas conforme a necessidade da obra.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-09-13', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c3', titulo: 'Escada de Abrir', tipo: 'acesso-elevacao',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Três Vendas',
+    diaria: 35, frete: 25, caucao: 100, energia: 'manual', potencia: '', peso: 12,
+    entrega: true, destaque: false,
+    descricao: 'Escada de Abrir: equipamento para trabalhos em altura com segurança, disponível para locação em Pelotas. Revisado, com entrega e retirada combinadas conforme a necessidade da obra.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-10-20', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c4', titulo: 'Grade de Contenção', tipo: 'acesso-elevacao',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Laranjal',
+    diaria: 30, frete: 25, caucao: 100, energia: 'manual', potencia: '', peso: 10,
+    entrega: true, destaque: false,
+    descricao: 'Grade de Contenção: equipamento para trabalhos em altura com segurança, disponível para locação em Pelotas. Revisado, com entrega e retirada combinadas conforme a necessidade da obra.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-07-21', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c5', titulo: 'Guincho de Coluna', tipo: 'acesso-elevacao',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Areal',
+    diaria: 130, frete: 50, caucao: 400, energia: '220v', potencia: '', peso: 60,
+    entrega: true, destaque: false,
+    descricao: 'Guincho de Coluna: equipamento para trabalhos em altura com segurança, disponível para locação em Pelotas. Revisado, com entrega e retirada combinadas conforme a necessidade da obra.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-08-27', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c6', titulo: 'Guincho de Coluna 200 kg', tipo: 'acesso-elevacao',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Porto',
+    diaria: 110, frete: 50, caucao: 350, energia: '220v', potencia: '', peso: 40,
+    entrega: true, destaque: false,
+    descricao: 'Guincho de Coluna 200 kg: equipamento para trabalhos em altura com segurança, disponível para locação em Pelotas. Revisado, com entrega e retirada combinadas conforme a necessidade da obra.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-10-03', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c7', titulo: 'Guincho de Coluna 400 kg', tipo: 'acesso-elevacao',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'São Gonçalo',
+    diaria: 160, frete: 50, caucao: 500, energia: '220v', potencia: '', peso: 60,
+    entrega: true, destaque: false,
+    descricao: 'Guincho de Coluna 400 kg: equipamento para trabalhos em altura com segurança, disponível para locação em Pelotas. Revisado, com entrega e retirada combinadas conforme a necessidade da obra.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-07-04', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c8', titulo: 'Guincho de Coluna de 350 kg', tipo: 'acesso-elevacao',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Navegantes',
+    diaria: 140, frete: 50, caucao: 400, energia: '220v', potencia: '', peso: 55,
+    entrega: true, destaque: false,
+    descricao: 'Guincho de Coluna de 350 kg: equipamento para trabalhos em altura com segurança, disponível para locação em Pelotas. Revisado, com entrega e retirada combinadas conforme a necessidade da obra.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-08-10', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c9', titulo: 'Mini Grua TM500', tipo: 'acesso-elevacao',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Jardim América',
+    diaria: 350, frete: 80, caucao: 1050, energia: '220v', potencia: '', peso: 300,
+    entrega: true, destaque: false,
+    descricao: 'Mini Grua TM500: equipamento para trabalhos em altura com segurança, disponível para locação em Pelotas. Revisado, com entrega e retirada combinadas conforme a necessidade da obra.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-09-16', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c10', titulo: 'Paleteira (Transpalete)', tipo: 'acesso-elevacao',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'COHAB Fragata',
+    diaria: 70, frete: 50, caucao: 200, energia: 'manual', potencia: '', peso: 80,
+    entrega: true, destaque: false,
+    descricao: 'Paleteira (Transpalete): equipamento para trabalhos em altura com segurança, disponível para locação em Pelotas. Revisado, com entrega e retirada combinadas conforme a necessidade da obra.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-10-23', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c11', titulo: 'Plataforma Elevatória Manual', tipo: 'acesso-elevacao',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Dunas',
+    diaria: 180, frete: 80, caucao: 550, energia: 'manual', potencia: '', peso: 120,
+    entrega: true, destaque: false,
+    descricao: 'Plataforma Elevatória Manual: equipamento para trabalhos em altura com segurança, disponível para locação em Pelotas. Revisado, com entrega e retirada combinadas conforme a necessidade da obra.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-07-24', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c12', titulo: 'Plataforma elevatória mastro', tipo: 'acesso-elevacao',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Vila Princesa',
+    diaria: 400, frete: 150, caucao: 1200, energia: '220v', potencia: '', peso: 700,
+    entrega: true, destaque: false,
+    descricao: 'Plataforma elevatória mastro: equipamento para trabalhos em altura com segurança, disponível para locação em Pelotas. Revisado, com entrega e retirada combinadas conforme a necessidade da obra.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-08-30', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c13', titulo: 'Plataforma Elevatória Tipo Tesoura', tipo: 'acesso-elevacao',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Centro',
+    diaria: 480, frete: 150, caucao: 1450, energia: '220v', potencia: '', peso: 900,
     entrega: true, destaque: true,
-    descricao: 'Cortador de grama a gasolina com regulagem de altura de corte. Ideal para jardins, condomínios e áreas verdes de obras. Acompanha óleo e manual.',
-    acessorios: ['Protetor auricular', 'Manual de uso'],
-    criadoEm: '2026-10-24', anunciante: { nome: 'Taquaral Jardim', telefone: '(53) 99106-6321' }
+    descricao: 'Plataforma Elevatória Tipo Tesoura: equipamento para trabalhos em altura com segurança, disponível para locação em Pelotas. Revisado, com entrega e retirada combinadas conforme a necessidade da obra.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-10-06', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
-    id: 's14', titulo: 'Motosserra 45 cm a gasolina', tipo: 'jardinagem',
-    cidade: 'Curitiba', uf: 'PR', bairro: 'Água Verde',
-    diaria: 75, frete: 35, caucao: 250, energia: 'gasolina', potencia: '2,4 cv', peso: 6,
-    entrega: true, destaque: false,
-    descricao: 'Motosserra com sabre de 45 cm para poda de árvores, corte de lenha e limpeza de terreno. Inclui corrente reserva e protetor auricular.',
-    acessorios: ['Protetor auricular', 'Manual de uso'],
-    criadoEm: '2026-10-16', anunciante: { nome: 'Água Verde Ferramentas', telefone: '(53) 99106-6321' }
-  },
-  {
-    id: 's15', titulo: 'Vibrador de concreto 1,5 cv', tipo: 'concretagem',
-    cidade: 'São Paulo', uf: 'SP', bairro: 'Tatuapé',
-    diaria: 55, frete: 30, caucao: 150, energia: '220v', potencia: '1,5 cv', peso: 8,
-    entrega: true, destaque: false,
-    descricao: 'Vibrador de imersão para adensamento de concreto em lajes, pilares e vigas. Mangote de 1,5 m e motor revisado. Melhora o acabamento e evita vazios.',
-    acessorios: ['Extensão elétrica', 'Manual de uso'],
-    criadoEm: '2026-10-11', anunciante: { nome: 'Tatuapé Concretagem', telefone: '(53) 99106-6321' }
-  },
-  {
-    id: 's16', titulo: 'Plataforma tesoura elétrica 6 m', tipo: 'acesso-elevacao',
-    cidade: 'Belo Horizonte', uf: 'MG', bairro: 'Buritis',
-    diaria: 280, frete: 150, caucao: 800, energia: '220v', potencia: '6 m', peso: 320,
+    id: 'c14', titulo: 'Plataforma Elevatória Tipo Tesoura Skyjack 3213', tipo: 'acesso-elevacao',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Fragata',
+    diaria: 500, frete: 150, caucao: 1500, energia: '220v', potencia: '', peso: 1200,
     entrega: true, destaque: true,
-    descricao: 'Plataforma tesoura elétrica com 6 metros de altura de trabalho, ideal para montagens, pintura e manutenção em altura. Inclui carregador e instruções de segurança.',
-    acessorios: ['Manual de uso', 'Protetor auricular'],
-    criadoEm: '2026-10-25', anunciante: { nome: 'Buritis Elevações', telefone: '(53) 99106-6321' }
+    descricao: 'Plataforma Elevatória Tipo Tesoura Skyjack 3213: equipamento para trabalhos em altura com segurança, disponível para locação em Pelotas. Revisado, com entrega e retirada combinadas conforme a necessidade da obra.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-07-07', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
-    id: 's17', titulo: 'Aspirador industrial 1200 W', tipo: 'limpeza',
-    cidade: 'Recife', uf: 'PE', bairro: 'Pina',
-    diaria: 45, frete: 25, caucao: 150, energia: '220v', potencia: '1200 W', peso: 9,
-    entrega: true, destaque: false,
-    descricao: 'Aspirador industrial para pó e líquidos, perfeito para limpeza pesada após reformas. Tanque de 20 litros, filtro lavável e mangueira de 2 metros.',
-    acessorios: ['Mangueira 10 m', 'Manual de uso'],
-    criadoEm: '2026-10-05', anunciante: { nome: 'Pina Limpeza', telefone: '(53) 99106-6321' }
+    id: 'c15', titulo: 'Plataforma Elevatória Tipo Tesoura Skyjack 3219', tipo: 'acesso-elevacao',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Três Vendas',
+    diaria: 550, frete: 150, caucao: 1650, energia: '220v', potencia: '', peso: 1500,
+    entrega: true, destaque: true,
+    descricao: 'Plataforma Elevatória Tipo Tesoura Skyjack 3219: equipamento para trabalhos em altura com segurança, disponível para locação em Pelotas. Revisado, com entrega e retirada combinadas conforme a necessidade da obra.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-08-13', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
   },
   {
-    id: 's18', titulo: 'Lixadeira orbital 350 W', tipo: 'ferramentas-eletricas',
-    cidade: 'Barueri', uf: 'SP', bairro: 'Centro',
-    diaria: 40, frete: 25, caucao: 120, energia: '110v', potencia: '350 W', peso: 3,
+    id: 'c16', titulo: 'Plataforma Elevatória Tipo Tesoura Skyjack 4632', tipo: 'acesso-elevacao',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Laranjal',
+    diaria: 700, frete: 150, caucao: 2100, energia: '220v', potencia: '', peso: 2600,
+    entrega: true, destaque: true,
+    descricao: 'Plataforma Elevatória Tipo Tesoura Skyjack 4632: equipamento para trabalhos em altura com segurança, disponível para locação em Pelotas. Revisado, com entrega e retirada combinadas conforme a necessidade da obra.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-09-19', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c17', titulo: 'Plataforma Elevatória Tipo Tesoura Skyjack 4740', tipo: 'acesso-elevacao',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Areal',
+    diaria: 750, frete: 150, caucao: 2250, energia: '220v', potencia: '', peso: 3200,
+    entrega: true, destaque: true,
+    descricao: 'Plataforma Elevatória Tipo Tesoura Skyjack 4740: equipamento para trabalhos em altura com segurança, disponível para locação em Pelotas. Revisado, com entrega e retirada combinadas conforme a necessidade da obra.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-10-26', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c18', titulo: 'Plataforma Retrátil', tipo: 'acesso-elevacao',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Porto',
+    diaria: 650, frete: 150, caucao: 1950, energia: '220v', potencia: '', peso: 1500,
     entrega: true, destaque: false,
-    descricao: 'Lixadeira orbital com base de 1/4 de folha, ideal para acabamento de madeira, massa corrida e pintura. Acompanha folhas de lixa e maleta.',
+    descricao: 'Plataforma Retrátil: equipamento para trabalhos em altura com segurança, disponível para locação em Pelotas. Revisado, com entrega e retirada combinadas conforme a necessidade da obra.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-07-27', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c19', titulo: 'Talha Manual de 1 t', tipo: 'acesso-elevacao',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'São Gonçalo',
+    diaria: 40, frete: 25, caucao: 100, energia: 'manual', potencia: '', peso: 15,
+    entrega: true, destaque: false,
+    descricao: 'Talha Manual de 1 t: equipamento para trabalhos em altura com segurança, disponível para locação em Pelotas. Revisado, com entrega e retirada combinadas conforme a necessidade da obra.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-09-02', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c20', titulo: 'Talha Manual de 2 t', tipo: 'acesso-elevacao',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Navegantes',
+    diaria: 50, frete: 25, caucao: 150, energia: 'manual', potencia: '', peso: 15,
+    entrega: true, destaque: false,
+    descricao: 'Talha Manual de 2 t: equipamento para trabalhos em altura com segurança, disponível para locação em Pelotas. Revisado, com entrega e retirada combinadas conforme a necessidade da obra.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-10-09', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c21', titulo: 'Talha Manual de 3 t', tipo: 'acesso-elevacao',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Jardim América',
+    diaria: 60, frete: 25, caucao: 200, energia: 'manual', potencia: '', peso: 15,
+    entrega: true, destaque: false,
+    descricao: 'Talha Manual de 3 t: equipamento para trabalhos em altura com segurança, disponível para locação em Pelotas. Revisado, com entrega e retirada combinadas conforme a necessidade da obra.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-07-10', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c22', titulo: 'Tirfor (Guincho de Alavanca)', tipo: 'acesso-elevacao',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'COHAB Fragata',
+    diaria: 60, frete: 50, caucao: 200, energia: 'manual', potencia: '', peso: 60,
+    entrega: true, destaque: false,
+    descricao: 'Tirfor (Guincho de Alavanca): equipamento para trabalhos em altura com segurança, disponível para locação em Pelotas. Revisado, com entrega e retirada combinadas conforme a necessidade da obra.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-08-16', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c23', titulo: 'Base Fixa para Andaime', tipo: 'andaimes',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Dunas',
+    diaria: 10, frete: 25, caucao: 50, energia: 'manual', potencia: '', peso: 5,
+    entrega: true, destaque: false,
+    descricao: 'Base Fixa para Andaime: peça para montagem de andaimes em obras e reformas, disponível para locação em Pelotas. Entrega e retirada combinadas.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-09-22', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c24', titulo: 'Base Regulável para Andaime', tipo: 'andaimes',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Vila Princesa',
+    diaria: 10, frete: 25, caucao: 50, energia: 'manual', potencia: '', peso: 5,
+    entrega: true, destaque: false,
+    descricao: 'Base Regulável para Andaime: peça para montagem de andaimes em obras e reformas, disponível para locação em Pelotas. Entrega e retirada combinadas.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-10-29', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c25', titulo: 'Diagonal para Andaimes', tipo: 'andaimes',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Centro',
+    diaria: 10, frete: 25, caucao: 50, energia: 'manual', potencia: '', peso: 6,
+    entrega: true, destaque: false,
+    descricao: 'Diagonal para Andaimes: peça para montagem de andaimes em obras e reformas, disponível para locação em Pelotas. Entrega e retirada combinadas.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-07-30', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c26', titulo: 'Escada para Andaime de 1 m', tipo: 'andaimes',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Fragata',
+    diaria: 15, frete: 25, caucao: 50, energia: 'manual', potencia: '', peso: 12,
+    entrega: true, destaque: false,
+    descricao: 'Escada para Andaime de 1 m: peça para montagem de andaimes em obras e reformas, disponível para locação em Pelotas. Entrega e retirada combinadas.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-09-05', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c27', titulo: 'Escada para Andaime de 2 m', tipo: 'andaimes',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Três Vendas',
+    diaria: 15, frete: 25, caucao: 50, energia: 'manual', potencia: '', peso: 12,
+    entrega: true, destaque: false,
+    descricao: 'Escada para Andaime de 2 m: peça para montagem de andaimes em obras e reformas, disponível para locação em Pelotas. Entrega e retirada combinadas.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-10-12', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c28', titulo: 'Guarda-corpo para Andaime de 1 m', tipo: 'andaimes',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Laranjal',
+    diaria: 15, frete: 25, caucao: 50, energia: 'manual', potencia: '', peso: 8,
+    entrega: true, destaque: false,
+    descricao: 'Guarda-corpo para Andaime de 1 m: peça para montagem de andaimes em obras e reformas, disponível para locação em Pelotas. Entrega e retirada combinadas.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-07-13', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c29', titulo: 'Guarda-corpo para Andaime de 1,5 m', tipo: 'andaimes',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Areal',
+    diaria: 15, frete: 25, caucao: 50, energia: 'manual', potencia: '', peso: 8,
+    entrega: true, destaque: false,
+    descricao: 'Guarda-corpo para Andaime de 1,5 m: peça para montagem de andaimes em obras e reformas, disponível para locação em Pelotas. Entrega e retirada combinadas.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-08-19', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c30', titulo: 'Painel Metálico para Andaime de 1 m', tipo: 'andaimes',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Porto',
+    diaria: 30, frete: 25, caucao: 100, energia: 'manual', potencia: '', peso: 15,
+    entrega: true, destaque: false,
+    descricao: 'Painel Metálico para Andaime de 1 m: peça para montagem de andaimes em obras e reformas, disponível para locação em Pelotas. Entrega e retirada combinadas.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-09-25', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c31', titulo: 'Painel Metálico para Andaime de 1,5 m', tipo: 'andaimes',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'São Gonçalo',
+    diaria: 30, frete: 25, caucao: 100, energia: 'manual', potencia: '', peso: 15,
+    entrega: true, destaque: false,
+    descricao: 'Painel Metálico para Andaime de 1,5 m: peça para montagem de andaimes em obras e reformas, disponível para locação em Pelotas. Entrega e retirada combinadas.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-11-01', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c32', titulo: 'Piso Metálico para Andaime 1 m', tipo: 'andaimes',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Navegantes',
+    diaria: 25, frete: 25, caucao: 100, energia: 'manual', potencia: '', peso: 18,
+    entrega: true, destaque: false,
+    descricao: 'Piso Metálico para Andaime 1 m: peça para montagem de andaimes em obras e reformas, disponível para locação em Pelotas. Entrega e retirada combinadas.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-08-02', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c33', titulo: 'Piso Metálico para Andaime 1,5 m', tipo: 'andaimes',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Jardim América',
+    diaria: 25, frete: 25, caucao: 100, energia: 'manual', potencia: '', peso: 18,
+    entrega: true, destaque: false,
+    descricao: 'Piso Metálico para Andaime 1,5 m: peça para montagem de andaimes em obras e reformas, disponível para locação em Pelotas. Entrega e retirada combinadas.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-09-08', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c34', titulo: 'Rodízios para Andaime', tipo: 'andaimes',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'COHAB Fragata',
+    diaria: 10, frete: 25, caucao: 50, energia: 'manual', potencia: '', peso: 2,
+    entrega: true, destaque: false,
+    descricao: 'Rodízios para Andaime: peça para montagem de andaimes em obras e reformas, disponível para locação em Pelotas. Entrega e retirada combinadas.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-10-15', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c35', titulo: 'Compactador de Solo', tipo: 'compactacao',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Dunas',
+    diaria: 100, frete: 50, caucao: 300, energia: 'gasolina', potencia: '', peso: 90,
+    entrega: true, destaque: true,
+    descricao: 'Compactador de Solo: equipamento para compactação de solo, brita e asfalto em calçadas, pisos e pequenas obras. Disponível para locação em Pelotas, com entrega combinada.',
+    acessorios: ['Protetor auricular', 'Manual de uso'],
+    criadoEm: '2026-07-16', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c36', titulo: 'Compactador de Solo Elétrico', tipo: 'compactacao',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Vila Princesa',
+    diaria: 110, frete: 50, caucao: 350, energia: '220v', potencia: '', peso: 90,
+    entrega: true, destaque: true,
+    descricao: 'Compactador de Solo Elétrico: equipamento para compactação de solo, brita e asfalto em calçadas, pisos e pequenas obras. Disponível para locação em Pelotas, com entrega combinada.',
+    acessorios: ['Protetor auricular', 'Manual de uso'],
+    criadoEm: '2026-08-22', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c37', titulo: 'Escarificadora', tipo: 'compactacao',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Centro',
+    diaria: 220, frete: 80, caucao: 650, energia: '220v', potencia: '', peso: 150,
+    entrega: true, destaque: false,
+    descricao: 'Escarificadora: equipamento para compactação de solo, brita e asfalto em calçadas, pisos e pequenas obras. Disponível para locação em Pelotas, com entrega combinada.',
+    acessorios: ['Protetor auricular', 'Manual de uso'],
+    criadoEm: '2026-09-28', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c38', titulo: 'Placa Vibratória', tipo: 'compactacao',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Fragata',
+    diaria: 120, frete: 50, caucao: 350, energia: 'gasolina', potencia: '', peso: 100,
+    entrega: true, destaque: false,
+    descricao: 'Placa Vibratória: equipamento para compactação de solo, brita e asfalto em calçadas, pisos e pequenas obras. Disponível para locação em Pelotas, com entrega combinada.',
+    acessorios: ['Protetor auricular', 'Manual de uso'],
+    criadoEm: '2026-11-04', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c39', titulo: 'Rolo Compactador', tipo: 'compactacao',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Três Vendas',
+    diaria: 280, frete: 80, caucao: 850, energia: '220v', potencia: '', peso: 350,
+    entrega: true, destaque: false,
+    descricao: 'Rolo Compactador: equipamento para compactação de solo, brita e asfalto em calçadas, pisos e pequenas obras. Disponível para locação em Pelotas, com entrega combinada.',
+    acessorios: ['Protetor auricular', 'Manual de uso'],
+    criadoEm: '2026-08-05', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c40', titulo: 'Acabadora de Piso', tipo: 'concretagem',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Laranjal',
+    diaria: 160, frete: 50, caucao: 500, energia: '220v', potencia: '', peso: 100,
+    entrega: true, destaque: false,
+    descricao: 'Acabadora de Piso: equipamento para mistura, lançamento e acabamento de concreto e argamassa. Ideal para obras residenciais e comerciais, com entrega combinada em Pelotas.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-09-11', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c41', titulo: 'Betoneira 150 litros', tipo: 'concretagem',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Areal',
+    diaria: 65, frete: 50, caucao: 200, energia: '220v', potencia: '', peso: 80,
+    entrega: true, destaque: false,
+    descricao: 'Betoneira 150 litros: equipamento para mistura, lançamento e acabamento de concreto e argamassa. Ideal para obras residenciais e comerciais, com entrega combinada em Pelotas.',
+    acessorios: ['Pá e enxada', 'Extensão elétrica', 'Manual de uso'],
+    criadoEm: '2026-10-18', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c42', titulo: 'Betoneira 250 litros 110V/220V - Monofásico 1 cv', tipo: 'concretagem',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Porto',
+    diaria: 80, frete: 80, caucao: 250, energia: '220v', potencia: '1 cv', peso: 110,
+    entrega: true, destaque: true,
+    descricao: 'Betoneira 250 litros 110V/220V - Monofásico 1 cv: equipamento para mistura, lançamento e acabamento de concreto e argamassa. Ideal para obras residenciais e comerciais, com entrega combinada em Pelotas.',
+    acessorios: ['Pá e enxada', 'Extensão elétrica', 'Manual de uso'],
+    criadoEm: '2026-07-19', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c43', titulo: 'Betoneira 400 litros', tipo: 'concretagem',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'São Gonçalo',
+    diaria: 110, frete: 80, caucao: 350, energia: '220v', potencia: '', peso: 160,
+    entrega: true, destaque: true,
+    descricao: 'Betoneira 400 litros: equipamento para mistura, lançamento e acabamento de concreto e argamassa. Ideal para obras residenciais e comerciais, com entrega combinada em Pelotas.',
+    acessorios: ['Pá e enxada', 'Extensão elétrica', 'Manual de uso'],
+    criadoEm: '2026-08-25', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c44', titulo: 'Cortadora de Piso', tipo: 'concretagem',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Navegantes',
+    diaria: 130, frete: 80, caucao: 400, energia: '220v', potencia: '', peso: 120,
+    entrega: true, destaque: false,
+    descricao: 'Cortadora de Piso: equipamento para mistura, lançamento e acabamento de concreto e argamassa. Ideal para obras residenciais e comerciais, com entrega combinada em Pelotas.',
+    acessorios: ['Disco de corte', 'Maleta de transporte', 'Manual de uso'],
+    criadoEm: '2026-10-01', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c45', titulo: 'Mangote para Vibrador de 48 mm', tipo: 'concretagem',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Jardim América',
+    diaria: 30, frete: 25, caucao: 100, energia: '220v', potencia: '', peso: 6,
+    entrega: true, destaque: false,
+    descricao: 'Mangote para Vibrador de 48 mm: equipamento para mistura, lançamento e acabamento de concreto e argamassa. Ideal para obras residenciais e comerciais, com entrega combinada em Pelotas.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-07-02', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c46', titulo: 'Mangueira para Vibrador de 63 mm', tipo: 'concretagem',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'COHAB Fragata',
+    diaria: 25, frete: 25, caucao: 100, energia: '220v', potencia: '', peso: 6,
+    entrega: true, destaque: false,
+    descricao: 'Mangueira para Vibrador de 63 mm: equipamento para mistura, lançamento e acabamento de concreto e argamassa. Ideal para obras residenciais e comerciais, com entrega combinada em Pelotas.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-08-08', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c47', titulo: 'Misturador', tipo: 'concretagem',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Dunas',
+    diaria: 100, frete: 50, caucao: 300, energia: '220v', potencia: '', peso: 60,
+    entrega: true, destaque: false,
+    descricao: 'Misturador: equipamento para mistura, lançamento e acabamento de concreto e argamassa. Ideal para obras residenciais e comerciais, com entrega combinada em Pelotas.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-09-14', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c48', titulo: 'Motor de Acionamento', tipo: 'concretagem',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Vila Princesa',
+    diaria: 90, frete: 25, caucao: 250, energia: '220v', potencia: '', peso: 20,
+    entrega: true, destaque: false,
+    descricao: 'Motor de Acionamento: equipamento para mistura, lançamento e acabamento de concreto e argamassa. Ideal para obras residenciais e comerciais, com entrega combinada em Pelotas.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-10-21', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c49', titulo: 'Motovibrador a Gasolina', tipo: 'concretagem',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Centro',
+    diaria: 110, frete: 25, caucao: 350, energia: 'gasolina', potencia: '', peso: 15,
+    entrega: true, destaque: false,
+    descricao: 'Motovibrador a Gasolina: equipamento para mistura, lançamento e acabamento de concreto e argamassa. Ideal para obras residenciais e comerciais, com entrega combinada em Pelotas.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-07-22', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c50', titulo: 'Projetor de Argamassa', tipo: 'concretagem',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Fragata',
+    diaria: 280, frete: 80, caucao: 850, energia: '220v', potencia: '', peso: 150,
+    entrega: true, destaque: false,
+    descricao: 'Projetor de Argamassa: equipamento para mistura, lançamento e acabamento de concreto e argamassa. Ideal para obras residenciais e comerciais, com entrega combinada em Pelotas.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-08-28', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c51', titulo: 'Régua Vibratória', tipo: 'concretagem',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Três Vendas',
+    diaria: 90, frete: 25, caucao: 250, energia: '220v', potencia: '', peso: 20,
+    entrega: true, destaque: false,
+    descricao: 'Régua Vibratória: equipamento para mistura, lançamento e acabamento de concreto e argamassa. Ideal para obras residenciais e comerciais, com entrega combinada em Pelotas.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-10-04', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c52', titulo: 'Vibrador de concreto - elétrico', tipo: 'concretagem',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Laranjal',
+    diaria: 80, frete: 25, caucao: 250, energia: '220v', potencia: '', peso: 8,
+    entrega: true, destaque: false,
+    descricao: 'Vibrador de concreto - elétrico: equipamento para mistura, lançamento e acabamento de concreto e argamassa. Ideal para obras residenciais e comerciais, com entrega combinada em Pelotas.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-07-05', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c53', titulo: 'Vibrador para Concreto AF 36 mm', tipo: 'concretagem',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Areal',
+    diaria: 80, frete: 25, caucao: 250, energia: '220v', potencia: '', peso: 8,
+    entrega: true, destaque: false,
+    descricao: 'Vibrador para Concreto AF 36 mm: equipamento para mistura, lançamento e acabamento de concreto e argamassa. Ideal para obras residenciais e comerciais, com entrega combinada em Pelotas.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-08-11', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c54', titulo: 'Vibrador para Concreto AR 25mm', tipo: 'concretagem',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Porto',
+    diaria: 80, frete: 25, caucao: 250, energia: '220v', potencia: '', peso: 8,
+    entrega: true, destaque: false,
+    descricao: 'Vibrador para Concreto AR 25mm: equipamento para mistura, lançamento e acabamento de concreto e argamassa. Ideal para obras residenciais e comerciais, com entrega combinada em Pelotas.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-09-17', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c55', titulo: 'Chave de Impacto', tipo: 'ferramentas-eletricas',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'São Gonçalo',
+    diaria: 50, frete: 25, caucao: 150, energia: '220v', potencia: '', peso: 4,
+    entrega: true, destaque: false,
+    descricao: 'Chave de Impacto: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
     acessorios: ['Maleta de transporte', 'Manual de uso'],
-    criadoEm: '2026-10-13', anunciante: { nome: 'Centro Ferramentas', telefone: '(53) 99106-6321' }
-  }
+    criadoEm: '2026-10-24', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c56', titulo: 'Cortadora de Bloco', tipo: 'ferramentas-eletricas',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Navegantes',
+    diaria: 160, frete: 50, caucao: 500, energia: '220v', potencia: '', peso: 40,
+    entrega: true, destaque: false,
+    descricao: 'Cortadora de Bloco: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    acessorios: ['Disco de corte', 'Maleta de transporte', 'Manual de uso'],
+    criadoEm: '2026-07-25', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c57', titulo: 'Cortadora de Parede com Disco', tipo: 'ferramentas-eletricas',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Jardim América',
+    diaria: 150, frete: 25, caucao: 450, energia: '220v', potencia: '', peso: 20,
+    entrega: true, destaque: false,
+    descricao: 'Cortadora de Parede com Disco: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    acessorios: ['Disco de corte', 'Maleta de transporte', 'Manual de uso'],
+    criadoEm: '2026-08-31', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c58', titulo: 'Cortadora de Parede com Fresa', tipo: 'ferramentas-eletricas',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'COHAB Fragata',
+    diaria: 150, frete: 25, caucao: 450, energia: '220v', potencia: '', peso: 20,
+    entrega: true, destaque: false,
+    descricao: 'Cortadora de Parede com Fresa: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    acessorios: ['Disco de corte', 'Maleta de transporte', 'Manual de uso'],
+    criadoEm: '2026-10-07', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c59', titulo: 'Cortadora de Porcelanato Portátil TT', tipo: 'ferramentas-eletricas',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Dunas',
+    diaria: 70, frete: 25, caucao: 200, energia: '220v', potencia: '', peso: 25,
+    entrega: true, destaque: false,
+    descricao: 'Cortadora de Porcelanato Portátil TT: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    acessorios: ['Disco de corte', 'Maleta de transporte', 'Manual de uso'],
+    criadoEm: '2026-07-08', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c60', titulo: 'Cortadora de Porcelanato TR', tipo: 'ferramentas-eletricas',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Vila Princesa',
+    diaria: 70, frete: 25, caucao: 200, energia: '220v', potencia: '', peso: 25,
+    entrega: true, destaque: false,
+    descricao: 'Cortadora de Porcelanato TR: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    acessorios: ['Disco de corte', 'Maleta de transporte', 'Manual de uso'],
+    criadoEm: '2026-08-14', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c61', titulo: 'Cortadora em Vergalhão', tipo: 'ferramentas-eletricas',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Centro',
+    diaria: 100, frete: 25, caucao: 300, energia: '220v', potencia: '', peso: 30,
+    entrega: true, destaque: false,
+    descricao: 'Cortadora em Vergalhão: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    acessorios: ['Disco de corte', 'Maleta de transporte', 'Manual de uso'],
+    criadoEm: '2026-09-20', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c62', titulo: 'Cortadora Manual com Disco', tipo: 'ferramentas-eletricas',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Fragata',
+    diaria: 50, frete: 25, caucao: 150, energia: 'manual', potencia: '', peso: 10,
+    entrega: true, destaque: false,
+    descricao: 'Cortadora Manual com Disco: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    acessorios: ['Disco de corte', 'Maleta de transporte', 'Manual de uso'],
+    criadoEm: '2026-10-27', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c63', titulo: 'Cortadora Portátil', tipo: 'ferramentas-eletricas',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Três Vendas',
+    diaria: 100, frete: 25, caucao: 300, energia: '220v', potencia: '', peso: 12,
+    entrega: true, destaque: false,
+    descricao: 'Cortadora Portátil: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    acessorios: ['Disco de corte', 'Maleta de transporte', 'Manual de uso'],
+    criadoEm: '2026-07-28', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c64', titulo: 'Desempenadeira Elétrica', tipo: 'ferramentas-eletricas',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Laranjal',
+    diaria: 70, frete: 25, caucao: 200, energia: '220v', potencia: '', peso: 10,
+    entrega: true, destaque: false,
+    descricao: 'Desempenadeira Elétrica: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    acessorios: ['Maleta de transporte', 'Manual de uso'],
+    criadoEm: '2026-09-03', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c65', titulo: 'Esmerilhadeira 4.1/2', tipo: 'ferramentas-eletricas',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Areal',
+    diaria: 45, frete: 25, caucao: 150, energia: '220v', potencia: '', peso: 5,
+    entrega: true, destaque: false,
+    descricao: 'Esmerilhadeira 4.1/2: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    acessorios: ['Disco de corte', 'Maleta de transporte', 'Manual de uso'],
+    criadoEm: '2026-10-10', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c66', titulo: 'Esmerilhadeira 9', tipo: 'ferramentas-eletricas',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Porto',
+    diaria: 70, frete: 25, caucao: 200, energia: '220v', potencia: '', peso: 8,
+    entrega: true, destaque: false,
+    descricao: 'Esmerilhadeira 9: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    acessorios: ['Disco de corte', 'Maleta de transporte', 'Manual de uso'],
+    criadoEm: '2026-07-11', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c67', titulo: 'Esmerilhadeiras 7 polegadas (Elétrica)', tipo: 'ferramentas-eletricas',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'São Gonçalo',
+    diaria: 45, frete: 25, caucao: 150, energia: '220v', potencia: '', peso: 5,
+    entrega: true, destaque: false,
+    descricao: 'Esmerilhadeiras 7 polegadas (Elétrica): ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    acessorios: ['Disco de corte', 'Maleta de transporte', 'Manual de uso'],
+    criadoEm: '2026-08-17', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c68', titulo: 'Esquadrilhadeira', tipo: 'ferramentas-eletricas',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Navegantes',
+    diaria: 50, frete: 25, caucao: 150, energia: '220v', potencia: '', peso: 8,
+    entrega: true, destaque: false,
+    descricao: 'Esquadrilhadeira: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    acessorios: ['Maleta de transporte', 'Manual de uso'],
+    criadoEm: '2026-09-23', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c69', titulo: 'Ferramenta de Policorte 12', tipo: 'ferramentas-eletricas',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Jardim América',
+    diaria: 80, frete: 25, caucao: 250, energia: '220v', potencia: '', peso: 20,
+    entrega: true, destaque: false,
+    descricao: 'Ferramenta de Policorte 12: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    acessorios: ['Disco de corte', 'Maleta de transporte', 'Manual de uso'],
+    criadoEm: '2026-10-30', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c70', titulo: 'Ferramenta de Policorte 14', tipo: 'ferramentas-eletricas',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'COHAB Fragata',
+    diaria: 80, frete: 25, caucao: 250, energia: '220v', potencia: '', peso: 20,
+    entrega: true, destaque: false,
+    descricao: 'Ferramenta de Policorte 14: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    acessorios: ['Disco de corte', 'Maleta de transporte', 'Manual de uso'],
+    criadoEm: '2026-07-31', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c71', titulo: 'Furadeira base magnética', tipo: 'ferramentas-eletricas',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Dunas',
+    diaria: 120, frete: 25, caucao: 350, energia: '220v', potencia: '', peso: 15,
+    entrega: true, destaque: false,
+    descricao: 'Furadeira base magnética: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    acessorios: ['Jogo de brocas', 'Maleta de transporte', 'Manual de uso'],
+    criadoEm: '2026-09-06', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c72', titulo: 'Furadeira de bancada', tipo: 'ferramentas-eletricas',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Vila Princesa',
+    diaria: 60, frete: 25, caucao: 200, energia: '220v', potencia: '', peso: 25,
+    entrega: true, destaque: false,
+    descricao: 'Furadeira de bancada: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    acessorios: ['Jogo de brocas', 'Maleta de transporte', 'Manual de uso'],
+    criadoEm: '2026-10-13', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c73', titulo: 'Grampeador Pneumático', tipo: 'ferramentas-eletricas',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Centro',
+    diaria: 40, frete: 25, caucao: 100, energia: '220v', potencia: '', peso: 3,
+    entrega: true, destaque: false,
+    descricao: 'Grampeador Pneumático: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    acessorios: ['Maleta de transporte', 'Manual de uso'],
+    criadoEm: '2026-07-14', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c74', titulo: 'Lixadeira Angular 7', tipo: 'ferramentas-eletricas',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Fragata',
+    diaria: 45, frete: 25, caucao: 150, energia: '220v', potencia: '', peso: 6,
+    entrega: true, destaque: false,
+    descricao: 'Lixadeira Angular 7: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    acessorios: ['Maleta de transporte', 'Manual de uso'],
+    criadoEm: '2026-08-20', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c75', titulo: 'Lixadeira de Cinta', tipo: 'ferramentas-eletricas',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Três Vendas',
+    diaria: 45, frete: 25, caucao: 150, energia: '220v', potencia: '', peso: 6,
+    entrega: true, destaque: false,
+    descricao: 'Lixadeira de Cinta: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    acessorios: ['Maleta de transporte', 'Manual de uso'],
+    criadoEm: '2026-09-26', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c76', titulo: 'Lixadeira de Parede e Teto', tipo: 'ferramentas-eletricas',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Laranjal',
+    diaria: 45, frete: 25, caucao: 150, energia: '220v', potencia: '', peso: 6,
+    entrega: true, destaque: false,
+    descricao: 'Lixadeira de Parede e Teto: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    acessorios: ['Maleta de transporte', 'Manual de uso'],
+    criadoEm: '2026-11-02', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c77', titulo: 'Lixadeira Orbital', tipo: 'ferramentas-eletricas',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Areal',
+    diaria: 45, frete: 25, caucao: 150, energia: '220v', potencia: '', peso: 6,
+    entrega: true, destaque: false,
+    descricao: 'Lixadeira Orbital: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    acessorios: ['Maleta de transporte', 'Manual de uso'],
+    criadoEm: '2026-08-03', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c78', titulo: 'Martelete Perfurador 2 kg Elétrico', tipo: 'ferramentas-eletricas',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Porto',
+    diaria: 80, frete: 25, caucao: 250, energia: '220v', potencia: '', peso: 5,
+    entrega: true, destaque: false,
+    descricao: 'Martelete Perfurador 2 kg Elétrico: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    acessorios: ['Maleta de transporte', 'Manual de uso'],
+    criadoEm: '2026-09-09', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c79', titulo: 'Martelo Demolidor 16 kg', tipo: 'ferramentas-eletricas',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'São Gonçalo',
+    diaria: 180, frete: 25, caucao: 550, energia: '220v', potencia: '', peso: 16,
+    entrega: true, destaque: true,
+    descricao: 'Martelo Demolidor 16 kg: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    acessorios: ['Ponteiro e cinzel', 'Protetor auricular', 'Maleta de transporte'],
+    criadoEm: '2026-10-16', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c80', titulo: 'Martelo Demolidor de 30 kg', tipo: 'ferramentas-eletricas',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Navegantes',
+    diaria: 250, frete: 25, caucao: 750, energia: '220v', potencia: '', peso: 30,
+    entrega: true, destaque: true,
+    descricao: 'Martelo Demolidor de 30 kg: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    acessorios: ['Ponteiro e cinzel', 'Protetor auricular', 'Maleta de transporte'],
+    criadoEm: '2026-07-17', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c81', titulo: 'Misturador de Tintas', tipo: 'ferramentas-eletricas',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Jardim América',
+    diaria: 50, frete: 25, caucao: 150, energia: '220v', potencia: '', peso: 5,
+    entrega: true, destaque: false,
+    descricao: 'Misturador de Tintas: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    acessorios: ['Maleta de transporte', 'Manual de uso'],
+    criadoEm: '2026-08-23', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c82', titulo: 'Multicortadora', tipo: 'ferramentas-eletricas',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'COHAB Fragata',
+    diaria: 70, frete: 25, caucao: 200, energia: '220v', potencia: '', peso: 8,
+    entrega: true, destaque: false,
+    descricao: 'Multicortadora: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    acessorios: ['Disco de corte', 'Maleta de transporte', 'Manual de uso'],
+    criadoEm: '2026-09-29', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c83', titulo: 'Parafusadeira (Elétrica)', tipo: 'ferramentas-eletricas',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Dunas',
+    diaria: 40, frete: 25, caucao: 100, energia: '220v', potencia: '', peso: 3,
+    entrega: true, destaque: false,
+    descricao: 'Parafusadeira (Elétrica): ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    acessorios: ['Jogo de brocas', 'Maleta de transporte', 'Manual de uso'],
+    criadoEm: '2026-11-05', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c84', titulo: 'Parafusadeira a Bateria', tipo: 'ferramentas-eletricas',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Vila Princesa',
+    diaria: 40, frete: 25, caucao: 100, energia: 'bateria', potencia: '', peso: 3,
+    entrega: true, destaque: false,
+    descricao: 'Parafusadeira a Bateria: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    acessorios: ['Jogo de brocas', 'Maleta de transporte', 'Manual de uso'],
+    criadoEm: '2026-08-06', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c85', titulo: 'Pistola de Pintura', tipo: 'ferramentas-eletricas',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Centro',
+    diaria: 50, frete: 25, caucao: 150, energia: '220v', potencia: '', peso: 2,
+    entrega: true, destaque: false,
+    descricao: 'Pistola de Pintura: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    acessorios: ['Maleta de transporte', 'Manual de uso'],
+    criadoEm: '2026-09-12', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c86', titulo: 'Pistola Finca Pino', tipo: 'ferramentas-eletricas',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Fragata',
+    diaria: 45, frete: 25, caucao: 150, energia: '220v', potencia: '', peso: 3,
+    entrega: true, destaque: false,
+    descricao: 'Pistola Finca Pino: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    acessorios: ['Maleta de transporte', 'Manual de uso'],
+    criadoEm: '2026-10-19', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c87', titulo: 'Plaina Elétrica', tipo: 'ferramentas-eletricas',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Três Vendas',
+    diaria: 55, frete: 25, caucao: 150, energia: '220v', potencia: '', peso: 8,
+    entrega: true, destaque: false,
+    descricao: 'Plaina Elétrica: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    acessorios: ['Maleta de transporte', 'Manual de uso'],
+    criadoEm: '2026-07-20', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c88', titulo: 'Rosqueadeira', tipo: 'ferramentas-eletricas',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Laranjal',
+    diaria: 100, frete: 25, caucao: 300, energia: '220v', potencia: '', peso: 25,
+    entrega: true, destaque: false,
+    descricao: 'Rosqueadeira: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    acessorios: ['Maleta de transporte', 'Manual de uso'],
+    criadoEm: '2026-08-26', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c89', titulo: 'Serra de Bancada', tipo: 'ferramentas-eletricas',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Areal',
+    diaria: 90, frete: 25, caucao: 250, energia: '220v', potencia: '', peso: 30,
+    entrega: true, destaque: false,
+    descricao: 'Serra de Bancada: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    acessorios: ['Disco de corte', 'Maleta de transporte', 'Manual de uso'],
+    criadoEm: '2026-10-02', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c90', titulo: 'Serra Elétrica', tipo: 'ferramentas-eletricas',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Porto',
+    diaria: 60, frete: 25, caucao: 200, energia: '220v', potencia: '', peso: 6,
+    entrega: true, destaque: false,
+    descricao: 'Serra Elétrica: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    acessorios: ['Disco de corte', 'Maleta de transporte', 'Manual de uso'],
+    criadoEm: '2026-07-03', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c91', titulo: 'Serra Madeira 7.1/4', tipo: 'ferramentas-eletricas',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'São Gonçalo',
+    diaria: 50, frete: 25, caucao: 150, energia: '220v', potencia: '', peso: 6,
+    entrega: true, destaque: false,
+    descricao: 'Serra Madeira 7.1/4: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    acessorios: ['Disco de corte', 'Maleta de transporte', 'Manual de uso'],
+    criadoEm: '2026-08-09', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c92', titulo: 'Serra Madeira 9.1/4', tipo: 'ferramentas-eletricas',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Navegantes',
+    diaria: 50, frete: 25, caucao: 150, energia: '220v', potencia: '', peso: 6,
+    entrega: true, destaque: false,
+    descricao: 'Serra Madeira 9.1/4: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    acessorios: ['Disco de corte', 'Maleta de transporte', 'Manual de uso'],
+    criadoEm: '2026-09-15', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c93', titulo: 'Serra Mármore 4.3/8', tipo: 'ferramentas-eletricas',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Jardim América',
+    diaria: 50, frete: 25, caucao: 150, energia: '220v', potencia: '', peso: 5,
+    entrega: true, destaque: false,
+    descricao: 'Serra Mármore 4.3/8: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    acessorios: ['Disco de corte', 'Maleta de transporte', 'Manual de uso'],
+    criadoEm: '2026-10-22', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c94', titulo: 'Serra Mármore 7', tipo: 'ferramentas-eletricas',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'COHAB Fragata',
+    diaria: 50, frete: 25, caucao: 150, energia: '220v', potencia: '', peso: 5,
+    entrega: true, destaque: false,
+    descricao: 'Serra Mármore 7: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    acessorios: ['Disco de corte', 'Maleta de transporte', 'Manual de uso'],
+    criadoEm: '2026-07-23', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c95', titulo: 'Serra Sabre', tipo: 'ferramentas-eletricas',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Dunas',
+    diaria: 50, frete: 25, caucao: 150, energia: '220v', potencia: '', peso: 4,
+    entrega: true, destaque: false,
+    descricao: 'Serra Sabre: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    acessorios: ['Disco de corte', 'Maleta de transporte', 'Manual de uso'],
+    criadoEm: '2026-08-29', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c96', titulo: 'Serra tico-tico', tipo: 'ferramentas-eletricas',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Vila Princesa',
+    diaria: 45, frete: 25, caucao: 150, energia: '220v', potencia: '', peso: 4,
+    entrega: true, destaque: false,
+    descricao: 'Serra tico-tico: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    acessorios: ['Disco de corte', 'Maleta de transporte', 'Manual de uso'],
+    criadoEm: '2026-10-05', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c97', titulo: 'Serra trilho Elétrica', tipo: 'ferramentas-eletricas',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Centro',
+    diaria: 100, frete: 25, caucao: 300, energia: '220v', potencia: '', peso: 15,
+    entrega: true, destaque: false,
+    descricao: 'Serra trilho Elétrica: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    acessorios: ['Disco de corte', 'Maleta de transporte', 'Manual de uso'],
+    criadoEm: '2026-07-06', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c98', titulo: 'Soprador Térmico', tipo: 'ferramentas-eletricas',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Fragata',
+    diaria: 50, frete: 25, caucao: 150, energia: '220v', potencia: '', peso: 3,
+    entrega: true, destaque: false,
+    descricao: 'Soprador Térmico: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    acessorios: ['Maleta de transporte', 'Manual de uso'],
+    criadoEm: '2026-08-12', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c99', titulo: 'Tupia', tipo: 'ferramentas-eletricas',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Três Vendas',
+    diaria: 65, frete: 25, caucao: 200, energia: '220v', potencia: '', peso: 15,
+    entrega: true, destaque: false,
+    descricao: 'Tupia: ferramenta para corte, furação, lixamento e acabamento em obras e reformas. Revisada, com os acessórios essenciais para o uso imediato e entrega em Pelotas.',
+    acessorios: ['Maleta de transporte', 'Manual de uso'],
+    criadoEm: '2026-09-18', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c100', titulo: 'Furadeira de Impacto', tipo: 'furacao-demolicao',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Laranjal',
+    diaria: 40, frete: 25, caucao: 100, energia: '220v', potencia: '', peso: 3,
+    entrega: true, destaque: false,
+    descricao: 'Furadeira de Impacto: equipamento para furação e demolição de concreto, alvenaria e pisos. Robusto para obras e reformas, com entrega combinada em Pelotas.',
+    acessorios: ['Jogo de brocas', 'Maleta de transporte', 'Manual de uso'],
+    criadoEm: '2026-10-25', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c101', titulo: 'Furadeira de Impacto 1/2"', tipo: 'furacao-demolicao',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Areal',
+    diaria: 40, frete: 25, caucao: 100, energia: '220v', potencia: '', peso: 3,
+    entrega: true, destaque: false,
+    descricao: 'Furadeira de Impacto 1/2": equipamento para furação e demolição de concreto, alvenaria e pisos. Robusto para obras e reformas, com entrega combinada em Pelotas.',
+    acessorios: ['Jogo de brocas', 'Maleta de transporte', 'Manual de uso'],
+    criadoEm: '2026-07-26', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c102', titulo: 'Martelete Perfurador de 4 kg', tipo: 'furacao-demolicao',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Porto',
+    diaria: 90, frete: 25, caucao: 250, energia: '220v', potencia: '', peso: 4,
+    entrega: true, destaque: false,
+    descricao: 'Martelete Perfurador de 4 kg: equipamento para furação e demolição de concreto, alvenaria e pisos. Robusto para obras e reformas, com entrega combinada em Pelotas.',
+    acessorios: ['Ponteiro e cinzel', 'Protetor auricular'],
+    criadoEm: '2026-09-01', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c103', titulo: 'Martelete Rompedor de 11 kg', tipo: 'furacao-demolicao',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'São Gonçalo',
+    diaria: 150, frete: 25, caucao: 450, energia: '220v', potencia: '', peso: 11,
+    entrega: true, destaque: true,
+    descricao: 'Martelete Rompedor de 11 kg: equipamento para furação e demolição de concreto, alvenaria e pisos. Robusto para obras e reformas, com entrega combinada em Pelotas.',
+    acessorios: ['Ponteiro e cinzel', 'Protetor auricular', 'Maleta de transporte'],
+    criadoEm: '2026-10-08', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c104', titulo: 'Martelete Rompedor de 17 kg', tipo: 'furacao-demolicao',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Navegantes',
+    diaria: 190, frete: 25, caucao: 550, energia: '220v', potencia: '', peso: 17,
+    entrega: true, destaque: true,
+    descricao: 'Martelete Rompedor de 17 kg: equipamento para furação e demolição de concreto, alvenaria e pisos. Robusto para obras e reformas, com entrega combinada em Pelotas.',
+    acessorios: ['Ponteiro e cinzel', 'Protetor auricular', 'Maleta de transporte'],
+    criadoEm: '2026-07-09', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c105', titulo: 'Martelete Rompedor de 5 kg', tipo: 'furacao-demolicao',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Jardim América',
+    diaria: 100, frete: 25, caucao: 300, energia: '220v', potencia: '', peso: 5,
+    entrega: true, destaque: true,
+    descricao: 'Martelete Rompedor de 5 kg: equipamento para furação e demolição de concreto, alvenaria e pisos. Robusto para obras e reformas, com entrega combinada em Pelotas.',
+    acessorios: ['Ponteiro e cinzel', 'Protetor auricular', 'Maleta de transporte'],
+    criadoEm: '2026-08-15', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c106', titulo: 'Martelo Demolidor de 10 kg', tipo: 'furacao-demolicao',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'COHAB Fragata',
+    diaria: 140, frete: 25, caucao: 400, energia: '220v', potencia: '', peso: 10,
+    entrega: true, destaque: true,
+    descricao: 'Martelo Demolidor de 10 kg: equipamento para furação e demolição de concreto, alvenaria e pisos. Robusto para obras e reformas, com entrega combinada em Pelotas.',
+    acessorios: ['Ponteiro e cinzel', 'Protetor auricular', 'Maleta de transporte'],
+    criadoEm: '2026-09-21', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c107', titulo: 'Martelo Demolidor de 13 kg', tipo: 'furacao-demolicao',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Dunas',
+    diaria: 160, frete: 25, caucao: 500, energia: '220v', potencia: '', peso: 13,
+    entrega: true, destaque: true,
+    descricao: 'Martelo Demolidor de 13 kg: equipamento para furação e demolição de concreto, alvenaria e pisos. Robusto para obras e reformas, com entrega combinada em Pelotas.',
+    acessorios: ['Ponteiro e cinzel', 'Protetor auricular', 'Maleta de transporte'],
+    criadoEm: '2026-10-28', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c108', titulo: 'Perfuratriz', tipo: 'furacao-demolicao',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Vila Princesa',
+    diaria: 220, frete: 25, caucao: 650, energia: '220v', potencia: '', peso: 25,
+    entrega: true, destaque: false,
+    descricao: 'Perfuratriz: equipamento para furação e demolição de concreto, alvenaria e pisos. Robusto para obras e reformas, com entrega combinada em Pelotas.',
+    acessorios: ['Ponteiro e cinzel', 'Protetor auricular'],
+    criadoEm: '2026-07-29', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c109', titulo: 'Triturador de Entulho', tipo: 'furacao-demolicao',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Centro',
+    diaria: 280, frete: 80, caucao: 850, energia: '220v', potencia: '', peso: 120,
+    entrega: true, destaque: false,
+    descricao: 'Triturador de Entulho: equipamento para furação e demolição de concreto, alvenaria e pisos. Robusto para obras e reformas, com entrega combinada em Pelotas.',
+    acessorios: ['Ponteiro e cinzel', 'Protetor auricular'],
+    criadoEm: '2026-09-04', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c110', titulo: 'Aparador de Cerca Viva', tipo: 'jardinagem',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Fragata',
+    diaria: 55, frete: 25, caucao: 150, energia: 'gasolina', potencia: '', peso: 6,
+    entrega: true, destaque: false,
+    descricao: 'Aparador de Cerca Viva: equipamento para manutenção de jardins, gramados e terrenos. Disponível para locação em Pelotas, com entrega combinada.',
+    acessorios: ['Protetor auricular', 'Manual de uso'],
+    criadoEm: '2026-10-11', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c111', titulo: 'Atomizador', tipo: 'jardinagem',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Três Vendas',
+    diaria: 50, frete: 25, caucao: 150, energia: 'gasolina', potencia: '', peso: 10,
+    entrega: true, destaque: false,
+    descricao: 'Atomizador: equipamento para manutenção de jardins, gramados e terrenos. Disponível para locação em Pelotas, com entrega combinada.',
+    acessorios: ['Bico pulverizador', 'Manual de uso'],
+    criadoEm: '2026-07-12', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c112', titulo: 'Cortadora de Grama Elétrica', tipo: 'jardinagem',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Laranjal',
+    diaria: 70, frete: 25, caucao: 200, energia: '220v', potencia: '', peso: 25,
+    entrega: true, destaque: true,
+    descricao: 'Cortadora de Grama Elétrica: equipamento para manutenção de jardins, gramados e terrenos. Disponível para locação em Pelotas, com entrega combinada.',
+    acessorios: ['Protetor auricular', 'Manual de uso'],
+    criadoEm: '2026-08-18', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c113', titulo: 'Cortadora de Grama Gasolina', tipo: 'jardinagem',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Areal',
+    diaria: 70, frete: 25, caucao: 200, energia: 'gasolina', potencia: '', peso: 25,
+    entrega: true, destaque: true,
+    descricao: 'Cortadora de Grama Gasolina: equipamento para manutenção de jardins, gramados e terrenos. Disponível para locação em Pelotas, com entrega combinada.',
+    acessorios: ['Protetor auricular', 'Manual de uso'],
+    criadoEm: '2026-09-24', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c114', titulo: 'Eletrosserra a bateria', tipo: 'jardinagem',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Porto',
+    diaria: 70, frete: 25, caucao: 200, energia: 'bateria', potencia: '', peso: 5,
+    entrega: true, destaque: false,
+    descricao: 'Eletrosserra a bateria: equipamento para manutenção de jardins, gramados e terrenos. Disponível para locação em Pelotas, com entrega combinada.',
+    acessorios: ['Protetor auricular', 'Manual de uso'],
+    criadoEm: '2026-10-31', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c115', titulo: 'Multifuncional', tipo: 'jardinagem',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'São Gonçalo',
+    diaria: 75, frete: 25, caucao: 250, energia: 'gasolina', potencia: '', peso: 30,
+    entrega: true, destaque: false,
+    descricao: 'Multifuncional: equipamento para manutenção de jardins, gramados e terrenos. Disponível para locação em Pelotas, com entrega combinada.',
+    acessorios: ['Protetor auricular', 'Manual de uso'],
+    criadoEm: '2026-08-01', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c116', titulo: 'Perfurador de Solo', tipo: 'jardinagem',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Navegantes',
+    diaria: 100, frete: 25, caucao: 300, energia: 'gasolina', potencia: '', peso: 20,
+    entrega: true, destaque: false,
+    descricao: 'Perfurador de Solo: equipamento para manutenção de jardins, gramados e terrenos. Disponível para locação em Pelotas, com entrega combinada.',
+    acessorios: ['Protetor auricular', 'Manual de uso'],
+    criadoEm: '2026-09-07', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c117', titulo: 'Podador de Galhos', tipo: 'jardinagem',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Jardim América',
+    diaria: 65, frete: 25, caucao: 200, energia: 'gasolina', potencia: '', peso: 8,
+    entrega: true, destaque: false,
+    descricao: 'Podador de Galhos: equipamento para manutenção de jardins, gramados e terrenos. Disponível para locação em Pelotas, com entrega combinada.',
+    acessorios: ['Protetor auricular', 'Manual de uso'],
+    criadoEm: '2026-10-14', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c118', titulo: 'Pulverizador Manual', tipo: 'jardinagem',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'COHAB Fragata',
+    diaria: 25, frete: 25, caucao: 100, energia: 'manual', potencia: '', peso: 3,
+    entrega: true, destaque: false,
+    descricao: 'Pulverizador Manual: equipamento para manutenção de jardins, gramados e terrenos. Disponível para locação em Pelotas, com entrega combinada.',
+    acessorios: ['Bico pulverizador', 'Manual de uso'],
+    criadoEm: '2026-07-15', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c119', titulo: 'Roçadeira Elétrica', tipo: 'jardinagem',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Dunas',
+    diaria: 80, frete: 25, caucao: 250, energia: '220v', potencia: '', peso: 12,
+    entrega: true, destaque: true,
+    descricao: 'Roçadeira Elétrica: equipamento para manutenção de jardins, gramados e terrenos. Disponível para locação em Pelotas, com entrega combinada.',
+    acessorios: ['Protetor auricular', 'Manual de uso'],
+    criadoEm: '2026-08-21', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c120', titulo: 'Roçadeira Gasolina', tipo: 'jardinagem',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Vila Princesa',
+    diaria: 80, frete: 25, caucao: 250, energia: 'gasolina', potencia: '', peso: 12,
+    entrega: true, destaque: true,
+    descricao: 'Roçadeira Gasolina: equipamento para manutenção de jardins, gramados e terrenos. Disponível para locação em Pelotas, com entrega combinada.',
+    acessorios: ['Protetor auricular', 'Manual de uso'],
+    criadoEm: '2026-09-27', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c121', titulo: 'Soprador de Folhas', tipo: 'jardinagem',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Centro',
+    diaria: 50, frete: 25, caucao: 150, energia: 'gasolina', potencia: '', peso: 6,
+    entrega: true, destaque: false,
+    descricao: 'Soprador de Folhas: equipamento para manutenção de jardins, gramados e terrenos. Disponível para locação em Pelotas, com entrega combinada.',
+    acessorios: ['Protetor auricular', 'Manual de uso'],
+    criadoEm: '2026-11-03', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c122', titulo: 'Aspirador de Pó e Líquidos', tipo: 'limpeza',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Fragata',
+    diaria: 70, frete: 25, caucao: 200, energia: '220v', potencia: '', peso: 12,
+    entrega: true, destaque: false,
+    descricao: 'Aspirador de Pó e Líquidos: equipamento para limpeza pesada de pisos, fachadas e ambientes. Revisado, com entrega combinada em Pelotas.',
+    acessorios: ['Mangueira 10 m', 'Manual de uso'],
+    criadoEm: '2026-08-04', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c123', titulo: 'Enceradeira Industrial', tipo: 'limpeza',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Três Vendas',
+    diaria: 80, frete: 50, caucao: 250, energia: '220v', potencia: '', peso: 40,
+    entrega: true, destaque: false,
+    descricao: 'Enceradeira Industrial: equipamento para limpeza pesada de pisos, fachadas e ambientes. Revisado, com entrega combinada em Pelotas.',
+    acessorios: ['Mangueira 10 m', 'Manual de uso'],
+    criadoEm: '2026-09-10', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c124', titulo: 'Extratora', tipo: 'limpeza',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Laranjal',
+    diaria: 170, frete: 50, caucao: 500, energia: '220v', potencia: '', peso: 40,
+    entrega: true, destaque: false,
+    descricao: 'Extratora: equipamento para limpeza pesada de pisos, fachadas e ambientes. Revisado, com entrega combinada em Pelotas.',
+    acessorios: ['Mangueira 10 m', 'Manual de uso'],
+    criadoEm: '2026-10-17', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c125', titulo: 'Hidrolavadora', tipo: 'limpeza',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Areal',
+    diaria: 90, frete: 25, caucao: 250, energia: '220v', potencia: '', peso: 20,
+    entrega: true, destaque: false,
+    descricao: 'Hidrolavadora: equipamento para limpeza pesada de pisos, fachadas e ambientes. Revisado, com entrega combinada em Pelotas.',
+    acessorios: ['Mangueira 10 m', 'Manual de uso'],
+    criadoEm: '2026-07-18', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c126', titulo: 'Lavadora a Vapor', tipo: 'limpeza',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Porto',
+    diaria: 140, frete: 25, caucao: 400, energia: '220v', potencia: '', peso: 30,
+    entrega: true, destaque: false,
+    descricao: 'Lavadora a Vapor: equipamento para limpeza pesada de pisos, fachadas e ambientes. Revisado, com entrega combinada em Pelotas.',
+    acessorios: ['Mangueira 10 m', 'Manual de uso'],
+    criadoEm: '2026-08-24', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c127', titulo: 'Lavadora de Alta Pressão a Gasolina', tipo: 'limpeza',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'São Gonçalo',
+    diaria: 100, frete: 25, caucao: 300, energia: 'gasolina', potencia: '', peso: 25,
+    entrega: true, destaque: true,
+    descricao: 'Lavadora de Alta Pressão a Gasolina: equipamento para limpeza pesada de pisos, fachadas e ambientes. Revisado, com entrega combinada em Pelotas.',
+    acessorios: ['Mangueira 10 m', 'Manual de uso'],
+    criadoEm: '2026-09-30', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c128', titulo: 'Lavadora de Alta Pressão Elétrica', tipo: 'limpeza',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Navegantes',
+    diaria: 100, frete: 25, caucao: 300, energia: '220v', potencia: '', peso: 25,
+    entrega: true, destaque: true,
+    descricao: 'Lavadora de Alta Pressão Elétrica: equipamento para limpeza pesada de pisos, fachadas e ambientes. Revisado, com entrega combinada em Pelotas.',
+    acessorios: ['Mangueira 10 m', 'Manual de uso'],
+    criadoEm: '2026-07-01', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c129', titulo: 'Lavadora e Secadora', tipo: 'limpeza',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Jardim América',
+    diaria: 200, frete: 50, caucao: 600, energia: '220v', potencia: '', peso: 60,
+    entrega: true, destaque: false,
+    descricao: 'Lavadora e Secadora: equipamento para limpeza pesada de pisos, fachadas e ambientes. Revisado, com entrega combinada em Pelotas.',
+    acessorios: ['Mangueira 10 m', 'Manual de uso'],
+    criadoEm: '2026-08-07', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c130', titulo: 'Politriz Angular', tipo: 'limpeza',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'COHAB Fragata',
+    diaria: 80, frete: 25, caucao: 250, energia: '220v', potencia: '', peso: 10,
+    entrega: true, destaque: false,
+    descricao: 'Politriz Angular: equipamento para limpeza pesada de pisos, fachadas e ambientes. Revisado, com entrega combinada em Pelotas.',
+    acessorios: ['Mangueira 10 m', 'Manual de uso'],
+    criadoEm: '2026-09-13', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c131', titulo: 'Politriz para Concreto', tipo: 'limpeza',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Dunas',
+    diaria: 140, frete: 25, caucao: 400, energia: '220v', potencia: '', peso: 10,
+    entrega: true, destaque: false,
+    descricao: 'Politriz para Concreto: equipamento para limpeza pesada de pisos, fachadas e ambientes. Revisado, com entrega combinada em Pelotas.',
+    acessorios: ['Mangueira 10 m', 'Manual de uso'],
+    criadoEm: '2026-10-20', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c132', titulo: 'Varredeira', tipo: 'limpeza',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Vila Princesa',
+    diaria: 170, frete: 50, caucao: 500, energia: '220v', potencia: '', peso: 60,
+    entrega: true, destaque: false,
+    descricao: 'Varredeira: equipamento para limpeza pesada de pisos, fachadas e ambientes. Revisado, com entrega combinada em Pelotas.',
+    acessorios: ['Mangueira 10 m', 'Manual de uso'],
+    criadoEm: '2026-07-21', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c133', titulo: 'Bomba Airless', tipo: 'motores',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Centro',
+    diaria: 200, frete: 25, caucao: 600, energia: '220v', potencia: '', peso: 15,
+    entrega: true, destaque: false,
+    descricao: 'Bomba Airless: equipamento para geração de energia, bombeamento e acionamento de máquinas. Revisado e testado, com entrega combinada em Pelotas.',
+    acessorios: ['Extensão elétrica', 'Manual de uso'],
+    criadoEm: '2026-08-27', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c134', titulo: 'Bomba Mangote', tipo: 'motores',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Fragata',
+    diaria: 70, frete: 25, caucao: 200, energia: '220v', potencia: '', peso: 15,
+    entrega: true, destaque: false,
+    descricao: 'Bomba Mangote: equipamento para geração de energia, bombeamento e acionamento de máquinas. Revisado e testado, com entrega combinada em Pelotas.',
+    acessorios: ['Extensão elétrica', 'Manual de uso'],
+    criadoEm: '2026-10-03', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c135', titulo: 'Bomba para teste hidrostático', tipo: 'motores',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Três Vendas',
+    diaria: 100, frete: 25, caucao: 300, energia: '220v', potencia: '', peso: 15,
+    entrega: true, destaque: false,
+    descricao: 'Bomba para teste hidrostático: equipamento para geração de energia, bombeamento e acionamento de máquinas. Revisado e testado, com entrega combinada em Pelotas.',
+    acessorios: ['Extensão elétrica', 'Manual de uso'],
+    criadoEm: '2026-07-04', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c136', titulo: 'Bomba Submersa (Água Limpa)', tipo: 'motores',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Laranjal',
+    diaria: 80, frete: 25, caucao: 250, energia: '220v', potencia: '', peso: 15,
+    entrega: true, destaque: false,
+    descricao: 'Bomba Submersa (Água Limpa): equipamento para geração de energia, bombeamento e acionamento de máquinas. Revisado e testado, com entrega combinada em Pelotas.',
+    acessorios: ['Extensão elétrica', 'Manual de uso'],
+    criadoEm: '2026-08-10', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c137', titulo: 'Bomba Submersa Lameira', tipo: 'motores',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Areal',
+    diaria: 80, frete: 25, caucao: 250, energia: '220v', potencia: '', peso: 15,
+    entrega: true, destaque: false,
+    descricao: 'Bomba Submersa Lameira: equipamento para geração de energia, bombeamento e acionamento de máquinas. Revisado e testado, com entrega combinada em Pelotas.',
+    acessorios: ['Extensão elétrica', 'Manual de uso'],
+    criadoEm: '2026-09-16', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c138', titulo: 'Compressor', tipo: 'motores',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Porto',
+    diaria: 130, frete: 50, caucao: 400, energia: '220v', potencia: '', peso: 80,
+    entrega: true, destaque: false,
+    descricao: 'Compressor: equipamento para geração de energia, bombeamento e acionamento de máquinas. Revisado e testado, com entrega combinada em Pelotas.',
+    acessorios: ['Extensão elétrica', 'Manual de uso'],
+    criadoEm: '2026-10-23', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c139', titulo: 'Compressor de Ar Direto', tipo: 'motores',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'São Gonçalo',
+    diaria: 100, frete: 50, caucao: 300, energia: '220v', potencia: '', peso: 80,
+    entrega: true, destaque: false,
+    descricao: 'Compressor de Ar Direto: equipamento para geração de energia, bombeamento e acionamento de máquinas. Revisado e testado, com entrega combinada em Pelotas.',
+    acessorios: ['Extensão elétrica', 'Manual de uso'],
+    criadoEm: '2026-07-24', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c140', titulo: 'Gerador 11 kVA', tipo: 'motores',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Navegantes',
+    diaria: 360, frete: 80, caucao: 1100, energia: 'gasolina', potencia: '11 kVA', peso: 170,
+    entrega: true, destaque: true,
+    descricao: 'Gerador 11 kVA: equipamento para geração de energia, bombeamento e acionamento de máquinas. Revisado e testado, com entrega combinada em Pelotas.',
+    acessorios: ['Extensão elétrica', 'Manual de uso'],
+    criadoEm: '2026-08-30', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c141', titulo: 'Gerador 12 kVA', tipo: 'motores',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Jardim América',
+    diaria: 400, frete: 80, caucao: 1200, energia: 'gasolina', potencia: '12 kVA', peso: 180,
+    entrega: true, destaque: true,
+    descricao: 'Gerador 12 kVA: equipamento para geração de energia, bombeamento e acionamento de máquinas. Revisado e testado, com entrega combinada em Pelotas.',
+    acessorios: ['Extensão elétrica', 'Manual de uso'],
+    criadoEm: '2026-10-06', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c142', titulo: 'Gerador 14 kVA', tipo: 'motores',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'COHAB Fragata',
+    diaria: 480, frete: 80, caucao: 1450, energia: 'gasolina', potencia: '14 kVA', peso: 200,
+    entrega: true, destaque: true,
+    descricao: 'Gerador 14 kVA: equipamento para geração de energia, bombeamento e acionamento de máquinas. Revisado e testado, com entrega combinada em Pelotas.',
+    acessorios: ['Extensão elétrica', 'Manual de uso'],
+    criadoEm: '2026-07-07', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c143', titulo: 'Gerador 8 kVA', tipo: 'motores',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Dunas',
+    diaria: 280, frete: 80, caucao: 850, energia: 'gasolina', potencia: '8 kVA', peso: 120,
+    entrega: true, destaque: true,
+    descricao: 'Gerador 8 kVA: equipamento para geração de energia, bombeamento e acionamento de máquinas. Revisado e testado, com entrega combinada em Pelotas.',
+    acessorios: ['Extensão elétrica', 'Manual de uso'],
+    criadoEm: '2026-08-13', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c144', titulo: 'Gerador de Energia 5 kVA', tipo: 'motores',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Vila Princesa',
+    diaria: 200, frete: 50, caucao: 600, energia: 'gasolina', potencia: '5 kVA', peso: 90,
+    entrega: true, destaque: true,
+    descricao: 'Gerador de Energia 5 kVA: equipamento para geração de energia, bombeamento e acionamento de máquinas. Revisado e testado, com entrega combinada em Pelotas.',
+    acessorios: ['Extensão elétrica', 'Manual de uso'],
+    criadoEm: '2026-09-19', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c145', titulo: 'Banheiro Container', tipo: 'outros',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Centro',
+    diaria: 400, frete: 150, caucao: 1200, energia: 'manual', potencia: '', peso: 2200,
+    entrega: true, destaque: false,
+    descricao: 'Banheiro Container: disponível para locação em Pelotas. Consulte disponibilidade, condições de retirada e entrega para a sua obra.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-10-26', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c146', titulo: 'Caipitoneira', tipo: 'outros',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Fragata',
+    diaria: 70, frete: 50, caucao: 200, energia: '220v', potencia: '', peso: 50,
+    entrega: true, destaque: false,
+    descricao: 'Caipitoneira: disponível para locação em Pelotas. Consulte disponibilidade, condições de retirada e entrega para a sua obra.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-07-27', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c147', titulo: 'Câmera Térmica', tipo: 'outros',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Três Vendas',
+    diaria: 170, frete: 25, caucao: 500, energia: 'bateria', potencia: '', peso: 2,
+    entrega: true, destaque: false,
+    descricao: 'Câmera Térmica: disponível para locação em Pelotas. Consulte disponibilidade, condições de retirada e entrega para a sua obra.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-09-02', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c148', titulo: 'Carro para Bloco', tipo: 'outros',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Laranjal',
+    diaria: 90, frete: 25, caucao: 250, energia: 'manual', potencia: '', peso: 30,
+    entrega: true, destaque: false,
+    descricao: 'Carro para Bloco: disponível para locação em Pelotas. Consulte disponibilidade, condições de retirada e entrega para a sua obra.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-10-09', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c149', titulo: 'Climatizador de ar', tipo: 'outros',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Areal',
+    diaria: 130, frete: 50, caucao: 400, energia: '220v', potencia: '', peso: 70,
+    entrega: true, destaque: false,
+    descricao: 'Climatizador de ar: disponível para locação em Pelotas. Consulte disponibilidade, condições de retirada e entrega para a sua obra.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-07-10', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c150', titulo: 'Climatizador de Ar Portatil', tipo: 'outros',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Porto',
+    diaria: 130, frete: 50, caucao: 400, energia: '220v', potencia: '', peso: 70,
+    entrega: true, destaque: false,
+    descricao: 'Climatizador de Ar Portatil: disponível para locação em Pelotas. Consulte disponibilidade, condições de retirada e entrega para a sua obra.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-08-16', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c151', titulo: 'Container desmontável', tipo: 'outros',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'São Gonçalo',
+    diaria: 450, frete: 150, caucao: 1350, energia: 'manual', potencia: '', peso: 2500,
+    entrega: true, destaque: false,
+    descricao: 'Container desmontável: disponível para locação em Pelotas. Consulte disponibilidade, condições de retirada e entrega para a sua obra.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-09-22', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c152', titulo: 'Cortador Manual', tipo: 'outros',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Navegantes',
+    diaria: 50, frete: 25, caucao: 150, energia: 'manual', potencia: '', peso: 8,
+    entrega: true, destaque: false,
+    descricao: 'Cortador Manual: disponível para locação em Pelotas. Consulte disponibilidade, condições de retirada e entrega para a sua obra.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-10-29', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c153', titulo: 'Desentupidora', tipo: 'outros',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Jardim América',
+    diaria: 200, frete: 50, caucao: 600, energia: '220v', potencia: '', peso: 40,
+    entrega: true, destaque: false,
+    descricao: 'Desentupidora: disponível para locação em Pelotas. Consulte disponibilidade, condições de retirada e entrega para a sua obra.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-07-30', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c154', titulo: 'Detector de Materiais', tipo: 'outros',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'COHAB Fragata',
+    diaria: 100, frete: 25, caucao: 300, energia: 'bateria', potencia: '', peso: 2,
+    entrega: true, destaque: false,
+    descricao: 'Detector de Materiais: disponível para locação em Pelotas. Consulte disponibilidade, condições de retirada e entrega para a sua obra.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-09-05', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c155', titulo: 'Dutos de Entulho', tipo: 'outros',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Dunas',
+    diaria: 40, frete: 25, caucao: 100, energia: 'manual', potencia: '', peso: 15,
+    entrega: true, destaque: false,
+    descricao: 'Dutos de Entulho: disponível para locação em Pelotas. Consulte disponibilidade, condições de retirada e entrega para a sua obra.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-10-12', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c156', titulo: 'Escora Metálica 3,10m', tipo: 'outros',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Vila Princesa',
+    diaria: 20, frete: 25, caucao: 50, energia: 'manual', potencia: '', peso: 12,
+    entrega: true, destaque: false,
+    descricao: 'Escora Metálica 3,10m: disponível para locação em Pelotas. Consulte disponibilidade, condições de retirada e entrega para a sua obra.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-07-13', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c157', titulo: 'Escora Metálica 4,50m', tipo: 'outros',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Centro',
+    diaria: 20, frete: 25, caucao: 50, energia: 'manual', potencia: '', peso: 12,
+    entrega: true, destaque: false,
+    descricao: 'Escora Metálica 4,50m: disponível para locação em Pelotas. Consulte disponibilidade, condições de retirada e entrega para a sua obra.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-08-19', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c158', titulo: 'Extensão', tipo: 'outros',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Fragata',
+    diaria: 20, frete: 25, caucao: 50, energia: '220v', potencia: '', peso: 3,
+    entrega: true, destaque: false,
+    descricao: 'Extensão: disponível para locação em Pelotas. Consulte disponibilidade, condições de retirada e entrega para a sua obra.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-09-25', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c159', titulo: 'Inversora', tipo: 'outros',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Três Vendas',
+    diaria: 100, frete: 25, caucao: 300, energia: '220v', potencia: '', peso: 10,
+    entrega: true, destaque: false,
+    descricao: 'Inversora: disponível para locação em Pelotas. Consulte disponibilidade, condições de retirada e entrega para a sua obra.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-11-01', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c160', titulo: 'Máquina de Solda 250', tipo: 'outros',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Laranjal',
+    diaria: 160, frete: 25, caucao: 500, energia: '220v', potencia: '', peso: 30,
+    entrega: true, destaque: false,
+    descricao: 'Máquina de Solda 250: disponível para locação em Pelotas. Consulte disponibilidade, condições de retirada e entrega para a sua obra.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-08-02', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c161', titulo: 'Máquina de Solda 300', tipo: 'outros',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Areal',
+    diaria: 180, frete: 25, caucao: 550, energia: '220v', potencia: '', peso: 30,
+    entrega: true, destaque: false,
+    descricao: 'Máquina de Solda 300: disponível para locação em Pelotas. Consulte disponibilidade, condições de retirada e entrega para a sua obra.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-09-08', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c162', titulo: 'Máquina de Solda 400', tipo: 'outros',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Porto',
+    diaria: 190, frete: 25, caucao: 550, energia: '220v', potencia: '', peso: 30,
+    entrega: true, destaque: false,
+    descricao: 'Máquina de Solda 400: disponível para locação em Pelotas. Consulte disponibilidade, condições de retirada e entrega para a sua obra.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-10-15', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c163', titulo: 'Máquina de Solda 425', tipo: 'outros',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'São Gonçalo',
+    diaria: 200, frete: 25, caucao: 600, energia: '220v', potencia: '', peso: 30,
+    entrega: true, destaque: false,
+    descricao: 'Máquina de Solda 425: disponível para locação em Pelotas. Consulte disponibilidade, condições de retirada e entrega para a sua obra.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-07-16', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c164', titulo: 'Nível Laser', tipo: 'outros',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Navegantes',
+    diaria: 60, frete: 25, caucao: 200, energia: 'bateria', potencia: '', peso: 2,
+    entrega: true, destaque: false,
+    descricao: 'Nível Laser: disponível para locação em Pelotas. Consulte disponibilidade, condições de retirada e entrega para a sua obra.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-08-22', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c165', titulo: 'Transformador 3000 W', tipo: 'outros',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Jardim América',
+    diaria: 70, frete: 25, caucao: 200, energia: '220v', potencia: '3000 W', peso: 15,
+    entrega: true, destaque: false,
+    descricao: 'Transformador 3000 W: disponível para locação em Pelotas. Consulte disponibilidade, condições de retirada e entrega para a sua obra.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-09-28', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c166', titulo: 'Tripé', tipo: 'outros',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'COHAB Fragata',
+    diaria: 30, frete: 25, caucao: 100, energia: 'manual', potencia: '', peso: 3,
+    entrega: true, destaque: false,
+    descricao: 'Tripé: disponível para locação em Pelotas. Consulte disponibilidade, condições de retirada e entrega para a sua obra.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-11-04', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
+  {
+    id: 'c167', titulo: 'Valetadeira', tipo: 'outros',
+    cidade: 'Pelotas', uf: 'RS', bairro: 'Dunas',
+    diaria: 220, frete: 80, caucao: 650, energia: '220v', potencia: '', peso: 120,
+    entrega: true, destaque: false,
+    descricao: 'Valetadeira: disponível para locação em Pelotas. Consulte disponibilidade, condições de retirada e entrega para a sua obra.',
+    acessorios: ['Manual de uso'],
+    criadoEm: '2026-08-05', anunciante: { nome: 'Aluga Fácil', telefone: '(53) 99106-6321' }
+  },
 ];
 
 
@@ -3924,7 +5268,7 @@ function registrarVenda(form) {
 function carregarExemplo() {
   if (reservas.some((v) => v.exemplo)) { avisar('Os dados de exemplo já estão carregados.'); return; }
   const modelos = [
-    ['s1', 4], ['s3', 3], ['s4', 5], ['s5', 2], ['s6', 2], ['s8', 3], ['s10', 2], ['s12', 3]
+    ['c43', 4], ['c79', 3], ['c13', 2], ['c35', 2], ['c143', 2], ['c128', 3], ['c113', 2], ['c103', 3]
   ];
   const nomes = ['Construtora Silva', 'Marcos Almeida', 'Reforma Jardim', 'Ana Paula', 'Engenharia Costa', 'Pedro Santos', 'Obra Vila Nova', 'Carlos Lima'];
   const exemplos = [];
@@ -4156,7 +5500,7 @@ function publicarAnuncio(form) {
 function sincronizarControlesFiltro() {
   $('#busca').value = filtros.texto;
   $('#filtro-cidade').value = filtros.cidade;
-  $('#filtro-preco').value = filtros.diariaMax || 300;
+  $('#filtro-preco').value = filtros.diariaMax || 1000;
   $('#valor-preco').textContent = filtros.diariaMax ? 'Até ' + fmtMoeda.format(filtros.diariaMax) : 'Qualquer valor';
   $$('#filtro-energia button').forEach((b) => b.classList.toggle('ativo', b.dataset.energia === filtros.energia));
   $('#filtro-entrega').checked = filtros.entrega;
@@ -4193,7 +5537,7 @@ function ligarEventos() {
 
   $('#filtro-preco').addEventListener('input', (e) => {
     const valor = Number(e.target.value);
-    filtros.diariaMax = valor >= 300 ? 0 : valor;
+    filtros.diariaMax = valor >= 1000 ? 0 : valor;
     $('#valor-preco').textContent = filtros.diariaMax ? 'Até ' + fmtMoeda.format(filtros.diariaMax) : 'Qualquer valor';
     renderBusca();
   });
