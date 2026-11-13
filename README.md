@@ -8,6 +8,8 @@ O app reúne betoneiras, andaimes, compactadores, ferramentas elétricas, equipa
 
 > **Catálogo (v19):** os 167 itens foram revisados um a um, com preços por versão (potência/tamanho), pesos reais, energia e potência corretas, descrições específicas e a nova opção de energia **Pneumático**.
 
+> **Rastreamento (v20):** cada reserva agora tem uma tela **Acompanhar entrega**, com mapa da rota, veículo animado, previsão de chegada, linha do tempo e confirmação de recebimento. Nesta versão o trajeto é simulado localmente, sem GPS e sem backend.
+
 Há também uma **Área da empresa** com dois logins locais: **dono (admin)** e **gerente**. O painel mostra vendas, receita, lucro estimado, ticket médio, caução em aberto, gráfico dos últimos 6 meses, ranking de máquinas e registro manual de vendas/reservas. O dono tem acesso total, incluindo configurações do negócio, controle do acesso do gerente e backup dos dados.
 
 Na mesma aba **Painel**, o **cliente** pode criar a própria conta, entrar, editar os dados, trocar a senha e acompanhar as reservas feitas com aquele cadastro. O cadastro aceita **pessoa física** ou **empresa (CNPJ)** — no caso de empresa, basta digitar o CNPJ e o app busca e preenche automaticamente os dados do estabelecimento.
@@ -175,6 +177,19 @@ Na aba **Painel**, a opção **Sou cliente** abre o cadastro:
 
 A base de exemplo está em `EQUIPAMENTOS_BASE`, no início do JavaScript de `app.html` (167 equipamentos inspirados no catálogo da Casa do Construtor, em Pelotas/RS, com diárias, descrições, categorias e acessórios editáveis pelo dono). A **v19** revisou o catálogo item por item: preços por versão, pesos, energia, potência e descrições específicas.
 
+## Acompanhamento de entrega (v20)
+
+Cada reserva tem uma tela **Acompanhar entrega**, aberta pela aba **Reservas**, pelo painel do cliente e pelo painel da empresa. Ela mostra:
+
+- mapa estilizado com a rota da loja até o endereço do cliente;
+- veículo animado percorrendo a rota;
+- previsão de chegada (ETA) e horário previsto;
+- linha do tempo com quatro etapas: **pedido confirmado, saiu da loja, em trânsito e entregue**;
+- nome do entregador e botão para falar com a loja pelo WhatsApp;
+- confirmação de recebimento pelo cliente.
+
+O dono ou gerente controla a entrega no próprio painel: muda o status, ajusta o tempo estimado de rota e informa o entregador. Nesta versão o trajeto é **simulado localmente** (sem GPS e sem backend): o veículo avança pela rota de acordo com o tempo estimado. O rastreamento real com GPS do entregador exigirá um backend em tempo real em uma próxima etapa.
+
 Para **zerar os dados**, abra o console do navegador e rode:
 
 ```js
@@ -212,7 +227,7 @@ O que foi implementado:
 
 O app **é o mesmo** no computador e no celular — não existe um projeto separado para Android. O que roda no celular é este PWA instalado; qualquer alteração publicada chega a ele automaticamente.
 
-- A versão atual aparece no **rodapé** do app (ex.: `v19`).
+- A versão atual aparece no **rodapé** do app (ex.: `v20`).
 - A partir da **v15**, o app **procura e aplica atualizações automaticamente**: ao abrir, ao voltar para o app e a cada 5 minutos com ele aberto. O service worker novo assume na hora (`skipWaiting`) e a página recarrega sozinha.
 - A checagem busca `sw.js` e as páginas com a versão na URL e `cache: 'reload'`, para furar cache antigo do navegador e do GitHub Pages.
 - Ao atualizar, favoritos, reservas, anúncios, contas e tema **são preservados** (ficam no `localStorage`, não no cache).

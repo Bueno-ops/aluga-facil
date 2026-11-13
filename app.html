@@ -285,6 +285,78 @@ input[type=range]{width:100%;accent-color:var(--primaria);height:28px}
 .visita-acoes{display:flex;gap:6px;margin-top:9px;flex-wrap:wrap}
 .visita-acoes .btn-secundario{min-height:32px;padding:0 10px;font-size:.74rem;border-radius:8px}
 
+/* ================= Rastreamento da entrega ================= */
+.entrega-linha{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:5px;font-size:.74rem;color:var(--texto-2);line-height:1.4}
+.entrega-linha b{color:var(--texto)}
+.entrega-ponto{width:8px;height:8px;border-radius:50%;background:var(--texto-2);flex:none}
+.entrega-ponto.preparando,.entrega-ponto.saiu{background:#d99a00}
+.entrega-ponto.em_transito{background:var(--primaria);animation:pulsoEntrega 1.6s infinite}
+.entrega-ponto.entregue{background:var(--sucesso)}
+@keyframes pulsoEntrega{0%,100%{box-shadow:0 0 0 0 rgba(24,60,143,.35)}50%{box-shadow:0 0 0 5px rgba(24,60,143,0)}}
+.cliente-entrega-aviso{display:flex;align-items:center;gap:11px;background:linear-gradient(135deg,var(--primaria),var(--primaria-forte));color:#fff;border-radius:16px;padding:13px 14px;margin-bottom:14px;box-shadow:var(--sombra-2)}
+.cliente-entrega-aviso-icone{flex:none;width:42px;height:42px;border-radius:12px;background:rgba(255,255,255,.16);display:grid;place-items:center}
+.cliente-entrega-aviso-icone .ico{width:22px;height:22px;color:#fff}
+.cliente-entrega-aviso-texto{flex:1;min-width:0;display:grid;gap:1px}
+.cliente-entrega-aviso-texto span{font-size:.6rem;text-transform:uppercase;letter-spacing:.07em;font-weight:800;opacity:.8}
+.cliente-entrega-aviso-texto b{font-size:.9rem;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cliente-entrega-aviso-texto small{font-size:.68rem;opacity:.85}
+.cliente-entrega-aviso .btn-secundario{flex:none;background:#fff;color:var(--primaria);border-color:#fff;min-height:34px;padding:0 11px;font-size:.72rem}
+.rastreio{padding:20px 16px 26px}
+.rastreio-cabecalho{padding-right:38px}
+.rastreio-etiqueta{display:inline-flex;align-items:center;gap:6px;font-size:.62rem;text-transform:uppercase;letter-spacing:.09em;font-weight:800;color:var(--primaria);background:var(--primaria-suave);padding:5px 9px;border-radius:999px}
+.rastreio-etiqueta .ico{width:13px;height:13px}
+.rastreio-cabecalho h2{font-size:1.18rem;letter-spacing:-.02em;margin-top:9px;line-height:1.25}
+.rastreio-cabecalho p{font-size:.76rem;color:var(--texto-2);margin-top:3px}
+.rastreio-mapa{position:relative;margin-top:14px;border-radius:18px;overflow:hidden;border:1px solid var(--borda);background:#e9eef5;box-shadow:var(--sombra-1)}
+.rastreio-mapa-svg{width:100%;height:auto;aspect-ratio:4/3;display:block}
+.rastreio-ao-vivo{position:absolute;top:10px;left:10px;display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.95);color:#0a1c59;font-size:.58rem;font-weight:800;letter-spacing:.08em;padding:5px 9px;border-radius:999px;box-shadow:0 2px 8px rgba(10,28,89,.16)}
+.rastreio-ao-vivo i{width:7px;height:7px;border-radius:50%;background:#16a34a;animation:piscaAoVivo 1.4s infinite}
+@keyframes piscaAoVivo{0%,100%{opacity:1}50%{opacity:.2}}
+.rastreio-eta-pill{position:absolute;top:10px;right:10px;background:var(--primaria);color:#fff;font-size:.68rem;font-weight:800;padding:6px 11px;border-radius:999px;box-shadow:0 2px 10px rgba(10,28,89,.3);white-space:nowrap}
+.rastreio-rota{display:flex;align-items:center;gap:9px;margin-top:10px}
+.rastreio-extremo{display:grid;gap:0;min-width:0;flex:1}
+.rastreio-extremo .dot{width:9px;height:9px;border-radius:50%;background:var(--primaria);margin-bottom:4px}
+.rastreio-extremo .dot.destino{background:var(--destaque-forte)}
+.rastreio-extremo b{font-size:.72rem;line-height:1.2}
+.rastreio-extremo small{font-size:.64rem;color:var(--texto-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rastreio-rota-linha{flex:none;width:34px;height:2px;background:repeating-linear-gradient(90deg,var(--borda-forte) 0 5px,transparent 5px 9px)}
+.rastreio-resumo{display:flex;gap:11px;align-items:flex-start;margin-top:14px;border:1px solid var(--borda);border-radius:14px;background:var(--superficie-2);padding:12px 13px}
+.rastreio-resumo-icone{flex:none;width:40px;height:40px;border-radius:12px;background:var(--primaria);color:#fff;display:grid;place-items:center;box-shadow:var(--sombra-1)}
+.rastreio-resumo-icone .ico{width:20px;height:20px}
+.rastreio-resumo b{display:block;font-size:.92rem;line-height:1.3}
+.rastreio-resumo p{font-size:.76rem;color:var(--texto-2);margin-top:2px;line-height:1.4}
+.rastreio-resumo-meta{display:flex;gap:12px;flex-wrap:wrap;margin-top:7px;font-size:.7rem;color:var(--texto-2)}
+.rastreio-resumo-meta b{display:inline;font-size:.7rem;color:var(--texto)}
+.rastreio-etapas{list-style:none;margin:16px 0 0;padding:0}
+.rastreio-etapa{position:relative;display:flex;gap:12px;padding-bottom:16px}
+.rastreio-etapa:last-child{padding-bottom:0}
+.rastreio-etapa::before{content:"";position:absolute;left:11px;top:25px;bottom:0;width:2px;background:var(--borda)}
+.rastreio-etapa:last-child::before{display:none}
+.rastreio-etapa.concluida::before{background:var(--primaria)}
+.rastreio-etapa-marca{position:relative;z-index:1;flex:none;width:24px;height:24px;border-radius:50%;border:2px solid var(--borda-forte);background:var(--superficie);color:var(--texto-2);display:grid;place-items:center}
+.rastreio-etapa-marca .ico{width:12px;height:12px}
+.rastreio-etapa.concluida .rastreio-etapa-marca{background:var(--primaria);border-color:var(--primaria);color:#fff}
+.rastreio-etapa.atual .rastreio-etapa-marca{border-color:var(--primaria);color:var(--primaria);box-shadow:0 0 0 5px var(--primaria-suave);animation:pulsoEtapa 1.8s infinite}
+@keyframes pulsoEtapa{0%,100%{box-shadow:0 0 0 4px var(--primaria-suave)}50%{box-shadow:0 0 0 8px transparent}}
+.rastreio-etapa-texto b{display:block;font-size:.83rem;line-height:1.3}
+.rastreio-etapa.atual .rastreio-etapa-texto b{color:var(--primaria)}
+.rastreio-etapa-texto p{font-size:.73rem;color:var(--texto-2);margin-top:1px;line-height:1.4}
+.rastreio-etapa-texto small{display:inline-block;margin-top:3px;font-size:.63rem;font-weight:700;color:var(--texto-2)}
+.rastreio-acoes{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.rastreio-acoes .btn-secundario,.rastreio-acoes .btn-primario{min-height:40px}
+.rastreio-gestao{margin-top:18px;padding-top:15px;border-top:1px dashed var(--borda-forte)}
+.rastreio-gestao h3{font-size:.68rem;text-transform:uppercase;letter-spacing:.08em;color:var(--texto-2);font-weight:800}
+.rastreio-status-botoes{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin-top:9px}
+.rastreio-status-botoes button{min-height:36px;padding:6px 8px;border-radius:9px;border:1px solid var(--borda);background:var(--superficie);font-size:.71rem;font-weight:750;color:var(--texto-2);line-height:1.2}
+.rastreio-status-botoes button:hover{border-color:var(--primaria);color:var(--primaria)}
+.rastreio-status-botoes button.ativo{background:var(--primaria);border-color:var(--primaria);color:#fff}
+.rastreio-duracao{margin-top:12px;display:grid;gap:6px}
+.rastreio-duracao>span{font-size:.66rem;text-transform:uppercase;letter-spacing:.06em;font-weight:800;color:var(--texto-2)}
+.rastreio-duracao>div{display:flex;gap:6px;flex-wrap:wrap}
+.rastreio-duracao button{min-height:32px;padding:0 11px;border-radius:8px;border:1px solid var(--borda);background:var(--superficie);font-size:.72rem;font-weight:700;color:var(--texto-2)}
+.rastreio-duracao button.ativo{background:var(--primaria-suave);border-color:var(--primaria);color:var(--primaria)}
+.rastreio-entregador{margin-top:12px}
+
 /* ================= Avisos flutuantes ================= */
 .toasts{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(var(--nav-h) + 16px + env(safe-area-inset-bottom,0px));z-index:90;display:grid;gap:8px;width:min(92vw,420px);pointer-events:none}
 .toast{background:var(--texto);color:var(--bg);padding:11px 14px;border-radius:11px;font-size:.84rem;font-weight:650;box-shadow:var(--sombra-2);display:flex;align-items:center;gap:9px;animation:toastIn .2s ease}
@@ -867,6 +939,8 @@ input[type=range]{width:100%;accent-color:var(--primaria);height:28px}
           <button class="btn-secundario btn-sair" data-acao="sair-cliente"><svg class="ico" aria-hidden="true"><use href="#i-sair"/></svg>Sair</button>
         </div>
 
+        <div id="cliente-entrega-aviso" class="cliente-entrega-aviso" hidden></div>
+
         <div class="kpis" id="cliente-kpis"></div>
 
         <div class="empresa-info" id="cliente-empresa" hidden></div>
@@ -1236,7 +1310,7 @@ const CHAVES = {
 };
 
 // Versão exibida no rodapé — mantenha igual à versão do sw.js.
-const VERSAO_APP = 'v19';
+const VERSAO_APP = 'v20';
 
 // Contas locais (não há servidor: é uma proteção do dispositivo).
 // O admin é o dono: vê tudo e controla o acesso do gerente.
@@ -3591,6 +3665,10 @@ function abrirDetalhe(id, opcoes) {
   opcoes = opcoes || {};
   const eq = todosEquipamentos().find((item) => item.id === id);
   if (!eq) return;
+  pararTimerEntrega();
+  modalEntregaId = null;
+  const caixaModal = $('#modal .modal-caixa');
+  if (caixaModal) caixaModal.setAttribute('aria-label', 'Detalhes da máquina');
   equipamentoAberto = eq;
 
   const total = totalEstimado(eq);
@@ -3678,6 +3756,10 @@ function fecharModal() {
   $('#modal-conteudo').innerHTML = '';
   document.body.classList.remove('travado');
   equipamentoAberto = null;
+  modalEntregaId = null;
+  pararTimerEntrega();
+  const caixa = $('#modal .modal-caixa');
+  if (caixa) caixa.setAttribute('aria-label', 'Detalhes da máquina');
   if (location.hash.indexOf('#maquina=') === 0) {
     try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
   }
@@ -3741,6 +3823,359 @@ function renderReservas() {
   atualizarPontos();
 }
 
+/* ================= Rastreamento da entrega ================= */
+const ETAPAS_ENTREGA = [
+  { id: 'preparando', nome: 'Pedido confirmado', desc: 'Reserva aprovada pela empresa.', icone: 'cheque' },
+  { id: 'saiu', nome: 'Equipamento saiu da loja', desc: 'Entrega iniciada.', icone: 'entrega' },
+  { id: 'em_transito', nome: 'Equipamento em trânsito', desc: 'Cliente acompanha a localização do veículo no mapa.', icone: 'entrega' },
+  { id: 'entregue', nome: 'Equipamento entregue', desc: 'Confirmação de recebimento.', icone: 'cheque' }
+];
+const ROTA_ENTREGA = 'M 60 252 L 182 252 Q 196 252 196 238 L 196 114 Q 196 100 210 100 L 278 100 Q 292 100 292 86 L 292 66 Q 292 52 306 52 L 344 52';
+let timerEntrega = null;
+let modalEntregaId = null;
+
+function statusEntrega(v) {
+  if (v && v.entregaStatus) return v.entregaStatus;
+  return statusReserva(v) === 'concluida' ? 'entregue' : 'preparando';
+}
+
+function etapaEntrega(v) {
+  const st = statusEntrega(v);
+  return ETAPAS_ENTREGA.find((item) => item.id === st) || ETAPAS_ENTREGA[0];
+}
+
+function indiceEtapaEntrega(v) {
+  const i = ETAPAS_ENTREGA.findIndex((item) => item.id === statusEntrega(v));
+  return i < 0 ? 0 : i;
+}
+
+function duracaoEntrega(v) {
+  return Math.max(5, Number(v && v.entregaDuracaoMin) || 30);
+}
+
+function progressoEntrega(v) {
+  const st = statusEntrega(v);
+  if (st === 'entregue') return 1;
+  if (st === 'preparando') return 0;
+  if (st === 'saiu') return 0.04;
+  const inicio = new Date((v && (v.entregaInicio || v.atualizadoEm || v.criadoEm)) || Date.now()).getTime();
+  const dur = duracaoEntrega(v) * 60000;
+  const p = (Date.now() - inicio) / dur;
+  return Math.min(0.97, Math.max(0.04, isFinite(p) ? p : 0));
+}
+
+function minutosRestantesEntrega(v) {
+  if (statusEntrega(v) === 'entregue') return 0;
+  return Math.max(1, Math.round((1 - progressoEntrega(v)) * duracaoEntrega(v)));
+}
+
+function horaDe(iso) {
+  const d = new Date(iso);
+  if (isNaN(d)) return '';
+  try { return d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }); } catch (e) { return ''; }
+}
+
+function horaPrevistaEntrega(v) {
+  const inicio = new Date((v && (v.entregaInicio || v.atualizadoEm || v.criadoEm)) || Date.now()).getTime();
+  const d = new Date(inicio + duracaoEntrega(v) * 60000);
+  return horaDe(d);
+}
+
+function rotuloEta(v) {
+  const st = statusEntrega(v);
+  if (st === 'preparando') return 'Aguardando saída';
+  if (st === 'saiu') return 'Saindo da loja';
+  if (st === 'entregue') return 'Entregue';
+  return '~' + minutosRestantesEntrega(v) + ' min';
+}
+
+function rotuloEtaResumo(v) {
+  const st = statusEntrega(v);
+  if (st === 'em_transito') return 'Previsão ' + horaPrevistaEntrega(v);
+  if (st === 'entregue') return v.entregaConcluidaEm ? 'Entregue às ' + horaDe(v.entregaConcluidaEm) : 'Entregue';
+  return rotuloEta(v);
+}
+
+function resumoEntrega(v) {
+  const st = statusEntrega(v);
+  if (st === 'preparando') return 'Aguardando saída da loja';
+  if (st === 'saiu') return 'Saiu da loja agora';
+  if (st === 'entregue') return 'Entregue';
+  return 'Em trânsito · chega em ~' + minutosRestantesEntrega(v) + ' min';
+}
+
+function linhaEntrega(v) {
+  return '<p class="entrega-linha"><span class="entrega-ponto ' + esc(statusEntrega(v)) + '"></span>Entrega: <b>'
+    + esc(etapaEntrega(v).nome) + '</b> · ' + esc(resumoEntrega(v)) + '</p>';
+}
+
+function codigoPedido(v) {
+  const digitos = String((v && v.id) || '').replace(/\D/g, '');
+  const numero = (digitos || String(Date.now())).slice(-5).padStart(5, '0');
+  return '#ALU-' + numero;
+}
+
+function destinoEntrega(v) {
+  const cliente = clientes.find((c) => c.id === (v && v.clienteId)) || null;
+  const bairro = (cliente && cliente.bairro) || '';
+  const cidade = (cliente && cliente.cidade) || (v && v.cidade) || 'Pelotas';
+  const uf = (v && v.uf) || 'RS';
+  return (bairro ? bairro + ', ' : '') + cidade + '/' + uf;
+}
+
+function podeGerirEntrega() {
+  return sessaoGerenteValida();
+}
+
+function pararTimerEntrega() {
+  if (timerEntrega) { clearInterval(timerEntrega); timerEntrega = null; }
+}
+
+function svgMapaEntrega() {
+  return '<svg class="rastreio-mapa-svg" viewBox="0 0 400 300" role="img" aria-label="Mapa da rota de entrega">'
+    + '<rect width="400" height="300" fill="#e9eef5"/>'
+    + '<rect x="232" y="200" width="118" height="76" rx="12" fill="#dbead4"/>'
+    + '<rect x="18" y="18" width="92" height="60" rx="8" fill="#dfe7f1"/>'
+    + '<g fill="#dde5ef">'
+    +   '<rect x="22" y="116" width="66" height="52" rx="6"/>'
+    +   '<rect x="112" y="20" width="58" height="58" rx="6"/>'
+    +   '<rect x="222" y="20" width="52" height="58" rx="6"/>'
+    +   '<rect x="316" y="20" width="62" height="58" rx="6"/>'
+    +   '<rect x="112" y="118" width="58" height="50" rx="6"/>'
+    +   '<rect x="222" y="118" width="52" height="50" rx="6"/>'
+    +   '<rect x="316" y="118" width="62" height="50" rx="6"/>'
+    +   '<rect x="112" y="208" width="58" height="70" rx="6"/>'
+    +   '<rect x="316" y="208" width="62" height="70" rx="6"/>'
+    + '</g>'
+    + '<g stroke="#ffffff" stroke-width="13" stroke-linecap="round" fill="none">'
+    +   '<path d="M0 100h400"/><path d="M0 190h400"/><path d="M0 252h400"/>'
+    +   '<path d="M60 0v300"/><path d="M196 0v300"/><path d="M292 0v300"/><path d="M388 0v300"/>'
+    +   '<path d="M0 52h400"/>'
+    + '</g>'
+    + '<g stroke="#ffffff" stroke-width="7" stroke-linecap="round" fill="none" opacity=".9">'
+    +   '<path d="M0 30h400"/><path d="M0 145h400"/><path d="M0 222h400"/>'
+    +   '<path d="M128 0v300"/><path d="M244 0v300"/><path d="M336 0v300"/>'
+    + '</g>'
+    + '<path d="M-30 300 L 210 40" stroke="#ffffff" stroke-width="9" opacity=".85"/>'
+    + '<path id="rota-base" d="' + ROTA_ENTREGA + '" fill="none" stroke="#a9bcdd" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1 11"/>'
+    + '<path id="rota-progresso" d="' + ROTA_ENTREGA + '" fill="none" stroke="#183c8f" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>'
+    + '<g transform="translate(60 252)">'
+    +   '<circle r="15" fill="#0a1c59"/>'
+    +   '<path d="M-6 -5h12v11H-6z" fill="#fff"/><path d="M-8 -7h16l-2 3H-6z" fill="#fff"/>'
+    + '</g>'
+    + '<g transform="translate(344 52)">'
+    +   '<path d="M0 17 C -13 1 -13 -9 0 -9 C 13 -9 13 1 0 17 Z" fill="#183c8f" stroke="#fff" stroke-width="2"/>'
+    +   '<circle cy="-2" r="4" fill="#fff"/>'
+    + '</g>'
+    + '<g id="rota-veiculo" transform="translate(60 252)">'
+    +   '<circle r="17" fill="#183c8f" opacity=".16"/>'
+    +   '<circle r="12" fill="#fff" stroke="#183c8f" stroke-width="2"/>'
+    +   '<g fill="#183c8f"><rect x="-6" y="-4.5" width="7" height="7" rx="1"/><path d="M1 -2.5h3l2.5 2.5V2.5H1z"/><circle cx="-3" cy="4" r="1.5"/><circle cx="4" cy="4" r="1.5"/></g>'
+    + '</g>'
+    + '<text x="60" y="284" text-anchor="middle" font-size="9" font-weight="700" fill="#64748b">Loja</text>'
+    + '<text x="344" y="32" text-anchor="middle" font-size="9" font-weight="700" fill="#64748b">Entrega</text>'
+    + '</svg>';
+}
+
+function atualizarMapaEntrega() {
+  const v = reservas.find((item) => item.id === modalEntregaId);
+  if (!v) return;
+  const caminho = document.getElementById('rota-progresso');
+  const veiculo = document.getElementById('rota-veiculo');
+  if (caminho && veiculo) {
+    try {
+      const total = caminho.getTotalLength();
+      const p = progressoEntrega(v);
+      caminho.style.strokeDasharray = String(total);
+      caminho.style.strokeDashoffset = String(total * (1 - p));
+      const ponto = caminho.getPointAtLength(total * p);
+      veiculo.setAttribute('transform', 'translate(' + ponto.x.toFixed(1) + ' ' + ponto.y.toFixed(1) + ')');
+    } catch (e) {}
+  }
+  const pill = document.getElementById('rastreio-eta-pill');
+  if (pill) pill.textContent = rotuloEta(v);
+  const resumo = document.getElementById('rastreio-eta-resumo');
+  if (resumo) resumo.textContent = rotuloEtaResumo(v);
+}
+
+function renderRastreamento(id) {
+  const v = reservas.find((item) => item.id === id);
+  if (!v) return;
+  modalEntregaId = id;
+  const st = statusEntrega(v);
+  const etapa = etapaEntrega(v);
+  const indice = indiceEtapaEntrega(v);
+  const gestao = podeGerirEntrega();
+  const cliente = clienteAtual();
+  const donoDaReserva = !!(cliente && (v.clienteId === cliente.id
+    || (!v.clienteId && soDigitos(v.telefone) === soDigitos(cliente.telefone))));
+  const podeConfirmar = !gestao && (donoDaReserva || !cliente) && (st === 'saiu' || st === 'em_transito');
+
+  const etapas = ETAPAS_ENTREGA.map((item, i) => {
+    const classe = i < indice ? 'concluida' : (i === indice ? 'atual' : '');
+    const hora = i === 0 ? v.criadoEm
+      : (item.id === 'saiu' ? v.entregaSaiuEm
+      : (item.id === 'em_transito' ? v.entregaInicio : v.entregaConcluidaEm));
+    return '<li class="rastreio-etapa ' + classe + '">'
+      + '<span class="rastreio-etapa-marca">' + icone(i < indice ? 'cheque' : item.icone) + '</span>'
+      + '<div class="rastreio-etapa-texto"><b>' + esc(item.nome) + '</b>'
+      + '<p>' + esc(item.desc) + '</p>'
+      + (hora ? '<small>' + esc(formatarDataHora(hora)) + '</small>' : '')
+      + '</div></li>';
+  }).join('');
+
+  const botoesStatus = gestao ? '<div class="rastreio-gestao">'
+    + '<h3>Controle da entrega</h3>'
+    + '<div class="rastreio-status-botoes">'
+    + ETAPAS_ENTREGA.map((item) => '<button type="button" data-acao="entrega-status" data-id="' + esc(v.id) + '" data-status="' + item.id + '"'
+      + (item.id === st ? ' class="ativo"' : '') + '>' + esc(item.nome) + '</button>').join('')
+    + '</div>'
+    + '<div class="rastreio-duracao"><span>Tempo estimado de rota</span><div>'
+    + [15, 25, 40, 60].map((m) => '<button type="button" data-acao="entrega-duracao" data-id="' + esc(v.id) + '" data-min="' + m + '"'
+      + (duracaoEntrega(v) === m ? ' class="ativo"' : '') + '>' + m + ' min</button>').join('')
+    + '</div></div>'
+    + '<div class="campo-grupo rastreio-entregador"><label for="entrega-entregador">Entregador</label>'
+    + '<div class="cnpj-linha"><input class="campo" id="entrega-entregador" maxlength="60" value="' + esc(v.entregaEntregador || 'Equipe Aluga Fácil') + '">'
+    + '<button type="button" class="btn-secundario" data-acao="salvar-entregador" data-id="' + esc(v.id) + '">Salvar</button></div></div>'
+    + '</div>' : '';
+
+  const acoes = '<div class="rastreio-acoes">'
+    + '<button type="button" class="btn-secundario" data-acao="zap-reserva" data-id="' + esc(v.id) + '">' + icone('zap') + 'Falar com a loja</button>'
+    + (podeConfirmar ? '<button type="button" class="btn-primario" data-acao="confirmar-recebimento" data-id="' + esc(v.id) + '">' + icone('cheque') + 'Confirmar recebimento</button>' : '')
+    + '</div>';
+
+  $('#modal-conteudo').innerHTML = '<div class="rastreio">'
+    + '<header class="rastreio-cabecalho">'
+    + '<span class="rastreio-etiqueta">' + icone('entrega') + 'Acompanhar entrega</span>'
+    + '<h2>' + esc(v.titulo) + '</h2>'
+    + '<p>Pedido ' + esc(codigoPedido(v)) + ' · Entrega ' + esc(formatarData(v.data)) + ' às ' + esc(v.hora || '09:00') + '</p>'
+    + '</header>'
+    + '<div class="rastreio-mapa">' + svgMapaEntrega()
+    + '<span class="rastreio-ao-vivo"><i></i>' + (st === 'entregue' ? 'CONCLUÍDO' : (st === 'preparando' ? 'AGUARDANDO' : 'AO VIVO')) + '</span>'
+    + '<span class="rastreio-eta-pill" id="rastreio-eta-pill">' + esc(rotuloEta(v)) + '</span>'
+    + '</div>'
+    + '<div class="rastreio-rota">'
+    + '<div class="rastreio-extremo"><span class="dot loja"></span><b>Loja</b><small>' + esc(configNegocio.empresa || 'Aluga Fácil') + ' · ' + esc(v.cidade || 'Pelotas') + '/' + esc(v.uf || 'RS') + '</small></div>'
+    + '<i class="rastreio-rota-linha"></i>'
+    + '<div class="rastreio-extremo"><span class="dot destino"></span><b>Endereço de entrega</b><small>' + esc(destinoEntrega(v)) + '</small></div>'
+    + '</div>'
+    + '<div class="rastreio-resumo">'
+    + '<span class="rastreio-resumo-icone">' + icone(etapa.icone) + '</span>'
+    + '<div><b>' + esc(etapa.nome) + '</b><p>' + esc(etapa.desc) + '</p>'
+    + '<div class="rastreio-resumo-meta">'
+    + '<span>Entregador: <b>' + esc(v.entregaEntregador || 'Equipe Aluga Fácil') + '</b></span>'
+    + '<span id="rastreio-eta-resumo">' + esc(rotuloEtaResumo(v)) + '</span>'
+    + '</div></div></div>'
+    + '<ol class="rastreio-etapas">' + etapas + '</ol>'
+    + acoes + botoesStatus
+    + '</div>';
+  atualizarMapaEntrega();
+}
+
+function abrirRastreamento(id) {
+  const v = reservas.find((item) => item.id === id);
+  if (!v) { avisar('Reserva não encontrada.', 'erro'); return; }
+  $('#modal').hidden = false;
+  document.body.classList.add('travado');
+  const caixa = $('#modal .modal-caixa');
+  if (caixa) {
+    caixa.setAttribute('aria-label', 'Acompanhamento da entrega');
+    caixa.scrollTop = 0;
+  }
+  renderRastreamento(id);
+  const fechar = $('#modal .modal-fechar');
+  if (fechar) fechar.focus({ preventScroll: true });
+  pararTimerEntrega();
+  timerEntrega = setInterval(atualizarMapaEntrega, 1000);
+}
+
+function atualizarTelasEntrega(id) {
+  renderReservas();
+  renderCliente();
+  renderPainelGerente();
+  atualizarPontos();
+  if (modalEntregaId === id && !$('#modal').hidden) {
+    const caixa = $('#modal .modal-caixa');
+    const rolagem = caixa ? caixa.scrollTop : 0;
+    renderRastreamento(id);
+    if (caixa) caixa.scrollTop = rolagem;
+  }
+}
+
+function alterarStatusEntrega(id, status) {
+  if (!podeGerirEntrega()) { avisar('Apenas a loja pode atualizar a entrega.', 'erro'); return; }
+  const v = reservas.find((item) => item.id === id);
+  if (!v || !ETAPAS_ENTREGA.some((item) => item.id === status)) return;
+  if (statusEntrega(v) === status) return;
+  const agora = new Date().toISOString();
+  v.entregaStatus = status;
+  v.entregaAtualizadoEm = agora;
+  if (status === 'preparando') {
+    v.entregaInicio = null;
+    v.entregaSaiuEm = null;
+    v.entregaConcluidaEm = null;
+  }
+  if (status === 'saiu') v.entregaSaiuEm = agora;
+  if (status === 'em_transito') {
+    v.entregaSaiuEm = v.entregaSaiuEm || agora;
+    v.entregaInicio = agora;
+  }
+  if (status === 'entregue') {
+    v.entregaSaiuEm = v.entregaSaiuEm || agora;
+    v.entregaInicio = v.entregaInicio || agora;
+    v.entregaConcluidaEm = agora;
+  }
+  salvar(CHAVES.reservas, reservas);
+  atualizarTelasEntrega(id);
+  const mensagens = {
+    preparando: 'Entrega voltou para preparação',
+    saiu: 'Equipamento saiu da loja',
+    em_transito: 'Entrega em trânsito — o cliente já pode acompanhar',
+    entregue: 'Entrega concluída'
+  };
+  avisar(mensagens[status] || 'Entrega atualizada');
+}
+
+function alterarDuracaoEntrega(id, minutos) {
+  if (!podeGerirEntrega()) return;
+  const v = reservas.find((item) => item.id === id);
+  if (!v) return;
+  const valor = Math.max(5, Math.min(240, Number(minutos) || 30));
+  v.entregaDuracaoMin = valor;
+  v.entregaAtualizadoEm = new Date().toISOString();
+  salvar(CHAVES.reservas, reservas);
+  atualizarTelasEntrega(id);
+  avisar('Tempo estimado: ' + valor + ' min');
+}
+
+function salvarEntregador(id) {
+  if (!podeGerirEntrega()) return;
+  const v = reservas.find((item) => item.id === id);
+  const campo = $('#entrega-entregador');
+  if (!v || !campo) return;
+  v.entregaEntregador = String(campo.value || '').trim().slice(0, 60) || 'Equipe Aluga Fácil';
+  v.entregaAtualizadoEm = new Date().toISOString();
+  salvar(CHAVES.reservas, reservas);
+  atualizarTelasEntrega(id);
+  avisar('Entregador atualizado');
+}
+
+function confirmarRecebimento(id) {
+  const v = reservas.find((item) => item.id === id);
+  if (!v) return;
+  if (!window.confirm('Confirmar que você recebeu o equipamento?')) return;
+  const agora = new Date().toISOString();
+  v.entregaStatus = 'entregue';
+  v.entregaSaiuEm = v.entregaSaiuEm || agora;
+  v.entregaInicio = v.entregaInicio || agora;
+  v.entregaConcluidaEm = agora;
+  v.entregaConfirmadaPeloCliente = true;
+  v.entregaAtualizadoEm = agora;
+  salvar(CHAVES.reservas, reservas);
+  atualizarTelasEntrega(id);
+  avisar('Recebimento confirmado. Obrigado!');
+}
+
 function cartaoReserva(v) {
   const d = new Date(String(v.data) + 'T12:00:00');
   const dia = isNaN(d) ? '--' : String(d.getDate()).padStart(2, '0');
@@ -3750,7 +4185,9 @@ function cartaoReserva(v) {
     + '<div class="visita-info">'
     +   '<b>' + esc(v.titulo) + '</b>'
     +   '<p>Retirada em ' + esc(formatarData(v.data)) + ' às ' + esc(v.hora) + ' · ' + esc(v.nome) + '</p>'
+    +   linhaEntrega(v)
     +   '<div class="visita-acoes">'
+    +     '<button class="btn-secundario" data-acao="rastrear-entrega" data-id="' + esc(v.id) + '">' + icone('entrega') + 'Acompanhar entrega</button>'
     +     '<button class="btn-secundario" data-acao="abrir" data-id="' + esc(v.equipamentoId) + '">' + icone('ferramenta') + 'Ver máquina</button>'
     +     '<button class="btn-secundario" data-acao="zap-reserva" data-id="' + esc(v.id) + '">' + icone('zap') + 'WhatsApp</button>'
     +     '<button class="btn-secundario btn-perigo" data-acao="cancelar-reserva" data-id="' + esc(v.id) + '">Cancelar</button>'
@@ -3801,6 +4238,11 @@ function agendarReserva(form) {
     caucao: caucao,
     total: diaria * dias + frete,
     status: 'confirmada',
+    entregaStatus: 'preparando',
+    entregaInicio: null,
+    entregaDuracaoMin: 30,
+    entregaEntregador: 'Equipe Aluga Fácil',
+    entregaAtualizadoEm: new Date().toISOString(),
     criadoEm: new Date().toISOString()
   });
   salvar(CHAVES.reservas, reservas);
@@ -4109,7 +4551,11 @@ function cartaoPedido(v) {
     + ' · ' + r.dias + (r.dias === 1 ? ' diária' : ' diárias')
     + ' · caução ' + fmtMoeda.format(r.caucao)
     + (v.exemplo ? ' · exemplo' : '') + '</p>'
-    + '<div class="pedido-acoes">' + acoes.join('') + '</div>'
+    + linhaEntrega(v)
+    + '<div class="pedido-acoes">'
+    +   '<button type="button" data-acao="rastrear-entrega" data-id="' + esc(v.id) + '">Rastrear entrega</button>'
+    +   acoes.join('')
+    + '</div>'
     + '</article>';
 }
 
@@ -4625,7 +5071,11 @@ function cartaoReservaCliente(v) {
     + '<p>Retirada ' + esc(formatarData(v.data)) + ' às ' + esc(v.hora || '09:00')
     + ' · ' + r.dias + (r.dias === 1 ? ' diária' : ' diárias')
     + ' · caução ' + fmtMoeda.format(r.caucao) + '</p>'
-    + (st === 'confirmada' ? '<div class="pedido-acoes"><button type="button" data-acao="cancelar-reserva" data-id="' + esc(v.id) + '">Cancelar reserva</button></div>' : '')
+    + linhaEntrega(v)
+    + '<div class="pedido-acoes">'
+    +   '<button type="button" data-acao="rastrear-entrega" data-id="' + esc(v.id) + '">Acompanhar entrega</button>'
+    +   (st === 'confirmada' ? '<button type="button" data-acao="cancelar-reserva" data-id="' + esc(v.id) + '">Cancelar reserva</button>' : '')
+    + '</div>'
     + '</article>';
 }
 
@@ -4665,6 +5115,26 @@ function renderCliente() {
     : (cliente.cidade || '');
   $('#cliente-resumo').textContent = (identificacao ? identificacao + ' · ' : '')
     + (minhas.length ? minhas.length + (minhas.length === 1 ? ' pedido' : ' pedidos') : 'nenhum pedido ainda');
+
+  const avisoEntrega = $('#cliente-entrega-aviso');
+  if (avisoEntrega) {
+    const emAndamento = minhas.filter((v) => statusEntrega(v) === 'saiu' || statusEntrega(v) === 'em_transito');
+    if (emAndamento.length) {
+      const v = emAndamento[0];
+      const emTransito = statusEntrega(v) === 'em_transito';
+      avisoEntrega.hidden = false;
+      avisoEntrega.innerHTML = '<span class="cliente-entrega-aviso-icone">' + icone('entrega') + '</span>'
+        + '<div class="cliente-entrega-aviso-texto">'
+        +   '<span>' + (emTransito ? 'Seu equipamento está em trânsito' : 'Seu equipamento saiu da loja') + '</span>'
+        +   '<b>' + esc(v.titulo) + '</b>'
+        +   '<small>' + esc(rotuloEtaResumo(v)) + ' · Pedido ' + esc(codigoPedido(v)) + '</small>'
+        + '</div>'
+        + '<button type="button" class="btn-secundario" data-acao="rastrear-entrega" data-id="' + esc(v.id) + '">Acompanhar</button>';
+    } else {
+      avisoEntrega.hidden = true;
+      avisoEntrega.innerHTML = '';
+    }
+  }
 
   $('#cliente-kpis').innerHTML = [
     kpiCard('Reservas agendadas', String(agendadas.length), agendadas.length === 1 ? 'retirada a caminho' : 'retiradas a caminho', 'calendario', true),
@@ -5574,6 +6044,11 @@ function ligarEventos() {
       if (acao === 'compartilhar') { compartilhar(id); return; }
       if (acao === 'cancelar-reserva') { cancelarReserva(id); return; }
       if (acao === 'zap-reserva') { whatsAppReserva(id); return; }
+      if (acao === 'rastrear-entrega') { abrirRastreamento(id); return; }
+      if (acao === 'entrega-status') { alterarStatusEntrega(id, alvo.dataset.status); return; }
+      if (acao === 'entrega-duracao') { alterarDuracaoEntrega(id, alvo.dataset.min); return; }
+      if (acao === 'salvar-entregador') { salvarEntregador(id); return; }
+      if (acao === 'confirmar-recebimento') { confirmarRecebimento(id); return; }
       if (acao === 'remover-anuncio') { removerAnuncio(id); return; }
       if (acao === 'limpar-filtros') { limparFiltros(); return; }
       if (acao === 'aplicar-filtros') { $('#painel-filtros').hidden = true; atualizarContadorFiltros(); return; }
@@ -5692,6 +6167,16 @@ function ligarEventos() {
 
   document.addEventListener('visibilitychange', () => {
     if (!document.hidden && abaAtual === 'gerente') renderGerente();
+  });
+
+  window.addEventListener('storage', (e) => {
+    if (e.key !== CHAVES.reservas) return;
+    reservas = Array.isArray(ler(CHAVES.reservas, [])) ? ler(CHAVES.reservas, []) : [];
+    renderReservas();
+    renderCliente();
+    renderPainelGerente();
+    atualizarPontos();
+    if (modalEntregaId && !$('#modal').hidden) renderRastreamento(modalEntregaId);
   });
 
   document.addEventListener('keydown', (e) => {
