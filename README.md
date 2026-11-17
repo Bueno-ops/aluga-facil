@@ -98,6 +98,7 @@ C:\Users\palot\OneDrive\Documentos\APP ALUGUEL
 ├── netlify.toml            # cache correto no Netlify
 ├── robots.txt              # indexação
 ├── .github/workflows/pages.yml  # publicação automática no GitHub Pages
+├── supabase/               # backend PostgreSQL/Supabase (esquema, RLS, seed, testes)
 ├── ferramentas/
 │   └── cloudflared.exe     # binário do túnel (não versionado)
 ├── dist/                   # gerado: apenas os arquivos do site
@@ -117,6 +118,26 @@ O Aluga Fácil **não tem banco de dados de servidor**. Não existe MySQL, Postg
 A sessão do painel (dono/gerente) fica em **`sessionStorage`**, que é apagado ao fechar a aba/navegador. A sessão do cliente fica no `localStorage` por 7 dias.
 
 > **Em desenvolvimento e em produção é o mesmo modelo:** `localStorage` + Cache API. Não há um banco separado de desenvolvimento. Se o produto crescer para várias lojas/dispositivos, será necessário criar um backend com banco de dados real (por exemplo PostgreSQL) e autenticação no servidor.
+
+### Backend em nuvem (PostgreSQL/Supabase) — em preparação
+
+O banco real já está desenhado, versionado e testado em **`supabase/`**:
+
+- **`migrations/`** — tabelas (`perfis`, `equipamentos`, `reservas`, `favoritos`,
+  `config_negocio`, `reserva_eventos`, `eventos_seguranca`), RLS e funções RPC.
+- **`seed.sql`** — os **167 itens reais** do catálogo, com os IDs `c1`…`c167`
+  preservados (favoritos e reservas antigos continuam válidos).
+- **`testes/testar_banco.py`** — 55 testes em PostgreSQL 16 real, cobrindo RLS,
+  preço calculado no servidor, permissões de admin/gerente/cliente e rastreio.
+
+Regras principais: o cliente só vê o que é dele; só o admin publica anúncios e
+altera papéis; preço/total são calculados no servidor; o custo interno não é
+exposto; a `service_role key` nunca vai para o navegador.
+
+> **Ainda não está ligado ao `app.html`.** Falta criar o projeto no Supabase,
+> aplicar as migrações e ligar a camada de nuvem com a URL e a `anon key`.
+> Passo a passo completo em [`supabase/README.md`](supabase/README.md).
+> Até lá, o app continua 100% local-first, como descrito acima.
 
 ### O que sai do dispositivo
 

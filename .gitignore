@@ -20,3 +20,5 @@ ferramentas/cloudflared.exe
 
 # Pasta gerada para publicação
 dist/
+# Supabase CLI (estado local, nao versionar)
+supabase/.temp/
