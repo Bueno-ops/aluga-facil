@@ -1,5 +1,5 @@
 /* Service worker do Aluga Fácil — app shell offline com atualização automática */
-const VERSAO = '20';
+const VERSAO = '21';
 const CACHE = 'aluga-facil-v' + VERSAO;
 const ARQUIVOS = [
   './',
@@ -36,6 +36,11 @@ self.addEventListener('install', (evento) => {
 });
 
 self.addEventListener('message', (evento) => {
+  // Só aceita mensagens de uma janela do próprio app.
+  if (!evento.source || evento.source.type !== 'window') return;
+  let origem = '';
+  try { origem = new URL(evento.source.url).origin; } catch (e) { return; }
+  if (origem !== self.location.origin) return;
   if (evento.data && evento.data.tipo === 'PULAR_ESPERA') {
     self.skipWaiting();
   }
@@ -67,7 +72,7 @@ function paginaOffline() {
     '<body style="font-family:system-ui,sans-serif;background:#f4f4f4;color:#212529;display:grid;place-items:center;min-height:100vh;margin:0;text-align:center">' +
     '<main style="padding:24px"><h1 style="font-size:1.2rem">Você está offline</h1>' +
     '<p style="color:#6c757d">Abra o app uma vez com internet para liberar o modo offline.</p>' +
-    '<p><button onclick="location.reload()" style="border:0;border-radius:999px;padding:10px 18px;background:#183c8f;color:#fff;font-weight:700">Tentar novamente</button></p>' +
+    '<p><a href="./app.html" style="display:inline-block;text-decoration:none;border-radius:999px;padding:10px 18px;background:#183c8f;color:#fff;font-weight:700">Tentar novamente</a></p>' +
     '</main></body></html>',
     { status: 200, headers: { 'Content-Type': 'text/html; charset=utf-8' } }
   );
@@ -99,7 +104,9 @@ self.addEventListener('fetch', (evento) => {
     evento.respondWith((async () => {
       try {
         const resposta = await fetch(urlDaRede(requisicao), { cache: 'reload' });
-        if (!resposta || !resposta.ok) throw new Error('HTTP ' + (resposta ? resposta.status : 'sem resposta'));
+        if (!resposta || !resposta.ok || resposta.type !== 'basic') {
+          throw new Error('HTTP ' + (resposta ? resposta.status : 'sem resposta'));
+        }
         const copia = resposta.clone();
         caches.open(CACHE).then((cache) => cache.put(requisicao, copia)).catch(() => {});
         return resposta;
@@ -118,7 +125,7 @@ self.addEventListener('fetch', (evento) => {
     const emCache = await caches.match(requisicao, { ignoreSearch: true }).catch(() => null);
     const daRede = fetch(requisicao)
       .then((resposta) => {
-        if (resposta && resposta.ok) {
+        if (resposta && resposta.ok && resposta.type === 'basic') {
           const copia = resposta.clone();
           caches.open(CACHE).then((cache) => cache.put(requisicao, copia)).catch(() => {});
         }

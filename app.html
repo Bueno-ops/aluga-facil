@@ -6,7 +6,7 @@
 <title>Aluga Fácil — Locação de equipamentos para obra</title>
 <meta name="description" content="Alugue betoneiras, andaimes, compactadores, ferramentas elétricas e equipamentos para cada fase da obra. Diária clara, entrega combinada e reserva pelo app.">
 <meta name="theme-color" content="#183C8F">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://brasilapi.com.br https://publica.cnpj.ws; manifest-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; script-src-attr 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'none'; connect-src 'self' https://brasilapi.com.br https://publica.cnpj.ws; manifest-src 'self'; worker-src 'self'; frame-src 'none'; child-src 'none'; object-src 'none'; base-uri 'none'; form-action 'self'">
 <meta name="referrer" content="no-referrer">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" type="image/svg+xml" href="icon.svg">
@@ -902,14 +902,14 @@ input[type=range]{width:100%;accent-color:var(--primaria);height:28px}
             <div class="form-config-linha">
               <div class="campo-grupo">
                 <label for="cad-senha">Senha</label>
-                <input class="campo" id="cad-senha" name="senha" type="password" minlength="8" maxlength="128" autocomplete="new-password" spellcheck="false" required>
+                <input class="campo" id="cad-senha" name="senha" type="password" minlength="10" maxlength="128" autocomplete="new-password" spellcheck="false" required>
               </div>
               <div class="campo-grupo">
                 <label for="cad-senha2">Confirmar senha</label>
-                <input class="campo" id="cad-senha2" name="senha2" type="password" minlength="8" maxlength="128" autocomplete="new-password" spellcheck="false" required>
+                <input class="campo" id="cad-senha2" name="senha2" type="password" minlength="10" maxlength="128" autocomplete="new-password" spellcheck="false" required>
               </div>
             </div>
-            <p class="campo-dica" style="margin:-2px 0 8px">Use pelo menos 8 caracteres, com uma letra e um número. Não use dados pessoais.</p>
+            <p class="campo-dica" style="margin:-2px 0 8px">Use pelo menos 10 caracteres, com uma letra e um número. Não use dados pessoais.</p>
             <button class="btn-primario btn-bloco" type="submit"><svg class="ico" aria-hidden="true"><use href="#i-usuario"/></svg><span id="cad-botao-texto">Criar minha conta</span></button>
           </form>
 
@@ -920,7 +920,7 @@ input[type=range]{width:100%;accent-color:var(--primaria);height:28px}
             </div>
             <div class="campo-grupo">
               <label for="cli-senha">Senha</label>
-              <input class="campo" id="cli-senha" name="senha" type="password" autocomplete="current-password" required>
+              <input class="campo" id="cli-senha" name="senha" type="password" maxlength="128" autocomplete="current-password" required>
             </div>
             <button class="btn-primario btn-bloco" type="submit"><svg class="ico" aria-hidden="true"><use href="#i-cadeado"/></svg>Entrar</button>
           </form>
@@ -990,14 +990,14 @@ input[type=range]{width:100%;accent-color:var(--primaria);height:28px}
               </div>
               <div class="campo-grupo">
                 <label for="cli-senha-nova">Nova senha</label>
-                <input class="campo" id="cli-senha-nova" name="nova" type="password" minlength="8" maxlength="128" autocomplete="new-password" spellcheck="false" required>
+                <input class="campo" id="cli-senha-nova" name="nova" type="password" minlength="10" maxlength="128" autocomplete="new-password" spellcheck="false" required>
               </div>
               <div class="campo-grupo">
                 <label for="cli-senha-confirma">Confirmar nova senha</label>
-                <input class="campo" id="cli-senha-confirma" name="confirma" type="password" minlength="8" maxlength="128" autocomplete="new-password" spellcheck="false" required>
+                <input class="campo" id="cli-senha-confirma" name="confirma" type="password" minlength="10" maxlength="128" autocomplete="new-password" spellcheck="false" required>
               </div>
             </div>
-            <p class="campo-dica" style="margin:-2px 0 8px">Mínimo de 8 caracteres, com pelo menos uma letra e um número.</p>
+            <p class="campo-dica" style="margin:-2px 0 8px">Mínimo de 10 caracteres, com pelo menos uma letra e um número.</p>
             <button class="btn-secundario" type="submit"><svg class="ico" aria-hidden="true"><use href="#i-escudo"/></svg>Trocar senha</button>
           </form>
         </div>
@@ -1038,12 +1038,12 @@ input[type=range]{width:100%;accent-color:var(--primaria);height:28px}
           </div>
           <div class="campo-grupo">
             <label for="setup-senha">Senha</label>
-            <input class="campo" id="setup-senha" name="senha" type="password" minlength="8" maxlength="128" autocomplete="new-password" spellcheck="false" required>
-            <small class="campo-dica">Mínimo de 8 caracteres, com pelo menos uma letra e um número.</small>
+            <input class="campo" id="setup-senha" name="senha" type="password" minlength="10" maxlength="128" autocomplete="new-password" spellcheck="false" required>
+            <small class="campo-dica">Mínimo de 10 caracteres, com pelo menos uma letra e um número.</small>
           </div>
           <div class="campo-grupo">
             <label for="setup-senha2">Confirmar senha</label>
-            <input class="campo" id="setup-senha2" name="senha2" type="password" minlength="8" maxlength="128" autocomplete="new-password" spellcheck="false" required>
+            <input class="campo" id="setup-senha2" name="senha2" type="password" minlength="10" maxlength="128" autocomplete="new-password" spellcheck="false" required>
           </div>
           <button class="btn-primario btn-bloco" type="submit"><svg class="ico" aria-hidden="true"><use href="#i-escudo"/></svg>Criar acesso do dono</button>
         </form>
@@ -1168,14 +1168,14 @@ input[type=range]{width:100%;accent-color:var(--primaria);height:28px}
             </div>
             <div class="campo-grupo">
               <label for="senha-nova">Nova senha</label>
-              <input class="campo" id="senha-nova" name="nova" type="password" autocomplete="new-password" minlength="8" maxlength="128" spellcheck="false" required>
+              <input class="campo" id="senha-nova" name="nova" type="password" autocomplete="new-password" minlength="10" maxlength="128" spellcheck="false" required>
             </div>
             <div class="campo-grupo">
               <label for="senha-confirma">Confirmar nova senha</label>
-              <input class="campo" id="senha-confirma" name="confirma" type="password" autocomplete="new-password" minlength="8" maxlength="128" spellcheck="false" required>
+              <input class="campo" id="senha-confirma" name="confirma" type="password" autocomplete="new-password" minlength="10" maxlength="128" spellcheck="false" required>
             </div>
           </div>
-          <p class="campo-dica" style="margin:-2px 0 8px">Mínimo de 8 caracteres, com pelo menos uma letra e um número.</p>
+          <p class="campo-dica" style="margin:-2px 0 8px">Mínimo de 10 caracteres, com pelo menos uma letra e um número.</p>
           <button class="btn-secundario" type="submit"><svg class="ico" aria-hidden="true"><use href="#i-escudo"/></svg>Trocar senha</button>
         </form>
       </div>
@@ -1191,10 +1191,10 @@ input[type=range]{width:100%;accent-color:var(--primaria);height:28px}
             </div>
             <div class="campo-grupo">
               <label for="admin-gerente-senha">Nova senha do gerente</label>
-              <input class="campo" id="admin-gerente-senha" name="senha" type="password" minlength="8" maxlength="128" autocomplete="new-password" spellcheck="false" placeholder="Deixe em branco para manter">
+              <input class="campo" id="admin-gerente-senha" name="senha" type="password" minlength="10" maxlength="128" autocomplete="new-password" spellcheck="false" placeholder="Deixe em branco para manter">
             </div>
           </div>
-          <p class="campo-dica" style="margin:-2px 0 8px">Ao criar ou redefinir, use pelo menos 8 caracteres, com uma letra e um número.</p>
+          <p class="campo-dica" style="margin:-2px 0 8px">Ao criar ou redefinir, use pelo menos 10 caracteres, com uma letra e um número.</p>
           <label class="caixa-check"><input type="checkbox" id="admin-gerente-ativo" name="ativo"> Permitir que o gerente entre no painel</label>
           <button class="btn-secundario" type="submit"><svg class="ico" aria-hidden="true"><use href="#i-usuario"/></svg>Salvar acesso do gerente</button>
         </form>
@@ -1270,12 +1270,12 @@ input[type=range]{width:100%;accent-color:var(--primaria);height:28px}
     <form class="formulario login-form" id="form-troca-obrigatoria" novalidate>
       <div class="campo-grupo">
         <label for="troca-nova">Nova senha</label>
-        <input class="campo" id="troca-nova" name="nova" type="password" minlength="8" maxlength="128" autocomplete="new-password" spellcheck="false" required>
-        <small class="campo-dica">Mínimo de 8 caracteres, com pelo menos uma letra e um número.</small>
+        <input class="campo" id="troca-nova" name="nova" type="password" minlength="10" maxlength="128" autocomplete="new-password" spellcheck="false" required>
+        <small class="campo-dica">Mínimo de 10 caracteres, com pelo menos uma letra e um número.</small>
       </div>
       <div class="campo-grupo">
         <label for="troca-confirma">Confirmar nova senha</label>
-        <input class="campo" id="troca-confirma" name="confirma" type="password" minlength="8" maxlength="128" autocomplete="new-password" spellcheck="false" required>
+        <input class="campo" id="troca-confirma" name="confirma" type="password" minlength="10" maxlength="128" autocomplete="new-password" spellcheck="false" required>
       </div>
       <button class="btn-primario btn-bloco" type="submit"><svg class="ico" aria-hidden="true"><use href="#i-escudo"/></svg>Salvar nova senha</button>
     </form>
@@ -1310,7 +1310,7 @@ const CHAVES = {
 };
 
 // Versão exibida no rodapé — mantenha igual à versão do sw.js.
-const VERSAO_APP = 'v20';
+const VERSAO_APP = 'v21';
 
 // Contas locais (não há servidor: é uma proteção do dispositivo).
 // O admin é o dono: vê tudo e controla o acesso do gerente.
@@ -1326,12 +1326,17 @@ const DIAS_SESSAO_CLIENTE = 7;
 const DIAS_OCIOSOS_CLIENTE = 7;
 const SEGURANCA = {
   iteracoesPbkdf2: 310000,
-  minimoSenha: 8,
+  minimoSenha: 10,
   maximoSenha: 128,
   maxTentativas: 5,
   minutosBloqueio: 15,
   maxEventos: 60
 };
+
+// Listas fechadas: qualquer valor fora delas é descartado na leitura do armazenamento.
+const STATUS_RESERVA = ['confirmada', 'concluida', 'cancelada'];
+const STATUS_ENTREGA = ['preparando', 'saiu', 'em_transito', 'entregue'];
+const UFS_VALIDAS = ['AC','AL','AP','AM','BA','CE','DF','ES','GO','MA','MT','MS','MG','PA','PB','PR','PE','PI','RJ','RN','RS','RO','RR','SC','SP','SE','TO'];
 
 const TIPOS = [
   { id: 'todos', nome: 'Todos' },
@@ -2899,8 +2904,14 @@ function ler(chave, padrao) {
 function salvar(chave, valor) {
   try {
     localStorage.setItem(chave, JSON.stringify(valor));
+    return true;
   } catch (e) {
-    /* armazenamento indisponível (modo privado) */
+    console.warn('Falha ao gravar no armazenamento local:', chave, e);
+    if (!salvar.avisou && typeof avisar === 'function') {
+      salvar.avisou = true;
+      try { avisar('Não foi possível salvar neste dispositivo. Verifique o espaço livre.', 'erro'); } catch (erro) {}
+    }
+    return false;
   }
 }
 
@@ -2931,6 +2942,283 @@ function limparTexto(valor, maximo) {
     .trim();
   if (maximo && texto.length > maximo) texto = texto.slice(0, maximo);
   return texto;
+}
+
+// Só aceita texto de verdade: objeto, array ou número não viram "[object Object]".
+function textoSeguro(valor, maximo) {
+  return typeof valor === 'string' ? limparTexto(valor, maximo) : '';
+}
+
+// UF sempre uma unidade da federação válida (nada de HTML ou símbolos).
+function ufSegura(valor) {
+  const uf = textoSeguro(valor, 60).toUpperCase().replace(/[^A-Z]/g, '').slice(0, 2);
+  return UFS_VALIDAS.includes(uf) ? uf : '';
+}
+
+/* ---------- Leitura defensiva do armazenamento local ----------
+   Nada que vem do localStorage é confiável: pode ter sido editado à mão,
+   corrompido por outra aba ou gravado por uma versão antiga. Cada campo é
+   reconstruído a partir de uma lista fechada e de limites de tamanho. */
+
+function mesclarSeguro(destino, origem, campos) {
+  const alvo = destino && typeof destino === 'object' ? destino : {};
+  if (!origem || typeof origem !== 'object') return alvo;
+  (campos || []).forEach((campo) => {
+    if (!Object.prototype.hasOwnProperty.call(origem, campo)) return;
+    const valor = origem[campo];
+    if (valor === undefined) return;
+    alvo[campo] = valor;
+  });
+  return alvo;
+}
+
+function numeroSeguro(valor, minimo, maximo, padrao) {
+  const n = Number(valor);
+  if (!isFinite(n)) return padrao;
+  const base = typeof minimo === 'number' ? Math.max(minimo, n) : n;
+  return typeof maximo === 'number' ? Math.min(maximo, base) : base;
+}
+
+function idValido(valor) {
+  if (typeof valor !== 'string' || !/^[A-Za-z0-9_-]{1,64}$/.test(valor)) return false;
+  const baixo = valor.toLowerCase();
+  return baixo !== '__proto__' && baixo !== 'constructor' && baixo !== 'prototype';
+}
+
+function dataValidaISO(valor) {
+  if (typeof valor !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(valor)) return '';
+  const partes = valor.split('-').map(Number);
+  const d = new Date(partes[0], partes[1] - 1, partes[2], 12, 0, 0);
+  if (isNaN(d)) return '';
+  const confere = d.getFullYear() === partes[0] && d.getMonth() === partes[1] - 1 && d.getDate() === partes[2];
+  return confere ? valor : '';
+}
+
+function horaValida(valor) {
+  return typeof valor === 'string' && /^([01]\d|2[0-3]):[0-5]\d$/.test(valor) ? valor : '';
+}
+
+function dataHoraValida(valor) {
+  if (typeof valor !== 'string' || !valor) return '';
+  const d = new Date(valor);
+  if (isNaN(d)) return '';
+  const ano = d.getUTCFullYear();
+  if (ano < 2000 || ano > 2100) return '';
+  return d.toISOString();
+}
+
+function listaDeIds(valor) {
+  if (!Array.isArray(valor)) return [];
+  const vistos = new Set();
+  const saida = [];
+  for (const item of valor) {
+    if (!idValido(item) || vistos.has(item)) continue;
+    vistos.add(item);
+    saida.push(item);
+    if (saida.length >= 200) break;
+  }
+  return saida;
+}
+
+function sanitizarRegistroSenha(registro) {
+  if (!registro || typeof registro !== 'object') return null;
+  const algoritmo = registro.algoritmo === 'PBKDF2-SHA256' ? 'PBKDF2-SHA256'
+    : (registro.algoritmo === 'legado' ? 'legado' : '');
+  if (!algoritmo) return null;
+  const hash = String(registro.hash || '').replace(/[^0-9a-f]/gi, '').slice(0, 256);
+  if (hash.length < 8) return null;
+  const saida = { algoritmo: algoritmo, hash: hash, criadoEm: dataHoraValida(registro.criadoEm) || '' };
+  if (algoritmo === 'PBKDF2-SHA256') {
+    const salt = String(registro.salt || '').replace(/[^0-9a-f]/gi, '').slice(0, 64);
+    if (salt.length < 16) return null;
+    saida.salt = salt;
+    saida.iteracoes = Math.round(numeroSeguro(registro.iteracoes, 100000, 2000000, SEGURANCA.iteracoesPbkdf2));
+  }
+  return saida;
+}
+
+function sanitizarEmpresa(empresa) {
+  if (!empresa || typeof empresa !== 'object') return null;
+  const campos = ['razaoSocial', 'nomeFantasia', 'situacao', 'cnae', 'naturezaJuridica',
+    'porte', 'logradouro', 'complemento', 'bairro', 'municipio', 'uf', 'cep', 'telefone', 'email'];
+  const saida = {};
+  campos.forEach((campo) => {
+    const valor = textoSeguro(empresa[campo], 120);
+    if (valor) saida[campo] = valor;
+  });
+  if (saida.email) saida.email = normalizarEmail(saida.email).slice(0, 120);
+  if (saida.uf) saida.uf = ufSegura(saida.uf);
+  saida.consultadoEm = dataHoraValida(empresa.consultadoEm) || '';
+  return Object.keys(saida).length > 1 ? saida : null;
+}
+
+function sanitizarCliente(cliente) {
+  if (!cliente || typeof cliente !== 'object' || !idValido(cliente.id)) return null;
+  const tipo = cliente.tipo === 'pj' ? 'pj' : 'pf';
+  const nome = textoSeguro(cliente.nome, 80);
+  if (nome.length < 2) return null;
+  const saida = {
+    id: cliente.id,
+    tipo: tipo,
+    nome: nome,
+    telefone: textoSeguro(cliente.telefone, 20),
+    email: normalizarEmail(cliente.email).slice(0, 120),
+    cidade: textoSeguro(cliente.cidade, 60),
+    senha: sanitizarRegistroSenha(cliente.senha),
+    precisaTrocarSenha: cliente.precisaTrocarSenha === true,
+    criadoEm: dataHoraValida(cliente.criadoEm) || ''
+  };
+  if (tipo === 'pj') {
+    saida.cnpj = soDigitos(cliente.cnpj).slice(0, 14);
+    saida.nomeFantasia = textoSeguro(cliente.nomeFantasia, 120);
+    saida.empresa = sanitizarEmpresa(cliente.empresa);
+  }
+  return saida;
+}
+
+function sanitizarReserva(reserva) {
+  if (!reserva || typeof reserva !== 'object' || !idValido(reserva.id)) return null;
+  if (!idValido(reserva.equipamentoId)) return null;
+  const status = STATUS_RESERVA.includes(reserva.status) ? reserva.status : 'confirmada';
+  const entregaStatus = STATUS_ENTREGA.includes(reserva.entregaStatus) ? reserva.entregaStatus : 'preparando';
+  const data = dataValidaISO(reserva.data);
+  if (!data) return null;
+  const saida = {
+    id: reserva.id,
+    equipamentoId: reserva.equipamentoId,
+    titulo: textoSeguro(reserva.titulo, 120),
+    tipo: TIPOS.some((t) => t.id === reserva.tipo) ? reserva.tipo : 'outros',
+    cidade: textoSeguro(reserva.cidade, 60),
+    uf: ufSegura(reserva.uf),
+    data: data,
+    hora: horaValida(reserva.hora) || '09:00',
+    nome: textoSeguro(reserva.nome, 80),
+    telefone: textoSeguro(reserva.telefone, 20),
+    clienteId: idValido(reserva.clienteId) ? reserva.clienteId : null,
+    dias: Math.round(numeroSeguro(reserva.dias, 1, 365, 1)),
+    diaria: numeroSeguro(reserva.diaria, 0, 1000000, 0),
+    frete: numeroSeguro(reserva.frete, 0, 1000000, 0),
+    caucao: numeroSeguro(reserva.caucao, 0, 1000000, 0),
+    total: numeroSeguro(reserva.total, 0, 1000000, 0),
+    status: status,
+    entregaStatus: entregaStatus,
+    entregaSaiuEm: dataHoraValida(reserva.entregaSaiuEm) || null,
+    entregaInicio: dataHoraValida(reserva.entregaInicio) || null,
+    entregaDuracaoMin: Math.round(numeroSeguro(reserva.entregaDuracaoMin, 5, 1440, 30)),
+    entregaEntregador: textoSeguro(reserva.entregaEntregador, 60) || 'Equipe Aluga Fácil',
+    entregaAtualizadoEm: dataHoraValida(reserva.entregaAtualizadoEm) || '',
+    entregaConcluidaEm: dataHoraValida(reserva.entregaConcluidaEm) || null,
+    entregaConfirmadaPeloCliente: reserva.entregaConfirmadaPeloCliente === true,
+    manual: reserva.manual === true,
+    criadoEm: dataHoraValida(reserva.criadoEm) || '',
+    atualizadoEm: dataHoraValida(reserva.atualizadoEm) || ''
+  };
+  return saida;
+}
+
+function sanitizarAnuncio(anuncio) {
+  if (!anuncio || typeof anuncio !== 'object' || !idValido(anuncio.id)) return null;
+  const titulo = textoSeguro(anuncio.titulo, 120);
+  if (titulo.length < 3) return null;
+  const tipo = TIPOS.some((t) => t.id === anuncio.tipo) ? anuncio.tipo : 'outros';
+  const energia = ENERGIAS.some((e) => e.id === anuncio.energia && e.id !== 'todas') ? anuncio.energia : '';
+  const anunciante = anuncio.anunciante && typeof anuncio.anunciante === 'object' ? anuncio.anunciante : {};
+  return {
+    id: anuncio.id,
+    titulo: titulo,
+    tipo: tipo,
+    cidade: textoSeguro(anuncio.cidade, 60),
+    uf: ufSegura(anuncio.uf),
+    bairro: textoSeguro(anuncio.bairro, 60),
+    diaria: numeroSeguro(anuncio.diaria, 0, 1000000, 0),
+    frete: numeroSeguro(anuncio.frete, 0, 1000000, 0),
+    caucao: numeroSeguro(anuncio.caucao, 0, 1000000, 0),
+    energia: energia,
+    potencia: textoSeguro(anuncio.potencia, 40),
+    peso: numeroSeguro(anuncio.peso, 0, 100000, 0),
+    entrega: anuncio.entrega === true,
+    destaque: anuncio.destaque === true,
+    descricao: textoSeguro(anuncio.descricao, 1200),
+    acessorios: Array.isArray(anuncio.acessorios)
+      ? anuncio.acessorios.filter((item) => ACESSORIOS.includes(item)).slice(0, ACESSORIOS.length)
+      : [],
+    criadoEm: dataValidaISO(String(anuncio.criadoEm || '').slice(0, 10)) || '',
+    anunciante: {
+      nome: textoSeguro(anunciante.nome, 80),
+      telefone: textoSeguro(anunciante.telefone, 20)
+    }
+  };
+}
+
+function carregarLista(chave, sanitizador, limite) {
+  const bruto = ler(chave, []);
+  if (!Array.isArray(bruto)) return [];
+  const saida = [];
+  for (const item of bruto) {
+    const limpo = sanitizador(item);
+    if (!limpo) continue;
+    saida.push(limpo);
+    if (limite && saida.length >= limite) break;
+  }
+  return saida;
+}
+
+function novoId(prefixo) {
+  const inicio = String(prefixo || 'id').replace(/[^a-z0-9]/gi, '').slice(0, 8) || 'id';
+  const bytes = new Uint8Array(9);
+  if (window.crypto && window.crypto.getRandomValues) {
+    window.crypto.getRandomValues(bytes);
+    return inicio + '-' + bytesParaHex(bytes);
+  }
+  return inicio + '-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 10);
+}
+
+// A sessão do painel fica em sessionStorage: morre ao fechar o navegador/aba.
+function lerSessaoPainel() {
+  try {
+    const bruto = sessionStorage.getItem(CHAVES.sessao);
+    if (!bruto) return null;
+    const sessao = JSON.parse(bruto);
+    if (!sessao || typeof sessao !== 'object' || !sessao.token) return null;
+    if (!['admin', 'gerente'].includes(sessao.papel)) return null;
+    if (!idValido(String(sessao.usuario || '')) && !/^[A-Za-z0-9_.@-]{1,64}$/.test(String(sessao.usuario || ''))) return null;
+    return {
+      papel: sessao.papel,
+      usuario: String(sessao.usuario).slice(0, 64),
+      nome: limparTexto(sessao.nome, 80),
+      token: String(sessao.token).slice(0, 128),
+      desde: dataHoraValida(sessao.desde) || '',
+      ultimaAtividade: dataHoraValida(sessao.ultimaAtividade) || '',
+      expira: dataHoraValida(sessao.expira) || '',
+      idleExpira: dataHoraValida(sessao.idleExpira) || ''
+    };
+  } catch (e) {
+    return null;
+  }
+}
+
+function salvarSessaoPainel(sessao) {
+  try {
+    if (!sessao) sessionStorage.removeItem(CHAVES.sessao);
+    else sessionStorage.setItem(CHAVES.sessao, JSON.stringify(sessao));
+  } catch (e) {
+    /* sessionStorage indisponível: a sessão só dura a página aberta */
+  }
+}
+
+// Sessão do cliente também é reconstruída campo a campo.
+function lerSessaoCliente() {
+  const bruto = ler(CHAVES.clienteSessao, null);
+  if (!bruto || typeof bruto !== 'object' || !idValido(bruto.clienteId)) return null;
+  return {
+    clienteId: bruto.clienteId,
+    nome: limparTexto(bruto.nome, 80),
+    token: typeof bruto.token === 'string' ? bruto.token.slice(0, 128) : '',
+    desde: dataHoraValida(bruto.desde) || '',
+    ultimaAtividade: dataHoraValida(bruto.ultimaAtividade) || '',
+    expira: dataHoraValida(bruto.expira) || '',
+    idleExpira: dataHoraValida(bruto.idleExpira) || ''
+  };
 }
 
 function agoraISO() {
@@ -3088,10 +3376,35 @@ function avaliarSenha(senha, contexto) {
 
 function lerSeguranca() {
   const salvo = ler(CHAVES.seguranca, null);
-  if (!salvo || typeof salvo !== 'object') return { tentativas: {}, eventos: [] };
-  if (!salvo.tentativas || typeof salvo.tentativas !== 'object') salvo.tentativas = {};
-  if (!Array.isArray(salvo.eventos)) salvo.eventos = [];
-  return salvo;
+  const estado = { tentativas: {}, eventos: [] };
+  if (!salvo || typeof salvo !== 'object') return estado;
+
+  const tentativas = salvo.tentativas && typeof salvo.tentativas === 'object' ? salvo.tentativas : {};
+  const chavesProibidas = ['__proto__', 'constructor', 'prototype'];
+  Object.keys(tentativas).slice(0, 60).forEach((chave) => {
+    if (typeof chave !== 'string' || chave.length > 120) return;
+    if (chavesProibidas.includes(chave.toLowerCase())) return;
+    const item = tentativas[chave];
+    if (!item || typeof item !== 'object') return;
+    estado.tentativas[chave] = {
+      falhas: Math.round(numeroSeguro(item.falhas, 0, 100000, 0)),
+      ultima: dataHoraValida(item.ultima) || '',
+      bloqueadoAte: numeroSeguro(item.bloqueadoAte, 0, 9999999999999, 0)
+    };
+  });
+
+  if (Array.isArray(salvo.eventos)) {
+    estado.eventos = salvo.eventos
+      .filter((evento) => evento && typeof evento === 'object')
+      .map((evento) => ({
+        tipo: limparTexto(evento.tipo, 30),
+        detalhe: limparTexto(evento.detalhe, 160),
+        em: dataHoraValida(evento.em) || ''
+      }))
+      .filter((evento) => evento.tipo)
+      .slice(-SEGURANCA.maxEventos);
+  }
+  return estado;
 }
 
 function salvarSeguranca(estado) {
@@ -3186,10 +3499,15 @@ function criarSessao(dados, duracaoMs, ociosidadeMs) {
 }
 
 function sessaoValida(sessao) {
-  if (!sessao || !sessao.token || !sessao.expira) return false;
+  if (!sessao || typeof sessao !== 'object' || !sessao.token || !sessao.expira) return false;
   const agora = Date.now();
-  if (new Date(sessao.expira).getTime() <= agora) return false;
-  if (sessao.idleExpira && new Date(sessao.idleExpira).getTime() <= agora) return false;
+  // Data inválida falha fechado: nunca tratar sessão corrompida como válida.
+  const expira = new Date(sessao.expira).getTime();
+  if (!isFinite(expira) || expira <= agora) return false;
+  if (sessao.idleExpira) {
+    const idle = new Date(sessao.idleExpira).getTime();
+    if (!isFinite(idle) || idle <= agora) return false;
+  }
   return true;
 }
 
@@ -3352,8 +3670,8 @@ function arteSVG(tipo) {
 }
 
 /* ================= Estado ================= */
-let favoritos = new Set(Array.isArray(ler(CHAVES.favoritos, [])) ? ler(CHAVES.favoritos, []) : []);
-let reservas = Array.isArray(ler(CHAVES.reservas, [])) ? ler(CHAVES.reservas, []) : [];
+let favoritos = new Set(listaDeIds(ler(CHAVES.favoritos, [])));
+let reservas = carregarLista(CHAVES.reservas, sanitizarReserva, 5000);
 let meusAnuncios = Array.isArray(ler(CHAVES.anuncios, [])) ? ler(CHAVES.anuncios, []) : [];
 const TIPOS_ANTIGOS = {
   betoneira: 'concretagem',
@@ -3366,12 +3684,16 @@ const TIPOS_ANTIGOS = {
   serra: 'ferramentas-eletricas',
   escada: 'acesso-elevacao'
 };
-if (meusAnuncios.some((item) => TIPOS_ANTIGOS[item.tipo])) {
-  meusAnuncios = meusAnuncios.map((item) => TIPOS_ANTIGOS[item.tipo]
-    ? Object.assign({}, item, { tipo: TIPOS_ANTIGOS[item.tipo] })
-    : item);
-  salvar(CHAVES.anuncios, meusAnuncios);
-}
+meusAnuncios = meusAnuncios
+  .map((item) => {
+    if (!item || typeof item !== 'object') return item;
+    const copia = mesclarSeguro({}, item, Object.keys(item));
+    if (TIPOS_ANTIGOS[copia.tipo]) copia.tipo = TIPOS_ANTIGOS[copia.tipo];
+    return copia;
+  })
+  .map(sanitizarAnuncio)
+  .filter(Boolean)
+  .slice(0, 500);
 let filtros = { texto: '', tipo: 'todos', cidade: 'todas', diariaMax: 0, energia: 'todas', entrega: false, acessorios: false };
 let ordenacao = 'relevancia';
 let abaAtual = 'buscar';
@@ -3379,12 +3701,11 @@ let acessoriosAnuncio = new Set();
 
 let configGerente = null;
 let configAdmin = null;
-let sessaoGerente = ler(CHAVES.sessao, null);
+let sessaoGerente = lerSessaoPainel();
 let configNegocio = normalizarConfigNegocio(ler(CHAVES.negocio, null));
 
-let clientes = ler(CHAVES.clientes, []);
-if (!Array.isArray(clientes)) clientes = [];
-let sessaoCliente = ler(CHAVES.clienteSessao, null);
+let clientes = carregarLista(CHAVES.clientes, sanitizarCliente, 2000);
+let sessaoCliente = lerSessaoCliente();
 let modoPainel = ler(CHAVES.modoPainel, null) === 'empresa' ? 'empresa' : 'cliente';
 let modoClienteForm = 'cadastro';
 let tipoContaCliente = 'pf';
@@ -3674,10 +3995,9 @@ function abrirDetalhe(id, opcoes) {
   const total = totalEstimado(eq);
   const fav = favoritos.has(eq.id);
   const hoje = new Date().toISOString().slice(0, 10);
-  const recente = reservaMaisRecente() || {};
   const clienteLogado = clienteAtual();
-  const nomePadrao = clienteLogado ? nomeExibicaoCliente(clienteLogado) : (recente.nome || '');
-  const telPadrao = clienteLogado ? clienteLogado.telefone : (recente.telefone || '');
+  const nomePadrao = clienteLogado ? nomeExibicaoCliente(clienteLogado) : '';
+  const telPadrao = clienteLogado ? clienteLogado.telefone : '';
 
   const specs = [];
   if (eq.potencia && eq.potencia !== '—') specs.push(['potencia', eq.potencia]);
@@ -3773,7 +4093,9 @@ function atualizarPontos() {
   pf.textContent = f > 9 ? '9+' : f;
 
   const pr = $('#ponto-reservas');
-  const r = reservas.filter((v) => statusReserva(v) !== 'cancelada').length;
+  const cliente = clienteAtual();
+  const minhas = cliente ? reservasDoCliente(cliente) : [];
+  const r = minhas.filter((v) => statusReserva(v) !== 'cancelada').length;
   pr.hidden = r === 0;
   pr.textContent = r > 9 ? '9+' : r;
 }
@@ -3813,13 +4135,17 @@ function renderFavoritos() {
 
 /* ================= Reservas ================= */
 function renderReservas() {
-  const ativas = reservas.filter((v) => statusReserva(v) !== 'cancelada');
+  const cliente = clienteAtual();
+  const minhas = cliente ? reservasDoCliente(cliente) : [];
+  const ativas = minhas.filter((v) => statusReserva(v) !== 'cancelada');
   const ordenadas = [...ativas].sort((a, b) => String(a.data + a.hora).localeCompare(String(b.data + b.hora)));
   $('#lista-reservas').innerHTML = ordenadas.map(cartaoReserva).join('');
   $('#vazio-reservas').hidden = ordenadas.length > 0;
-  $('#resumo-reservas').textContent = ordenadas.length
-    ? ordenadas.length + (ordenadas.length === 1 ? ' reserva agendada' : ' reservas agendadas') + '.'
-    : 'Acompanhe suas retiradas e entregas.';
+  $('#resumo-reservas').textContent = !cliente
+    ? 'Entre na sua conta para ver suas reservas.'
+    : (ordenadas.length
+      ? ordenadas.length + (ordenadas.length === 1 ? ' reserva agendada' : ' reservas agendadas') + '.'
+      : 'Acompanhe suas retiradas e entregas.');
   atualizarPontos();
 }
 
@@ -3835,7 +4161,7 @@ let timerEntrega = null;
 let modalEntregaId = null;
 
 function statusEntrega(v) {
-  if (v && v.entregaStatus) return v.entregaStatus;
+  if (v && STATUS_ENTREGA.includes(v.entregaStatus)) return v.entregaStatus;
   return statusReserva(v) === 'concluida' ? 'entregue' : 'preparando';
 }
 
@@ -4009,7 +4335,7 @@ function renderRastreamento(id) {
   const cliente = clienteAtual();
   const donoDaReserva = !!(cliente && (v.clienteId === cliente.id
     || (!v.clienteId && soDigitos(v.telefone) === soDigitos(cliente.telefone))));
-  const podeConfirmar = !gestao && (donoDaReserva || !cliente) && (st === 'saiu' || st === 'em_transito');
+  const podeConfirmar = !gestao && donoDaReserva && (st === 'saiu' || st === 'em_transito');
 
   const etapas = ETAPAS_ENTREGA.map((item, i) => {
     const classe = i < indice ? 'concluida' : (i === indice ? 'atual' : '');
@@ -4075,6 +4401,7 @@ function renderRastreamento(id) {
 function abrirRastreamento(id) {
   const v = reservas.find((item) => item.id === id);
   if (!v) { avisar('Reserva não encontrada.', 'erro'); return; }
+  if (!podeVerReserva(v)) { avisar('Entre na sua conta para acompanhar esta entrega.', 'erro'); return; }
   $('#modal').hidden = false;
   document.body.classList.add('travado');
   const caixa = $('#modal .modal-caixa');
@@ -4153,7 +4480,7 @@ function salvarEntregador(id) {
   const v = reservas.find((item) => item.id === id);
   const campo = $('#entrega-entregador');
   if (!v || !campo) return;
-  v.entregaEntregador = String(campo.value || '').trim().slice(0, 60) || 'Equipe Aluga Fácil';
+  v.entregaEntregador = limparTexto(campo.value, 60) || 'Equipe Aluga Fácil';
   v.entregaAtualizadoEm = new Date().toISOString();
   salvar(CHAVES.reservas, reservas);
   atualizarTelasEntrega(id);
@@ -4163,6 +4490,10 @@ function salvarEntregador(id) {
 function confirmarRecebimento(id) {
   const v = reservas.find((item) => item.id === id);
   if (!v) return;
+  if (!reservaPertenceAoCliente(v, clienteAtual()) && !podeGerirEntrega()) {
+    avisar('Esta reserva não é da sua conta.', 'erro');
+    return;
+  }
   if (!window.confirm('Confirmar que você recebeu o equipamento?')) return;
   const agora = new Date().toISOString();
   v.entregaStatus = 'entregue';
@@ -4200,15 +4531,16 @@ function agendarReserva(form) {
   const id = form.dataset.id;
   const eq = todosEquipamentos().find((item) => item.id === id);
   if (!eq) return;
-  const data = $('#r-data').value;
-  const hora = $('#r-hora').value;
-  const nome = $('#r-nome').value.trim();
-  const telefone = $('#r-tel').value.trim();
+  const data = dataValidaISO($('#r-data').value);
+  const hora = horaValida($('#r-hora').value);
+  const nome = limparTexto($('#r-nome').value, 80);
+  const telefone = limparTexto($('#r-tel').value, 20);
   const hoje = new Date().toISOString().slice(0, 10);
 
   if (!data || data < hoje) { avisar('Escolha uma data a partir de hoje.', 'erro'); return; }
+  if (!hora) { avisar('Escolha um horário válido.', 'erro'); return; }
   if (nome.length < 3) { avisar('Informe seu nome completo.', 'erro'); $('#r-nome').focus(); return; }
-  if (telefone.replace(/\D/g, '').length < 10) { avisar('Informe um WhatsApp com DDD.', 'erro'); $('#r-tel').focus(); return; }
+  if (soDigitos(telefone).length < 10) { avisar('Informe um WhatsApp com DDD.', 'erro'); $('#r-tel').focus(); return; }
   if (reservas.some((v) => statusReserva(v) !== 'cancelada' && v.equipamentoId === id && v.data === data && v.hora === hora)) {
     avisar('Você já tem uma reserva dessa máquina nesse horário.', 'erro');
     return;
@@ -4221,7 +4553,7 @@ function agendarReserva(form) {
   const cliente = clienteAtual();
 
   reservas.push({
-    id: 'r' + Date.now(),
+    id: novoId('r'),
     equipamentoId: id,
     titulo: eq.titulo,
     tipo: eq.tipo,
@@ -4256,6 +4588,7 @@ function agendarReserva(form) {
 function cancelarReserva(id) {
   const v = reservas.find((item) => item.id === id);
   if (!v) return;
+  if (!podeVerReserva(v)) { avisar('Esta reserva não é da sua conta.', 'erro'); return; }
   if (!window.confirm('Cancelar a reserva de ' + formatarData(v.data) + ' às ' + v.hora + '?')) return;
   v.status = 'cancelada';
   v.atualizadoEm = new Date().toISOString();
@@ -4269,11 +4602,12 @@ function cancelarReserva(id) {
 /* ================= Gerente: login e indicadores ================= */
 function normalizarConfigNegocio(salvo) {
   const padrao = { custoPct: 35, empresa: 'Aluga Fácil' };
-  if (!salvo || typeof salvo !== 'object') return padrao;
+  if (!salvo || typeof salvo !== 'object') return { custoPct: padrao.custoPct, empresa: padrao.empresa };
   const pct = Number(salvo.custoPct);
+  const empresa = typeof salvo.empresa === 'string' ? limparTexto(salvo.empresa, 60) : '';
   return {
     custoPct: isFinite(pct) ? Math.min(100, Math.max(0, pct)) : padrao.custoPct,
-    empresa: String(salvo.empresa || padrao.empresa)
+    empresa: empresa || padrao.empresa
   };
 }
 
@@ -4299,9 +4633,24 @@ function configPadrao(papel) {
 
 function contaMigrada(salvo, papel) {
   const base = CONTAS_PADRAO[papel];
-  const conta = Object.assign({}, salvo, { papel: papel });
-  if (!conta.usuario) conta.usuario = base.usuario;
-  if (!conta.nome) conta.nome = base.nome;
+  const conta = mesclarSeguro({}, salvo, [
+    'usuario', 'nome', 'senha', 'senhaHash', 'ativo', 'precisaConfigurar',
+    'precisaTrocarSenha', 'criadoEm', 'senhaAtualizadaEm', 'precisaMigrarSenha'
+  ]);
+  conta.papel = papel;
+  // Usuário é identificador de login: só letras, números, ponto, hífen e sublinhado.
+  const usuarioLimpo = textoSeguro(conta.usuario, 40).toLowerCase().replace(/[^\p{L}\p{N}._-]/gu, '');
+  conta.usuario = /^[\p{L}\p{N}._-]{3,40}$/u.test(usuarioLimpo) ? usuarioLimpo : base.usuario;
+  conta.nome = textoSeguro(conta.nome, 80) || base.nome;
+  if (conta.senha) conta.senha = sanitizarRegistroSenha(conta.senha);
+  if (conta.senhaHash != null) {
+    const hashAntigo = String(conta.senhaHash).replace(/[^0-9a-f]/gi, '').slice(0, 256);
+    if (hashAntigo.length >= 8) conta.senhaHash = hashAntigo;
+    else delete conta.senhaHash;
+  }
+  conta.precisaConfigurar = conta.precisaConfigurar === true;
+  conta.precisaTrocarSenha = conta.precisaTrocarSenha === true;
+  conta.precisaMigrarSenha = conta.precisaMigrarSenha === true;
   if (papel === 'admin') conta.ativo = true;
   else conta.ativo = salvo.ativo !== false;
 
@@ -4375,11 +4724,12 @@ function contaDaSessao() {
 
 function limparSessao() {
   sessaoGerente = null;
-  salvar(CHAVES.sessao, null);
+  salvarSessaoPainel(null);
 }
 
 function sessaoGerenteValida() {
   if (!sessaoGerente) return false;
+  if (!configAdmin || !configGerente) garantirContas();
   if (!sessaoValida(sessaoGerente)) {
     limparSessao();
     return false;
@@ -4396,7 +4746,7 @@ function sessaoGerenteValida() {
     return false;
   }
   tocarSessao(sessaoGerente, MINUTOS_OCIOSOS_PAINEL * 60000);
-  salvar(CHAVES.sessao, sessaoGerente);
+  salvarSessaoPainel(sessaoGerente);
   return true;
 }
 
@@ -4406,7 +4756,7 @@ function adminValido() {
 }
 
 function statusReserva(v) {
-  return (v && v.status) || 'confirmada';
+  return v && STATUS_RESERVA.includes(v.status) ? v.status : 'confirmada';
 }
 
 function dataDaReserva(v) {
@@ -4772,7 +5122,7 @@ async function entrarGerente(form) {
     usuario: conta.usuario,
     nome: conta.nome || conta.usuario
   }, HORAS_SESSAO * 60 * 60 * 1000, MINUTOS_OCIOSOS_PAINEL * 60000);
-  salvar(CHAVES.sessao, sessaoGerente);
+  salvarSessaoPainel(sessaoGerente);
   registrarEvento('login_ok', 'painel:' + conta.usuario);
   form.reset();
   renderGerente();
@@ -4825,46 +5175,59 @@ function validarCnpj(valor) {
 
 function normalizarEmpresa(origem, dados) {
   if (!dados || typeof dados !== 'object') return null;
+  const objeto = (valor) => (valor && typeof valor === 'object' ? valor : {});
+  let bruta;
   if (origem === 'publica') {
-    const est = dados.estabelecimento || {};
-    const cidade = est.cidade || {};
-    const estado = est.estado || {};
-    const atividade = est.atividade_principal || {};
-    return {
+    const est = objeto(dados.estabelecimento);
+    const cidade = objeto(est.cidade);
+    const estado = objeto(est.estado);
+    const atividade = objeto(est.atividade_principal);
+    const natureza = objeto(dados.natureza_juridica);
+    const porte = objeto(dados.porte);
+    bruta = {
       cnpj: '',
-      razaoSocial: String(dados.razao_social || '').trim(),
-      nomeFantasia: String(est.nome_fantasia || '').trim(),
-      situacao: String(est.situacao_cadastral || '').trim(),
-      cnae: String(atividade.descricao || '').trim(),
-      naturezaJuridica: String((dados.natureza_juridica && dados.natureza_juridica.descricao) || '').trim(),
-      porte: String((dados.porte && dados.porte.descricao) || '').trim(),
-      logradouro: [est.tipo_logradouro, est.logradouro, est.numero].filter(Boolean).join(' ').trim(),
-      complemento: String(est.complemento || '').trim(),
-      bairro: String(est.bairro || '').trim(),
-      municipio: String(cidade.nome || '').trim(),
-      uf: String(estado.sigla || '').trim(),
-      cep: String(est.cep || '').replace(/\D/g, ''),
-      telefone: (String(est.ddd1 || '') + String(est.telefone1 || '')).replace(/\D/g, ''),
-      email: String(est.email || '').trim().toLowerCase()
+      razaoSocial: dados.razao_social,
+      nomeFantasia: est.nome_fantasia,
+      situacao: est.situacao_cadastral,
+      cnae: atividade.descricao,
+      naturezaJuridica: natureza.descricao,
+      porte: porte.descricao,
+      logradouro: [est.tipo_logradouro, est.logradouro, est.numero].filter((v) => typeof v === 'string' && v.trim()).join(' '),
+      complemento: est.complemento,
+      bairro: est.bairro,
+      municipio: cidade.nome,
+      uf: estado.sigla,
+      cep: textoSeguro(est.cep, 20).replace(/\D/g, ''),
+      telefone: (textoSeguro(est.ddd1, 8) + textoSeguro(est.telefone1, 20)).replace(/\D/g, ''),
+      email: dados.email || est.email
+    };
+  } else {
+    bruta = {
+      cnpj: String(dados.cnpj || '').replace(/\D/g, ''),
+      razaoSocial: dados.razao_social,
+      nomeFantasia: dados.nome_fantasia,
+      situacao: dados.descricao_situacao_cadastral,
+      cnae: dados.cnae_fiscal_descricao,
+      naturezaJuridica: dados.natureza_juridica,
+      porte: dados.porte,
+      logradouro: [dados.logradouro, dados.numero].filter((v) => typeof v === 'string' && v.trim()).join(', '),
+      complemento: dados.complemento,
+      bairro: dados.bairro,
+      municipio: dados.municipio,
+      uf: dados.uf,
+      cep: textoSeguro(dados.cep, 20).replace(/\D/g, ''),
+      telefone: textoSeguro(dados.ddd_telefone_1, 20).replace(/\D/g, ''),
+      email: dados.email
     };
   }
-  return {
-    cnpj: String(dados.cnpj || '').replace(/\D/g, ''),
-    razaoSocial: String(dados.razao_social || '').trim(),
-    nomeFantasia: String(dados.nome_fantasia || '').trim(),
-    situacao: String(dados.descricao_situacao_cadastral || '').trim(),
-    cnae: String(dados.cnae_fiscal_descricao || '').trim(),
-    naturezaJuridica: String(dados.natureza_juridica || '').trim(),
-    porte: String(dados.porte || '').trim(),
-    logradouro: [dados.logradouro, dados.numero].filter(Boolean).join(', ').trim(),
-    complemento: String(dados.complemento || '').trim(),
-    bairro: String(dados.bairro || '').trim(),
-    municipio: String(dados.municipio || '').trim(),
-    uf: String(dados.uf || '').trim(),
-    cep: String(dados.cep || '').replace(/\D/g, ''),
-    telefone: String(dados.ddd_telefone_1 || '').replace(/\D/g, ''),
-    email: String(dados.email || '').trim().toLowerCase()
-  };
+  // Resposta de API externa não é confiável: limita tamanho e remove controles.
+  const saida = {};
+  Object.keys(bruta).forEach((campo) => {
+    saida[campo] = textoSeguro(bruta[campo], 120);
+  });
+  saida.email = normalizarEmail(saida.email).slice(0, 120);
+  saida.uf = ufSegura(saida.uf);
+  return saida;
 }
 
 function nomeExibicaoCliente(cliente) {
@@ -5038,9 +5401,21 @@ function clienteAtual() {
 
 function reservasDoCliente(cliente) {
   if (!cliente) return [];
+  return reservas.filter((v) => reservaPertenceAoCliente(v, cliente));
+}
+
+function reservaPertenceAoCliente(v, cliente) {
+  if (!v || !cliente) return false;
+  if (v.clienteId) return v.clienteId === cliente.id;
   const telefone = soDigitos(cliente.telefone);
-  return reservas.filter((v) => v.clienteId === cliente.id
-    || (!v.clienteId && telefone && soDigitos(v.telefone) === telefone));
+  return !!telefone && soDigitos(v.telefone) === telefone;
+}
+
+// Quem pode abrir/agir sobre uma reserva: a loja ou o próprio cliente.
+function podeVerReserva(v) {
+  if (!v) return false;
+  if (podeGerirEntrega()) return true;
+  return reservaPertenceAoCliente(v, clienteAtual());
 }
 
 function renderPainelModo() {
@@ -5198,7 +5573,7 @@ async function criarContaCliente(form) {
   const empresa = (pj && cnpjConsultado && cnpjConsultado.cnpj === cnpj) ? cnpjConsultado.empresa : null;
   const registroSenha = await criarRegistroSenha(senha);
   const conta = {
-    id: 'c' + Date.now(),
+    id: novoId('c'),
     tipo: pj ? 'pj' : 'pf',
     nome: nome,
     telefone: telefone,
@@ -5230,13 +5605,15 @@ async function criarContaCliente(form) {
     } : null;
   }
 
-  clientes.push(conta);
+  const contaSalva = sanitizarCliente(conta);
+  if (!contaSalva) { avisar('Não foi possível criar a conta. Revise os dados.', 'erro'); return; }
+  clientes.push(contaSalva);
   salvar(CHAVES.clientes, clientes);
-  registrarEvento('conta_criada', (pj ? 'PJ ' : 'PF ') + conta.id);
+  registrarEvento('conta_criada', (pj ? 'PJ ' : 'PF ') + contaSalva.id);
 
   sessaoCliente = criarSessao({
-    clienteId: conta.id,
-    nome: nomeExibicaoCliente(conta)
+    clienteId: contaSalva.id,
+    nome: nomeExibicaoCliente(contaSalva)
   }, DIAS_SESSAO_CLIENTE * 86400000, DIAS_OCIOSOS_CLIENTE * 86400000);
   salvar(CHAVES.clienteSessao, sessaoCliente);
   form.reset();
@@ -5246,7 +5623,7 @@ async function criarContaCliente(form) {
   salvar(CHAVES.modoPainel, modoPainel);
   renderCliente();
   renderTrocaObrigatoria();
-  avisar('Conta criada! Bem-vindo(a), ' + primeiroNomeCliente(conta) + '!');
+  avisar('Conta criada! Bem-vindo(a), ' + primeiroNomeCliente(contaSalva) + '!');
 }
 
 async function entrarCliente(form) {
@@ -5319,10 +5696,10 @@ function sairCliente() {
 function salvarPerfilCliente(form) {
   const cliente = clienteAtual();
   if (!cliente) return;
-  const nome = String(form.nome.value || '').trim();
-  const telefone = String(form.telefone.value || '').trim();
-  const email = normalizarEmail(form.email.value);
-  const cidade = String(form.cidade.value || '').trim();
+  const nome = limparTexto(form.nome.value, 80);
+  const telefone = limparTexto(form.telefone.value, 20);
+  const email = normalizarEmail(form.email.value).slice(0, 120);
+  const cidade = limparTexto(form.cidade.value, 60);
   if (nome.length < (cliente.tipo === 'pj' ? 2 : 3)) { avisar(cliente.tipo === 'pj' ? 'Informe a razão social da empresa.' : 'Informe seu nome completo.', 'erro'); form.nome.focus(); return; }
   if (soDigitos(telefone).length < 10) { avisar('Informe um WhatsApp com DDD.', 'erro'); form.telefone.focus(); return; }
   if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { avisar('Informe um e-mail válido.', 'erro'); form.email.focus(); return; }
@@ -5407,6 +5784,8 @@ function cartaoClienteAdmin(c) {
 }
 
 function alterarStatusReserva(id, status) {
+  if (!podeGerirEntrega()) { avisar('Apenas a loja pode alterar pedidos.', 'erro'); return; }
+  if (!STATUS_RESERVA.includes(status)) return;
   const v = reservas.find((item) => item.id === id);
   if (!v) return;
   if (status === 'cancelada' && !window.confirm('Cancelar este pedido? Ele sai da lista do cliente e continua no histórico do painel.')) return;
@@ -5429,7 +5808,7 @@ function salvarConfigNegocio(form) {
     avisar('Apenas o administrador pode alterar as configurações do negócio.', 'erro');
     return;
   }
-  const nome = String(form.nome.value || '').trim();
+  const nome = limparTexto(form.nome.value, 40);
   const custo = Number(form.custo.value);
   if (nome.length < 2) { avisar('Informe seu nome.', 'erro'); form.nome.focus(); return; }
   if (!isFinite(custo) || custo < 0 || custo > 100) { avisar('O custo deve ficar entre 0 e 100%.', 'erro'); form.custo.focus(); return; }
@@ -5439,7 +5818,7 @@ function salvarConfigNegocio(form) {
   salvar(CHAVES.negocio, configNegocio);
   if (sessaoGerente) {
     sessaoGerente.nome = nome;
-    salvar(CHAVES.sessao, sessaoGerente);
+    salvarSessaoPainel(sessaoGerente);
   }
   renderGerente();
   avisar('Configurações salvas');
@@ -5628,7 +6007,8 @@ function limparSeguranca() {
 
 function semCredenciais(conta) {
   if (!conta || typeof conta !== 'object') return conta;
-  const copia = Object.assign({}, conta);
+  const copia = mesclarSeguro({}, conta, ['id', 'tipo', 'papel', 'usuario', 'nome', 'nomeFantasia',
+    'telefone', 'email', 'cidade', 'cnpj', 'empresa', 'ativo', 'precisaConfigurar', 'criadoEm']);
   delete copia.senha;
   delete copia.senhaHash;
   delete copia.precisaTrocarSenha;
@@ -5691,26 +6071,39 @@ function limparTodosDados() {
     return;
   }
   registrarEvento('dados_apagados', 'pelo administrador');
-  Object.values(CHAVES).forEach((chave) => localStorage.removeItem(chave));
+  // Apaga tudo que o app gravou, inclusive a sessão do painel (sessionStorage)
+  // e chaves antigas que não estão mais em CHAVES.
+  const apagarDoArmazenamento = (armazenamento) => {
+    try {
+      Object.keys(armazenamento)
+        .filter((chave) => chave.indexOf('aluga:') === 0)
+        .forEach((chave) => armazenamento.removeItem(chave));
+    } catch (e) {
+      /* armazenamento indisponível: nada a apagar */
+    }
+  };
+  apagarDoArmazenamento(localStorage);
+  apagarDoArmazenamento(sessionStorage);
   location.reload();
 }
 
 function registrarVenda(form) {
+  if (!podeGerirEntrega()) { avisar('Apenas a loja pode registrar vendas.', 'erro'); return; }
   const eq = todosEquipamentos().find((item) => item.id === form.maquina.value);
-  const cliente = String(form.cliente.value || '').trim();
-  const data = form.data.value;
-  const dias = Number(form.dias.value) || 1;
+  const cliente = limparTexto(form.cliente.value, 80);
+  const data = dataValidaISO(form.data.value);
+  const dias = Math.round(numeroSeguro(form.dias.value, 1, 60, 1));
   const status = form.status.value === 'confirmada' ? 'confirmada' : 'concluida';
   if (!eq) { avisar('Escolha a máquina.', 'erro'); form.maquina.focus(); return; }
   if (cliente.length < 2) { avisar('Informe o nome do cliente.', 'erro'); form.cliente.focus(); return; }
-  if (!data) { avisar('Informe a data da retirada.', 'erro'); form.data.focus(); return; }
+  if (!data) { avisar('Informe uma data válida para a retirada.', 'erro'); form.data.focus(); return; }
   if (dias < 1 || dias > 60) { avisar('As diárias devem ficar entre 1 e 60.', 'erro'); form.dias.focus(); return; }
 
   const diaria = Number(eq.diaria) || 0;
   const frete = eq.entrega ? Number(eq.frete) || 0 : 0;
   const caucao = Number(eq.caucao) || 0;
   reservas.push({
-    id: 'venda-' + Date.now(),
+    id: novoId('venda'),
     equipamentoId: eq.id,
     titulo: eq.titulo,
     tipo: eq.tipo,
@@ -5739,6 +6132,7 @@ function registrarVenda(form) {
 }
 
 function carregarExemplo() {
+  if (!podeGerirEntrega()) { avisar('Apenas a loja pode carregar exemplos.', 'erro'); return; }
   if (reservas.some((v) => v.exemplo)) { avisar('Os dados de exemplo já estão carregados.'); return; }
   const modelos = [
     ['c43', 4], ['c79', 3], ['c13', 2], ['c35', 2], ['c143', 2], ['c128', 3], ['c113', 2], ['c103', 3]
@@ -5785,6 +6179,7 @@ function carregarExemplo() {
 }
 
 function removerExemplo() {
+  if (!podeGerirEntrega()) { avisar('Apenas a loja pode remover exemplos.', 'erro'); return; }
   if (!window.confirm('Remover todos os pedidos de exemplo? Seus pedidos reais continuam.')) return;
   reservas = reservas.filter((v) => !v.exemplo);
   salvar(CHAVES.reservas, reservas);
@@ -5811,18 +6206,19 @@ function abrirWhatsApp(id) {
     return;
   }
   const mensagem = 'Olá, ' + ((eq.anunciante && eq.anunciante.nome) || 'tudo bem') + '! Vi o equipamento "' + eq.titulo + '" (' + fmtMoeda.format(eq.diaria) + '/dia) no Aluga Fácil e gostaria de saber a disponibilidade.';
-  window.open(linkWhatsApp(telefone, mensagem), '_blank', 'noopener');
+  window.open(linkWhatsApp(telefone, mensagem), '_blank', 'noopener,noreferrer');
 }
 
 function whatsAppReserva(id) {
   const v = reservas.find((item) => item.id === id);
   if (!v) return;
+  if (!podeVerReserva(v)) { avisar('Esta reserva não é da sua conta.', 'erro'); return; }
   const eq = todosEquipamentos().find((item) => item.id === v.equipamentoId);
   const telefone = (eq && eq.anunciante && eq.anunciante.telefone) || v.telefone;
   const mensagem = 'Olá! Reservei o equipamento "' + v.titulo + '" para retirada em ' + formatarData(v.data) + ' às ' + v.hora + '. Meu nome é ' + v.nome + '.';
   const url = linkWhatsApp(telefone, mensagem);
   if (!url) { avisar('Nenhum telefone disponível.', 'erro'); return; }
-  window.open(url, '_blank', 'noopener');
+  window.open(url, '_blank', 'noopener,noreferrer');
 }
 
 function compartilhar(id) {
@@ -5927,25 +6323,33 @@ function publicarAnuncio(form) {
     irPara('gerente');
     return;
   }
+  const tipo = TIPOS.some((t) => t.id === form.tipo.value) ? form.tipo.value : '';
+  const energia = ENERGIAS.some((e) => e.id === form.energia.value && e.id !== 'todas') ? form.energia.value : '';
   const dados = {
-    titulo: form.titulo.value.trim(),
-    tipo: form.tipo.value,
-    cidade: form.cidade.value.trim(),
-    uf: form.uf.value.trim().toUpperCase(),
-    bairro: form.bairro.value.trim(),
-    diaria: Number(form.diaria.value),
-    frete: Number(form.frete.value) || 0,
-    caucao: Number(form.caucao.value) || 0,
-    energia: form.energia.value,
-    potencia: form.potencia.value.trim() || '—',
-    peso: Number(form.peso.value) || 0,
+    titulo: limparTexto(form.titulo.value, 120),
+    tipo: tipo,
+    cidade: limparTexto(form.cidade.value, 60),
+    uf: ufSegura(form.uf.value),
+    bairro: limparTexto(form.bairro.value, 60),
+    diaria: numeroSeguro(form.diaria.value, 0, 1000000, 0),
+    frete: numeroSeguro(form.frete.value, 0, 1000000, 0),
+    caucao: numeroSeguro(form.caucao.value, 0, 1000000, 0),
+    energia: energia,
+    potencia: limparTexto(form.potencia.value, 40) || '—',
+    peso: numeroSeguro(form.peso.value, 0, 100000, 0),
     entrega: form.entrega.checked,
-    descricao: form.descricao.value.trim(),
-    acessorios: $$('#acessorios-anuncio input:checked').map((i) => i.value),
-    anunciante: { nome: form.anunciante.value.trim(), telefone: form.telefone.value.trim() },
+    descricao: limparTexto(form.descricao.value, 1200),
+    acessorios: $$('#acessorios-anuncio input:checked')
+      .map((i) => i.value)
+      .filter((item) => ACESSORIOS.includes(item)),
+    anunciante: {
+      nome: limparTexto(form.anunciante.value, 80),
+      telefone: limparTexto(form.telefone.value, 20)
+    },
     criadoEm: new Date().toISOString().slice(0, 10),
     destaque: false
   };
+  if (!tipo) { avisar('Escolha uma categoria válida.', 'erro'); form.tipo.focus(); return; }
 
   const erros = validarAnuncio(dados);
   marcarErros(erros);
@@ -5956,7 +6360,8 @@ function publicarAnuncio(form) {
     return;
   }
 
-  const novo = Object.assign({ id: 'meu-' + Date.now() }, dados);
+  const novo = sanitizarAnuncio(Object.assign({ id: novoId('meu') }, dados));
+  if (!novo) { avisar('Não foi possível publicar o anúncio. Revise os dados.', 'erro'); return; }
   meusAnuncios.unshift(novo);
   salvar(CHAVES.anuncios, meusAnuncios);
   form.reset();
@@ -6171,7 +6576,7 @@ function ligarEventos() {
 
   window.addEventListener('storage', (e) => {
     if (e.key !== CHAVES.reservas) return;
-    reservas = Array.isArray(ler(CHAVES.reservas, [])) ? ler(CHAVES.reservas, []) : [];
+    reservas = carregarLista(CHAVES.reservas, sanitizarReserva, 5000);
     renderReservas();
     renderCliente();
     renderPainelGerente();
@@ -6210,6 +6615,18 @@ function ligarEventos() {
 
 /* ================= Início ================= */
 function iniciar() {
+  // Frame-busting: a CSP em <meta> não cobre frame-ancestors, então o app
+  // se recusa a rodar dentro de um iframe de terceiros.
+  try {
+    if (window.top !== window.self) {
+      window.top.location = window.self.location.href;
+      return;
+    }
+  } catch (e) {
+    document.documentElement.textContent = 'Abra o Aluga Fácil em uma janela própria.';
+    return;
+  }
+
   const temaSalvo = ler(CHAVES.tema, null);
   const prefereEscuro = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
   aplicarTema(temaSalvo === 'escuro' || temaSalvo === 'claro' ? temaSalvo : (prefereEscuro ? 'escuro' : 'claro'));

@@ -10,6 +10,8 @@ O app reúne betoneiras, andaimes, compactadores, ferramentas elétricas, equipa
 
 > **Rastreamento (v20):** cada reserva agora tem uma tela **Acompanhar entrega**, com mapa da rota, veículo animado, previsão de chegada, linha do tempo e confirmação de recebimento. Nesta versão o trajeto é simulado localmente, sem GPS e sem backend.
 
+> **Segurança (v21):** auditoria de cibersegurança com endurecimento do armazenamento local, sanitização de tudo que é lido do navegador, permissões reais nas ações, sessão do painel em `sessionStorage`, CSP mais restritiva, frame-busting e cabeçalhos de segurança. Os limites do modelo local-first estão documentados abaixo.
+
 Há também uma **Área da empresa** com dois logins locais: **dono (admin)** e **gerente**. O painel mostra vendas, receita, lucro estimado, ticket médio, caução em aberto, gráfico dos últimos 6 meses, ranking de máquinas e registro manual de vendas/reservas. O dono tem acesso total, incluindo configurações do negócio, controle do acesso do gerente e backup dos dados.
 
 Na mesma aba **Painel**, o **cliente** pode criar a própria conta, entrar, editar os dados, trocar a senha e acompanhar as reservas feitas com aquele cadastro. O cadastro aceita **pessoa física** ou **empresa (CNPJ)** — no caso de empresa, basta digitar o CNPJ e o app busca e preenche automaticamente os dados do estabelecimento.
@@ -105,7 +107,28 @@ C:\Users\palot\OneDrive\Documentos\APP ALUGUEL
 
 ## Dados e armazenamento
 
-O app é **local-first**: não há backend nem envio de dados para a internet. Tudo fica no `localStorage` do navegador:
+### Qual é o "banco de dados"?
+
+O Aluga Fácil **não tem banco de dados de servidor**. Não existe MySQL, PostgreSQL, Firebase, Supabase nem API própria: o app é um HTML único que roda no navegador. O que faz o papel de banco é o **armazenamento do próprio navegador**, em duas camadas:
+
+1. **`localStorage`** — guarda os dados do app em pares chave/valor (texto JSON). É o "banco" de favoritos, reservas, anúncios, contas, configurações e histórico de segurança. Fica no dispositivo e **não é sincronizado** entre celular e computador.
+2. **Cache API do service worker** — guarda os **arquivos** do app (HTML, CSS, JS, ícones, manifesto) para funcionar offline. Não guarda dados de negócio.
+
+A sessão do painel (dono/gerente) fica em **`sessionStorage`**, que é apagado ao fechar a aba/navegador. A sessão do cliente fica no `localStorage` por 7 dias.
+
+> **Em desenvolvimento e em produção é o mesmo modelo:** `localStorage` + Cache API. Não há um banco separado de desenvolvimento. Se o produto crescer para várias lojas/dispositivos, será necessário criar um backend com banco de dados real (por exemplo PostgreSQL) e autenticação no servidor.
+
+### O que sai do dispositivo
+
+Quase nada. As únicas saídas são:
+
+- **CNPJ digitado no cadastro de empresa**, enviado para `brasilapi.com.br` e, se falhar, para `publica.cnpj.ws`, apenas para buscar os dados públicos da empresa.
+- **WhatsApp**, aberto pelo próprio usuário em uma nova aba, com a mensagem que ele vê na tela.
+- **Arquivos do app**, baixados do GitHub Pages (ou do servidor local) na primeira visita e nas atualizações.
+
+Não há analytics, rastreadores, cookies de terceiros, anúncios ou envio de reservas/clientes para servidores.
+
+### Chaves do `localStorage`
 
 | Chave | Conteúdo |
 |---|---|
@@ -113,7 +136,7 @@ O app é **local-first**: não há backend nem envio de dados para a internet. T
 | `aluga:reservas` | reservas e vendas (máquina, data, hora, contato, valores, status) |
 | `aluga:anuncios` | anúncios publicados pelo dono (admin) |
 | `aluga:tema` | `claro` ou `escuro` |
-| `aluga:gerente` | sessão ativa do painel (token aleatório, validade de 12 h e 2 h de inatividade) |
+| `aluga:gerente` | sessão ativa do painel — **`sessionStorage`** (token aleatório, validade de 12 h e 2 h de inatividade; morre ao fechar a aba) |
 | `aluga:gerente-config` | usuário, nome, hash PBKDF2 da senha e situação do gerente |
 | `aluga:admin-config` | usuário, nome e hash PBKDF2 da senha do dono (admin) |
 | `aluga:negocio` | custo operacional (%) usado no lucro estimado |
@@ -133,11 +156,11 @@ Abra a aba **Painel** na barra inferior. **Não existem mais senhas padrão**: n
 
 - As contas antigas com as senhas `admin123` / `gerente123` são **invalidadas automaticamente** na atualização: o dono precisa criar uma senha nova e o gerente fica desativado até o dono redefinir.
 - Contas antigas com senha própria continuam entrando uma vez com a senha atual e são **obrigadas a criar uma senha nova** (hash migrado para PBKDF2).
-- A senha precisa ter **8 a 128 caracteres, com pelo menos uma letra e um número**, e não pode ser igual ao nome/usuário nem estar em uma lista de senhas comuns.
+- A senha precisa ter **10 a 128 caracteres, com pelo menos uma letra e um número**, e não pode ser igual ao nome/usuário nem estar em uma lista de senhas comuns.
 - **5 tentativas erradas** bloqueiam o acesso por **15 minutos**; novas falhas dobram o tempo até o limite de 60 minutos.
 - O admin pode redefinir a senha do gerente e **bloquear/liberar** o acesso dele em **Administração do acesso**.
 - O admin pode **exportar um backup** em JSON (sem senhas e sem sessões) e **apagar todos os dados** do dispositivo digitando `APAGAR` para confirmar.
-- A sessão do painel dura 12 horas e expira após 2 horas sem atividade; a do cliente dura 7 dias. O botão **Sair** encerra na hora.
+- A sessão do painel dura 12 horas e expira após 2 horas sem atividade, e fica em `sessionStorage` (fechar o navegador encerra); a do cliente dura 7 dias. O botão **Sair** encerra na hora.
 - O painel mostra apenas os pedidos **deste dispositivo** (o app é local-first). Para acompanhar o negócio no celular e no computador ao mesmo tempo seria necessário um backend — não existe sincronização.
 
 ### Anúncios (somente dono)
@@ -197,37 +220,58 @@ localStorage.clear();
 location.reload();
 ```
 
-## Segurança (v13+)
+## Segurança (v21)
 
-O app não tem servidor: os dados e as contas ficam no `localStorage` **daquele dispositivo**. A v13 reforça a proteção local contra acesso casual e contra erros comuns, mas **não transforma o app em um sistema 100% seguro** — isso só existiria com backend e autenticação no servidor.
+O app não tem servidor: os dados e as contas ficam no armazenamento **daquele dispositivo**. A v21 é uma auditoria de cibersegurança que endurece o que é possível no modelo local-first, mas **nenhum app sem backend é 100% seguro** — a fronteira de autenticação real só existe no servidor.
 
-O que foi implementado:
+### Modelo de ameaças
+
+O que a v21 protege:
+
+- **XSS por dados salvos**: alguém edita o `localStorage` (ou um backup antigo traz lixo) e tenta injetar HTML/atributos. Todo dado lido é reconstruído com listas fechadas e escapado na saída.
+- **Sequestro de sessão casual**: a sessão do painel agora fica em `sessionStorage` e expira por tempo/inatividade; fechar o navegador encerra.
+- **Ações sem permissão**: funções de dono/gerente/cliente checam a sessão de verdade, não apenas escondem botões.
+- **Vazamento entre clientes no mesmo aparelho**: a lista de reservas e o preenchimento do formulário mostram apenas os dados do cliente logado.
+- **Cliques em links maliciosos**: CSP restritiva, `script-src-attr 'none'`, frame-busting e `Referrer-Policy: no-referrer`.
+- **Poluição de protótipo** (`__proto__`/`constructor`) na leitura de JSON: as cópias usam lista de campos permitidos.
+
+O que **não** é possível proteger sem backend:
+
+- Quem tem **acesso físico ao aparelho** ou ao DevTools pode ler, alterar ou apagar o `localStorage`, inclusive forjar a sessão do painel. Não há criptografia em repouso.
+- Não existe **recuperação de senha**, limite de tentativas no servidor, auditoria central ou sincronização entre dispositivos.
+- Um atacante que controle o **servidor de hospedagem** ou o DNS pode trocar o código entregue; por isso o app é estático e sem dependências externas.
+
+### O que foi implementado
 
 - **Senhas com PBKDF2-SHA-256** (310.000 iterações) e salt aleatório por conta. A senha em texto puro nunca é salva.
 - **Comparação em tempo constante** para reduzir ataques de temporização.
 - **Fim das senhas padrão**: o primeiro acesso cria o dono; o gerente só entra depois que o dono define usuário e senha.
 - **Migração segura**: hashes antigos são aceitos uma única vez e a pessoa é obrigada a criar uma senha nova; as senhas padrão antigas são invalidadas.
-- **Política de senha**: 8 a 128 caracteres, com letra e número, sem repetir nome/usuário e sem senhas óbvias.
+- **Política de senha**: **10 a 128 caracteres**, com letra e número, sem repetir nome/usuário/e-mail/telefone/CNPJ e sem senhas óbvias.
 - **Bloqueio por tentativas**: 5 erros → 15 minutos; novas rodadas dobram o tempo até 60 minutos. Vale para o painel, para o login do cliente e para a troca de senha.
 - **Sessões com token aleatório** (`crypto.getRandomValues`), expiração por tempo e por inatividade, e invalidação ao sair.
-- **Ações de dono exigem sessão válida** (não basta uma variável antiga na tela): configurações, acesso do gerente, backup, histórico e limpeza.
-- **CSP** restringindo scripts, estilos, imagens e conexões ao próprio app e às APIs de CNPJ.
-- **Sanitização de entrada e escaping de saída** nos dados exibidos, incluindo o histórico de segurança.
+- **Sessão do painel em `sessionStorage`**: some ao fechar a aba/navegador; a do cliente continua em `localStorage` por 7 dias.
+- **Permissões reais nas ações**: publicar/excluir anúncio, configurações, backup, limpeza, registrar venda, carregar exemplos, alterar status, cancelar, confirmar recebimento e abrir rastreamento checam sessão/papel e vínculo com a reserva.
+- **Sanitização de tudo que vem do armazenamento**: reservas, anúncios, clientes, empresa, registro de senha, favoritos e sessões passam por listas fechadas (`STATUS_RESERVA`, `STATUS_ENTREGA`, `TIPOS`, `ENERGIAS`, `ACESSORIOS`, UFs válidas), validação de ID/data/hora, limites de tamanho e rejeição de tipos inesperados (objeto/array não vira texto).
+- **IDs imprevisíveis** (`crypto.getRandomValues`) para novas reservas, vendas, anúncios e contas, em vez de `Date.now()`.
+- **CSP restritiva** no `<meta>`: `script-src-attr 'none'`, `media-src 'none'`, `frame-src 'none'`, `child-src 'none'`, `object-src 'none'`, `base-uri 'none'` e conexões apenas ao próprio app e às APIs de CNPJ.
+- **Frame-busting**: o app se recusa a rodar dentro de iframe de terceiros (o `frame-ancestors` do CSP não funciona em `<meta>`; na Netlify ele também vai no cabeçalho HTTP).
+- **Service worker endurecido**: só aceita `message` de janelas do próprio app e só guarda no cache respostas `ok` e do próprio domínio.
+- **Cabeçalhos de segurança** em `netlify.toml` (`X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, `Referrer-Policy: no-referrer`, `Permissions-Policy` e CSP com `frame-ancestors 'none'`). O GitHub Pages não permite cabeçalhos personalizados, então lá valem as meta tags e o frame-busting.
 - **Backup sem credenciais**: exporta reservas, vendas, anúncios, favoritos e configurações, mas remove senhas, hashes e sessões.
-- **Confirmação forte para apagar tudo**: é preciso digitar `APAGAR`.
+- **Confirmação forte para apagar tudo**: é preciso digitar `APAGAR`; a limpeza remove todas as chaves `aluga:` do `localStorage` **e** do `sessionStorage` (inclusive a sessão do painel).
 - **Histórico de segurança local** com logins, falhas, bloqueios, trocas de senha, backup e limpeza (sem enviar nada para a internet).
+- **Aviso de falha de gravação**: se o `localStorage` estiver cheio ou bloqueado, o app avisa em vez de perder dados em silêncio.
 
-### O que ainda não é possível garantir
+### Limite fundamental
 
-- Quem tem **acesso físico ao aparelho** ou ao navegador (DevTools) pode limpar o `localStorage`, alterar o código ou ler os dados. Use bloqueio de tela/PIN e mantenha o sistema atualizado.
-- **Não há sincronização nem recuperação de senha por e-mail**: se esquecer a senha do dono, será preciso limpar os dados do app (e perder o que não estiver em backup).
-- Um **backend com autenticação real** seria necessário para impedir invasão remota, limitar tentativas no servidor e proteger os dados de verdade.
+Como o app é local-first, **quem consegue escrever no `localStorage` pode forjar a sessão do painel**. As checagens de permissão impedem bugs e uso casual indevido, não um atacante com acesso ao dispositivo. Para segurança de produção de verdade, o próximo passo é um backend com autenticação, banco de dados e regras de acesso no servidor.
 
 ## Atualizações e versão
 
 O app **é o mesmo** no computador e no celular — não existe um projeto separado para Android. O que roda no celular é este PWA instalado; qualquer alteração publicada chega a ele automaticamente.
 
-- A versão atual aparece no **rodapé** do app (ex.: `v20`).
+- A versão atual aparece no **rodapé** do app (ex.: `v21`).
 - A partir da **v15**, o app **procura e aplica atualizações automaticamente**: ao abrir, ao voltar para o app e a cada 5 minutos com ele aberto. O service worker novo assume na hora (`skipWaiting`) e a página recarrega sozinha.
 - A checagem busca `sw.js` e as páginas com a versão na URL e `cache: 'reload'`, para furar cache antigo do navegador e do GitHub Pages.
 - Ao atualizar, favoritos, reservas, anúncios, contas e tema **são preservados** (ficam no `localStorage`, não no cache).
@@ -278,7 +322,7 @@ Em cerca de 1 minuto o GitHub Pages publica. Quem já instalou pelo link públic
 
 ### Outros destinos (opcional)
 
-- `preparar-publicacao.ps1` gera a pasta **`dist/`** (~0,25 MB) para arrastar no Netlify/Cloudflare.
-- `netlify.toml` já configura cache correto do `sw.js` e do `manifest.json`.
+- `preparar-publicacao.ps1` gera a pasta **`dist/`** (~0,51 MB) para arrastar no Netlify/Cloudflare.
+- `netlify.toml` já configura cache correto do `sw.js` e do `manifest.json`, além dos cabeçalhos de segurança.
 
 Com um link HTTPS fixo, a instalação no Android funciona sempre — inclusive offline e sem depender do computador ligado.
