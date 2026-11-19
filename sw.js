@@ -1,11 +1,14 @@
 /* Service worker do Aluga Fácil — app shell offline com atualização automática */
-const VERSAO = '21';
+const VERSAO = '22';
 const CACHE = 'aluga-facil-v' + VERSAO;
 const ARQUIVOS = [
   './',
   './app.html?v=' + VERSAO,
   './index.html?v=' + VERSAO,
   './instalar.html?v=' + VERSAO,
+  './nuvem-config.js?v=' + VERSAO,
+  './nuvem.js?v=' + VERSAO,
+  './nuvem-ui.js?v=' + VERSAO,
   './qrcode-instalar.png',
   './qrcode-fixo.png',
   './manifest.json?v=' + VERSAO,

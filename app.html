@@ -6,7 +6,7 @@
 <title>Aluga Fácil — Locação de equipamentos para obra</title>
 <meta name="description" content="Alugue betoneiras, andaimes, compactadores, ferramentas elétricas e equipamentos para cada fase da obra. Diária clara, entrega combinada e reserva pelo app.">
 <meta name="theme-color" content="#183C8F">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; script-src-attr 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'none'; connect-src 'self' https://brasilapi.com.br https://publica.cnpj.ws; manifest-src 'self'; worker-src 'self'; frame-src 'none'; child-src 'none'; object-src 'none'; base-uri 'none'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; script-src-attr 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'none'; connect-src 'self' https://brasilapi.com.br https://publica.cnpj.ws https://*.supabase.co; manifest-src 'self'; worker-src 'self'; frame-src 'none'; child-src 'none'; object-src 'none'; base-uri 'none'; form-action 'self'">
 <meta name="referrer" content="no-referrer">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" type="image/svg+xml" href="icon.svg">
@@ -1286,6 +1286,8 @@ input[type=range]{width:100%;accent-color:var(--primaria);height:28px}
 <div class="toasts" id="toasts" aria-live="polite" aria-atomic="false"></div>
 
 
+<script src="nuvem-config.js"></script>
+<script src="nuvem.js"></script>
 <script>
 'use strict';
 
@@ -1310,7 +1312,7 @@ const CHAVES = {
 };
 
 // Versão exibida no rodapé — mantenha igual à versão do sw.js.
-const VERSAO_APP = 'v21';
+const VERSAO_APP = 'v22';
 
 // Contas locais (não há servidor: é uma proteção do dispositivo).
 // O admin é o dono: vê tudo e controla o acesso do gerente.
@@ -6662,5 +6664,6 @@ if (document.readyState === 'loading') document.addEventListener('DOMContentLoad
 else iniciar();
 
 </script>
+<script src="nuvem-ui.js"></script>
 </body>
 </html>

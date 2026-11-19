@@ -119,7 +119,7 @@ A sessão do painel (dono/gerente) fica em **`sessionStorage`**, que é apagado 
 
 > **Em desenvolvimento e em produção é o mesmo modelo:** `localStorage` + Cache API. Não há um banco separado de desenvolvimento. Se o produto crescer para várias lojas/dispositivos, será necessário criar um backend com banco de dados real (por exemplo PostgreSQL) e autenticação no servidor.
 
-### Backend em nuvem (PostgreSQL/Supabase) — em preparação
+### Backend em nuvem (PostgreSQL/Supabase) — integrado, aguardando projeto
 
 O banco real já está desenhado, versionado e testado em **`supabase/`**:
 
@@ -134,10 +134,22 @@ Regras principais: o cliente só vê o que é dele; só o admin publica anúncio
 altera papéis; preço/total são calculados no servidor; o custo interno não é
 exposto; a `service_role key` nunca vai para o navegador.
 
-> **Ainda não está ligado ao `app.html`.** Falta criar o projeto no Supabase,
-> aplicar as migrações e ligar a camada de nuvem com a URL e a `anon key`.
-> Passo a passo completo em [`supabase/README.md`](supabase/README.md).
-> Até lá, o app continua 100% local-first, como descrito acima.
+A camada cliente da nuvem **já está no app** (`nuvem-config.js`, `nuvem.js` e
+`nuvem-ui.js`, v22). Enquanto `nuvem-config.js` estiver com `url`/`anonKey`
+vazios, nada muda: o app segue local-first como descrito acima. Para ativar:
+
+1. Crie o projeto e aplique as migrações + seed (passo a passo em
+   [`supabase/README.md`](supabase/README.md)).
+2. Promova o e-mail do dono com `public.promover_admin_por_email(...)`.
+3. Preencha `url` e `anonKey` em `nuvem-config.js` e publique.
+
+Criar a conta no Supabase exige verificação de e-mail e aceite dos termos — isso
+precisa ser feito pelo dono do produto; não dá para automatizar por você. A
+`service_role key` nunca entra no navegador nem no Git.
+
+Com a nuvem ativa, catálogo, reservas, favoritos, entrega e anúncios usam o
+banco; o armazenamento local vira cache offline. O ingresso na conta fica em
+*Painel → Sou cliente → Conta na nuvem*.
 
 ### O que sai do dispositivo
 

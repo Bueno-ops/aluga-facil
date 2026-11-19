@@ -133,18 +133,52 @@ python supabase/testes/testar_banco.py
 
 Resultado esperado: `55 testes, 0 falhas`.
 
-## 8. Limites e próximos passos
+## 8. Ligar o app ao banco (v22)
 
-- **Ainda não integrado ao `app.html`.** O app segue em modo local até a camada
-  de nuvem (`nuvem.js`) ser ligada por uma flag. Isso exige a URL e a `anon key`
-  do projeto.
+A camada cliente já está pronta e publicada: `nuvem-config.js`, `nuvem.js` e
+`nuvem-ui.js`. Para ativar, preencha **somente** `nuvem-config.js` na raiz:
+
+```js
+window.ALUGA_NUVEM_CONFIG = {
+  url: 'https://SEU_PROJETO.supabase.co',
+  anonKey: 'eyJhbGciOiJIUzI1NiJ9....'
+};
+```
+
+Depois publique (`git push` dispara o GitHub Pages). A URL e a anon key são
+públicas por definição; a **service_role key nunca** entra nesses arquivos.
+
+Com a nuvem ativa:
+
+- O catálogo de 167 itens vem de `equipamentos` (o catálogo embutido vira cache
+  offline). Um domínio configurado, mas fora do ar, não quebra o app.
+- A aba *Painel → Sou cliente → Conta na nuvem* tem Entrar/Criar conta/Sair.
+  Dono e gerente entram ali e depois selecionam *Dono ou gerente* no topo.
+- Reserva, cancelamento, confirmação de recebimento, entrega, anúncios e
+  configuração passam a usar as RPCs. Preço e total vêm do servidor.
+- Favoritos e reservas são sincronizados no login e refetchados ao voltar a
+  internet; o `localStorage` funciona como cache offline somente leitura.
+- O CSP já liberou `https://*.supabase.co` em `app.html` e `netlify.toml`.
+
+## 9. Limites
+
+- **Criar a conta/projeto Supabase exige uma pessoa.** O fluxo de cadastro pede
+  e-mail, verificação e aceite dos termos; um agente automatizado não pode
+  fazer isso por você. Sem a URL e a anon key, o app permanece no modo local.
 - **Contas antigas do modo local não migram.** As senhas locais usam PBKDF2 e
   não podem virar senhas do Supabase Auth; o cliente cria a conta na nuvem.
 - **E-mail/telefone**: o Supabase Auth usa e-mail como login. O telefone do
   cliente fica em `perfis` e é usado no contato da reserva.
+- **Reabrir pedido concluído** não existe no banco (não há RPC para isso); na
+  nuvem a ação é bloqueada com aviso em vez de gravar só no dispositivo.
+- **Troca de senha** na nuvem deve usar o fluxo de recuperação do Supabase Auth;
+  os formulários locais de senha continuam valendo apenas para o modo local.
+- **Tempo real**: a sincronização é feita no login, ao voltar a internet e
+  depois de cada escrita. Não há assinatura Realtime/WebSocket.
 - **LGPD**: o banco guarda nome, WhatsApp, e-mail e, para PJ, CNPJ. Defina prazo
   de retenção, política de privacidade e um processo de exclusão de conta.
 - **Backup**: ative *Point in Time Recovery* no plano pago ou faça `pg_dump`
   periódico. RLS protege o acesso, não substitui backup.
-- **CSP**: ao ligar a nuvem, adicione `https://SEU_PROJETO.supabase.co` em
-  `connect-src` no `netlify.toml` e no `<meta>` do `app.html`.
+- **XSS**: o CSP do app permite `'unsafe-inline'` por causa do HTML inline. Isso
+  continua sendo o principal vetor de risco para tokens de sessão guardados no
+  navegador. Nunca instale scripts de terceiros nesta página.
